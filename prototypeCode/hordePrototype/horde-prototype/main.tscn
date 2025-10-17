@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0omqcu8ssurw"]
+
+[ext_resource type="Script" uid="uid://ddopq8ynlabpc" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://cgk6spkii0ucu" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://3orq4fcntng" path="res://bullet.tscn" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://kqjobxwmc7t0" path="res://bullet_spawn.gd" id="3_h2yge"]
+
+[node name="main" type="Node"]
+script = ExtResource("1_0xm2m")
+
+[node name="player" parent="." instance=ExtResource("1_ig7tw")]
+position = Vector2(11, 16)
+
+[node name="bulletSpawn" type="Node2D" parent="player"]
+position = Vector2(48, 0)
+script = ExtResource("3_h2yge")
+bullet_scene = ExtResource("2_h2yge")
