@@ -9,6 +9,7 @@
 * snake but rougelike
 * horde shooter type of game
 * score-based roguelike - play as an assassin hunting targets in crowded, procedurally generated environments (run ends if you're caught by an NPC)
+* dungeon crawler (with groups of enemies, puzzles, bosses, etc.) where the player has a set amount of lives per dungeon. Upon the player's death, the dungeons progress saves, but if you run out of lives, game over. If you beat dungeon, your lives regenerate , you can choose an upgrade and move on to next dungeon.
 
 # Arcade
 * arcade racer game like the good ol days, could have rougelike elements in it??
