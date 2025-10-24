@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://bj3i8yvhcbgge"]
+
+[ext_resource type="Texture2D" uid="uid://8ne44ohjs50k" path="res://Assets/Sprites/tilemap_packed.png" id="1_6cd4h"]
+[ext_resource type="Script" uid="uid://d010ejwxmfux7" path="res://Assets/Scripts/player.gd" id="1_7dd06"]
+[ext_resource type="PackedScene" uid="uid://bjglcli103jyq" path="res://Assets/Scenes/gun.tscn" id="3_38rej"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7dd06"]
+radius = 3.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38rej"]
+atlas = ExtResource("1_6cd4h")
+region = Rect2(0, 56, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t1xgp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38rej")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D" groups=["teleportable_objects"]]
+script = ExtResource("1_7dd06")
+speed = 4
+jump_power = 8
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7dd06")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t1xgp")
+
+[node name="Gun" parent="." instance=ExtResource("3_38rej")]
+position = Vector2(3, 3)
