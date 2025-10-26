@@ -1,0 +1,4 @@
+Controls: WASD for movement, E to attack enemies
+Enemies move randomly until you fall into their line of sight, then they will attack.
+If you die, press SPACE to respawn and your corpse will come back to life as an enemy. If you die too many times, you will essentially be swarmed with enemies.
+Currently the game isn't challenging so just let yourself die a few times to make it more enjoyable.
