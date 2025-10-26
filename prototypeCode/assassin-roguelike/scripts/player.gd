@@ -7,8 +7,15 @@ var spawn_point : Vector2
 func _ready():
 	spawn_point = position
 
+func _process(delta):
+	if Input.is_key_pressed(KEY_ESCAPE):
+		get_tree().quit()
+
+
 func get_input():
-	if animated_sprite.animation == "kill" and animated_sprite.is_playing():
+	if animated_sprite.animation == "death":
+		$CollisionShape2D.disabled = false
+	elif animated_sprite.animation == "kill" and animated_sprite.is_playing():
 		check_enemy_collision()
 		return
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -21,19 +28,25 @@ func get_input():
 		animated_sprite.play("run")
 		if input_direction.x > 0:
 			animated_sprite.flip_h = false
+			$CollisionShape2D.position.x = 9
 		elif input_direction.x < 0:
 			animated_sprite.flip_h = true	
+			$CollisionShape2D.position.x = -9
 	
 func _physics_process(delta):
 	if active:
 		get_input()
-		move_and_slide()
-	elif Input.is_action_just_pressed("start"):
-		arise()
+	else:
+		velocity = Vector2.ZERO
+		if Input.is_action_just_pressed("start"):
+			arise()
+	move_and_slide()
 
 func die():
+	print(die)
 	active = false
 	animated_sprite.play("death")
+	$CollisionShape2D.disabled = true
 	
 func arise():
 	var new_enemy = preload("res://scenes/enemy.tscn").instantiate()
@@ -43,7 +56,7 @@ func arise():
 	new_enemy.scale = Vector2(0.2, 0.2)
 	position = spawn_point
 	active = true
-
+  
 func check_enemy_collision():
 	for x in get_slide_collision_count():
 		var collision = get_slide_collision(x)
