@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0omqcu8ssurw"]
+
+[ext_resource type="PackedScene" uid="uid://cgk6spkii0ucu" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://h8q1ce5rjxq1" path="res://enemy_spawner.gd" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://cmjgxm3p5tcrq" path="res://ui.gd" id="3_h2yge"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_h2yge"]
+
+[node name="main" type="Node2D"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(0.89584047, 0.8938469, 0.78423464, 1)
+position = Vector2(350, 350.50003)
+scale = Vector2(700, 701.0001)
+mesh = SubResource("QuadMesh_h2yge")
+
+[node name="player" parent="." instance=ExtResource("1_ig7tw")]
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("2_0xm2m")
+
+[node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
+wait_time = 2.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("3_h2yge")
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+offset_right = 40.0
+offset_bottom = 23.0

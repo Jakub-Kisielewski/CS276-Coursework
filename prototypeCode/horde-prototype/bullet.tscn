@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://3orq4fcntng"]
+
+[ext_resource type="Texture2D" uid="uid://bqblleaoxx8oi" path="res://kenney_cursor-pixel-pack/Tiles/tile_0015.png" id="1_v7oki"]
+[ext_resource type="Script" uid="uid://c8r08cqrx8b14" path="res://bullet.gd" id="1_v8qja"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8qja"]
+size = Vector2(18, 18)
+
+[node name="bullet" type="Area2D" groups=["bullet"]]
+script = ExtResource("1_v8qja")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v8qja")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_v7oki")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-8, -8, 16, 16)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

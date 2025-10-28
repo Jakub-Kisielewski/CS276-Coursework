@@ -1,12 +1,15 @@
 # Notes
----
-* Prototype should just be implementation of core game. No graphics and no extra features. 
-* Define what core loop should be before starting prototype
+## To-do 
+* player 
+  * movement
+  * shooting bullet
+  * dies when touched by enemy
+* enemies
+  * kill player when touch
+  * spawn periodically (increasing as time goes on) and chase player
+  * dies when shot by player
+* UI 
+  * death UI to reset game
+  * maybe pause gaem?
+  * starting ui to start game
 
-## Core loop definition
-* Situation -> Action/Response -> Reward/Outcome
-* Situation - what scenario does player start in e.g in pacman there is maze with ghosts and pellets
-* Situation can evolve during game loop
-* Action/Response - how should player respond to situation
-* Outcome/Reward - what is result of player responding to sitation. Positive or negative outcome based on how player responded
-* Should show player what it means to be successful before game loop starts (more for game than prototype)
