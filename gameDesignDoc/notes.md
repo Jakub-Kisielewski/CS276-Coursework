@@ -10,3 +10,8 @@ Approach MDA framework as both a designer and a player.
 * [Marking scheme](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs276/prototype.pdf)
 * Use the slides from Week 2 14/10/25 as a [checklist](https://warwick.ac.uk/fac/sci/dcs/teaching/material/cs276/ls-03.pdf)
 * Use loads of images, diagrams, tables, mood boards to stay under 1500 words
+* Define scope of feature set we want to have in the game
+* Define levers
+* Define generation parameters
+* Need to explain how we will use procedural generation to make maze map different on every run, alex said we can use 2 images in GDD to show how each level will differ
+
