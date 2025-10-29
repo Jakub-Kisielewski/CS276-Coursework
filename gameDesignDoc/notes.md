@@ -14,4 +14,5 @@ Approach MDA framework as both a designer and a player.
 * Define levers
 * Define generation parameters
 * Need to explain how we will use procedural generation to make maze map different on every run, alex said we can use 2 images in GDD to show how each level will differ
+* Can use Gantt chart to show what we want to acheive by different points in time
 
