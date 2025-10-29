@@ -8,6 +8,7 @@ var player = null
 
 func _ready():
 	add_to_group("enemy")
+	
 	hitbox.body_entered.connect(_on_hitbox_body_entered)
 
 func _physics_process(delta):

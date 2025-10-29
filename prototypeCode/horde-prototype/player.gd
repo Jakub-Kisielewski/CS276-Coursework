@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 	Input.get_axis("moveUp","moveDown"))
 	
 	if moveDir != Vector2.ZERO:
-		velocity = speed * moveDir
+		velocity = speed * moveDir.normalized()
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.y = move_toward(velocity.y, 0, speed)
