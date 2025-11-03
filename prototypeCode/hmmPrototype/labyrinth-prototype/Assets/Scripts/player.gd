@@ -11,16 +11,21 @@ var player_facing : Facing
 var attacking = false
 var attacked = false
 var dashing = false
+var blocking = false
+var monitorable = true
 
 func _physics_process(delta: float) -> void:
 	handle_movement(delta)
-
 	if Input.is_action_pressed("attack_basic"):
 		attack.handle_attack()
-	elif Input.is_action_just_pressed("dash"):
-		attack.handle_dash();
+	if Input.is_action_just_pressed("dash"):
+		attack.handle_dash()
+	if Input.is_action_just_pressed("block"):
+		attack.handle_block()
 	
 func handle_movement(delta: float):
+	if blocking or attacked:
+		return
 	if Input.is_action_pressed("move_up"):
 		direction.y = -1
 		player_facing = Facing.UP
@@ -53,10 +58,20 @@ func handle_movement(delta: float):
 func take_damage(damage : int) -> void:
 	health -= damage
 	if health <= 0 and not dead:
-		print("you should be dead.")
+		print("you should be dead")
 		dead = true
 		get_tree().quit()
 		return
-	attacked = true #use this if you want to play uninterrupted hit animation
+	monitorable = false
+	attacked = true
+	attack.play("hit")
 	print("player has been damaged")
 	print("health:", health)
+
+func give_damage(overlaps: Array, damage: int) -> void:
+	for x in overlaps:
+		var target = x.get_parent().get_parent()
+		if target == self:
+			continue
+		if target.has_method("take_damage"):
+			target.take_damage(damage)

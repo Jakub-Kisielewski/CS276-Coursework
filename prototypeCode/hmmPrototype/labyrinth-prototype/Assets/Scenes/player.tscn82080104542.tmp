@@ -279,7 +279,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_basic",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -380,7 +380,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hit",
-"speed": 15.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -504,20 +504,20 @@ position_smoothing_enabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("player_controller")]
 sprite_frames = SubResource("SpriteFrames_vjh5i")
-animation = &"attack_basic"
+animation = &"block"
 frame = 5
 frame_progress = 1.0
 script = ExtResource("6_w3t24")
 player_controller = NodePath("..")
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
+collision_mask = 2
 
 [node name="hurtCollisionShape" type="CollisionShape2D" parent="AnimatedSprite2D/hurtBox"]
 position = Vector2(0, 2.75)
 shape = SubResource("RectangleShape2D_tx0dr")
 
 [node name="hitBox" type="Area2D" parent="AnimatedSprite2D"]
-collision_layer = 2
 collision_mask = 2
 
 [node name="strikeCollisionShape" type="CollisionShape2D" parent="AnimatedSprite2D/hitBox"]
@@ -530,4 +530,4 @@ position = Vector2(0, 2.75)
 shape = SubResource("RectangleShape2D_tx0dr")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="AnimatedSprite2D" method="_on_animation_finished"]
-[connection signal="area_entered" from="AnimatedSprite2D/hitBox" to="AnimatedSprite2D" method="_on_hit_box_area_entered"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="AnimatedSprite2D" method="_on_frame_changed"]

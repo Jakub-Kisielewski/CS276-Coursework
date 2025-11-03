@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://hhblqqtfshlr"]
+[gd_scene load_steps=33 format=3 uid="uid://hhblqqtfshlr"]
 
 [ext_resource type="Texture2D" uid="uid://ywmskfigycuk" path="res://Assets/Sprites/Skeleton enemy.png" id="1_8a6c7"]
 [ext_resource type="Script" uid="uid://bjeu2daw8ap7g" path="res://Assets/Scripts/enemy_1.gd" id="1_fa6de"]
@@ -45,23 +45,7 @@ region = Rect2(448, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_efuk4"]
 atlas = ExtResource("1_8a6c7")
-region = Rect2(128, 256, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vmp7x"]
-atlas = ExtResource("1_8a6c7")
-region = Rect2(64, 256, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6v6jv"]
-atlas = ExtResource("1_8a6c7")
-region = Rect2(0, 256, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bqqyh"]
-atlas = ExtResource("1_8a6c7")
 region = Rect2(0, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bgass"]
-atlas = ExtResource("1_8a6c7")
-region = Rect2(64, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j4qsk"]
 atlas = ExtResource("1_8a6c7")
@@ -164,18 +148,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_efuk4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vmp7x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6v6jv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bqqyh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bgass")
 }],
 "loop": false,
 "name": &"damage",
@@ -253,24 +225,22 @@ wall_min_slide_angle = 0.0
 script = ExtResource("1_fa6de")
 sprite = NodePath("AnimatedSprite2D")
 nav = NodePath("Nav")
-speed = 80.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"move"
-frame_progress = 0.8624163
+animation = &"death"
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 collision_layer = 2
-collision_mask = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="AnimatedSprite2D/hurtBox"]
 shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="hitBox" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 2
 
 [node name="strikeShape" type="CollisionShape2D" parent="AnimatedSprite2D/hitBox"]
 position = Vector2(13, -4)
@@ -279,18 +249,16 @@ shape = SubResource("CapsuleShape2D_vb2cf")
 
 [node name="Nav" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
-avoidance_enabled = true
 
 [node name="Range" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 3
+collision_layer = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
 position = Vector2(-1, -1)
-scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
 
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="attack_animation_finished"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="area_entered" from="AnimatedSprite2D/hitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]
