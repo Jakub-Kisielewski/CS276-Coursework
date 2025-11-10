@@ -21,7 +21,7 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	handle_movement(delta)
-	if Input.is_action_just_pressed("attack_basic"):
+	if Input.is_action_pressed("attack_basic"):
 		attack.handle_attack()
 	if Input.is_action_just_pressed("dash"):
 		attack.handle_dash()

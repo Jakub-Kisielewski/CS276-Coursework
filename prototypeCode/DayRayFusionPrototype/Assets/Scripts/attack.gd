@@ -101,7 +101,7 @@ func _on_animation_finished() -> void:
 	player.attacking = false		
 	player.attacked = false	
 	
-	if animation == "hit" or animation == "attack_basic":
+	if animation == "hit":
 		player.monitorable = true
 
 func _on_frame_changed() -> void:
@@ -109,6 +109,8 @@ func _on_frame_changed() -> void:
 		if frame == 3:
 			player.give_damage(hitbox.get_overlapping_areas())
 			player.monitorable = false
+		else:
+			player.monitorable = true
 		
 		
 

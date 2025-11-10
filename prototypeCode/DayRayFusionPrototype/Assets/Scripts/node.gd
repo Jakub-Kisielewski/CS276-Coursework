@@ -5,7 +5,6 @@ extends Node
 var enemies_alive = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	enemies_alive = enemies.size()
 	print("Enemies remaining: ", enemies_alive)
@@ -20,7 +19,6 @@ func _on_enemy_died():
 	enemies_alive -= 1
 	print("enemies remaining: ", enemies_alive)
 	if enemies_alive <= 0:
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		print("Choose your reward")
 		rewardControl.visible = true
 
