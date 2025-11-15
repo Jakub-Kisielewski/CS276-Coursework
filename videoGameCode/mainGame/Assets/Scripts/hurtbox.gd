@@ -8,20 +8,17 @@ func _init() -> void:
 	pass
 	
 func _ready() -> void:
-	monitoring =	 false
-	
-	set_collision_layer_value(1, false)
-	set_collision_mask_value(1, false)
-	
+	monitorable = false
 	match owner_stats.faction:
 		Stats.Faction.PLAYER:
-			set_collision_layer_value(1, true)
+			collision_layer = 1 << 1 #put area on layer 1
+			collision_mask = 1 << 2 #detect only layer 2
 		Stats.Faction.ENEMY:
-			set_collision_layer_value(2, true)
-	
+			collision_layer = 1 << 2 #put area on layer 2
+			collision_mask = 1 << 1 #detect only layer 1
+	monitorable = true
 	
 func receive_hit(damage: int, attacker : Node = null) -> void:
-
 	if attacker == null:
 		print("attacker is null")
 		return
@@ -36,27 +33,3 @@ func receive_hit(damage: int, attacker : Node = null) -> void:
 		return
 	
 	owner_stats.take_damage(damage)
-	
-	#old code
-	#connect("area_entered", self._on_area_entered)
-	#
-#func _on_area_entered(hitbox : hitBox) -> void:
-	#if hitbox == null:
-		#return
-		#
-	#if hitbox.owner == owner:
-		#return
-		#
-	#if hitbox.owner.is_in_group("enemy") and owner.is_in_group("enemy"):
-		#return
-		#
-	#if owner.has_method("take_damage"):
-		#
-		#if hitbox.owner.is_in_group("enemy_boss") and hitbox.attack_type == "charge":
-			#owner.take_damage(30.0)
-			#hitbox.owner.take_damage(50)
-			#print("goat health: ", hitbox.owner.health)
-			#hitbox.owner.end_charge()
-			#return
-			#
-		#owner.take_damage(hitbox.damage)

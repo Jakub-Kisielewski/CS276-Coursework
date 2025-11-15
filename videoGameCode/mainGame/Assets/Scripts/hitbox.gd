@@ -13,7 +13,7 @@ func _init(_attacker_stats: Stats, _hitbox_lifetime: float, _shape: Shape2D) -> 
 
 
 func _ready() -> void:
-	monitorable = false
+	monitoring = false
 	area_entered.connect(_on_area_entered)
 	
 	if hitbox_lifetime > 0.0:
@@ -26,19 +26,17 @@ func _ready() -> void:
 		var collision_shape = CollisionShape2D.new()
 		collision_shape.shape = shape
 		add_child(collision_shape)
-		
-	set_collision_layer_value(1, false)
-	set_collision_mask_value(1, false)
-	
+
 	match attacker_stats.faction:
 		Stats.Faction.PLAYER:
-			set_collision_mask_value(2, true)
+			collision_layer = 1 << 1 #put area on layer 1
+			collision_mask = 1 << 2 #detect only layer 2
 		Stats.Faction.ENEMY:
-			set_collision_mask_value(1, true)
-	
+			collision_layer = 1 << 2 #put area on layer 2
+			collision_mask = 1 << 1 #detect only layer 1
+	monitoring = true
 	
 func _on_area_entered(area: Area2D) -> void:
 	if not area.has_method("receive_hit"):
 		return
-		
 	area.receive_hit(attacker_stats.damage, attacker_stats.owner_node)	

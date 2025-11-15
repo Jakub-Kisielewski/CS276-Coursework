@@ -2460,7 +2460,7 @@ states/Sidle/position = Vector2(413.46875, 100.625)
 states/Srun/node = SubResource("AnimationNodeBlendTree_e0a6a")
 states/Srun/position = Vector2(364.35938, 259.75)
 transitions = ["Start", "Sidle", SubResource("AnimationNodeStateMachineTransition_117vg"), "Sidle", "Sattack", SubResource("AnimationNodeStateMachineTransition_ddl1c"), "Sattack", "Sidle", SubResource("AnimationNodeStateMachineTransition_y6wf2"), "Sidle", "Srun", SubResource("AnimationNodeStateMachineTransition_ukp40"), "Srun", "Sidle", SubResource("AnimationNodeStateMachineTransition_mytan"), "Srun", "Sattack", SubResource("AnimationNodeStateMachineTransition_bnnp4"), "Sattack", "Srun", SubResource("AnimationNodeStateMachineTransition_o38jb"), "Sidle", "Sdash", SubResource("AnimationNodeStateMachineTransition_sjqh2"), "Sdash", "Sidle", SubResource("AnimationNodeStateMachineTransition_am3my"), "Srun", "Sdash", SubResource("AnimationNodeStateMachineTransition_x6ng5"), "Sdash", "Srun", SubResource("AnimationNodeStateMachineTransition_ocsds"), "Sattack", "Sdash", SubResource("AnimationNodeStateMachineTransition_2sg3y"), "Sdash", "Sattack", SubResource("AnimationNodeStateMachineTransition_8fxx5"), "Sidle", "Sdeath", SubResource("AnimationNodeStateMachineTransition_o40nm"), "Sattack", "Sdeath", SubResource("AnimationNodeStateMachineTransition_lofuc"), "Srun", "Sdeath", SubResource("AnimationNodeStateMachineTransition_w82vl")]
-graph_offset = Vector2(0, 50.36873)
+graph_offset = Vector2(127.9338, 140.25577)
 
 [node name="playerB" type="CharacterBody2D"]
 script = ExtResource("1_24q4e")
