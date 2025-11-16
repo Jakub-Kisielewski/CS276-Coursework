@@ -12,7 +12,7 @@ signal health_depleted
 signal damage_taken
 
 @export var max_health : float = 100.0
-@export var defense : float = 10
+@export var defense : float = 1 #Damage taken is divided by defense
 @export var damage : float = 10
 @export var faction : Faction = Faction.PLAYER
 
@@ -26,14 +26,15 @@ func set_owner_node(node: Node) -> void:
 	owner_node = node
 	
 func take_damage(amount: float) -> void:
-	current_health -= amount
+	damage = amount / defense
+	current_health -= damage
 	
 	if current_health <= 0:
 		health_depleted.emit()
 	else:
 		damage_taken.emit()
 	
-	print(owner_node.name ," took ", amount, "damage, current hp = ", current_health)
+	print(owner_node.name ," took ", damage, "damage, current hp = ", current_health)
 	
 func _on_health_set(value : float) -> void:
 	current_health = value

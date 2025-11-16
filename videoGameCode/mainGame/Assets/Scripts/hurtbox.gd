@@ -1,7 +1,6 @@
 class_name hurtBox
 extends Area2D
 
-
 @onready var owner_stats : Stats = owner.stats
 
 func _init() -> void:

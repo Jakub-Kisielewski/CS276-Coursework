@@ -170,7 +170,6 @@ func player_busy() -> bool:
 
 
 
-
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name.begins_with("Sdeath"):
 		call_deferred("queue_free")

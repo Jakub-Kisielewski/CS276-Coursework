@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_qfi48"]
-[ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Scenes/enemy_1.tscn" id="3_637wq"]
+[ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/enemy_1.tscn" id="3_637wq"]
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player_b.tscn" id="3_qfi48"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_637wq"]

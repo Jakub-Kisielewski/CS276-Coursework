@@ -16,6 +16,7 @@ radius = 30.0
 
 [sub_resource type="Resource" id="Resource_sv13v"]
 script = ExtResource("2_p8spm")
+damage = 15.0
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_axfh4"]
