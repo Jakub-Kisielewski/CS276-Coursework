@@ -7,7 +7,7 @@ extends CharacterBody2D
 @export var hitbox_shape : Shape2D
 
 var player_in_range = false
-@export var speed = 100.0
+@export var speed = 60
 
 enum State { IDLE, MOVING, ATTACKING, ATTACKED, DYING }
 var state : State = State.IDLE

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_k0ubm"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_wn0qs"]
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player_b.tscn" id="3_uwam5"]
-[ext_resource type="PackedScene" uid="uid://cxk0mg0y5qdi0" path="res://Assets/Enemies/UndeadSwordsmanClothed/enemy_3.tscn" id="4_fms34"]
+[ext_resource type="PackedScene" uid="uid://dklpobami1hkg" path="res://Assets/Enemies/PoisonousBat/enemy_5.tscn" id="5_wn0qs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_637wq"]
 texture = ExtResource("1_k0ubm")
@@ -2096,7 +2096,8 @@ texture = ExtResource("2_wn0qs")
 44:17/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_nnog6"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_637wq")
 sources/1 = SubResource("TileSetAtlasSource_2evn1")
@@ -2123,5 +2124,17 @@ tile_map_data = PackedByteArray("AAD2//z/AQAZAAEAAAD6//z/AQAdAAEAAAD3//z/AQAaAAE
 tile_set = SubResource("TileSet_nnog6")
 navigation_enabled = false
 
-[node name="Enemy3" parent="." instance=ExtResource("4_fms34")]
-position = Vector2(30.000004, -174.00002)
+[node name="Enemy5" parent="." instance=ExtResource("5_wn0qs")]
+position = Vector2(-23, 89)
+
+[node name="Enemy6" parent="." instance=ExtResource("5_wn0qs")]
+position = Vector2(-163, -130)
+
+[node name="Enemy7" parent="." instance=ExtResource("5_wn0qs")]
+position = Vector2(-16, -164)
+
+[node name="Enemy8" parent="." instance=ExtResource("5_wn0qs")]
+position = Vector2(171, -102)
+
+[node name="Enemy9" parent="." instance=ExtResource("5_wn0qs")]
+position = Vector2(-145, 87)

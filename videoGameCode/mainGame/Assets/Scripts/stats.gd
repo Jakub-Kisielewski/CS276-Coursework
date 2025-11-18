@@ -26,19 +26,17 @@ func set_owner_node(node: Node) -> void:
 	owner_node = node
 	
 func take_damage(amount: float) -> void:
-	damage = amount / defense
-	current_health -= damage
+	current_health -= amount/defense
 	
 	if current_health <= 0:
 		health_depleted.emit()
 	else:
 		damage_taken.emit()
 	
-	print(owner_node.name ," took ", damage, "damage, current hp = ", current_health)
+	print(owner_node.name ," took ", amount/defense, "damage, current hp = ", current_health)
 	
 func _on_health_set(value : float) -> void:
 	current_health = value
-	
 	health_changed.emit(current_health, max_health)
 	
 	

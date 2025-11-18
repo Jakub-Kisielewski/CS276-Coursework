@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="8_hgarb"]
 
 [sub_resource type="Resource" id="Resource_ud2rd"]
+resource_local_to_scene = true
 script = ExtResource("2_fxg3t")
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
@@ -18,8 +19,8 @@ metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
-radius = 17.0
-height = 34.0
+radius = 13.0
+height = 40.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pcnw8"]
 atlas = ExtResource("3_76jw0")
@@ -260,7 +261,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 15.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -412,12 +413,12 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yc8sv"]
-radius = 15.0
-height = 32.0
+radius = 13.0
+height = 40.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n0o3a"]
-radius = 184.29
-height = 368.58
+radius = 135.0
+height = 270.0
 
 [node name="Enemy2" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
 scale = Vector2(0.66, 0.66)
@@ -430,16 +431,18 @@ stats = SubResource("Resource_ud2rd")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 9)
 shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"idle"
+animation = &"attack"
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("8_hgarb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/hurtBox"]
+position = Vector2(0, 9)
 shape = SubResource("CapsuleShape2D_yc8sv")
 
 [node name="Nav" type="NavigationAgent2D" parent="."]

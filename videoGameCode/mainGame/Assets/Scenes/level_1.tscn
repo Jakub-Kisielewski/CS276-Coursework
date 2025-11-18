@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=13 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_qfi48"]
 [ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/enemy_1.tscn" id="3_637wq"]
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player_b.tscn" id="3_qfi48"]
+[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="5_2evn1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_637wq"]
 texture = ExtResource("1_vw6f2")
@@ -2096,10 +2097,23 @@ texture = ExtResource("2_qfi48")
 44:17/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_nnog6"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_637wq")
 sources/1 = SubResource("TileSetAtlasSource_2evn1")
+
+[sub_resource type="Resource" id="Resource_nnog6"]
+resource_local_to_scene = true
+script = ExtResource("5_2evn1")
+faction = 1
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_k5bmm"]
+resource_local_to_scene = true
+script = ExtResource("5_2evn1")
+faction = 1
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [node name="level1" type="Node2D"]
 
@@ -2124,6 +2138,8 @@ navigation_enabled = false
 
 [node name="Enemy1" parent="." instance=ExtResource("3_637wq")]
 position = Vector2(-152, -87)
+stats = SubResource("Resource_nnog6")
 
 [node name="Enemy2" parent="." instance=ExtResource("3_637wq")]
 position = Vector2(-29, 113)
+stats = SubResource("Resource_k5bmm")

@@ -11,16 +11,17 @@
 [ext_resource type="Texture2D" uid="uid://ruwp32myuuy4" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Attack2.png" id="7_u340v"]
 
 [sub_resource type="Resource" id="Resource_0ejd5"]
+resource_local_to_scene = true
 script = ExtResource("2_0ejd5")
-damage = 20.0
+damage = 15.0
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ejd5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
-radius = 17.0
-height = 34.0
+radius = 13.0
+height = 40.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_viaj3"]
 atlas = ExtResource("7_u340v")
@@ -292,7 +293,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_down",
-"speed": 10.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -330,7 +331,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_up",
-"speed": 10.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -462,12 +463,12 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yc8sv"]
-radius = 15.0
-height = 32.0
+radius = 13.0
+height = 40.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n0o3a"]
-radius = 110.0
-height = 220.0
+radius = 85.0
+height = 170.0
 
 [node name="Enemy4" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
 scale = Vector2(0.66, 0.66)
@@ -480,16 +481,18 @@ stats = SubResource("Resource_0ejd5")
 hitbox_shape = SubResource("CapsuleShape2D_0ejd5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 9)
 shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"attack_up"
+animation = &"damage"
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("7_2ypfq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/hurtBox"]
+position = Vector2(0, 9)
 shape = SubResource("CapsuleShape2D_yc8sv")
 
 [node name="Nav" type="NavigationAgent2D" parent="."]

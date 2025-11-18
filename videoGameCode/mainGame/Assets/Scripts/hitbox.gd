@@ -29,11 +29,11 @@ func _ready() -> void:
 
 	match attacker_stats.faction:
 		Stats.Faction.PLAYER:
-			collision_layer = 1 << 1 #put area on layer 1
-			collision_mask = 1 << 2 #detect only layer 2
+			collision_layer = 1 << 0 #put area on layer 1
+			collision_mask = 1 << 1 #detect only layer 2
 		Stats.Faction.ENEMY:
-			collision_layer = 1 << 2 #put area on layer 2
-			collision_mask = 1 << 1 #detect only layer 1
+			collision_layer = 1 << 1 #put area on layer 2
+			collision_mask = 1 << 0 #detect only layer 1
 	monitoring = true
 	
 func _on_area_entered(area: Area2D) -> void:

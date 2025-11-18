@@ -6,9 +6,9 @@ extends CharacterBody2D
 @export var stats : Stats
 @export var hitbox_shape : Shape2D
 
-const THRUST_COOLDOWN_TIME = 1.6
+const THRUST_COOLDOWN_TIME = 0.8
 var thrust_direction : Vector2
-var thrust_multiplier = 2
+var thrust_multiplier = 2.2
 var thrust_cooldown = 0.0
 
 var player_in_range = false
@@ -99,7 +99,8 @@ func handle_attack():
 	
 	var hitbox = hitBox.new(stats, 0.5, hitbox_shape)
 	add_child(hitbox)
-	hitbox.scale = Vector2(1,1);
+	hitbox.position.y = 9
+	hitbox.scale = Vector2(2.7,2.7)
 	
 	var vector_to_player : Vector2 = player.global_position - global_position
 	hitbox.rotation = vector_to_player.angle()
@@ -112,8 +113,7 @@ func handle_thrust():
 	
 	var hitbox = hitBox.new(stats, 1, hitbox_shape)
 	add_child(hitbox)
-	hitbox.position.y = 9
-	hitbox.scale = Vector2(2.7,2.7)
+	hitbox.scale = Vector2(4,4)
 	
 	var vector_to_player : Vector2 = player.global_position - global_position
 	thrust_direction = vector_to_player.normalized()
@@ -124,13 +124,13 @@ func handle_timers(delta: float):
 
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		if state not in [State.IDLE, State.ATTACKED] and thrust_cooldown <= 0:
-			set_state(State.THRUSTING)
 		player_in_range = true
 		print("player is in range")
 
 func _on_range_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
+		if state not in [State.IDLE, State.ATTACKED] and thrust_cooldown <= 0:
+			set_state(State.THRUSTING)
 		player_in_range = false
 		print("player is no longer in range")
 		
