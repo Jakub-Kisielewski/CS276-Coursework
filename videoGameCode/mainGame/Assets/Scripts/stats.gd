@@ -42,7 +42,7 @@ func set_status(new_status : Status):
 		Status.POISONED:
 			sprite.modulate = Color("#ffacff")
 		Status.DAMAGED:
-			sprite.modulate = Color("ffb4af")
+			sprite.modulate = Color("f5a3b0")
 
 func take_damage(amount: float, attack_effect: String) -> void:
 	match attack_effect:

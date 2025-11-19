@@ -16,7 +16,7 @@ var thrust_cooldown = 0.0
 var player_in_range = false
 @export var speed = 80.0
 
-enum State { IDLE, INVISIBLE_MOVING, VISIBLE_MOVING, ATTACKING, THRUSTING, DAMAGED, DYING }
+enum State { ARISING, IDLE, INVISIBLE_MOVING, VISIBLE_MOVING, ATTACKING, THRUSTING, DAMAGED, DYING }
 var state : State = State.IDLE
 signal state_changed
 
@@ -26,6 +26,10 @@ func set_state(new_state : State):
 	state_changed.emit()
 	
 	match state:
+		State.ARISING:
+			velocity = Vector2.ZERO
+			sprite.play("arise")
+			
 		State.IDLE:
 			velocity = Vector2.ZERO
 			sprite.play("idle")
@@ -60,8 +64,9 @@ func _ready():
 	stats.set_owner_node(self)
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
+	rng.randomize()
 	
-	set_state(State.VISIBLE_MOVING)
+	set_state(State.ARISING)
 
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
@@ -70,6 +75,9 @@ func _physics_process(delta: float) -> void:
 		set_state(State.IDLE)
 		
 	match state:
+		State.ARISING:
+			return
+		
 		State.IDLE:
 			if is_instance_valid(player):
 				set_state(State.VISIBLE_MOVING)
@@ -177,6 +185,9 @@ func _on_death():
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
+		"arise":
+			set_state(State.VISIBLE_MOVING)
+		
 		"damage":
 			var x = rng.randi_range(1, 3)  # like a dice roll
 			

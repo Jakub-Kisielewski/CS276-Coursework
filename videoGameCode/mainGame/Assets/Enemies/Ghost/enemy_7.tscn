@@ -1,8 +1,9 @@
-[gd_scene load_steps=72 format=3 uid="uid://dl5lpjcwe5tsx"]
+[gd_scene load_steps=82 format=3 uid="uid://dl5lpjcwe5tsx"]
 
 [ext_resource type="Script" uid="uid://bdf607wwrww6s" path="res://Assets/Enemies/Ghost/enemy_7.gd" id="1_7aefy"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_fsqma"]
 [ext_resource type="Texture2D" uid="uid://bcuxyryhnhlqw" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Attack1.png" id="3_f3qce"]
+[ext_resource type="Texture2D" uid="uid://b4o135syegbtd" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Spawn.png" id="3_yviti"]
 [ext_resource type="Texture2D" uid="uid://0f75y8hyl4fd" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Hurt.png" id="4_yviti"]
 [ext_resource type="Texture2D" uid="uid://byf2vlvfla36y" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Die.png" id="5_vkhte"]
 [ext_resource type="Texture2D" uid="uid://c883fo3qkl6gu" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-IdleFly.png" id="6_m1r38"]
@@ -21,6 +22,42 @@ metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
 radius = 13.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkhte"]
+atlas = ExtResource("3_yviti")
+region = Rect2(0, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m1r38"]
+atlas = ExtResource("3_yviti")
+region = Rect2(100, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iy7uq"]
+atlas = ExtResource("3_yviti")
+region = Rect2(200, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kncxg"]
+atlas = ExtResource("3_yviti")
+region = Rect2(300, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vw5sm"]
+atlas = ExtResource("3_yviti")
+region = Rect2(400, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4lwa2"]
+atlas = ExtResource("3_yviti")
+region = Rect2(500, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4xmo"]
+atlas = ExtResource("3_yviti")
+region = Rect2(600, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7n07b"]
+atlas = ExtResource("3_yviti")
+region = Rect2(700, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4m82"]
+atlas = ExtResource("3_yviti")
+region = Rect2(800, 0, 100, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3gbjj"]
 atlas = ExtResource("3_f3qce")
@@ -250,6 +287,38 @@ region = Rect2(1000, 0, 100, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_vkhte")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m1r38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iy7uq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kncxg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vw5sm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4lwa2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q4xmo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7n07b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4m82")
+}],
+"loop": false,
+"name": &"arise",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_3gbjj")
 }, {
 "duration": 1.0,
@@ -471,8 +540,8 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"death"
-frame = 12
+animation = &"arise"
+frame = 8
 frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
