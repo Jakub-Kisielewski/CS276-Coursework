@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var anim_state = anim_tree.get("parameters/playback")
 @export var hitbox_shape : Shape2D
 @export var stats : Stats
+var canvas : CanvasLayer
 
 const DASH_COOLDOWN_TIME = 1.2
 const DASH_DURATION_TIME = 0.2
@@ -13,8 +14,6 @@ var dash_multiplier = 3.0
 var dash_cooldown = 0.0
 var dash_timer = 0.0
 
-var max_health = 100.0
-var health = 100.0
 var speed = 260.0
 var damage = 10
 var dead = false
@@ -34,9 +33,12 @@ var monitorable = true
 
 func _ready():
 	anim_tree.active = true
-	health = max_health
+	
 	stats.set_owner_node(self)
 	stats.health_depleted.connect(_on_death)
+	stats.damage_taken.connect(_on_damaged)
+	
+	canvas = get_tree().get_first_node_in_group("canvas")
 
 
 func _physics_process(delta: float) -> void:
@@ -127,6 +129,9 @@ func _on_death():
 	print("you should be dead")
 	dying = true
 	anim_state.travel("Sdeath")
+	
+func _on_damaged():
+	canvas.get_node("Control/Health").text = str(stats.current_health)
 
 #func _set_hitbox_direction():
 	#match player_facing:

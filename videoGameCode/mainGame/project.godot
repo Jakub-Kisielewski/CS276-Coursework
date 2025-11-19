@@ -22,6 +22,8 @@ project/assembly_name="labyrinth1"
 [global_group]
 
 player=""
+enemy=""
+canvas=""
 
 [input]
 

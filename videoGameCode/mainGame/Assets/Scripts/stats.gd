@@ -16,12 +16,13 @@ signal damage_taken
 @export var damage : float = 10
 @export var faction : Faction = Faction.PLAYER
 
-enum Status { HEALTHY, POISONED }
+enum Status { HEALTHY, POISONED, DAMAGED }
 var status : Status = Status.HEALTHY;
 
-#Information about current poison effect
+#Information about currenttimers
 var poison_timer : Timer
 var poison_hits_left : int
+var damage_timer : Timer
 
 func _init() -> void:
 	initialise_stats.call_deferred()
@@ -33,12 +34,15 @@ func set_owner_node(node: Node) -> void:
 	owner_node = node
 
 func set_status(new_status : Status):
+	var sprite = owner_node.get_node("AnimatedSprite2D")
 	status = new_status
 	match status:
 		Status.HEALTHY:
-			owner_node.get_node("AnimatedSprite2D").modulate = Color("ffffffff")
+			sprite.modulate = Color("ffffffff")
 		Status.POISONED:
-			owner_node.get_node("AnimatedSprite2D").modulate = Color("#ffacff")
+			sprite.modulate = Color("#ffacff")
+		Status.DAMAGED:
+			sprite.modulate = Color("ffb4af")
 
 func take_damage(amount: float, attack_effect: String) -> void:
 	match attack_effect:
@@ -48,17 +52,37 @@ func take_damage(amount: float, attack_effect: String) -> void:
 			print(owner_node.name ," took ", amount/defense, " damage, current hp = ", current_health)
 			
 		"Lifeslash":
+			start_visualise_damage()
 			current_health = current_health/2
 			print(owner_node.name ," took ", current_health, " damage, current hp = ", current_health)
-			
 		_:
+			start_visualise_damage()
 			current_health -= amount/defense
 			print(owner_node.name ," took ", amount/defense, " damage, current hp = ", current_health)
-	
+			
 	if current_health <= 0:
+		current_health = 0
 		health_depleted.emit()
 	else:
 		damage_taken.emit()
+
+func start_visualise_damage():
+	if damage_timer != null:
+		damage_timer.queue_free()
+
+	set_status(Status.DAMAGED)
+	damage_timer = Timer.new()
+	damage_timer.wait_time = 0.2
+	damage_timer.autostart = true
+	owner_node.add_child(damage_timer)
+	damage_timer.timeout.connect(end_visualise_damage)
+
+func end_visualise_damage():
+	damage_timer.queue_free()
+	if poison_timer == null:
+		set_status(Status.HEALTHY)
+	else:
+		set_status(Status.POISONED)
 
 func start_poison():
 	if poison_timer != null:
