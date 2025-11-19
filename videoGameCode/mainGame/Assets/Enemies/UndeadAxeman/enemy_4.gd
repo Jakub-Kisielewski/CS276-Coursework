@@ -9,12 +9,14 @@ extends CharacterBody2D
 var player_in_range = false
 @export var speed = 60
 
-enum State { IDLE, MOVING, ATTACKING, ATTACKED, DYING }
+enum State { IDLE, MOVING, ATTACKING, DAMAGED, DYING }
 var state : State = State.IDLE
+signal state_changed
 
 
 func set_state(new_state : State):
 	state = new_state
+	state_changed.emit()
 	
 	match state:
 		State.IDLE:
@@ -27,11 +29,13 @@ func set_state(new_state : State):
 		State.ATTACKING:
 			handle_attack()
 
-		State.ATTACKED:
-			return
+		State.DAMAGED:
+			velocity = Vector2.ZERO
+			sprite.play("damage")
 
 		State.DYING:
-			return
+			velocity = Vector2.ZERO
+			sprite.play("death")
 
 func _ready():
 	stats.set_owner_node(self)
@@ -57,7 +61,7 @@ func _physics_process(delta: float) -> void:
 		State.ATTACKING:
 			handle_follow()
 
-		State.ATTACKED:
+		State.DAMAGED:
 			pass
 
 		State.DYING:
@@ -77,18 +81,30 @@ func handle_move():
 	sprite.play("move")
 	
 func handle_attack():
-	var hitbox = hitBox.new(stats, 0.5, hitbox_shape)
+	var anim_length = get_animation_length("attack")
+	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
+	hitbox.scale = Vector2(2,2);
+	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
-	hitbox.scale = Vector2(2.3,2.3);
 	
 	var vector_to_player : Vector2 = player.global_position - global_position
-	hitbox.rotation = vector_to_player.angle() + 90
-	hitbox.position = vector_to_player.normalized() * 20
 	
 	if vector_to_player.y < 0:
+		hitbox.rotation = vector_to_player.angle() + 90
+		hitbox.position = vector_to_player.normalized() * 20
 		sprite.play("attack_up")
 	else:
+		hitbox.rotation_degrees = 90
+		if vector_to_player.x < 0:
+			hitbox.position = Vector2(-20, 0)
+		else:
+			hitbox.position = Vector2(20, 0)
 		sprite.play("attack_down")
+
+func get_animation_length(animation: String):
+	var frames = sprite.sprite_frames.get_frame_count(animation)
+	var fps = sprite.sprite_frames.get_animation_speed(animation)
+	return frames/fps
 
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -100,25 +116,22 @@ func _on_range_body_exited(body: Node2D) -> void:
 		player_in_range = false
 		print("player is no longer in range")
 		
-	
-func _on_death():
-	set_state(State.ATTACKED)
-	velocity = Vector2.ZERO
-	sprite.play("death")
-	
+
 func _on_damaged():
-	set_state(State.ATTACKED)
-	velocity = Vector2.ZERO
-	sprite.play("damage")
+	set_state(State.DAMAGED)	
+
+func _on_death():
+	set_state(State.DYING)
 	
 
 func _on_animated_sprite_2d_animation_finished() -> void:
-	if sprite.animation == "damage":
-		set_state(State.MOVING)
+	match sprite.animation:
+		"damage":
+			set_state(State.MOVING)
 
-	if sprite.animation == "death":
-		queue_free()
+		"death":
+			queue_free()
 	
-	if sprite.animation in ["attack_up", "attack_down"]:
-		set_state(State.MOVING)
-		print("enemy finished attack")	
+		"attack_up", "attack_down":
+			set_state(State.MOVING)
+			print("enemy finished attack")	

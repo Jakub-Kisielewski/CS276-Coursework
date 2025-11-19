@@ -15,7 +15,7 @@ var dash_timer = 0.0
 
 var max_health = 100.0
 var health = 100.0
-var speed = 300.0
+var speed = 260.0
 var damage = 10
 var dead = false
 var direction: Vector2
@@ -91,7 +91,7 @@ func handle_attack():
 	if player_busy():
 		return
 	anim_state.travel("Sattack")
-	var hitbox = hitBox.new(stats, 0.5, hitbox_shape)
+	var hitbox = hitBox.new(stats, "None", 0.5, hitbox_shape)
 	
 	add_child(hitbox)
 	attacking = true

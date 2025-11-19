@@ -13,7 +13,7 @@
 [sub_resource type="Resource" id="Resource_0ejd5"]
 resource_local_to_scene = true
 script = ExtResource("2_0ejd5")
-damage = 15.0
+damage = 13.0
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
@@ -293,7 +293,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_down",
-"speed": 8.0
+"speed": 17.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -331,7 +331,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_up",
-"speed": 8.0
+"speed": 17.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -467,11 +467,11 @@ radius = 13.0
 height = 40.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n0o3a"]
-radius = 85.0
-height = 170.0
+radius = 105.0
+height = 210.0
 
 [node name="Enemy4" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
-scale = Vector2(0.66, 0.66)
+scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_vhwpw")
@@ -486,7 +486,9 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"damage"
+animation = &"attack_down"
+frame = 10
+frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("7_2ypfq")

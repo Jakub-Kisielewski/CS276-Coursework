@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var hitbox_shape : Shape2D
 @export var collider : CollisionShape2D
 
-const STRIKE_COOLDOWN_TIME = 0.8
+const STRIKE_COOLDOWN_TIME = 1
 var strike_direction : Vector2
 var strike_multiplier = 2.2
 var strike_cooldown = 0.0
@@ -16,14 +16,18 @@ var strike_cooldown = 0.0
 var player_in_range = false
 @export var speed = 100.0
 
-enum State { ARISING, IDLE, MOVING, BITING, STRIKING, ATTACKED, DYING }
+enum State { ARISING, IDLE, MOVING, BITING, STRIKING, DAMAGED, DYING }
 var state : State = State.IDLE
+signal state_changed
+
 
 func set_state(new_state : State):
 	if state == State.STRIKING:
 		set_collision(true)
 	
 	state = new_state
+	state_changed.emit()
+	
 	match state:
 		State.ARISING:
 			velocity = Vector2.ZERO
@@ -42,11 +46,13 @@ func set_state(new_state : State):
 		State.STRIKING:
 			handle_strike()
 
-		State.ATTACKED:
-			return
+		State.DAMAGED:
+			velocity = Vector2.ZERO
+			sprite.play("damage")
 
 		State.DYING:
-			return
+			velocity = Vector2.ZERO
+			sprite.play("death")
 
 func _ready():
 	stats.set_owner_node(self)
@@ -85,7 +91,7 @@ func _physics_process(delta: float) -> void:
 				sprite.flip_h = false
 			move_and_slide()
 
-		State.ATTACKED:
+		State.DAMAGED:
 			pass
 
 		State.DYING:
@@ -107,13 +113,15 @@ func handle_move():
 func handle_bite():
 	sprite.play("bite")
 	
-	var hitbox = hitBox.new(stats, 0.5, hitbox_shape)
+	var anim_length = get_animation_length("bite")
+	var hitbox = hitBox.new(stats, "Poison", anim_length, hitbox_shape)
+	hitbox.scale = Vector2(0.8,0.8);
+	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
-	hitbox.scale = Vector2(1,1);
 	
 	var vector_to_player : Vector2 = player.global_position - global_position
-	hitbox.rotation = vector_to_player.angle()
 	hitbox.position = vector_to_player.normalized() * 20
+	hitbox.rotation = vector_to_player.angle()
 
 func handle_strike():
 	set_collision(false)
@@ -121,12 +129,19 @@ func handle_strike():
 	sprite.play("strike")
 	strike_cooldown = STRIKE_COOLDOWN_TIME
 
-	var hitbox = hitBox.new(stats, 1, hitbox_shape)
-	add_child(hitbox)
+	var anim_length = get_animation_length("strike")
+	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
 	hitbox.scale = Vector2(1,1)
+	state_changed.connect(hitbox.queue_free)
+	add_child(hitbox)
 	
 	var vector_to_player : Vector2 = player.global_position - global_position
 	strike_direction = vector_to_player.normalized()
+
+func get_animation_length(animation: String):
+	var frames = sprite.sprite_frames.get_frame_count(animation)
+	var fps = sprite.sprite_frames.get_animation_speed(animation)
+	return frames/fps
 
 func handle_timers(delta: float):
 	if strike_cooldown > 0.0:
@@ -142,7 +157,7 @@ func set_collision(enabled: bool):
 
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		if state not in [State.IDLE, State.ATTACKED] and strike_cooldown <= 0:
+		if state in [State.MOVING] and strike_cooldown <= 0:
 			set_state(State.STRIKING)
 		player_in_range = true
 		print("player is in range")
@@ -153,33 +168,29 @@ func _on_range_body_exited(body: Node2D) -> void:
 		print("player is no longer in range")
 		
 	
-func _on_death():
-	set_state(State.ATTACKED)
-	velocity = Vector2.ZERO
-	sprite.play("death")
-	
 func _on_damaged():
-	set_state(State.ATTACKED)
-	velocity = Vector2.ZERO
-	sprite.play("damage")
+	set_state(State.DAMAGED)	
+
+func _on_death():
+	set_state(State.DYING)
 	
 
 func _on_animated_sprite_2d_animation_finished() -> void:
-	if sprite.animation == "arise":
-		set_state(State.MOVING)
+	match sprite.animation:
+		"arise":
+			set_state(State.MOVING)
 	
-	if sprite.animation == "damage":
-		set_state(State.MOVING)
+		"damage":
+			set_state(State.MOVING)
 
-	if sprite.animation == "death":
-		queue_free()
+		"death":
+			queue_free()
 	
-	if sprite.animation == "bite":
-		velocity = Vector2.ZERO
-		sprite.play("death")
-		print("enemy finished bite")	
-		print("player has been poisoned")
+		"bite":
+			velocity = Vector2.ZERO
+			set_state(State.DYING)
+			print("enemy finished bite")	
 		
-	if sprite.animation == "strike":
-		set_state(State.MOVING)
-		print("enemy finished strike")	
+		"strike":
+			set_state(State.MOVING)
+			print("enemy finished strike")	

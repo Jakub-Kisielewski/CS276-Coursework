@@ -17,7 +17,7 @@ func _ready() -> void:
 			collision_mask = 1 << 0 #detect only layer 1
 	monitorable = true
 	
-func receive_hit(damage: int, attacker : Node = null) -> void:
+func receive_hit(damage: int, attacker : Node, attack_effect: String):
 	if attacker == null:
 		print("attacker is null")
 		return
@@ -31,4 +31,4 @@ func receive_hit(damage: int, attacker : Node = null) -> void:
 	if attacker == owner:
 		return
 	
-	owner_stats.take_damage(damage)
+	owner_stats.take_damage(damage, attack_effect)
