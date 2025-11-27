@@ -9,7 +9,7 @@ extends CharacterBody2D
 var player_in_range = false
 @export var speed = 60
 
-enum State { ARISING, IDLE, MOVING, ATTACKING, DAMAGED, DYING }
+enum State { IDLE, MOVING, ATTACKING, DAMAGED, DYING }
 var state : State = State.IDLE
 signal state_changed
 
@@ -19,10 +19,6 @@ func set_state(new_state : State):
 	state_changed.emit()
 	
 	match state:
-		State.ARISING:
-			velocity = Vector2.ZERO
-			sprite.play("arise")
-		
 		State.IDLE:
 			velocity = Vector2.ZERO
 			sprite.play("idle")
@@ -46,18 +42,16 @@ func _ready():
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
 	
-	set_state(State.ARISING)
+	set_state(State.MOVING)
 
 func _physics_process(delta: float) -> void:
 	if !is_instance_valid(player):#temporary
 		set_state(State.IDLE)
 		
 	match state:
-		State.ARISING:
-			return
-		
 		State.IDLE:
-			return
+			if is_instance_valid(player):
+				set_state(State.MOVING)
 		
 		State.MOVING:
 			if player_in_range:
@@ -87,7 +81,8 @@ func handle_move():
 	sprite.play("move")
 	
 func handle_attack():
-	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
+	var anim_length = get_animation_length("attack")
+	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
 	hitbox.scale = Vector2(2,2);
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
@@ -128,22 +123,9 @@ func _on_damaged():
 func _on_death():
 	set_state(State.DYING)
 	
-func _on_boss_death():
-	$AnimatedSprite2D/hurtBox.monitorable = true
-	set_state(State.IDLE)
-	fade_out(1)
-
-func fade_out(duration: float):
-	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, duration)
-	tween.tween_callback(queue_free)
-	
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
-		"arise":
-			set_state(State.MOVING)
-		
 		"damage":
 			set_state(State.MOVING)
 

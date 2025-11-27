@@ -79,7 +79,8 @@ func _physics_process(delta: float) -> void:
 			return
 		
 		State.IDLE:
-			return
+			if is_instance_valid(player):
+				set_state(State.VISIBLE_MOVING)
 
 		State.INVISIBLE_MOVING:
 			if player_in_range:
@@ -124,7 +125,8 @@ func handle_move():
 func handle_attack():
 	sprite.play("attack")
 
-	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
+	var anim_length = get_animation_length("attack")
+	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
 	hitbox.scale = Vector2(2.3,2.3)	
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
@@ -141,7 +143,8 @@ func handle_thrust():
 	
 	thrust_cooldown = THRUST_COOLDOWN_TIME
 
-	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
+	var anim_length = get_animation_length("thrust")
+	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
@@ -178,17 +181,7 @@ func _on_damaged():
 
 func _on_death():
 	set_state(State.DYING)
-
-func _on_boss_death():
-	$AnimatedSprite2D/hurtBox.monitorable = true
-	set_state(State.IDLE)
-	fade_out(1)
-
-func fade_out(duration: float):
-	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, duration)
-	tween.tween_callback(queue_free)
-
+	
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
