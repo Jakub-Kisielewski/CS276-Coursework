@@ -112,9 +112,8 @@ func handle_move():
 	
 func handle_bite():
 	sprite.play("bite")
-	
-	var anim_length = get_animation_length("bite")
-	var hitbox = hitBox.new(stats, "Poison", anim_length, hitbox_shape)
+
+	var hitbox = hitBox.new(stats, "Poison", 0, hitbox_shape)
 	hitbox.scale = Vector2(0.8,0.8);
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
@@ -129,8 +128,7 @@ func handle_strike():
 	sprite.play("strike")
 	strike_cooldown = STRIKE_COOLDOWN_TIME
 
-	var anim_length = get_animation_length("strike")
-	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
+	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
 	hitbox.scale = Vector2(1,1)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)

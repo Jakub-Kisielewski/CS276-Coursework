@@ -125,8 +125,7 @@ func handle_move():
 func handle_attack():
 	sprite.play("attack")
 
-	var anim_length = get_animation_length("attack")
-	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
+	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
 	hitbox.scale = Vector2(2.3,2.3)	
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
@@ -143,8 +142,7 @@ func handle_thrust():
 	
 	thrust_cooldown = THRUST_COOLDOWN_TIME
 
-	var anim_length = get_animation_length("thrust")
-	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
+	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	

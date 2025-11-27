@@ -112,8 +112,7 @@ func handle_move():
 func handle_attack():
 	sprite.play("attack")
 
-	var anim_length = get_animation_length("attack")
-	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
+	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
@@ -124,9 +123,8 @@ func handle_attack():
 
 func handle_special():
 	sprite.play("special_attack")
-	
-	var anim_length = get_animation_length("special_attack")
-	var hitbox = hitBox.new(stats, "Lifeslash", anim_length, hitbox_shape)
+
+	var hitbox = hitBox.new(stats, "Lifeslash", 0, hitbox_shape)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	

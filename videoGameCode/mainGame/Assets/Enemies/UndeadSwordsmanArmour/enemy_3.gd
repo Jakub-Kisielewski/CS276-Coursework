@@ -14,7 +14,7 @@ var thrust_cooldown = 0.0
 var player_in_range = false
 @export var speed = 80.0
 
-enum State { IDLE, MOVING, ATTACKING, THRUSTING, DAMAGED, DYING }
+enum State { ARISING, IDLE, MOVING, ATTACKING, THRUSTING, DAMAGED, DYING }
 var state : State = State.IDLE
 signal state_changed
 
@@ -24,6 +24,10 @@ func set_state(new_state : State):
 	state_changed.emit()
 	
 	match state:
+		State.ARISING:
+			velocity = Vector2.ZERO
+			sprite.play("arise")
+		
 		State.IDLE:
 			velocity = Vector2.ZERO
 			sprite.play("idle")
@@ -50,7 +54,7 @@ func _ready():
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
 	
-	set_state(State.MOVING)
+	set_state(State.ARISING)
 
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
@@ -59,6 +63,9 @@ func _physics_process(delta: float) -> void:
 		set_state(State.IDLE)
 		
 	match state:
+		State.ARISING:
+			return
+		
 		State.IDLE:
 			if is_instance_valid(player):
 				set_state(State.MOVING)
@@ -101,8 +108,7 @@ func handle_move():
 func handle_attack():
 	sprite.play("attack")
 
-	var anim_length = get_animation_length("attack")
-	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
+	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
 	hitbox.scale = Vector2(1.6,1.6)	
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
@@ -116,8 +122,7 @@ func handle_thrust():
 	
 	thrust_cooldown = THRUST_COOLDOWN_TIME
 
-	var anim_length = get_animation_length("thrust")
-	var hitbox = hitBox.new(stats, "None", anim_length, hitbox_shape)
+	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
@@ -158,6 +163,9 @@ func _on_death():
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
+		"arise":
+			set_state(State.MOVING)
+			
 		"damage":
 			set_state(State.MOVING)
 
