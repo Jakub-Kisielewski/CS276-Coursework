@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b14linf1k8tn3"
-path="res://.godot/imported/dagger_male.png-a94b4324fac54e62b292ba84a2acdb19.ctex"
+uid="uid://5kuyyld0jx7o"
+path="res://.godot/imported/goatman.png-552cd2ec1d731c94f1acd4d29c8b47b8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/BaseSprite/weapons/right hand/male/dagger_male.png"
-dest_files=["res://.godot/imported/dagger_male.png-a94b4324fac54e62b292ba84a2acdb19.ctex"]
+source_file="res://Assets/Sprites/goatman.png"
+dest_files=["res://.godot/imported/goatman.png-552cd2ec1d731c94f1acd4d29c8b47b8.ctex"]
 
 [params]
 
