@@ -317,11 +317,7 @@ func _on_death():
 		anim_state.travel("Sdeath")
 	
 func _on_damaged():
-
 	canvas.get_node("Control/Health").text = str(stats.current_health)
-
-
-
 
 func player_busy() -> bool:
 	return attacking or dying

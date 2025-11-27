@@ -2143,3 +2143,25 @@ stats = SubResource("Resource_nnog6")
 [node name="Enemy2" parent="." instance=ExtResource("3_637wq")]
 position = Vector2(-29, 113)
 stats = SubResource("Resource_k5bmm")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." groups=["canvas"]]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Health" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = -103.0
+offset_top = 22.0
+offset_bottom = 105.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "100"
+horizontal_alignment = 2
