@@ -615,6 +615,7 @@ sprite = NodePath("AnimatedSprite2D")
 nav = NodePath("Nav")
 stats = SubResource("Resource_0ejd5")
 hitbox_shape = SubResource("CapsuleShape2D_0ejd5")
+speed = 80
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)
