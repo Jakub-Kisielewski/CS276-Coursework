@@ -71,8 +71,7 @@ func _physics_process(delta: float) -> void:
 			return
 		
 		State.IDLE:
-			if is_instance_valid(player):
-				set_state(State.MOVING)
+			return
 		
 		State.MOVING:
 			if player_in_range:
@@ -181,6 +180,16 @@ func _on_damaged():
 func _on_death():
 	set_state(State.DYING)
 	
+func _on_boss_death():
+	$AnimatedSprite2D/hurtBox.monitorable = true
+	set_state(State.IDLE)
+	fade_out(1)
+
+func fade_out(duration: float):
+	var tween = create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, duration)
+	tween.tween_callback(queue_free)
+
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
