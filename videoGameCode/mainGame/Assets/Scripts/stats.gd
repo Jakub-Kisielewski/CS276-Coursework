@@ -7,11 +7,11 @@ enum Faction {
 
 var current_health : int : set = _on_health_set
 var owner_node : Node = null
-signal health_changed(new_health : float, max_health :float)
+signal health_changed
 signal health_depleted
 signal damage_taken
 
-@export var max_health : float = 100.0
+@export var max_health : float = 100
 @export var defense : float = 1 #Damage taken is divided by defense
 @export var damage : float = 10
 @export var faction : Faction = Faction.PLAYER
@@ -30,6 +30,7 @@ func _init() -> void:
 	
 func initialise_stats() -> void:
 	current_health = max_health
+	health_changed.emit()
 	
 func set_owner_node(node: Node) -> void:
 	owner_node = node
@@ -72,7 +73,8 @@ func take_damage(amount: float, attack_effect: String) -> void:
 			start_visualise_damage()
 			current_health -= amount/defense
 			print(owner_node.name ," took ", amount/defense, " damage, current hp = ", current_health)
-	
+
+	health_changed.emit()
 	if current_health <= 0:
 		current_health = 0
 		health_depleted.emit()
@@ -139,11 +141,9 @@ func take_poison_damage():
 		print(owner_node.name + " is no longer poisoned")
 		
 func take_overheat_damage():
-	current_health -= 3
-	print(owner_node.name ," took ", 3, " damage, current hp = ", current_health)
+	take_damage(3, "None")
 
 func end_overheat():
-	print("tut")
 	if overheat_timer != null:
 		overheat_timer.queue_free()
 	set_status(Status.HEALTHY)

@@ -10,7 +10,7 @@
 [sub_resource type="Resource" id="Resource_ud2rd"]
 resource_local_to_scene = true
 script = ExtResource("2_a368x")
-max_health = 300.0
+damage = 13.0
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
@@ -255,7 +255,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 14.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -304,7 +304,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"damage",
-"speed": 8.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -471,8 +471,6 @@ shape = SubResource("CapsuleShape2D_fa6de")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
 animation = &"attack"
-frame = 5
-frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("11_u3cjf")

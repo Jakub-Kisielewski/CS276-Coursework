@@ -1,10 +1,11 @@
-[gd_scene load_steps=598 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=599 format=3 uid="uid://gybvdpwifulg"]
 
 [ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player_b.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
 [ext_resource type="Texture2D" uid="uid://xyyryh37fiw" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Idle/Sword_Idle_full.png" id="2_24q4e"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_p8spm"]
 [ext_resource type="Texture2D" uid="uid://ck0jycudaqfvx" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run/Sword_Run_full.png" id="3_7rtkj"]
+[ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="3_a86ck"]
 [ext_resource type="Texture2D" uid="uid://cgm6p141odl85" path="res://Assets/Sprites/BaseSprite/weapons/oversize/two hand/either/spear.png" id="3_ral8p"]
 [ext_resource type="Texture2D" uid="uid://di2irdwtxxtne" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack3_body.png" id="4_jb3ds"]
 [ext_resource type="Texture2D" uid="uid://chfdco30a8bet" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack_full.png" id="4_lysqc"]
@@ -22,7 +23,6 @@
 [sub_resource type="Resource" id="Resource_2crlu"]
 script = ExtResource("2_p8spm")
 max_health = 10000.0
-damage = 50.0
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7sn2"]
@@ -5563,8 +5563,9 @@ graph_offset = Vector2(-144.69978, 341.40958)
 script = ExtResource("1_24q4e")
 stats = SubResource("Resource_2crlu")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 zoom = Vector2(3, 3)
+script = ExtResource("3_a86ck")
 
 [node name="spearAnim" type="AnimatedSprite2D" parent="."]
 position = Vector2(-6.000001, -2)
@@ -5591,7 +5592,6 @@ animation = &"battack_down"
 visible = false
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 1
 
 [node name="hurtBox" type="Area2D" parent="fullAnim"]
 script = ExtResource("9_p8spm")

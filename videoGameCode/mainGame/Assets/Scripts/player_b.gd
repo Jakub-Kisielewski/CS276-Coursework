@@ -9,7 +9,10 @@ extends CharacterBody2D
 @onready var fullAnim = $fullAnim
 @onready var spearAnim = $spearAnim
 @onready var bowAnim = $bowAnim
+
 @export var stats : Stats
+var health_label: Label
+
 var hitbox_shape : Shape2D
 
 var canvas : CanvasLayer
@@ -49,11 +52,14 @@ func _ready():
 	anim_tree.active = true
 	current_weapon = Weapon.SWORD
 	stats.set_owner_node(self)
+	stats.health_changed.connect(_on_health_changed)
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
 	orig_spear_pos = spearAnim.position
 	orig_pos = position
-	canvas = get_tree().get_first_node_in_group("canvas")
+	
+	health_label = get_tree().get_first_node_in_group("canvas").get_node("Control/Health")
+	
 
 
 func _physics_process(delta: float) -> void:
@@ -368,14 +374,13 @@ func handle_timers(delta: float):
 func _on_death():
 	print("you should be dead")
 	dying = true
-	
-	if current_weapon == Weapon.SPEAR:
-		anim_state.travel("death")
-	else:
-		anim_state.travel("Sdeath")
+	anim_state.travel("Sdeath")
 	
 func _on_damaged():
-	canvas.get_node("Control/Health").text = str(stats.current_health)
+	pass
+	
+func _on_health_changed():	
+	health_label.text = str(stats.current_health)
 
 func player_busy() -> bool:
 	return attacking or dying

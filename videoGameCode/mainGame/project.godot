@@ -24,6 +24,7 @@ project/assembly_name="labyrinth1"
 player=""
 enemy=""
 canvas=""
+camera=""
 
 [input]
 

@@ -1,10 +1,9 @@
-[gd_scene load_steps=13 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=10 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_qfi48"]
-[ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/enemy_1.tscn" id="3_637wq"]
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player_b.tscn" id="3_qfi48"]
-[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="5_2evn1"]
+[ext_resource type="PackedScene" uid="uid://bkslhkcc0xrkv" path="res://Assets/Enemies/Minotaur/enemy_8.tscn" id="4_2evn1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_637wq"]
 texture = ExtResource("1_vw6f2")
@@ -2103,18 +2102,6 @@ navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_637wq")
 sources/1 = SubResource("TileSetAtlasSource_2evn1")
 
-[sub_resource type="Resource" id="Resource_nnog6"]
-resource_local_to_scene = true
-script = ExtResource("5_2evn1")
-faction = 1
-metadata/_custom_type_script = "uid://clj5tjl6n5w51"
-
-[sub_resource type="Resource" id="Resource_k5bmm"]
-resource_local_to_scene = true
-script = ExtResource("5_2evn1")
-faction = 1
-metadata/_custom_type_script = "uid://clj5tjl6n5w51"
-
 [node name="level1" type="Node2D"]
 
 [node name="layer_control" type="Node2D" parent="."]
@@ -2135,14 +2122,6 @@ position = Vector2(-95, 188)
 tile_map_data = PackedByteArray("AAD2//z/AQAZAAEAAAD6//z/AQAdAAEAAAD3//z/AQAaAAEAAAD4//z/AQAbAAEAAAD5//z/AQAcAAEAAAA=")
 tile_set = SubResource("TileSet_nnog6")
 navigation_enabled = false
-
-[node name="Enemy1" parent="." instance=ExtResource("3_637wq")]
-position = Vector2(-152, -87)
-stats = SubResource("Resource_nnog6")
-
-[node name="Enemy2" parent="." instance=ExtResource("3_637wq")]
-position = Vector2(-29, 113)
-stats = SubResource("Resource_k5bmm")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." groups=["canvas"]]
 
@@ -2165,3 +2144,6 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 50
 text = "100"
 horizontal_alignment = 2
+
+[node name="Enemy8" parent="." instance=ExtResource("4_2evn1")]
+position = Vector2(-98, -132)

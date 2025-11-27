@@ -536,7 +536,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"arise",
-"speed": 12.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -904,8 +904,8 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"death"
-frame = 13
+animation = &"arise"
+frame = 14
 frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]

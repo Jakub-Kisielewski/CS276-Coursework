@@ -7,22 +7,22 @@ extends CharacterBody2D
 @export var hitbox_shape : Shape2D
 @export var summons : Array[PackedScene]
 @export var player_rays : Array[RayCast2D]
-var rng = RandomNumberGenerator.new()
-signal boss_defeated
+var camera : Camera2D
 
-const SUMMON_COOLDOWN_TIME = 12
+var rng = RandomNumberGenerator.new()
+const SUMMON_COOLDOWN_TIME = 8
 var summon_cooldown = 0.0
 
-const CHARGE_COOLDOWN_TIME = 5
+const CHARGE_COOLDOWN_TIME = 4
 const CHARGE_DURATION_TIME = 3
-const OVERHEAT_COOLDOWN_TIME = 8
+const OVERHEAT_COOLDOWN_TIME = 6
 const OVERHEAT_DURATION_TIME = 4
 var charge_direction : Vector2
-var charge_multiplier = 3
+var charge_multiplier = 4.4
 var charge_cooldown = 0.0
 var charge_duration = 0.0
 
-const STUN_DURATION_TIME = 1.4
+const STUN_DURATION_TIME = 0.8
 var stun_duration = 0.0
 
 
@@ -32,6 +32,8 @@ var player_in_range = false
 enum State { IDLE, MOVING, ATTACKING, SUMMONING, CHARGING, OVERHEATING, STUNNED, DAMAGED }
 var state : State = State.IDLE
 signal state_changed
+signal charge_collision
+signal boss_defeated
 
 var phase_two : bool
 
@@ -75,7 +77,9 @@ func _ready():
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
 	rng.randomize()
-
+	
+	camera = get_tree().get_first_node_in_group("camera")
+	charge_collision.connect(camera.shake)
 	set_state(State.MOVING)
 
 func _physics_process(delta: float) -> void:
@@ -96,7 +100,7 @@ func _physics_process(delta: float) -> void:
 				if charge_cooldown <= 0:	
 					if not(is_on_wall()) and not(player_in_range) and player_in_sight():
 						set_state(State.OVERHEATING)
-				elif summon_cooldown <= 0 and global_position.distance_to(player.global_position) > 200:
+				elif summon_cooldown <= 0:
 					set_state(State.SUMMONING)
 			elif charge_cooldown <= 0:	
 				if not(is_on_wall()) and not(player_in_range) and player_in_sight():
@@ -114,6 +118,7 @@ func _physics_process(delta: float) -> void:
 			if charge_duration <= 0:
 				set_state(State.MOVING)
 			if is_on_wall():
+				charge_collision.emit()
 				stats.take_damage(10, "None")
 				set_state(State.STUNNED)
 			
@@ -129,15 +134,18 @@ func _physics_process(delta: float) -> void:
 				stats.end_overheat()
 				set_state(State.MOVING)
 			if is_on_wall():        
+				charge_collision.emit()
+				
 				var collision = get_slide_collision(0)
 				var normal = collision.get_normal()
+				
 				# Reflect current direction
 				charge_direction = charge_direction.bounce(normal).normalized()
 				# Bias direction back towards player
 				var desired_direction = (player.global_position - global_position).normalized()
-				charge_direction = charge_direction.lerp(desired_direction, 0.46).normalized()
+				charge_direction = charge_direction.lerp(desired_direction, 0.56).normalized()
 
-			velocity = 1.3 * charge_direction * speed * charge_multiplier
+			velocity = 1.4 * charge_direction * speed * charge_multiplier
 			if velocity.x > 0:
 				sprite.flip_h = false
 			elif velocity.x < 0:
@@ -261,8 +269,8 @@ func _on_range_body_exited(body: Node2D) -> void:
 	
 func _on_damaged():
 	if state == State.OVERHEATING:
-		stats.end_overheat() 
-	if stats.current_health < stats.max_health/2:
+		return
+	if stats.current_health <= stats.max_health/2:
 		phase_two = true
 	set_state(State.DAMAGED)	
 
@@ -280,10 +288,7 @@ func fade_out(duration: float):
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
 		"damage":
-			if stun_duration <= 0:
-				set_state(State.MOVING)
-			else:
-				set_state(State.STUNNED)
+			set_state(State.MOVING)
 	
 		"attack":
 			set_state(State.MOVING)
