@@ -3400,6 +3400,57 @@ height = 22.0
 radius = 5.0
 height = 16.0
 
+[sub_resource type="Animation" id="Animation_2crlu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("spearAnim:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"spear_up"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("spearAnim:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bowAnim:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"battack_down"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bowAnim:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_qvlk0"]
 resource_name = "Sdash_down"
 length = 0.2
@@ -5032,57 +5083,6 @@ tracks/5/keys = {
 "values": [0, 1, 2, 3, 4]
 }
 
-[sub_resource type="Animation" id="Animation_2crlu"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("spearAnim:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"spear_up"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("spearAnim:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("bowAnim:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"battack_down"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("bowAnim:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ks6rf"]
 _data = {
 &"RESET": SubResource("Animation_2crlu"),
@@ -5533,7 +5533,7 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a86ck"]
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vxkns"]
-states/End/position = Vector2(563, 485.375)
+states/End/position = Vector2(563.5, 486.375)
 states/Sattack/node = SubResource("AnimationNodeBlendTree_6gwyt")
 states/Sattack/position = Vector2(742, 100.5)
 states/Sdash/node = SubResource("AnimationNodeBlendTree_ps2r2")
@@ -5557,7 +5557,7 @@ states/run/position = Vector2(125.838806, 420.88077)
 states/spattack/node = SubResource("AnimationNodeBlendTree_5agts")
 states/spattack/position = Vector2(-141.7862, 142.87788)
 transitions = ["Start", "Sidle", SubResource("AnimationNodeStateMachineTransition_117vg"), "Sidle", "Sattack", SubResource("AnimationNodeStateMachineTransition_ddl1c"), "Sattack", "Sidle", SubResource("AnimationNodeStateMachineTransition_y6wf2"), "Sidle", "Srun", SubResource("AnimationNodeStateMachineTransition_ukp40"), "Srun", "Sidle", SubResource("AnimationNodeStateMachineTransition_mytan"), "Sidle", "Sdash", SubResource("AnimationNodeStateMachineTransition_sjqh2"), "Sdash", "Sidle", SubResource("AnimationNodeStateMachineTransition_am3my"), "Sidle", "Sdeath", SubResource("AnimationNodeStateMachineTransition_o40nm"), "Sidle", "idle", SubResource("AnimationNodeStateMachineTransition_wikct"), "idle", "Sidle", SubResource("AnimationNodeStateMachineTransition_0hy8v"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_6xuxy"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_a2ueu"), "idle", "spattack", SubResource("AnimationNodeStateMachineTransition_nd8wr"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_bftk7"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_nxp2m"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_hvd6h"), "spattack", "idle", SubResource("AnimationNodeStateMachineTransition_5dubb"), "battack", "idle", SubResource("AnimationNodeStateMachineTransition_tyuhp"), "idle", "battack", SubResource("AnimationNodeStateMachineTransition_1n6cy"), "death", "End", SubResource("AnimationNodeStateMachineTransition_2crlu"), "Sdeath", "End", SubResource("AnimationNodeStateMachineTransition_a86ck")]
-graph_offset = Vector2(-873.5212, 101.9346)
+graph_offset = Vector2(-144.69978, 341.40958)
 
 [node name="playerB" type="CharacterBody2D"]
 script = ExtResource("1_24q4e")
@@ -5581,15 +5581,16 @@ sprite_frames = SubResource("SpriteFrames_feila")
 animation = &""
 
 [node name="bowAnim" type="AnimatedSprite2D" parent="."]
-position = Vector2(3, 4.0000005)
-scale = Vector2(0.19921872, 0.22460938)
+position = Vector2(3, 4)
+rotation = 3.1381686
+scale = Vector2(0.24023438, 0.2685547)
 sprite_frames = SubResource("SpriteFrames_yj04c")
 animation = &"battack_down"
 
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 visible = false
 sprite_frames = SubResource("SpriteFrames_c1j8p")
-animation = &"idle_up"
+animation = &"Sidle_left"
 frame = 1
 
 [node name="hurtBox" type="Area2D" parent="fullAnim"]

@@ -59,21 +59,23 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
 	handle_input(delta)
-	set_keys_facing()
+	#set_keys_facing()
+	set_mouse_facing()
 	updateSprite()
 
 
 func handle_input(delta: float):
 	
-	
-	
-	
+	# movement
+	direction = Vector2(
+		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
+		Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
+	).normalized()
 	
 	
 	if player_busy():
+		move_and_slide()
 		return
-
-	
 
 	# movement
 	direction = Vector2(
@@ -105,7 +107,7 @@ func handle_input(delta: float):
 		return
 
 	if direction != Vector2.ZERO:
-		last_dir = direction
+		#last_dir = direction
 		velocity = direction * speed
 		move_and_slide()
 		if current_weapon == Weapon.SPEAR or current_weapon == Weapon.BOW:
@@ -176,21 +178,77 @@ func handle_attack():
 	attacking = true
 	
 	
+func get_mouse_angle() -> float:
+	var mouse_pos = get_global_mouse_position()
+	var aim_vec = mouse_pos - global_position
+	var aim_angle = aim_vec.angle()
+	var deg = rad_to_deg(aim_angle)
+	return deg
+	
 func set_mouse_facing():
-	pass
+	
+	var deg = get_mouse_angle()
+	
+	#implement with 8 direction later
+	#set player_facing, so that weapon sprites can be offset and rotated,
+	#set last_dir so that animation tree plays animation in correct direction
+	#?
+	
+	if deg <= 135 and deg > 45:
+		player_facing = Facing.DOWN
+		last_dir = Vector2.DOWN
+		return 
+	elif deg <= 45 and deg > -45:
+		player_facing = Facing.RIGHT
+		last_dir = Vector2.RIGHT
+		return
+	elif deg <= -45 and deg > -135:
+		player_facing = Facing.UP
+		last_dir = Vector2.UP
+		return
+	elif deg <= -135 or deg > 135:
+		player_facing = Facing.LEFT
+		last_dir = Vector2.LEFT
+		return
+		
+	print("set_mouse_facing null return")
+	return
+	
+	
 	
 func set_keys_facing():
 	if Input.is_action_pressed("move_down"):
+		
 		player_facing = Facing.DOWN
+		last_dir = Vector2.DOWN
 	elif Input.is_action_pressed("move_up"):
 		player_facing = Facing.UP
+		last_dir = Vector2.UP
 	elif Input.is_action_pressed("move_right"):
 		player_facing = Facing.RIGHT
+		last_dir = Vector2.DOWN
 	elif Input.is_action_pressed("move_left"):
 		player_facing = Facing.LEFT
+		last_dir = Vector2.DOWN
 	
 func bow_attack():
 	
+	var deg = get_mouse_angle()
+
+
+	#may need to offset bow position, use matching for that
+	match player_facing:
+		Facing.DOWN:
+			print("attacking down")
+		Facing.UP:
+			print("attacking up")
+		Facing.LEFT:
+			print("attacking left") 
+		Facing.RIGHT:
+			print("attacking right")
+			
+	
+	bowAnim.rotation = deg
 	anim_state.travel("battack")
 	
 	
@@ -221,7 +279,7 @@ func spear_attack():
 	var hitbox = hitBox.new(stats, "None", 0.5, hitbox_shape)
 	
 	
- #error in animation tree, defaults to attacking to the right
+
 	match player_facing:
 		Facing.DOWN:
 			spearAnim.position += Vector2(4, 10)
