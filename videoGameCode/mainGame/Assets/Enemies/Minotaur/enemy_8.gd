@@ -143,7 +143,7 @@ func _physics_process(delta: float) -> void:
 				charge_direction = charge_direction.bounce(normal).normalized()
 				# Bias direction back towards player
 				var desired_direction = (player.global_position - global_position).normalized()
-				charge_direction = charge_direction.lerp(desired_direction, 0.56).normalized()
+				charge_direction = charge_direction.lerp(desired_direction, 0.52).normalized()
 
 			velocity = 1.4 * charge_direction * speed * charge_multiplier
 			if velocity.x > 0:
