@@ -16,13 +16,14 @@ signal damage_taken
 @export var damage : float = 10
 @export var faction : Faction = Faction.PLAYER
 
-enum Status { HEALTHY, POISONED, DAMAGED }
+enum Status { HEALTHY, POISONED, DAMAGED, OVERHEATING }
 var status : Status = Status.HEALTHY;
 
-#Information about currenttimers
+#Information about current timers
 var poison_timer : Timer
 var poison_hits_left : int
 var damage_timer : Timer
+var overheat_timer : Timer
 
 func _init() -> void:
 	initialise_stats.call_deferred()
@@ -47,6 +48,8 @@ func set_status(new_status : Status):
 			sprite.modulate = Color("#ffacff")
 		Status.DAMAGED:
 			sprite.modulate = Color("f5a3b0")
+		Status.OVERHEATING:
+			sprite.modulate = Color("f5a3b0")
 
 func take_damage(amount: float, attack_effect: String) -> void:
 	match attack_effect:
@@ -59,11 +62,17 @@ func take_damage(amount: float, attack_effect: String) -> void:
 			start_visualise_damage()
 			current_health = current_health/2
 			print(owner_node.name ," took ", current_health, " damage, current hp = ", current_health)
+		
+		"Critical":
+			start_visualise_damage()
+			current_health -= amount*1.3/defense
+			print(owner_node.name ," took ", amount*1.5/defense, " damage, current hp = ", current_health)
+		
 		_:
 			start_visualise_damage()
 			current_health -= amount/defense
 			print(owner_node.name ," took ", amount/defense, " damage, current hp = ", current_health)
-			
+	
 	if current_health <= 0:
 		current_health = 0
 		health_depleted.emit()
@@ -83,10 +92,27 @@ func start_visualise_damage():
 
 func end_visualise_damage():
 	damage_timer.queue_free()
-	if poison_timer == null:
-		set_status(Status.HEALTHY)
-	else:
+	if poison_timer != null:
 		set_status(Status.POISONED)
+	elif overheat_timer != null:
+		set_status(Status.OVERHEATING)
+	else:
+		set_status(Status.HEALTHY)
+
+func start_overheat():
+	if overheat_timer != null:
+		overheat_timer.queue_free()
+	
+	set_status(Status.OVERHEATING)
+	print(owner_node.name + " is overheating")	
+	
+	overheat_timer = Timer.new()
+	
+	overheat_timer.wait_time = 1
+	overheat_timer.one_shot = false
+	overheat_timer.autostart = true
+	owner_node.add_child(overheat_timer)
+	overheat_timer.timeout.connect(take_overheat_damage)
 
 func start_poison():
 	if poison_timer != null:
@@ -111,6 +137,16 @@ func take_poison_damage():
 		poison_timer.queue_free()
 		set_status(Status.HEALTHY)
 		print(owner_node.name + " is no longer poisoned")
+		
+func take_overheat_damage():
+	current_health -= 3
+	print(owner_node.name ," took ", 3, " damage, current hp = ", current_health)
+
+func end_overheat():
+	print("tut")
+	if overheat_timer != null:
+		overheat_timer.queue_free()
+	set_status(Status.HEALTHY)
 	
 
 func _on_health_set(value : float) -> void:
