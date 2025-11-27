@@ -5,8 +5,6 @@ class_name hitBox extends Area2D
 var hitbox_lifetime: float
 var shape: Shape2D  
 
-signal successful_hit
-
 func _init(_attacker_stats: Stats, _attack_effect: String, _hitbox_lifetime: float, _shape: Shape2D) -> void:
 	attacker_stats = _attacker_stats
 	attack_effect = _attack_effect
@@ -43,4 +41,3 @@ func _on_area_entered(area: Area2D) -> void:
 	if not area.has_method("receive_hit"):
 		return
 	area.receive_hit(attacker_stats.damage, attacker_stats.owner_node, attack_effect)	
-	successful_hit.emit()
