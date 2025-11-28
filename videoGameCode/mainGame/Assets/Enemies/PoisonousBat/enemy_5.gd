@@ -169,10 +169,11 @@ func _on_damaged():
 	set_state(State.DAMAGED)	
 
 func _on_death():
+	$AnimatedSprite2D/hurtBox.monitorable = false
 	set_state(State.DYING)
 	
 func _on_boss_death():
-	$AnimatedSprite2D/hurtBox.monitorable = true
+	$AnimatedSprite2D/hurtBox.monitorable = false
 	set_state(State.IDLE)
 	fade_out(1)
 

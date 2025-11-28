@@ -441,7 +441,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"summon",
-"speed": 12.0
+"speed": 7.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yc8sv"]
@@ -452,7 +452,7 @@ height = 36.0
 radius = 100.0
 height = 200.0
 
-[node name="Enemy8" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav", "player_rays") groups=["enemy"]]
+[node name="Enemy8" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav", "hurtbox", "player_rays") groups=["enemy"]]
 scale = Vector2(0.9, 0.9)
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -461,6 +461,7 @@ sprite = NodePath("AnimatedSprite2D")
 nav = NodePath("Nav")
 stats = SubResource("Resource_ud2rd")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
+hurtbox = NodePath("AnimatedSprite2D/hurtBox")
 summons = Array[PackedScene]([ExtResource("3_3xsit"), ExtResource("5_rrur1")])
 player_rays = [NodePath("RayCast2D"), NodePath("RayCast2D2"), NodePath("RayCast2D3")]
 speed = 100.0

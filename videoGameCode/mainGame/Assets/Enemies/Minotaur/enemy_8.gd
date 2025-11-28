@@ -5,6 +5,7 @@ extends CharacterBody2D
 @export var nav: NavigationAgent2D
 @export var stats : Stats
 @export var hitbox_shape : Shape2D
+@export var hurtbox : hurtBox
 @export var summons : Array[PackedScene]
 @export var player_rays : Array[RayCast2D]
 var camera : Camera2D
@@ -39,6 +40,7 @@ var phase_two : bool
 
 
 func set_state(new_state : State):
+	hurtbox.monitorable = true
 	state = new_state
 	state_changed.emit()
 	
@@ -116,6 +118,7 @@ func _physics_process(delta: float) -> void:
 			
 		State.CHARGING:
 			if charge_duration <= 0:
+				hurtbox.monitorable = true
 				set_state(State.MOVING)
 			if is_on_wall():
 				charge_collision.emit()
@@ -197,6 +200,7 @@ func handle_attack():
 
 func handle_charge():
 	sprite.play("charge")
+	hurtbox.monitorable = false
 	
 	if state == State.CHARGING:
 		charge_cooldown = CHARGE_COOLDOWN_TIME
@@ -276,7 +280,7 @@ func _on_damaged():
 
 func _on_death():
 	emit_signal("boss_defeated")
-	$AnimatedSprite2D/hurtBox.monitorable = true
+	hurtbox.monitorable = false
 	set_state(State.IDLE)
 	fade_out(1)
 

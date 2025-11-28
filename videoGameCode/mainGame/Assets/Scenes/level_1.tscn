@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=12 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_qfi48"]
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player_b.tscn" id="3_qfi48"]
 [ext_resource type="PackedScene" uid="uid://bkslhkcc0xrkv" path="res://Assets/Enemies/Minotaur/enemy_8.tscn" id="4_2evn1"]
+[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="5_2evn1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_637wq"]
 texture = ExtResource("1_vw6f2")
@@ -2102,6 +2103,14 @@ navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_637wq")
 sources/1 = SubResource("TileSetAtlasSource_2evn1")
 
+[sub_resource type="Resource" id="Resource_nnog6"]
+resource_local_to_scene = true
+script = ExtResource("5_2evn1")
+max_health = 300.0
+damage = 13.0
+faction = 1
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
 [node name="level1" type="Node2D"]
 
 [node name="layer_control" type="Node2D" parent="."]
@@ -2147,3 +2156,4 @@ horizontal_alignment = 2
 
 [node name="Enemy8" parent="." instance=ExtResource("4_2evn1")]
 position = Vector2(-98, -132)
+stats = SubResource("Resource_nnog6")
