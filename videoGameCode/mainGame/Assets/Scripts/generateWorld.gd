@@ -1,0 +1,487 @@
+extends Node2D
+
+# needs tileset and tilemap setup
+
+@onready var rng:RandomNumberGenerator = RandomNumberGenerator.new()
+@export var mapHeight: int = 7
+@export var mapWidth: int = 7
+var minSolutionPath: int = 0
+var maxSolutionPath: int = 0
+@export var branchProb: float = 0.4
+var maxBranchLength: int = 3
+@export var difficultyModifier: float = 1.0 # easy = 0.5, normal = 1.0, hard = 1.5
+
+var map: Array = Array()
+
+var roomTemplate: Dictionary = {
+	"coords": null,
+	"explored": false,
+	"type": "",
+	"onSolutionPath": false,
+	"order": 0
+}
+
+var corridorTemplate: Dictionary = {
+	"coords": null,
+	"explored": false,
+	"type": null,
+	"onSolutionPath": false,
+	"emergent": false,
+	"compassDirection": -1
+}
+
+var compassDirections: Dictionary[String, int] = {
+	"NORTH": 0,
+	"SOUTH": 1,
+	"EAST": 2,
+	"WEST": 3
+}
+
+# atlas info
+var corridorTypeTiles: Dictionary[String, Vector2i] = {
+	"straightVertical": Vector2i(2,1),
+	"straightHorizontal": Vector2i(1,0),
+	"rightDownTurn": Vector2i(2,0),
+	"upRightTurn": Vector2i(0,0),
+	"downLeftTurn": Vector2i(2,2),
+	"leftUpTurn": Vector2i(0,2),
+	"verticalLeftJunction": Vector2i(4,0),
+	"verticalRightJunction": Vector2i(3,0),
+	"horizontalUpJunction": Vector2i(4,1),
+	"horizontalDownJunction": Vector2i(3,1),
+	# crossroads
+	"northDeadend": Vector2i(),
+	"southDeadend": Vector2i(),
+	"eastDeadend": Vector2i(),
+	"westDeadend": Vector2i()
+}
+
+func _ready() -> void:
+	rng.randomize()
+	
+	print("setting constraints")
+	scaleConstraints()
+	print("initialising map")
+	initMap()
+	print("choosing start")
+	var startCoords: Vector2i = chooseStart()
+	print("setting centre")
+	var centreCoords: Vector2i = setCentre()
+	print("creating solution path")
+	var solutionPath: Array[Vector2i] = generateSolutionPath(startCoords, centreCoords)
+	print("generating branches")
+	var branches: Array = generateBranches(solutionPath)
+	print("drawing map")
+	drawMap(solutionPath, branches)
+
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("reset"):
+		get_tree().reload_current_scene()
+
+func scaleConstraints() -> void:
+	var totalArea: int = mapWidth * mapHeight
+	
+	# 35%-50% of map will be covered by solution path
+	minSolutionPath = int(totalArea * 0.35 * difficultyModifier)
+	maxSolutionPath = int(totalArea * 0.50)
+	
+	# manhatten distance from edge of maze to centre
+	var minPossibleDistance: int = max(mapWidth, mapHeight) / 2
+	
+	if minSolutionPath < minPossibleDistance:
+		minSolutionPath = minPossibleDistance + 3
+	
+	# half of map width or height
+	maxBranchLength = int(max(mapWidth, mapHeight) / 2)
+
+func initMap() -> void:
+	map.resize(mapHeight)
+	for i in range(mapHeight):
+		map[i] = Array()
+		map[i].resize(mapWidth)
+		for j in range(mapWidth):
+			var emptyRoom: Dictionary = roomTemplate.duplicate()
+			emptyRoom["coords"] = Vector2i(j, i)
+			map[i][j] = emptyRoom
+			%mazeSegments.set_cell(Vector2i(j,i),3,Vector2i(4,2), 0)
+
+# choose location of start room in maze, only spawns on outer edges of maze and not in corners of maze
+func chooseStart() -> Vector2i:
+	var randY: int
+	var randX: int
+	
+	var side: int = rng.randi_range(1,4)
+	
+	match side:
+		# Top
+		1:
+			randY = 0
+			randX = rng.randi_range(1, mapWidth - 2)
+		# Bottom
+		2:
+			randY = mapHeight - 1
+			randX = rng.randi_range(1, mapWidth - 2)
+		# Left
+		3:
+			randY = rng.randi_range(1, mapHeight - 2)
+			randX = 0
+		# Right
+		4:
+			randY = rng.randi_range(1, mapHeight - 2)
+			randX = mapWidth - 1
+	
+	if randX < map.size() and randY < map[0].size():
+		var startRoom: Dictionary = roomTemplate.duplicate()
+		startRoom["coords"] = Vector2i(randX, randY)
+		startRoom["explored"] = true
+		startRoom["type"] = "Start"
+		startRoom["onSolutionPath"] = true
+		map[randY][randX] = startRoom
+	
+	return Vector2i(randX, randY)
+
+func setCentre() -> Vector2i:
+	var centreRoom: Dictionary = roomTemplate.duplicate()
+	var centreY: int = mapHeight / 2
+	var centreX: int = mapWidth / 2
+	centreRoom["coords"] = Vector2i(centreX, centreY)
+	centreRoom["explored"] = false
+	centreRoom["type"] = "Centre"
+	centreRoom["onSolutionPath"] = true
+	map[centreY][centreX] = centreRoom   
+	
+	return Vector2i(centreX, centreY)
+
+func generateSolutionPath(startCoords:Vector2i, targetCoords:Vector2i) -> Array[Vector2i]:
+	var solutionPath: Array[Vector2i] = windingPath(startCoords, targetCoords, [])
+	if solutionPath.size() > 0:
+		# draw cooridors from generated soln path onto the map
+		var currIndex: int = 1 # starting from first corridor in path not from start room
+		var corridorNum: int = 1 # 0 reserved for cells with no corridor in them
+		
+		for coords in solutionPath:
+			if map[coords.y][coords.x].type == "Start": continue
+			
+			var direction: Vector2i = coords - solutionPath.get(currIndex - 1)
+			
+			var corridor: Dictionary = corridorTemplate.duplicate()
+			corridor["coords"] = coords
+			corridor["onSolutionPath"] = true
+			corridor["order"] = corridorNum
+			if rng.randf() > 0.8: corridor["emergent"] = true
+			
+			# direction of current cell relevant to previous cell in solution path
+			match direction:
+				Vector2i.DOWN: corridor["compassDirection"] = compassDirections.SOUTH
+				Vector2i.UP: corridor["compassDirection"] = compassDirections.NORTH
+				Vector2i.RIGHT: corridor["compassDirection"] = compassDirections.EAST
+				Vector2i.LEFT: corridor["compassDirection"] = compassDirections.WEST
+			
+			map[coords.y][coords.x] = corridor
+			var prevCoords: Vector2i = solutionPath.get(currIndex - 1)
+			var corridorTypes: Array[String] = setCorridorType(map[coords.y][coords.x], map[prevCoords.y][prevCoords.x], solutionPath.size()) # output is length 1 when corridor is after start room or if corridor is of same type as one preceding it, 2 otherwies
+			if corridorTypes.size() == 1: corridor["type"] = corridorTypes[0]
+			else:
+				corridor["type"] = corridorTypes[0]
+				map[prevCoords.y][prevCoords.x].set("type", corridorTypes[1]) 
+			corridorNum += 1
+			currIndex += 1
+	else: get_tree().reload_current_scene()
+	return solutionPath
+	
+
+func windingPath(current: Vector2i, target: Vector2i, path: Array[Vector2i]) -> Array[Vector2i]:
+	path.append(current)
+	var solutionPathLength: int = path.size() - 2 # dont include start and centre rooms
+	
+	if current == target:
+		# dont include start and centre rooms
+		if solutionPathLength >= minSolutionPath: return path
+		else:
+			path.pop_back()
+			return []
+	
+	if solutionPathLength > maxSolutionPath:
+		path.pop_back()
+		return []
+	
+	# random direction
+	var neighbours: Array[Vector2i] = [Vector2i.DOWN, Vector2i.UP, Vector2i.RIGHT, Vector2i.LEFT]
+	neighbours.shuffle()
+	
+	# check direction valid
+	for direction in neighbours:
+		var nextCell: Vector2i = current + direction
+		
+		if nextCell.y < 0 or nextCell.y >= mapHeight or nextCell.x < 0 or nextCell.x >= mapWidth: continue
+		
+		if nextCell in path: continue
+		
+		# dont allow soln path to intersect with centre or start room
+		var nextCellType: String = map[nextCell.y][nextCell.x].get("type")
+		if nextCellType != "" and nextCell != target: continue
+		
+		var result: Array[Vector2i] = windingPath(nextCell, target, path)
+		if result.size() > 0: return result
+	
+	# no valid direction
+	path.pop_back()
+	return []
+
+func generateBranches(solutionPath:Array[Vector2i]) -> Array:
+	var copyOfSolutionPath: Array[Vector2i] = solutionPath.duplicate(true)
+	copyOfSolutionPath.pop_back() # dont include centre room
+	copyOfSolutionPath.shuffle()
+	var branches: Array = Array()
+	branches.resize(copyOfSolutionPath.size())
+	
+	for cell in copyOfSolutionPath:
+		if rng.randf() < branchProb:
+			var branch: Array[Vector2i] = generateBranch(cell, copyOfSolutionPath)
+			branches.append(branch)
+	return branches
+
+func generateBranch(currentCell:Vector2i, solutionPath: Array[Vector2i]) -> Array[Vector2i]:
+	var branch: Array[Vector2i] = windingPathWithNoTarget(currentCell, 0, [])
+	
+	if branch.size() > 1:
+		
+		var rootCoords: Vector2i = branch[0] # coords of corridor on solutionPath
+		var firstStepCoords: Vector2i = branch[1] # coords of first corridor in branch
+		var rootCell: Dictionary = map[rootCoords.y][rootCoords.x]
+		var branchDirection: Vector2i = firstStepCoords - rootCoords
+		
+		var newJunctionType: String = setJunctionType(rootCell.get("type"), branchDirection)
+		if newJunctionType != "": rootCell["type"] = newJunctionType 
+		
+		for i in range(1, branch.size()):
+			var coords: Vector2i = branch[i]
+			var prevCoords: Vector2i = branch.get(i - 1)
+			var direction: Vector2i = coords - prevCoords
+			
+			var existingCell: Dictionary = map[coords.y][coords.x]
+			if existingCell.get("type") != "": continue
+			
+			var corridor: Dictionary = corridorTemplate.duplicate()
+			corridor["coords"] = coords
+			corridor["onSolutionPath"] = false
+			corridor["order"] = i
+			if rng.randf() > 0.8: corridor["emergent"] = true
+			
+			# direction of current cell relevant to previous cell in solution path
+			match direction:
+				Vector2i.DOWN: corridor["compassDirection"] = compassDirections.SOUTH
+				Vector2i.UP: corridor["compassDirection"] = compassDirections.NORTH
+				Vector2i.RIGHT: corridor["compassDirection"] = compassDirections.EAST
+				Vector2i.LEFT: corridor["compassDirection"] = compassDirections.WEST
+			
+			map[coords.y][coords.x] = corridor
+			
+			if i == 1: # corridor after junction
+				match direction:
+					Vector2i.DOWN: corridor["type"] = "straightSouth"
+					Vector2i.UP: corridor["type"] = "straightNorth"
+					Vector2i.RIGHT:  corridor["type"] = "straightEast"
+					Vector2i.LEFT: corridor["type"] = "straightWest"
+				if i == branch.size() - 1: # last corridor in branch
+					corridor["type"] += "Deadend"
+			else:
+				var corridorTypes: Array[String] = setCorridorType(map[coords.y][coords.x], map[prevCoords.y][prevCoords.x], solutionPath.size()) # length 1 when corridor is of same type as one preceding it, 2 otherwise
+				if corridorTypes.size() == 1: corridor["type"] = corridorTypes[0]
+				else:
+					corridor["type"] = corridorTypes[0]
+					map[prevCoords.y][prevCoords.x].set("type", corridorTypes[1])
+				if i == branch.size() - 1: # last corridor in branch
+					corridor["type"] += "Deadend"
+	return branch
+
+func windingPathWithNoTarget(currentCell:Vector2i, currentLen: int, branch:Array[Vector2i]) -> Array[Vector2i]:
+	branch.append(currentCell)
+	
+	if currentLen > maxBranchLength: return branch
+	
+	# random direction
+	var neighbours: Array[Vector2i] = [Vector2i.DOWN, Vector2i.UP, Vector2i.RIGHT, Vector2i.LEFT]
+	neighbours.shuffle()
+	
+	for direction in neighbours:
+		var nextCell: Vector2i = currentCell + direction
+		
+		if nextCell.y < 0 or nextCell.y >= mapHeight or nextCell.x < 0 or nextCell.x >= mapWidth: continue
+		
+		if nextCell in branch: continue
+		
+		if map[nextCell.y][nextCell.x].get("type") == "":
+			if countOccupiedNeighbours(nextCell) == 1:
+				var result: Array[Vector2i] = windingPathWithNoTarget(nextCell, currentLen + 1, branch)
+				if result.size() > 0:
+					return result 
+	
+	if currentLen > 0: return branch # reached dead end, return what we have as a branch
+	else:
+		branch.pop_back()
+		return []
+
+func countOccupiedNeighbours(currentCell: Vector2i) -> int:
+	var count: int = 0
+	var directions: Array[Vector2i] = [Vector2i.DOWN, Vector2i.UP, Vector2i.RIGHT, Vector2i.LEFT]
+	for direction in directions:
+		var nextCell: Vector2i = currentCell + direction
+		if nextCell.y >= 0 and nextCell.y < mapHeight and nextCell.x >= 0 and nextCell.x < mapWidth:
+			if not map[nextCell.y][nextCell.x].get("type") == "":
+				count += 1
+	return count
+
+# return format is [currentCellType, previousCellType] or [currentCellType]
+func setCorridorType(currentCell: Dictionary, previousCell: Dictionary, solutionPathLength: int) -> Array[String]:
+	var currentCelldirection: int = currentCell.get("compassDirection")
+	
+	# start room connections
+	if previousCell.get("type") == "Start":
+		match currentCelldirection:
+			compassDirections.NORTH: return ["straightNorth"]
+			compassDirections.SOUTH: return ["straightSouth"]
+			compassDirections.EAST: return ["straightEast"]
+			compassDirections.WEST: return ["straightWest"]
+	# centre room connection
+	elif previousCell.get("order") == solutionPathLength - 2: # corridor before centre room
+		var previousCellCoords: Vector2i = previousCell.get("coords")
+		var centreCoords: Vector2i = currentCell.get("coords")
+		var previousCellDirection: int = previousCell.get("compassDirection")
+		
+		var aboveCentre: bool = previousCellCoords == centreCoords - Vector2i.DOWN
+		var belowCentre: bool = previousCellCoords == centreCoords + Vector2i.DOWN
+		var leftOfCentre: bool = previousCellCoords == centreCoords - Vector2i.RIGHT
+		var rightOfCentre: bool = previousCellCoords == centreCoords + Vector2i.RIGHT
+		
+		match previousCellDirection: 
+				compassDirections.NORTH:
+					if aboveCentre or belowCentre: return ["Centre", "straightNorth"]
+					elif leftOfCentre: return ["Centre", "northToEastTurn"]
+					else: return ["Centre", "northToWestTurn"]
+				compassDirections.SOUTH:
+					if aboveCentre or belowCentre: return ["Centre", "straightSouth"]
+					elif leftOfCentre: return ["Centre", "southToEastTurn"]
+					else: return ["Centre", "southToWestTurn"]
+				compassDirections.EAST:
+					if leftOfCentre or rightOfCentre: return ["Centre", "straightEast"]
+					elif aboveCentre: return ["Centre", "eastToSouthTurn"]
+					else: return ["Centre", "eastToNorthTurn"]
+				compassDirections.WEST:
+					if leftOfCentre or rightOfCentre: return ["Centre", "straightWest"]
+					elif aboveCentre: return ["Centre", "westToSouthTurn"]
+					else: return ["Centre", "westToNorthTurn"]
+	# solution path and branches
+	else:
+		var previousCellDirection: int = previousCell.get("compassDirection")
+		if currentCelldirection == previousCellDirection: 
+			match currentCelldirection:
+				compassDirections.NORTH: return ["straightNorth"]
+				compassDirections.SOUTH: return ["straightSouth"]
+				compassDirections.EAST: return ["straightEast"]
+				compassDirections.WEST: return ["straightWest"]
+		else:
+			match previousCellDirection:
+				compassDirections.NORTH:
+					if currentCelldirection == compassDirections.WEST: return ["straightWest", "northToWestTurn"]
+					else: return ["straightEast", "northToEastTurn"]
+				compassDirections.SOUTH:
+					if currentCelldirection == compassDirections.WEST: return ["straightWest", "southToWestTurn"]
+					else: return ["straightEast", "southToEastTurn"]
+				compassDirections.EAST:
+					if currentCelldirection == compassDirections.NORTH: return ["straightNorth", "eastToNorthTurn"]
+					else: return ["straightSouth", "eastToSouthTurn"]
+				compassDirections.WEST:
+					if currentCelldirection == compassDirections.NORTH: return ["straightNorth", "westToNorthTurn"]
+					else: return ["straightSouth", "westToSouthTurn"]
+	return []
+
+func setJunctionType(currentType: String, branchDir: Vector2i) -> String:
+	
+	match currentType:
+		"straightNorth", "straightSouth":
+			if branchDir == Vector2i(1, 0): return "verticalRightJunction"
+			if branchDir == Vector2i(-1, 0): return "verticalLeftJunction"
+		
+		"straightEast", "straightWest":
+			if branchDir == Vector2i(0, 1): return "horizontalDownJunction"
+			if branchDir == Vector2i(0, -1): return "horizontalUpJunction"
+		
+		"northToWestTurn":
+			if branchDir == Vector2i(1, 0): return "horizontalDownJunction"
+			if branchDir == Vector2i(0, -1): return "verticalLeftJunction"
+		
+		"northToEastTurn":
+			if branchDir == Vector2i(-1, 0): return "horizontalDownJunction"
+			if branchDir == Vector2i(0, -1): return "verticalRightJunction"  
+		
+		"southToWestTurn":
+			if branchDir == Vector2i(1, 0): return "horizontalUpJunction"  
+			if branchDir == Vector2i(0, 1): return "verticalLeftJunction" 
+		
+		"southToEastTurn":
+			if branchDir == Vector2i(-1, 0): return "horizontalUpJunction"  
+			if branchDir == Vector2i(0, 1): return "verticalRightJunction"
+		
+		"eastToNorthTurn":
+			if branchDir == Vector2i(0, 1): return "verticalLeftJunction"  
+			if branchDir == Vector2i(1, 0): return "horizontalUpJunction"
+		
+		"eastToSouthTurn":
+			if branchDir == Vector2i(0, -1): return "verticalLeftJunction"
+			if branchDir == Vector2i(1, 0): return "horizontalDownJunction" 
+		
+		"westToNorthTurn":
+			if branchDir == Vector2i(0, 1): return "verticalRightJunction" 
+			if branchDir == Vector2i(-1, 0): return "horizontalUpJunction" 
+		
+		"westToSouthTurn":
+			if branchDir == Vector2i(0, -1): return "verticalRightJunction"
+			if branchDir == Vector2i(-1, 0): return "horizontalDownJunction"
+	
+	return ""
+
+func drawMap(solutionPath: Array, branches: Array) -> void:
+	# draw solution path
+	for coords in solutionPath:
+		if map[coords.y][coords.x].get("type") == "Start":
+			%mazeSegments.set_cell(coords, 3, Vector2i(1,1), 0)
+			continue
+		if map[coords.y][coords.x].get("type") == "Centre":
+			%mazeSegments.set_cell(coords, 3, Vector2i(1,1), 0)
+			continue
+		
+		drawTile(coords)
+	
+	for branch in branches:
+		if branch == null or branch == []:
+			continue
+		for i in range(1, branch.size()):
+			var coords: Vector2i = branch[i]
+			drawTile(coords)
+	
+
+func drawTile(coords:Vector2i) -> void:
+	var currentCell: Dictionary = map[coords.y][coords.x]
+	
+	var currentCellType: String = currentCell.get("type")
+	
+	match currentCellType:
+		# straight corridors
+		"straightNorth", "straightSouth": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("straightVertical"), 0)
+		"straightWest", "straightEast": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("straightHorizontal"), 0)
+		# turn corridors
+		"northToEastTurn", "westToSouthTurn": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("upRightTurn"), 0)
+		"northToWestTurn", "eastToSouthTurn": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("rightDownTurn"), 0)
+		"southToWestTurn", "eastToNorthTurn": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("downLeftTurn"), 0)
+		"southToEastTurn", "westToNorthTurn": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("leftUpTurn"), 0)
+		# junctions
+		"verticalLeftJunction": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("verticalLeftJunction"), 0)
+		"verticalRightJunction": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("verticalRightJunction"), 0)
+		"horizontalUpJunction": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("horizontalUpJunction"), 0)
+		"horizontalDownJunction": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("horizontalDownJunction"), 0)
+		# deadends
+		"straightNorthDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("northDeadend"), 0)
+		"straightSouthDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("southDeadend"), 0)
+		"straightWestDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("westDeadend"), 0)
+		"straightEastDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("eastDeadend"), 0) 
