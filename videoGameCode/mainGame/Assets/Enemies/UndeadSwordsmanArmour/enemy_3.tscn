@@ -14,7 +14,6 @@
 resource_local_to_scene = true
 script = ExtResource("2_mkods")
 defense = 1.3
-damage = 8.0
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 

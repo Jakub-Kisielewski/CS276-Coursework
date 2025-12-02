@@ -30,7 +30,7 @@ var stun_duration = 0.0
 var player_in_range = false
 @export var speed = 80.0
 
-enum State { IDLE, MOVING, ATTACKING, SUMMONING, CHARGING, OVERHEATING, STUNNED, DAMAGED }
+enum State { IDLE, MOVING, ATTACKING, SUMMONING, POWERUP, CHARGING, OVERHEATING, STUNNED, DAMAGED }
 var state : State = State.IDLE
 signal state_changed
 signal charge_collision
@@ -40,37 +40,67 @@ var phase_two : bool
 
 
 func set_state(new_state : State):
-	hurtbox.monitorable = true
 	state = new_state
 	state_changed.emit()
 	
 	match state:	
 		State.IDLE:
+			hurtbox.monitorable = false
 			velocity = Vector2.ZERO
 			sprite.play("idle")
 		
 		State.MOVING:
+			hurtbox.monitorable = true
 			handle_move()
 
 		State.ATTACKING:
+			hurtbox.monitorable = true
 			handle_attack()
 
 		State.SUMMONING:
+			hurtbox.monitorable = false
 			handle_summon()
 
+		State.POWERUP:
+			hurtbox.monitorable = false
+			print(hurtbox.monitorable)
+			velocity = Vector2.ZERO
+			sprite.play("idle")
+			
+			var tween = get_tree().create_tween()
+			
+			sprite.self_modulate = Color(1.313, 1.313, 1.313)
+			tween.tween_property(sprite, "modulate", Color("f5a3b0"), 0.12)
+			tween.tween_property(self, "scale", Vector2(0.94,0.94), 0.12)
+			tween.tween_property(sprite, "modulate", Color("ffffffff"), 0.12)
+			tween.tween_property(self, "scale", Vector2(1,1), 0.12)
+			tween.set_loops()
+			
+			await get_tree().create_timer(2.2).timeout
+			tween.kill() 
+			
+			sprite.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
+			sprite.modulate = Color("ffffffff")
+			sprite.scale = Vector2(1,1)
+			set_state(State.MOVING)
+			
 		State.CHARGING:
+			hurtbox.monitorable = false
 			handle_charge()
 	
 		State.OVERHEATING:
+			hurtbox.monitorable = false
 			stats.start_overheat()
 			handle_charge()
 			
 		State.STUNNED:
+			hurtbox.monitorable = true
 			velocity = Vector2.ZERO
 			stun_duration = STUN_DURATION_TIME
 			sprite.play("stunned")
 		
 		State.DAMAGED:
+			hurtbox.monitorable = true
 			velocity = Vector2.ZERO
 			sprite.play("damage")
 
@@ -99,9 +129,8 @@ func _physics_process(delta: float) -> void:
 			if player_in_range:
 				set_state(State.ATTACKING)
 			elif phase_two:
-				if charge_cooldown <= 0:	
-					if not(is_on_wall()) and not(player_in_range) and player_in_sight():
-						set_state(State.OVERHEATING)
+				if charge_cooldown <= 0 and not(is_on_wall()) and not(player_in_range) and player_in_sight():
+					set_state(State.OVERHEATING)
 				elif summon_cooldown <= 0:
 					set_state(State.SUMMONING)
 			elif charge_cooldown <= 0:	
@@ -116,13 +145,19 @@ func _physics_process(delta: float) -> void:
 		State.SUMMONING:
 			return
 			
+		State.POWERUP:
+			var direction = global_position.direction_to(player.global_position)
+			if direction.x > 0:
+				sprite.flip_h = false
+			elif direction.x < 0:
+				sprite.flip_h = true
+			
 		State.CHARGING:
 			if charge_duration <= 0:
-				hurtbox.monitorable = true
 				set_state(State.MOVING)
 			if is_on_wall():
 				charge_collision.emit()
-				stats.take_damage(10, "None")
+				stats.take_damage(8, "None")
 				set_state(State.STUNNED)
 			
 			velocity = charge_direction * speed * charge_multiplier
@@ -273,9 +308,7 @@ func _on_range_body_exited(body: Node2D) -> void:
 	
 func _on_damaged():
 	if state == State.OVERHEATING:
-		return
-	if stats.current_health <= stats.max_health/2:
-		phase_two = true
+		return	
 	set_state(State.DAMAGED)	
 
 func _on_death():
@@ -292,15 +325,15 @@ func fade_out(duration: float):
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
 		"damage":
-			set_state(State.MOVING)
+			if phase_two == false and stats.current_health <= stats.max_health/2:
+				phase_two = true
+				set_state(State.POWERUP)
+			else:
+				set_state(State.MOVING)
 	
 		"attack":
 			set_state(State.MOVING)
 			print("enemy finished attack")	
-		
-		"charge":
-			set_state(State.MOVING)
-			print("enemy finished charge")	
 			
 		"summon":		
 			set_state(State.MOVING)

@@ -177,11 +177,11 @@ func _on_damaged():
 	set_state(State.DAMAGED)	
 	
 func _on_death():
-	$AnimatedSprite2D/hurtBox.monitorable = false
+	hurtbox.monitorable = false
 	set_state(State.DYING)
 	
 func _on_boss_death():
-	$AnimatedSprite2D/hurtBox.monitorable = false
+	hurtbox.monitorable = false
 	set_state(State.IDLE)
 	fade_out(1)
 
@@ -197,8 +197,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 			set_state(State.VISIBLE_MOVING)
 		
 		"damage":
-			var x = rng.randi_range(1, 3)  # like a dice roll
-			
+			var x = rng.randi_range(1, 2)  # like a dice rol			
 			if x == 1:
 				set_state(State.INVISIBLE_MOVING)
 			else:

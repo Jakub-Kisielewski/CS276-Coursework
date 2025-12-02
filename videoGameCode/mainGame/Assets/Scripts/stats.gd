@@ -66,7 +66,7 @@ func take_damage(amount: float, attack_effect: String) -> void:
 		
 		"Critical":
 			start_visualise_damage()
-			current_health -= amount*1.3/defense
+			current_health -= amount*1.5/defense
 			print(owner_node.name ," took ", amount*1.5/defense, " damage, current hp = ", current_health)
 		
 		_:

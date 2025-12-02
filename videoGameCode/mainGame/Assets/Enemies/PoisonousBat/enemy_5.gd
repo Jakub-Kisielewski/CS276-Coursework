@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var hitbox_shape : Shape2D
 @export var collider : CollisionShape2D
 
-const STRIKE_COOLDOWN_TIME = 1
+const STRIKE_COOLDOWN_TIME = 0.6
 var strike_direction : Vector2
 var strike_multiplier = 2.2
 var strike_cooldown = 0.0
