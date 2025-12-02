@@ -456,7 +456,7 @@ height = 200.0
 background_mode = 3
 glow_enabled = true
 glow_blend_mode = 0
-glow_hdr_threshold = 0.0
+glow_hdr_threshold = 0.6
 
 [node name="Enemy8" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav", "hurtbox", "player_rays") groups=["enemy"]]
 scale = Vector2(0.9, 0.9)

@@ -69,7 +69,7 @@ func set_state(new_state : State):
 			
 			var tween = get_tree().create_tween()
 			
-			sprite.self_modulate = Color(1.313, 1.313, 1.313)
+			sprite.self_modulate = Color(1.526, 1.526, 1.526, 1.0)
 			tween.tween_property(sprite, "modulate", Color("f5a3b0"), 0.12)
 			tween.tween_property(self, "scale", Vector2(0.94,0.94), 0.12)
 			tween.tween_property(sprite, "modulate", Color("ffffffff"), 0.12)
