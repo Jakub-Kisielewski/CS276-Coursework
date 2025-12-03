@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://bkslhkcc0xrkv"]
+[gd_scene load_steps=66 format=3 uid="uid://bkslhkcc0xrkv"]
 
 [ext_resource type="Script" uid="uid://cptafcit457xi" path="res://Assets/Enemies/Minotaur/enemy_8.gd" id="1_n8nhx"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_a368x"]
@@ -452,12 +452,6 @@ height = 36.0
 radius = 100.0
 height = 200.0
 
-[sub_resource type="Environment" id="Environment_ik8mj"]
-background_mode = 3
-glow_enabled = true
-glow_blend_mode = 0
-glow_hdr_threshold = 0.6
-
 [node name="Enemy8" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav", "hurtbox", "player_rays") groups=["enemy"]]
 scale = Vector2(0.9, 0.9)
 motion_mode = 1
@@ -512,9 +506,6 @@ collision_mask = 15
 [node name="RayCast2D3" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
 collision_mask = 15
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_ik8mj")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

@@ -5592,7 +5592,7 @@ animation = &"battack_down"
 visible = false
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 5
+frame = 10
 
 [node name="hurtBox" type="Area2D" parent="fullAnim"]
 script = ExtResource("9_p8spm")

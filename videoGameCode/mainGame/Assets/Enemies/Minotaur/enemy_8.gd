@@ -62,27 +62,7 @@ func set_state(new_state : State):
 			handle_summon()
 
 		State.POWERUP:
-			hurtbox.monitorable = false
-			print(hurtbox.monitorable)
-			velocity = Vector2.ZERO
-			sprite.play("idle")
-			
-			var tween = get_tree().create_tween()
-			
-			sprite.self_modulate = Color(1.526, 1.526, 1.526, 1.0)
-			tween.tween_property(sprite, "modulate", Color("f5a3b0"), 0.12)
-			tween.tween_property(self, "scale", Vector2(0.94,0.94), 0.12)
-			tween.tween_property(sprite, "modulate", Color("ffffffff"), 0.12)
-			tween.tween_property(self, "scale", Vector2(1,1), 0.12)
-			tween.set_loops()
-			
-			await get_tree().create_timer(2.2).timeout
-			tween.kill() 
-			
-			sprite.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
-			sprite.modulate = Color("ffffffff")
-			sprite.scale = Vector2(1,1)
-			set_state(State.MOVING)
+			handle_powerup()
 			
 		State.CHARGING:
 			hurtbox.monitorable = false
@@ -221,6 +201,29 @@ func handle_follow():
 func handle_move():	
 	sprite.play("move")
 	
+func handle_powerup():
+	hurtbox.monitorable = false
+	print(hurtbox.monitorable)
+	velocity = Vector2.ZERO
+	sprite.play("idle")
+	
+	var tween = get_tree().create_tween()
+	
+	sprite.self_modulate = Color(1.526, 1.526, 1.526, 1.0)
+	tween.tween_property(sprite, "modulate", Color("f5a3b0"), 0.12)
+	tween.tween_property(self, "scale", Vector2(0.94,0.94), 0.12)
+	tween.tween_property(sprite, "modulate", Color("ffffffff"), 0.12)
+	tween.tween_property(self, "scale", Vector2(1,1), 0.12)
+	tween.set_loops()
+	
+	await get_tree().create_timer(2.2).timeout
+	tween.kill() 
+	
+	sprite.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
+	sprite.modulate = Color("ffffffff")
+	sprite.scale = Vector2(1,1)
+	set_state(State.MOVING)
+
 func handle_attack():
 	sprite.play("attack")
 
@@ -236,7 +239,7 @@ func handle_attack():
 func handle_charge():
 	sprite.play("charge")
 	hurtbox.monitorable = false
-	
+
 	if state == State.CHARGING:
 		charge_cooldown = CHARGE_COOLDOWN_TIME
 		charge_duration = CHARGE_DURATION_TIME

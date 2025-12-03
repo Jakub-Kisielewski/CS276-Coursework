@@ -25,6 +25,7 @@ player=""
 enemy=""
 canvas=""
 camera=""
+world=""
 
 [input]
 

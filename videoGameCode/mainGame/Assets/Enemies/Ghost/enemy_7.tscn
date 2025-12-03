@@ -14,7 +14,7 @@
 [sub_resource type="Resource" id="Resource_ud2rd"]
 resource_local_to_scene = true
 script = ExtResource("2_fsqma")
-max_health = 130.0
+max_health = 160.0
 damage = 13.0
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"

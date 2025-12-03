@@ -1,4 +1,4 @@
-[gd_scene load_steps=133 format=3 uid="uid://btwfd83br58hn"]
+[gd_scene load_steps=134 format=3 uid="uid://btwfd83br58hn"]
 
 [ext_resource type="Script" uid="uid://cvm5sbwlba1y6" path="res://Assets/Enemies/Demon/enemy_6.gd" id="1_atlj7"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_pvinr"]
@@ -887,6 +887,12 @@ height = 36.0
 radius = 130.0
 height = 260.0
 
+[sub_resource type="Environment" id="Environment_mk1nm"]
+background_mode = 3
+glow_enabled = true
+glow_blend_mode = 1
+glow_hdr_threshold = 0.6
+
 [node name="Enemy6" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
@@ -926,6 +932,9 @@ collision_layer = 2
 position = Vector2(-1, -1)
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mk1nm")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

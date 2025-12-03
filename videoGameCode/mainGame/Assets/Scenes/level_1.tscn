@@ -1,10 +1,13 @@
-[gd_scene load_steps=12 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=15 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_qfi48"]
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player_b.tscn" id="3_qfi48"]
-[ext_resource type="PackedScene" uid="uid://bkslhkcc0xrkv" path="res://Assets/Enemies/Minotaur/enemy_8.tscn" id="4_2evn1"]
-[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="5_2evn1"]
+[ext_resource type="Environment" uid="uid://rvb4jwyj6lko" path="res://Assets/Scenes/dark_world.tres" id="4_0fbdl"]
+[ext_resource type="Environment" uid="uid://cp3vl3du8x0j5" path="res://Assets/Scenes/standard_world.tres" id="4_gfgg3"]
+[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="5_nnog6"]
+[ext_resource type="Script" uid="uid://ccqb3iwnfc1ax" path="res://Assets/Scenes/world.gd" id="5_pk5fv"]
+[ext_resource type="PackedScene" uid="uid://bkslhkcc0xrkv" path="res://Assets/Enemies/Minotaur/enemy_8.tscn" id="7_q0a32"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_637wq"]
 texture = ExtResource("1_vw6f2")
@@ -2103,9 +2106,10 @@ navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_637wq")
 sources/1 = SubResource("TileSetAtlasSource_2evn1")
 
-[sub_resource type="Resource" id="Resource_2evn1"]
+[sub_resource type="Resource" id="Resource_k5bmm"]
 resource_local_to_scene = true
-script = ExtResource("5_2evn1")
+script = ExtResource("5_nnog6")
+max_health = 400.0
 damage = 16.0
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
@@ -2153,6 +2157,12 @@ theme_override_font_sizes/font_size = 50
 text = "100"
 horizontal_alignment = 2
 
-[node name="Enemy8" parent="." instance=ExtResource("4_2evn1")]
-position = Vector2(-77, -141)
-stats = SubResource("Resource_2evn1")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." groups=["world"]]
+environment = ExtResource("4_gfgg3")
+script = ExtResource("5_pk5fv")
+standard_world = ExtResource("4_gfgg3")
+dark_world = ExtResource("4_0fbdl")
+
+[node name="Enemy8" parent="." instance=ExtResource("7_q0a32")]
+position = Vector2(-12, 139)
+stats = SubResource("Resource_k5bmm")
