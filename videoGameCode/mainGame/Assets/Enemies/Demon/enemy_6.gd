@@ -134,7 +134,7 @@ func handle_special():
 		hitbox.position = Vector2(20, 7)
 	
 	hitbox.rotation_degrees = 90
-	hitbox.scale = Vector2(2.2,2.2)
+	hitbox.scale = Vector2(2,2)
 
 func handle_teleport():
 	teleport_cooldown = TELEPORT_COOLDOWN_TIME

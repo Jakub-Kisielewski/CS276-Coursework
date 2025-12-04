@@ -128,7 +128,7 @@ func handle_strike():
 	strike_cooldown = STRIKE_COOLDOWN_TIME
 
 	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
-	hitbox.scale = Vector2(1,1)
+	hitbox.scale = Vector2(1.5,1.5)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	

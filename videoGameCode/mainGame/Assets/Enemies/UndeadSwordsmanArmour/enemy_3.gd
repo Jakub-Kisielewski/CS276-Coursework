@@ -108,7 +108,7 @@ func handle_attack():
 	sprite.play("attack")
 
 	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
-	hitbox.scale = Vector2(1.6,1.6)	
+	hitbox.scale = Vector2(1.8,1.8)	
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	

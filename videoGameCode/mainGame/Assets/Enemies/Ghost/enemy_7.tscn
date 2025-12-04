@@ -19,7 +19,7 @@ damage = 13.0
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yviti"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
 radius = 13.0
@@ -532,7 +532,7 @@ script = ExtResource("1_7aefy")
 sprite = NodePath("AnimatedSprite2D")
 nav = NodePath("Nav")
 stats = SubResource("Resource_ud2rd")
-hitbox_shape = SubResource("CircleShape2D_t3ldh")
+hitbox_shape = SubResource("CapsuleShape2D_yviti")
 hurtbox = NodePath("AnimatedSprite2D/hurtBox")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -541,8 +541,8 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"arise"
-frame = 8
+animation = &"attack"
+frame = 10
 frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]

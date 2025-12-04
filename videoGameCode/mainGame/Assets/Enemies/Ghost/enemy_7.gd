@@ -12,6 +12,7 @@ const THRUST_COOLDOWN_TIME = 0.8
 var thrust_direction : Vector2
 var thrust_multiplier = 2.2
 var thrust_cooldown = 0.0
+var lifeslash = false
 
 var player_in_range = false
 @export var speed = 80.0
@@ -37,7 +38,7 @@ func set_state(new_state : State):
 		State.INVISIBLE_MOVING:
 			hurtbox.monitorable = false		
 			speed = 100
-			sprite.modulate = Color(00000064)
+			sprite.modulate = Color(1.825, 0.246, 0.357, 1.0)
 			handle_move()
 	
 		State.VISIBLE_MOVING:
@@ -83,6 +84,7 @@ func _physics_process(delta: float) -> void:
 
 		State.INVISIBLE_MOVING:
 			if player_in_range:
+				lifeslash = true
 				set_state(State.ATTACKING)
 			handle_follow()
 	
@@ -123,9 +125,14 @@ func handle_move():
 	
 func handle_attack():
 	sprite.play("attack")
-
-	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
-	hitbox.scale = Vector2(2.3,2.3)	
+	
+	var hitbox
+	if lifeslash:
+		hitbox = hitBox.new(stats, "Lifeslash", 0, hitbox_shape)
+	else:
+		hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
+		
+	hitbox.scale = Vector2(1.6,1.8)	
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
@@ -140,13 +147,19 @@ func handle_thrust():
 	sprite.play("thrust")
 	
 	thrust_cooldown = THRUST_COOLDOWN_TIME
-
-	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
+	
+	var hitbox
+	if lifeslash:
+		hitbox = hitBox.new(stats, "Lifeslash", 0, hitbox_shape)
+	else:
+		hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
+	
+	hitbox.rotation_degrees = 90	
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
 	hitbox.position.y = 3
-	hitbox.scale = Vector2(2.7,2.7)
+	hitbox.scale = Vector2(1.9,2.6)
 	
 	var vector_to_player : Vector2 = player.global_position - global_position
 	thrust_direction = vector_to_player.normalized()
@@ -168,6 +181,8 @@ func _on_range_body_entered(body: Node2D) -> void:
 func _on_range_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		if state not in [State.IDLE, State.DAMAGED, State.DYING] and thrust_cooldown <= 0:
+			if state == State.INVISIBLE_MOVING:
+				lifeslash = true
 			set_state(State.THRUSTING)
 		player_in_range = false
 		print("player is no longer in range")
@@ -197,7 +212,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 			set_state(State.VISIBLE_MOVING)
 		
 		"damage":
-			var x = rng.randi_range(1, 2)  # like a dice rol			
+			var x = rng.randi_range(1, 2)  # like a dice roll			
 			if x == 1:
 				set_state(State.INVISIBLE_MOVING)
 			else:
@@ -207,9 +222,13 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 			queue_free()
 	
 		"attack":
+			if lifeslash:
+				lifeslash = false
 			set_state(State.VISIBLE_MOVING)
 			print("enemy finished attack")	
 		
 		"thrust":
+			if lifeslash:
+				lifeslash = false
 			set_state(State.VISIBLE_MOVING)
 			print("enemy finished thrust")	

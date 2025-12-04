@@ -87,19 +87,6 @@ func take_damage(amount: float, attack_effect: String) -> void:
 	else:
 		damage_taken.emit()
 
-func start_darkness():
-	world.set_dark()
-	
-	dark_timer = Timer.new()
-	dark_timer.wait_time = 3.6
-	dark_timer.autostart = true
-	owner_node.add_child(dark_timer)
-	dark_timer.timeout.connect(end_darkness)
-	
-func end_darkness():
-	dark_timer.queue_free()
-	world.set_standard()
-
 func start_visualise_damage():
 	if damage_timer != null:
 		damage_timer.queue_free()
@@ -119,6 +106,22 @@ func end_visualise_damage():
 		set_status(Status.OVERHEATING)
 	else:
 		set_status(Status.HEALTHY)
+
+
+func start_darkness():
+	if dark_timer != null:
+		dark_timer.queue_free()
+	
+	world.set_dark()	
+	dark_timer = Timer.new()
+	dark_timer.wait_time = 3.6
+	dark_timer.autostart = true
+	owner_node.add_child(dark_timer)
+	dark_timer.timeout.connect(end_darkness)
+	
+func end_darkness():
+	dark_timer.queue_free()
+	world.set_standard()
 
 func start_overheat():
 	if overheat_timer != null:

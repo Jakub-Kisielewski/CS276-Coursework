@@ -216,7 +216,7 @@ func handle_powerup():
 	tween.tween_property(self, "scale", Vector2(1,1), 0.12)
 	tween.set_loops()
 	
-	await get_tree().create_timer(2.2).timeout
+	await get_tree().create_timer(3).timeout
 	tween.kill() 
 	
 	sprite.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
@@ -234,7 +234,7 @@ func handle_attack():
 	var vector_to_player : Vector2 = player.global_position - global_position
 	hitbox.position = vector_to_player.normalized() * 20
 	hitbox.rotation = vector_to_player.angle()
-	hitbox.scale = Vector2(2.1,2.1)
+	hitbox.scale = Vector2(1.9,1.9)
 
 func handle_charge():
 	sprite.play("charge")
@@ -248,7 +248,7 @@ func handle_charge():
 		charge_duration = OVERHEAT_DURATION_TIME
 
 	var hitbox = hitBox.new(stats, "Critical", 0, hitbox_shape)
-	hitbox.scale = Vector2(3,3)
+	hitbox.scale = Vector2(2.6,2.6)
 	state_changed.connect(hitbox.queue_free)
 	if state == State.CHARGING:
 		hitbox.successful_hit.connect(set_state.bind(State.MOVING))        
