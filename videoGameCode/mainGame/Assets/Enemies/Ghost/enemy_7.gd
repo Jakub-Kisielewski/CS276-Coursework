@@ -38,7 +38,7 @@ func set_state(new_state : State):
 		State.INVISIBLE_MOVING:
 			hurtbox.monitorable = false		
 			speed = 100
-			sprite.modulate = Color(1.825, 0.246, 0.357, 1.0)
+			sprite.modulate = Color(1.719, 0.229, 0.334, 1.0)
 			handle_move()
 	
 		State.VISIBLE_MOVING:
@@ -128,6 +128,7 @@ func handle_attack():
 	
 	var hitbox
 	if lifeslash:
+		print("life")
 		hitbox = hitBox.new(stats, "Lifeslash", 0, hitbox_shape)
 	else:
 		hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
@@ -150,6 +151,7 @@ func handle_thrust():
 	
 	var hitbox
 	if lifeslash:
+		print("life")
 		hitbox = hitBox.new(stats, "Lifeslash", 0, hitbox_shape)
 	else:
 		hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
@@ -159,7 +161,7 @@ func handle_thrust():
 	add_child(hitbox)
 	
 	hitbox.position.y = 3
-	hitbox.scale = Vector2(1.9,2.6)
+	hitbox.scale = Vector2(1.8,2.7)
 	
 	var vector_to_player : Vector2 = player.global_position - global_position
 	thrust_direction = vector_to_player.normalized()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=25 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_qfi48"]
@@ -7,8 +7,10 @@
 [ext_resource type="Environment" uid="uid://cp3vl3du8x0j5" path="res://Assets/Scenes/standard_world.tres" id="4_gfgg3"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="5_nnog6"]
 [ext_resource type="Script" uid="uid://ccqb3iwnfc1ax" path="res://Assets/Scenes/world.gd" id="5_pk5fv"]
-[ext_resource type="PackedScene" uid="uid://bkslhkcc0xrkv" path="res://Assets/Enemies/Minotaur/enemy_8.tscn" id="7_q0a32"]
 [ext_resource type="PackedScene" uid="uid://dl5lpjcwe5tsx" path="res://Assets/Enemies/Ghost/enemy_7.tscn" id="9_0fbdl"]
+[ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/enemy_4.tscn" id="9_gfgg3"]
+[ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/enemy_1.tscn" id="10_2gvtk"]
+[ext_resource type="PackedScene" uid="uid://dklpobami1hkg" path="res://Assets/Enemies/PoisonousBat/enemy_5.tscn" id="11_2ifi5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_637wq"]
 texture = ExtResource("1_vw6f2")
@@ -2107,7 +2109,7 @@ navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_637wq")
 sources/1 = SubResource("TileSetAtlasSource_2evn1")
 
-[sub_resource type="Resource" id="Resource_0fbdl"]
+[sub_resource type="Resource" id="Resource_q0a32"]
 resource_local_to_scene = true
 script = ExtResource("5_nnog6")
 max_health = 160.0
@@ -2115,11 +2117,54 @@ damage = 13.0
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
-[sub_resource type="Resource" id="Resource_pk5fv"]
+[sub_resource type="Resource" id="Resource_gn4xj"]
 resource_local_to_scene = true
 script = ExtResource("5_nnog6")
-max_health = 400.0
-damage = 16.0
+damage = 13.0
+faction = 1
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_2v7sf"]
+resource_local_to_scene = true
+script = ExtResource("5_nnog6")
+faction = 1
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_hjg8p"]
+resource_local_to_scene = true
+script = ExtResource("5_nnog6")
+faction = 1
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_50q3g"]
+resource_local_to_scene = true
+script = ExtResource("5_nnog6")
+max_health = 80.0
+damage = 8.0
+faction = 1
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_tb6r1"]
+resource_local_to_scene = true
+script = ExtResource("5_nnog6")
+max_health = 80.0
+damage = 8.0
+faction = 1
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_2kdgr"]
+resource_local_to_scene = true
+script = ExtResource("5_nnog6")
+max_health = 80.0
+damage = 8.0
+faction = 1
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_gfgg3"]
+resource_local_to_scene = true
+script = ExtResource("5_nnog6")
+max_health = 160.0
+damage = 13.0
 faction = 1
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
@@ -2172,10 +2217,34 @@ script = ExtResource("5_pk5fv")
 standard_world = ExtResource("4_gfgg3")
 dark_world = ExtResource("4_0fbdl")
 
-[node name="Enemy7" parent="." instance=ExtResource("9_0fbdl")]
-position = Vector2(-150, 65)
-stats = SubResource("Resource_0fbdl")
+[node name="Enemy8" parent="." instance=ExtResource("9_0fbdl")]
+position = Vector2(34, -146)
+stats = SubResource("Resource_q0a32")
 
-[node name="Enemy8" parent="." instance=ExtResource("7_q0a32")]
-position = Vector2(-93, -156)
-stats = SubResource("Resource_pk5fv")
+[node name="Enemy4" parent="." instance=ExtResource("9_gfgg3")]
+position = Vector2(-141, -157)
+stats = SubResource("Resource_gn4xj")
+
+[node name="Enemy1" parent="." instance=ExtResource("10_2gvtk")]
+position = Vector2(-61, -106)
+stats = SubResource("Resource_2v7sf")
+
+[node name="Enemy2" parent="." instance=ExtResource("10_2gvtk")]
+position = Vector2(-36, -182)
+stats = SubResource("Resource_hjg8p")
+
+[node name="Enemy5" parent="." instance=ExtResource("11_2ifi5")]
+position = Vector2(-90, -163)
+stats = SubResource("Resource_50q3g")
+
+[node name="Enemy6" parent="." instance=ExtResource("11_2ifi5")]
+position = Vector2(51, -70)
+stats = SubResource("Resource_tb6r1")
+
+[node name="Enemy7" parent="." instance=ExtResource("11_2ifi5")]
+position = Vector2(53, -199)
+stats = SubResource("Resource_2kdgr")
+
+[node name="Enemy9" parent="." instance=ExtResource("9_0fbdl")]
+position = Vector2(-164, -96)
+stats = SubResource("Resource_gfgg3")
