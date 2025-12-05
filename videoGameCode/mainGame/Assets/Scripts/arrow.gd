@@ -2,7 +2,6 @@ extends Area2D
 
 var speed = 600.0
 @export var arrow_stats : Stats
-@export var weapon_data: WeaponData 
 var direction : Vector2
 var attacker_stats : Stats
 var hitbox : hitBox
@@ -13,7 +12,7 @@ func _ready():
 	hitbox_shape.radius = 5
 	hitbox_shape.height = 10
 	
-	hitbox = hitBox.new(attacker_stats, "None", 2.0, hitbox_shape, weapon_data)
+	hitbox = hitBox.new(attacker_stats, "None", 2.0, hitbox_shape)
 	hitbox.position = position
 	hitbox.rotation = direction.angle()
 	
