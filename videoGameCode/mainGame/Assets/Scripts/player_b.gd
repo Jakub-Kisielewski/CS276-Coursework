@@ -11,11 +11,12 @@ extends CharacterBody2D
 @onready var bowAnim = $bowAnim
 
 @export var stats : Stats
-var health_label: Label
+var canvas : CanvasLayer
+var health_label : Label
+var value_label : Label
 
 var hitbox_shape : Shape2D
 
-var canvas : CanvasLayer
 var orig_spear_pos : Vector2
 var orig_pos : Vector2
 const DASH_COOLDOWN_TIME = 1.2
@@ -57,10 +58,10 @@ func _ready():
 	stats.damage_taken.connect(_on_damaged)
 	orig_spear_pos = spearAnim.position
 	orig_pos = position
-	
-	health_label = get_tree().get_first_node_in_group("canvas").get_node("Control/Health")
-	
 
+	canvas = get_tree().get_first_node_in_group("canvas")
+	health_label = canvas.get_node("Health")
+	value_label = canvas.get_node("Value")
 
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
@@ -371,16 +372,20 @@ func handle_timers(delta: float):
 
 	
 
-func _on_death():
+func _on_death() -> void:
 	print("you should be dead")
 	dying = true
 	anim_state.travel("Sdeath")
 	
-func _on_damaged():
+func _on_damaged() -> void:
 	pass
 	
-func _on_health_changed():	
+func _on_health_changed() -> void:	
 	health_label.text = str(stats.current_health)
+
+func collect_value(enemy_value : int) -> void:
+	stats.value = stats.value + enemy_value
+	value_label.text = str(stats.value)
 
 func player_busy() -> bool:
 	return attacking or dying
@@ -389,8 +394,19 @@ func player_busy() -> bool:
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name.begins_with("Sdeath") or anim_name.begins_with("death"):
-		call_deferred("queue_free")
-		get_tree().quit()
+		health_label.visible = false
+		value_label.visible = false
+		stats.initialise_stats()
+		
+		#Temporary
+		$fullAnim/hurtBox.set_deferred("monitorable", false)
+		fullAnim.self_modulate.a = 0
+		#Temporary
+		
+		var deathBGRND : ColorRect = canvas.get_node("DeathBGRND")
+		var menutaur : Menutaur = preload("res://Assets/Enemies/Minotaur/menu(taur).tscn").instantiate()
+		canvas.add_child(menutaur)
+		menutaur.set_BGRND(deathBGRND)
 		
 	if anim_name.begins_with("bbody"):
 		print("shooting arrow")

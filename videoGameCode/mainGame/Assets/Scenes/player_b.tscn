@@ -22,7 +22,7 @@
 
 [sub_resource type="Resource" id="Resource_2crlu"]
 script = ExtResource("2_p8spm")
-max_health = 10000.0
+max_health = 200.0
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7sn2"]
@@ -5591,6 +5591,7 @@ animation = &"battack_down"
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
+frame = 6
 
 [node name="hurtBox" type="Area2D" parent="fullAnim"]
 script = ExtResource("9_p8spm")

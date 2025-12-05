@@ -1,7 +1,7 @@
 [gd_scene load_steps=59 format=3 uid="uid://vssh1p80uxnj"]
 
 [ext_resource type="Texture2D" uid="uid://ciixyqu06owco" path="res://Assets/Sprites/Skeleton enemy.png" id="1_8a6c7"]
-[ext_resource type="Script" uid="uid://bjeu2daw8ap7g" path="res://Assets/Enemies/BasicSkeleton/enemy_1.gd" id="1_fa6de"]
+[ext_resource type="Script" uid="uid://bjeu2daw8ap7g" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.gd" id="1_fa6de"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_yc8sv"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="3_ey4mj"]
 
@@ -9,6 +9,7 @@
 resource_local_to_scene = true
 script = ExtResource("2_yc8sv")
 faction = 1
+value = 20
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vb2cf"]
@@ -417,7 +418,7 @@ height = 33.0
 radius = 55.0
 height = 110.0
 
-[node name="Enemy1" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
+[node name="BasicSkeleton" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_fa6de")

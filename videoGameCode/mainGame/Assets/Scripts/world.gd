@@ -7,8 +7,8 @@ class_name World extends WorldEnvironment
 func _ready() -> void:
 	pass
 
-func set_standard():
+func set_standard() -> void:
 	environment = standard_world
 
-func set_dark():
+func set_dark() -> void:
 	environment = dark_world
