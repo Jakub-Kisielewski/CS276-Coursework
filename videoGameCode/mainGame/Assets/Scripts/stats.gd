@@ -17,7 +17,6 @@ var sprite : AnimatedSprite2D
 @export var defense : float = 1 #Damage taken is divided by defense
 @export var damage : float = 10
 @export var faction : Faction = Faction.PLAYER
-@export var value : int
 
 enum Status { HEALTHY, POISONED, DAMAGED, OVERHEATING }
 var status : Status = Status.HEALTHY;
@@ -45,10 +44,7 @@ func set_owner_node(node: Node) -> void:
 	else:
 		sprite = owner_node.get_node("AnimatedSprite2D")
 
-func get_health() -> int:
-	return current_health
-
-func set_status(new_status : Status) -> void:
+func set_status(new_status : Status):
 	status = new_status
 	match status:
 		Status.HEALTHY:
@@ -64,33 +60,34 @@ func take_damage(amount: float, attack_effect: String) -> void:
 	match attack_effect:
 		"Poison":
 			start_poison()
-			current_health = max(0, current_health - amount/defense)
+			current_health -= amount/defense
 			print(owner_node.name ," took ", amount/defense, " damage, current hp = ", current_health)
 			
 		"Lifeslash":
 			start_darkness()
 			
 			start_visualise_damage()
-			current_health = max(0, 0.8*current_health)
+			current_health = 0.8*current_health
 			print(owner_node.name ," took ", current_health, " damage, current hp = ", current_health)
 		
 		"Critical":
 			start_visualise_damage()
-			current_health = max(0, current_health - amount*1.5/defense)
+			current_health -= amount*1.5/defense
 			print(owner_node.name ," took ", amount*1.5/defense, " damage, current hp = ", current_health)
 		
 		_:
 			start_visualise_damage()
-			current_health = max(0, current_health - amount/defense)
+			current_health -= amount/defense
 			print(owner_node.name ," took ", amount/defense, " damage, current hp = ", current_health)
 
 	health_changed.emit()
-	if current_health == 0:
+	if current_health <= 0:
+		current_health = 0
 		health_depleted.emit()
 	else:
 		damage_taken.emit()
 
-func start_visualise_damage() -> void:
+func start_visualise_damage():
 	if damage_timer != null:
 		damage_timer.queue_free()
 
@@ -101,7 +98,7 @@ func start_visualise_damage() -> void:
 	owner_node.add_child(damage_timer)
 	damage_timer.timeout.connect(end_visualise_damage)
 
-func end_visualise_damage() -> void:
+func end_visualise_damage():
 	damage_timer.queue_free()
 	if poison_timer != null:
 		set_status(Status.POISONED)
@@ -111,7 +108,7 @@ func end_visualise_damage() -> void:
 		set_status(Status.HEALTHY)
 
 
-func start_darkness() -> void:
+func start_darkness():
 	if dark_timer != null:
 		dark_timer.queue_free()
 	
@@ -122,11 +119,11 @@ func start_darkness() -> void:
 	owner_node.add_child(dark_timer)
 	dark_timer.timeout.connect(end_darkness)
 	
-func end_darkness() -> void:
+func end_darkness():
 	dark_timer.queue_free()
 	world.set_standard()
 
-func start_overheat() -> void:
+func start_overheat():
 	if overheat_timer != null:
 		overheat_timer.queue_free()
 
@@ -142,7 +139,7 @@ func start_overheat() -> void:
 	owner_node.add_child(overheat_timer)
 	overheat_timer.timeout.connect(take_overheat_damage)
 
-func start_poison() -> void:
+func start_poison():
 	if poison_timer != null:
 		poison_timer.queue_free()
 	
@@ -150,26 +147,26 @@ func start_poison() -> void:
 	print(owner_node.name + " has been poisoned")	
 	
 	poison_timer = Timer.new()
-	poison_hits_left = 15
+	poison_hits_left = 5
 	
-	poison_timer.wait_time = 1
+	poison_timer.wait_time = 2
 	poison_timer.one_shot = false
 	poison_timer.autostart = true
 	owner_node.add_child(poison_timer)
 	poison_timer.timeout.connect(take_poison_damage)
 	
-func take_poison_damage() -> void:
-	take_damage(2, "None")
+func take_poison_damage():
+	take_damage(3, "None")
 	poison_hits_left -= 1
 	if poison_hits_left == 0:
 		poison_timer.queue_free()
 		set_status(Status.HEALTHY)
 		print(owner_node.name + " is no longer poisoned")
 		
-func take_overheat_damage() -> void:
+func take_overheat_damage():
 	take_damage(3, "None")
 
-func end_overheat() -> void:
+func end_overheat():
 	if overheat_timer != null:
 		overheat_timer.queue_free()
 		

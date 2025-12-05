@@ -1,6 +1,6 @@
 [gd_scene load_steps=92 format=3 uid="uid://ctews1r14aqyh"]
 
-[ext_resource type="Script" uid="uid://6eh0032pny6h" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.gd" id="1_vhwpw"]
+[ext_resource type="Script" uid="uid://6eh0032pny6h" path="res://Assets/Enemies/UndeadAxeman/enemy_4.gd" id="1_vhwpw"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_0ejd5"]
 [ext_resource type="Texture2D" uid="uid://bh62q2v10soqr" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Attack1.png" id="3_vhwpw"]
 [ext_resource type="Texture2D" uid="uid://xivetvjg5ocb" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Hurt.png" id="4_0ejd5"]
@@ -15,7 +15,6 @@ resource_local_to_scene = true
 script = ExtResource("2_0ejd5")
 damage = 13.0
 faction = 1
-value = 20
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ejd5"]
@@ -607,7 +606,7 @@ height = 40.0
 radius = 105.0
 height = 210.0
 
-[node name="UndeadAxeman" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
+[node name="Enemy4" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0

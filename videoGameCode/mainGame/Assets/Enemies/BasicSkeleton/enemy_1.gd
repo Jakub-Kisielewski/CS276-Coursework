@@ -1,20 +1,20 @@
 extends CharacterBody2D
 
-@onready var player : Node = get_tree().get_first_node_in_group("player")
+@onready var player = get_tree().get_first_node_in_group("player")
 @export var sprite : AnimatedSprite2D
 @export var nav: NavigationAgent2D
 @export var stats : Stats
 @export var hitbox_shape : Shape2D
 
-var player_in_range : bool = false
-@export var speed : float = 100.0
+var player_in_range = false
+@export var speed = 100.0
 
 enum State { ARISING, IDLE, MOVING, ATTACKING, DAMAGED, DYING }
 var state : State = State.IDLE
 signal state_changed
 
 
-func set_state(new_state : State) -> void:
+func set_state(new_state : State):
 	state = new_state
 	state_changed.emit()
 	
@@ -40,7 +40,7 @@ func set_state(new_state : State) -> void:
 		State.DYING:
 			sprite.play("death")
 
-func _ready() -> void:
+func _ready():
 	stats.set_owner_node(self)
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
@@ -72,9 +72,9 @@ func _physics_process(delta: float) -> void:
 		State.DYING:
 			pass
 
-func handle_follow() -> void:
+func handle_follow():
 	nav.target_position = player.global_position	
-	var next : Vector2 = nav.get_next_path_position()
+	var next = nav.get_next_path_position()
 	velocity = global_position.direction_to(next) * speed	
 	if velocity.x > 0:
 		sprite.flip_h = false
@@ -82,11 +82,11 @@ func handle_follow() -> void:
 		sprite.flip_h = true
 	move_and_slide()
 
-func handle_move() -> void:	
+func handle_move():	
 	sprite.play("move")
 	
-func handle_attack() -> void:
-	var hitbox : hitBox = hitBox.new(stats, "None", 0, hitbox_shape)
+func handle_attack():
+	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
 	hitbox.scale = Vector2(1.4,1.4);
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
@@ -100,9 +100,9 @@ func handle_attack() -> void:
 	else:
 		sprite.play("attack_down")
 
-func get_animation_length(animation: String) -> float:
-	var frames : int = sprite.sprite_frames.get_frame_count(animation)
-	var fps : float = sprite.sprite_frames.get_animation_speed(animation)
+func get_animation_length(animation: String):
+	var frames = sprite.sprite_frames.get_frame_count(animation)
+	var fps = sprite.sprite_frames.get_animation_speed(animation)
 	return frames/fps
 
 func _on_range_body_entered(body: Node2D) -> void:
@@ -116,21 +116,20 @@ func _on_range_body_exited(body: Node2D) -> void:
 		print("player is no longer in range")
 		
 	
-func _on_damaged() -> void:
+func _on_damaged():
 	set_state(State.DAMAGED)	
 
-func _on_death() -> void:
-	$AnimatedSprite2D/hurtBox.set_deferred("monitorable", false)
-	player.collect_value(stats.value)
+func _on_death():
+	$AnimatedSprite2D/hurtBox.monitorable = false
 	set_state(State.DYING)
 	
-func _on_boss_death() -> void:
-	$AnimatedSprite2D/hurtBox.set_deferred("monitorable", false)
+func _on_boss_death():
+	$AnimatedSprite2D/hurtBox.monitorable = false
 	set_state(State.IDLE)
 	fade_out(1)
 
-func fade_out(duration: float) -> void:
-	var tween : Tween = create_tween()
+func fade_out(duration: float):
+	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, duration)
 	tween.tween_callback(queue_free)
 	

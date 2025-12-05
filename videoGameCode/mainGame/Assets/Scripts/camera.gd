@@ -9,8 +9,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 	
-func shake() -> void:
-	var tween : Tween = get_tree().create_tween()
+func shake():
+	var tween = get_tree().create_tween()
 	tween.tween_property(self, "offset", Vector2(shake_size, -shake_size), 0.08).set_trans(Tween.TRANS_SINE)
 	tween.tween_property(self, "offset", Vector2(-shake_size, shake_size), 0.08).set_trans(Tween.TRANS_SINE)
 	tween.tween_property(self, "offset", Vector2.ZERO, 0.08).set_trans(Tween.TRANS_SINE)

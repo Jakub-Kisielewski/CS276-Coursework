@@ -1,25 +1,30 @@
+#Always ensure bat sprite is above player sprite
 extends CharacterBody2D
 
-@onready var player : Node = get_tree().get_first_node_in_group("player")
+@onready var player = get_tree().get_first_node_in_group("player")
 @export var sprite : AnimatedSprite2D
 @export var nav: NavigationAgent2D
 @export var stats : Stats
 @export var hitbox_shape : Shape2D
+@export var collider : CollisionShape2D
 
-const THRUST_COOLDOWN_TIME : float = 0.8
-var thrust_direction : Vector2
-var thrust_multiplier : float = 2.2
-var thrust_cooldown : float = 0.0
+const STRIKE_COOLDOWN_TIME = 0.3
+var strike_direction : Vector2
+var strike_multiplier = 2.2
+var strike_cooldown = 0.0
 
-var player_in_range : bool = false
-@export var speed : float = 80.0
+var player_in_range = false
+@export var speed = 100.0
 
-enum State { ARISING, IDLE, MOVING, ATTACKING, THRUSTING, DAMAGED, DYING }
+enum State { ARISING, IDLE, MOVING, BITING, STRIKING, DAMAGED, DYING }
 var state : State = State.IDLE
 signal state_changed
 
 
-func set_state(new_state : State) -> void:
+func set_state(new_state : State):
+	if state == State.STRIKING:
+		set_collision(true)
+	
 	state = new_state
 	state_changed.emit()
 	
@@ -35,11 +40,11 @@ func set_state(new_state : State) -> void:
 		State.MOVING:
 			handle_move()
 
-		State.ATTACKING:
-			handle_attack()
+		State.BITING:
+			handle_bite()
 
-		State.THRUSTING:
-			handle_thrust()
+		State.STRIKING:
+			handle_strike()
 
 		State.DAMAGED:
 			velocity = Vector2.ZERO
@@ -49,11 +54,11 @@ func set_state(new_state : State) -> void:
 			velocity = Vector2.ZERO
 			sprite.play("death")
 
-func _ready() -> void:
+func _ready():
 	stats.set_owner_node(self)
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
-	
+
 	set_state(State.ARISING)
 
 func _physics_process(delta: float) -> void:
@@ -65,90 +70,97 @@ func _physics_process(delta: float) -> void:
 	match state:
 		State.ARISING:
 			return
-		
+			
 		State.IDLE:
 			return
 		
 		State.MOVING:
 			if player_in_range:
-				set_state(State.ATTACKING)
+				set_state(State.BITING)
 			handle_follow()
 
-		State.ATTACKING:
+		State.BITING:
 			handle_follow()
 
-		State.THRUSTING:
-			velocity = thrust_direction * speed * thrust_multiplier
+		State.STRIKING:
+			velocity = strike_direction * speed * strike_multiplier
 			if velocity.x > 0:
-				sprite.flip_h = false
-			elif velocity.x < 0:
 				sprite.flip_h = true
+			elif velocity.x < 0:
+				sprite.flip_h = false
 			move_and_slide()
-			
+
 		State.DAMAGED:
-			return
+			pass
 
 		State.DYING:
-			return
+			pass
 
-func handle_follow() -> void:
+func handle_follow():
 	nav.target_position = player.global_position	
-	var next : Vector2 = nav.get_next_path_position()
+	var next = nav.get_next_path_position()
 	velocity = global_position.direction_to(next) * speed	
 	if velocity.x > 0:
-		sprite.flip_h = false
-	elif velocity.x < 0:
 		sprite.flip_h = true
+	elif velocity.x < 0:
+		sprite.flip_h = false
 	move_and_slide()
 
-func handle_move()-> void :	
+func handle_move():	
 	sprite.play("move")
 	
-func handle_attack() -> void:
-	sprite.play("attack")
+func handle_bite():
+	sprite.play("bite")
 
-	var hitbox : hitBox = hitBox.new(stats, "None", 0, hitbox_shape)
-	hitbox.scale = Vector2(1.8,1.8)	
+	var hitbox = hitBox.new(stats, "Poison", 0, hitbox_shape)
+	hitbox.scale = Vector2(0.8,0.8);
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
 	var vector_to_player : Vector2 = player.global_position - global_position
-	hitbox.rotation = vector_to_player.angle()
 	hitbox.position = vector_to_player.normalized() * 20
+	hitbox.rotation = vector_to_player.angle()
 
-func handle_thrust() -> void:
-	sprite.play("thrust")
+func handle_strike():
+	set_collision(false)
 	
-	thrust_cooldown = THRUST_COOLDOWN_TIME
+	sprite.play("strike")
+	strike_cooldown = STRIKE_COOLDOWN_TIME
 
-	var hitbox : hitBox = hitBox.new(stats, "None", 0, hitbox_shape)
+	var hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
+	hitbox.scale = Vector2(1.5,1.5)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
-	hitbox.position.y = 9
-	hitbox.scale = Vector2(2.7,2.7)
-	
 	var vector_to_player : Vector2 = player.global_position - global_position
-	thrust_direction = vector_to_player.normalized()
+	strike_direction = vector_to_player.normalized()
 
-func handle_timers(delta: float) -> void:
-	if thrust_cooldown > 0.0:
-		thrust_cooldown -= delta
-
-func get_animation_length(animation: String) -> float:
-	var frames : int = sprite.sprite_frames.get_frame_count(animation)
-	var fps : float = sprite.sprite_frames.get_animation_speed(animation)
+func get_animation_length(animation: String):
+	var frames = sprite.sprite_frames.get_frame_count(animation)
+	var fps = sprite.sprite_frames.get_animation_speed(animation)
 	return frames/fps
+
+func handle_timers(delta: float):
+	if strike_cooldown > 0.0:
+		strike_cooldown -= delta
+
+func set_collision(enabled: bool):
+	if enabled:
+		collision_layer = 1 << 0 #put CollisionObject on layer 1
+		collision_mask = 1 << 0 #detect only layer 1
+	else:
+		collision_layer = 1 << 1 #put CollisionObject on layer 2
+		collision_mask = 1 << 1 #detect only layer 2
 
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
+		if state in [State.MOVING] and strike_cooldown <= 0:
+			set_state(State.STRIKING)
 		player_in_range = true
 		print("player is in range")
 
 func _on_range_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		if state not in [State.IDLE, State.DAMAGED, State.DYING] and thrust_cooldown <= 0:
-			set_state(State.THRUSTING)
 		player_in_range = false
 		print("player is no longer in range")
 		
@@ -157,17 +169,16 @@ func _on_damaged():
 	set_state(State.DAMAGED)	
 
 func _on_death():
-	$AnimatedSprite2D/hurtBox.set_deferred("monitorable", false)
-	player.collect_value(stats.value)
+	$AnimatedSprite2D/hurtBox.monitorable = false
 	set_state(State.DYING)
 	
 func _on_boss_death():
-	$AnimatedSprite2D/hurtBox.set_deferred("monitorable", false)
+	$AnimatedSprite2D/hurtBox.monitorable = false
 	set_state(State.IDLE)
 	fade_out(1)
 
-func fade_out(duration: float) -> void:
-	var tween : Tween = create_tween()
+func fade_out(duration: float):
+	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, duration)
 	tween.tween_callback(queue_free)
 	
@@ -176,17 +187,18 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
 		"arise":
 			set_state(State.MOVING)
-			
+	
 		"damage":
 			set_state(State.MOVING)
 
 		"death":
 			queue_free()
 	
-		"attack":
-			set_state(State.MOVING)
-			print("enemy finished attack")	
+		"bite":
+			velocity = Vector2.ZERO
+			set_state(State.DYING)
+			print("enemy finished bite")	
 		
-		"thrust":
+		"strike":
 			set_state(State.MOVING)
-			print("enemy finished thrust")	
+			print("enemy finished strike")	

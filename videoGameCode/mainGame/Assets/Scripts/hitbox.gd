@@ -23,13 +23,13 @@ func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 	
 	if hitbox_lifetime > 0.0:
-		var new_timer : Timer = Timer.new()
+		var new_timer = Timer.new()
 		add_child(new_timer)
 		new_timer.timeout.connect(queue_free)
 		new_timer.call_deferred("start", hitbox_lifetime)
 	
 	if shape:
-		var collision_shape : CollisionShape2D = CollisionShape2D.new()
+		var collision_shape = CollisionShape2D.new()
 		collision_shape.shape = shape
 		add_child(collision_shape)
 

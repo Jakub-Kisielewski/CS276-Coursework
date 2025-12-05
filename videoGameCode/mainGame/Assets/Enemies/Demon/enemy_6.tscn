@@ -1,6 +1,6 @@
 [gd_scene load_steps=134 format=3 uid="uid://btwfd83br58hn"]
 
-[ext_resource type="Script" uid="uid://cvm5sbwlba1y6" path="res://Assets/Enemies/Demon/demon.gd" id="1_atlj7"]
+[ext_resource type="Script" uid="uid://cvm5sbwlba1y6" path="res://Assets/Enemies/Demon/enemy_6.gd" id="1_atlj7"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_pvinr"]
 [ext_resource type="Texture2D" uid="uid://wqcouaole5r1" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Red/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Attack1.png" id="3_mk1nm"]
 [ext_resource type="Texture2D" uid="uid://c8m2q6t7gtd24" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Red/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Hurt.png" id="4_ddcde"]
@@ -15,10 +15,9 @@
 [sub_resource type="Resource" id="Resource_ud2rd"]
 resource_local_to_scene = true
 script = ExtResource("2_pvinr")
-max_health = 200.0
+max_health = 160.0
 damage = 13.0
 faction = 1
-value = 60
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
@@ -894,7 +893,7 @@ glow_enabled = true
 glow_blend_mode = 1
 glow_hdr_threshold = 0.6
 
-[node name="Demon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
+[node name="Enemy6" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
