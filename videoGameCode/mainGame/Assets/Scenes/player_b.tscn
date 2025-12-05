@@ -5814,6 +5814,9 @@ animation = &""
 =======
 animation = &"Sidle_left"
 frame = 6
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 [node name="hurtBox" type="Area2D" parent="fullAnim"]
