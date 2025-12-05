@@ -11,7 +11,7 @@ extends CharacterBody2D
 var camera : Camera2D
 
 var rng : RandomNumberGenerator = RandomNumberGenerator.new()
-const SUMMON_COOLDOWN_TIME : float = 8
+const SUMMON_COOLDOWN_TIME : float = 9
 var summon_cooldown : float = 0.0
 
 const CHARGE_COOLDOWN_TIME : float = 4
@@ -138,7 +138,7 @@ func _physics_process(delta: float) -> void:
 				set_state(State.MOVING)
 			if is_on_wall():
 				charge_collision.emit()
-				stats.take_damage(8, "None")
+				stats.take_damage(10, "None")
 				set_state(State.STUNNED)
 			
 			velocity = charge_direction * speed * charge_multiplier
@@ -238,7 +238,7 @@ func handle_attack() -> void:
 func handle_charge() -> void:
 	sprite.play("charge")
 	hurtbox.set_deferred("monitorable", false)
-
+	
 	if state == State.CHARGING:
 		charge_cooldown = CHARGE_COOLDOWN_TIME
 		charge_duration = CHARGE_DURATION_TIME

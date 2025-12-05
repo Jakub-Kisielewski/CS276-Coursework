@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=24 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_qfi48"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dl5lpjcwe5tsx" path="res://Assets/Enemies/Ghost/ghost.tscn" id="9_0fbdl"]
 [ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="9_gfgg3"]
 [ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.tscn" id="10_2gvtk"]
+[ext_resource type="PackedScene" uid="uid://d1001ii314vly" path="res://Assets/Enemies/Minotaur/minotaur.tscn" id="13_2ifi5"]
 [ext_resource type="PackedScene" uid="uid://cxk0mg0y5qdi0" path="res://Assets/Enemies/UndeadSwordsmanArmour/undead_swordsman.tscn" id="15_hjg8p"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_637wq"]
@@ -2143,6 +2144,15 @@ faction = 1
 value = 40
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
+[sub_resource type="Resource" id="Resource_2v7sf"]
+resource_local_to_scene = true
+script = ExtResource("5_nnog6")
+max_health = 400.0
+damage = 16.0
+faction = 1
+value = 1000000
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
 [node name="level1" type="Node2D"]
 
 [node name="layer_control" type="Node2D" parent="."]
@@ -2254,7 +2264,7 @@ theme_override_colors/font_color = Color(0, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("4_pk5fv")
 theme_override_font_sizes/font_size = 40
-text = "press any button to restart"
+text = "press SPACE to restart"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -2279,3 +2289,7 @@ stats = SubResource("Resource_r4noj")
 [node name="UndeadSwordsman" parent="." instance=ExtResource("15_hjg8p")]
 position = Vector2(-119, -211)
 stats = SubResource("Resource_gn4xj")
+
+[node name="Minotaur" parent="." instance=ExtResource("13_2ifi5")]
+position = Vector2(-10, -167)
+stats = SubResource("Resource_2v7sf")

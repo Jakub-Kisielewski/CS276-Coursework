@@ -15,7 +15,7 @@ resource_local_to_scene = true
 script = ExtResource("2_0ejd5")
 damage = 13.0
 faction = 1
-value = 20
+value = 40
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ejd5"]

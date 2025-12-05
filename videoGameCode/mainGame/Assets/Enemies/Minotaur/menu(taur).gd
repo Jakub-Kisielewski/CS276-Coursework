@@ -32,5 +32,5 @@ func _process(_delta: float) -> void:
 		elif velocity.x < 0:
 			sprite.flip_h = true
 		move_and_slide()
-	elif Input.is_anything_pressed():
+	elif Input.is_action_just_pressed("dash"):
 		get_tree().reload_current_scene()

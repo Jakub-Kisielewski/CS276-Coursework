@@ -16,7 +16,7 @@
 resource_local_to_scene = true
 script = ExtResource("2_pvinr")
 max_health = 200.0
-damage = 13.0
+damage = 12.0
 faction = 1
 value = 60
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
