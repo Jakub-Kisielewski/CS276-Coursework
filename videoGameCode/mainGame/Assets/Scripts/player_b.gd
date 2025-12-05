@@ -14,12 +14,9 @@ extends CharacterBody2D
 @export var stats : Stats
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 var health_label: Label
 var swordArc := preload("res://Assets/Scenes/sword_arc.tscn")
 =======
-=======
->>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 var canvas : CanvasLayer
