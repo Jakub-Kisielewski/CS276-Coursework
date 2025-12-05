@@ -1,4 +1,4 @@
-[gd_scene load_steps=599 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=616 format=3 uid="uid://gybvdpwifulg"]
 
 [ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player_b.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
@@ -6,14 +6,17 @@
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_p8spm"]
 [ext_resource type="Texture2D" uid="uid://ck0jycudaqfvx" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run/Sword_Run_full.png" id="3_7rtkj"]
 [ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="3_a86ck"]
+[ext_resource type="Script" uid="uid://co7tkofoxgpia" path="res://Assets/Scripts/weapon_data.gd" id="3_feila"]
 [ext_resource type="Texture2D" uid="uid://cgm6p141odl85" path="res://Assets/Sprites/BaseSprite/weapons/oversize/two hand/either/spear.png" id="3_ral8p"]
 [ext_resource type="Texture2D" uid="uid://di2irdwtxxtne" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack3_body.png" id="4_jb3ds"]
 [ext_resource type="Texture2D" uid="uid://chfdco30a8bet" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack_full.png" id="4_lysqc"]
 [ext_resource type="Texture2D" uid="uid://bk3fuequviydl" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack3_body.png" id="5_2e1go"]
 [ext_resource type="Texture2D" uid="uid://npvs5qh4e2nv" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Walk_Attack/Sword_Walk_Attack_full.png" id="5_p8spm"]
+[ext_resource type="Texture2D" uid="uid://it4qhlh7uepa" path="res://Assets/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 A.png" id="5_scsdc"]
 [ext_resource type="Texture2D" uid="uid://bjedx5sh7g7gp" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack5_head.png" id="6_2crlu"]
 [ext_resource type="Texture2D" uid="uid://d324mwi748ilq" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack5_head.png" id="6_a86ck"]
 [ext_resource type="Texture2D" uid="uid://tohvx74myvw0" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Idle/Unarmed_Idle_full.png" id="6_sv13v"]
+[ext_resource type="Texture2D" uid="uid://ymu12mstflb3" path="res://Assets/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 E.png" id="6_wt7tk"]
 [ext_resource type="Texture2D" uid="uid://24ialp7pgrks" path="res://Assets/Sprites/BaseSprite/weapons/shoot/2.png" id="7_a86ck"]
 [ext_resource type="Texture2D" uid="uid://d4k52q7jrnbdd" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Death/Sword_Death_full.png" id="8_nfv7v"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="9_p8spm"]
@@ -24,6 +27,14 @@
 script = ExtResource("2_p8spm")
 max_health = 10000.0
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_yj04c"]
+script = ExtResource("3_feila")
+metadata/_custom_type_script = "uid://co7tkofoxgpia"
+
+[sub_resource type="Resource" id="Resource_visa7"]
+script = ExtResource("3_feila")
+metadata/_custom_type_script = "uid://co7tkofoxgpia"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7sn2"]
 atlas = ExtResource("3_ral8p")
@@ -185,6 +196,96 @@ animations = [{
 }],
 "loop": false,
 "name": &"spear_up",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qewrp"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(320, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3pnmu"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(384, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26iwn"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(448, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1t1fd"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(512, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_427qo"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(576, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hp1yp"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(384, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p5076"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(448, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hs8h3"]
+atlas = ExtResource("6_wt7tk")
+region = Rect2(448, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ki70e"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(512, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0523o"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(448, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7u2m"]
+atlas = ExtResource("5_scsdc")
+region = Rect2(576, 384, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yxib2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qewrp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3pnmu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26iwn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1t1fd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_427qo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hp1yp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p5076")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hs8h3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ki70e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0523o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7u2m")
+}],
+"loop": false,
+"name": &"spattack_effect",
 "speed": 5.0
 }]
 
@@ -3450,6 +3551,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("spearEffects:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
 
 [sub_resource type="Animation" id="Animation_qvlk0"]
 resource_name = "Sdash_down"
@@ -4854,6 +4967,30 @@ tracks/5/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("spearEffects:animation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"spattack_effect"]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("spearEffects:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
 
 [sub_resource type="Animation" id="Animation_odwh5"]
 resource_name = "spbody_left"
@@ -4929,6 +5066,30 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("spearEffects:animation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"spattack_effect"]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("spearEffects:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
 }
 
 [sub_resource type="Animation" id="Animation_0x8vc"]
@@ -5006,6 +5167,30 @@ tracks/5/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("spearEffects:animation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"spattack_effect"]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("spearEffects:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
 
 [sub_resource type="Animation" id="Animation_uky5a"]
 resource_name = "spbody_up"
@@ -5081,6 +5266,30 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("spearEffects:animation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"spattack_effect"]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("spearEffects:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ks6rf"]
@@ -5533,7 +5742,7 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a86ck"]
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vxkns"]
-states/End/position = Vector2(563.5, 486.375)
+states/End/position = Vector2(561, 486.375)
 states/Sattack/node = SubResource("AnimationNodeBlendTree_6gwyt")
 states/Sattack/position = Vector2(742, 100.5)
 states/Sdash/node = SubResource("AnimationNodeBlendTree_ps2r2")
@@ -5562,16 +5771,26 @@ graph_offset = Vector2(-144.69978, 341.40958)
 [node name="playerB" type="CharacterBody2D"]
 script = ExtResource("1_24q4e")
 stats = SubResource("Resource_2crlu")
+sword_data = SubResource("Resource_yj04c")
+spear_data = SubResource("Resource_visa7")
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 zoom = Vector2(3, 3)
 script = ExtResource("3_a86ck")
 
 [node name="spearAnim" type="AnimatedSprite2D" parent="."]
-position = Vector2(-6.000001, -2)
 scale = Vector2(0.49333572, 0.28125)
 sprite_frames = SubResource("SpriteFrames_scsdc")
 animation = &"spear_up"
+
+[node name="spearEffects" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1.1920929e-06, -3.8146973e-06)
+rotation = 2.867576
+scale = Vector2(0.91674966, 0.67044526)
+skew = -0.44412732
+sprite_frames = SubResource("SpriteFrames_yxib2")
+animation = &""
+frame = 1
 
 [node name="bodyAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_wt7tk")
@@ -5590,7 +5809,7 @@ animation = &"battack_down"
 
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
-animation = &"Sidle_left"
+animation = &""
 
 [node name="hurtBox" type="Area2D" parent="fullAnim"]
 script = ExtResource("9_p8spm")

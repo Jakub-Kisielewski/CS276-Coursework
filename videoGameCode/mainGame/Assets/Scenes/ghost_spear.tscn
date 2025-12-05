@@ -1,0 +1,142 @@
+[gd_scene load_steps=20 format=3 uid="uid://cdrrekks50nqj"]
+
+[ext_resource type="Texture2D" uid="uid://dwmykgavqv0lw" path="res://Assets/Sprites/BaseSprite/weapons/oversize/two hand/either/dragonspear.png" id="1_5j4jt"]
+[ext_resource type="Script" uid="uid://dslufqnj2tmmm" path="res://Assets/Scenes/ghost_spear.gd" id="1_yiodj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yiodj"]
+radius = 3.0
+height = 20.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2y8i3"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(192, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ce5hl"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(576, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6kj2"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(768, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qi4hs"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(960, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnkgo"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(1152, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkjso"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(1344, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ow55h"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(0, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4t8q"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(192, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8v7xc"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(384, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvofv"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(384, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5bitg"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(192, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rupwk"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(0, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8odxf"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(0, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ywf1"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(192, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gcheb"]
+atlas = ExtResource("1_5j4jt")
+region = Rect2(384, 576, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vnv34"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2y8i3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ce5hl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6kj2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qi4hs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnkgo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lkjso")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ow55h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4t8q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8v7xc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yvofv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5bitg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rupwk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8odxf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ywf1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gcheb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="ghost_spear" type="CharacterBody2D"]
+script = ExtResource("1_yiodj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5, 3)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_yiodj")
+disabled = true
+
+[node name="gspAnim" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_vnv34")
+animation = &"attack"
+frame = 5
+frame_progress = 1.0

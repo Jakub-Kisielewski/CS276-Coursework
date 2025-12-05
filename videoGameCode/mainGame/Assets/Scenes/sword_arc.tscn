@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://c1plmckptovpd"]
+
+[ext_resource type="Script" uid="uid://bajw2bg8f521c" path="res://sword_arc.gd" id="1_jqjku"]
+[ext_resource type="Texture2D" uid="uid://ymu12mstflb3" path="res://Assets/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 E.png" id="2_u3tfv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_urtvm"]
+atlas = ExtResource("2_u3tfv")
+region = Rect2(320, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mun4v"]
+atlas = ExtResource("2_u3tfv")
+region = Rect2(384, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4eavd"]
+atlas = ExtResource("2_u3tfv")
+region = Rect2(448, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmcsv"]
+atlas = ExtResource("2_u3tfv")
+region = Rect2(512, 896, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x1pgd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_urtvm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mun4v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4eavd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmcsv")
+}],
+"loop": true,
+"name": &"spinny",
+"speed": 40.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x40ow"]
+radius = 4.0
+
+[node name="SwordArc" type="Area2D"]
+script = ExtResource("1_jqjku")
+
+[node name="arcAnim" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_x1pgd")
+animation = &"spinny"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_x40ow")
