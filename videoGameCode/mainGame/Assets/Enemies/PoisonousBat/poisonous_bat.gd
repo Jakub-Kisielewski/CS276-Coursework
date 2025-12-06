@@ -55,18 +55,18 @@ func set_state(new_state : State) -> void:
 			sprite.play("death")
 
 func _ready() -> void:
-	stats.set_owner_node(self)
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
+	stats.set_owner_node(self)
 
 	set_state(State.ARISING)
 
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
 
-	if !is_instance_valid(player):#temporary
+	if !is_instance_valid(player) and state != State.IDLE:
 		set_state(State.IDLE)
-	print($AnimatedSprite2D/hurtBox.monitorable)
+
 	match state:
 		State.ARISING:
 			return

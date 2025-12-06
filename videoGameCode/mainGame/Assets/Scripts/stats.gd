@@ -29,17 +29,17 @@ var damage_timer : Timer
 var overheat_timer : Timer
 var dark_timer : Timer
 
-func _init() -> void:
-	initialise_stats.call_deferred()
-	
+
 func initialise_stats() -> void:
 	current_health = max_health
-	health_changed.emit()
 	
 func set_owner_node(node: Node) -> void:
 	owner_node = node
-	
 	world = owner_node.get_tree().get_first_node_in_group("world")
+	
+	initialise_stats()
+	health_changed.emit()
+	
 	if owner_node.is_in_group("player"):
 		sprite = owner_node.get_node("fullAnim")
 	else:

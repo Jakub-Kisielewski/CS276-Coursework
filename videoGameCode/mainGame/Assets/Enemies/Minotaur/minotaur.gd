@@ -86,9 +86,10 @@ func set_state(new_state : State) -> void:
 			sprite.play("damage")
 
 func _ready() -> void:
-	stats.set_owner_node(self)
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
+	stats.set_owner_node(self)
+	
 	rng.randomize()
 	
 	camera = get_tree().get_first_node_in_group("camera")
@@ -97,11 +98,13 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
-	update_rays()
-
-	if !is_instance_valid(player):#temporary
-		set_state(State.IDLE)
-		
+	
+	if !is_instance_valid(player):
+		if state != State.IDLE:
+			set_state(State.IDLE)
+	else:
+		update_rays()
+	
 	match state:
 		State.IDLE:
 			return
@@ -324,7 +327,11 @@ func _on_death() -> void:
 func fade_out(duration: float) -> void:
 	var tween : Tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, duration)
-	tween.tween_callback(queue_free)
+	tween.tween_callback(clear_game)
+
+func clear_game() -> void:
+	player.clear_screen()
+	queue_free()
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:

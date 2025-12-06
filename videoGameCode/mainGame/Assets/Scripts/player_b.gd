@@ -16,6 +16,7 @@ var health_label : Label
 var value_label : Label
 
 var hitbox_shape : Shape2D
+var camera : Camera2D
 
 var orig_spear_pos : Vector2
 var orig_pos : Vector2
@@ -52,16 +53,20 @@ var monitorable = true
 func _ready():
 	anim_tree.active = true
 	current_weapon = Weapon.SWORD
-	stats.set_owner_node(self)
 	stats.health_changed.connect(_on_health_changed)
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
-	orig_spear_pos = spearAnim.position
-	orig_pos = position
 
 	canvas = get_tree().get_first_node_in_group("canvas")
 	health_label = canvas.get_node("Health")
-	value_label = canvas.get_node("Value")
+	value_label = canvas.get_node("Value")	
+
+	stats.set_owner_node(self)
+	
+	orig_spear_pos = spearAnim.position
+	orig_pos = position
+	
+	camera = get_tree().get_first_node_in_group("camera")
 
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
@@ -69,6 +74,8 @@ func _physics_process(delta: float) -> void:
 	#set_keys_facing()
 	set_mouse_facing()
 	updateSprite()
+	
+	update_camera()
 
 
 func handle_input(delta: float):
@@ -137,7 +144,8 @@ func handle_input(delta: float):
 	
 		
 	
-	
+func update_camera() -> void:
+	camera.global_position = global_position
 
 
 func updateSprite():
@@ -390,23 +398,34 @@ func collect_value(enemy_value : int) -> void:
 func player_busy() -> bool:
 	return attacking or dying
 
+func death_screen() -> void:
+	health_label.visible = false
+	value_label.visible = false
+	stats.initialise_stats()
+	
+	var deathBGRND : ColorRect = canvas.get_node("DeathBGRND")
+	var menutaur : Menutaur = preload("res://Assets/Enemies/Minotaur/menu(taur).tscn").instantiate()
+	canvas.add_child(menutaur)
+	menutaur.set_BGRND(deathBGRND)
+	
+	call_deferred("queue_free")
+	
+func clear_screen() -> void:
+	health_label.visible = false
+	value_label.visible = false
+	stats.initialise_stats()
+	
+	var clearBGRND : ColorRect = canvas.get_node("ClearBGRND")
+	var menuplayer : MenuPlayer = preload("res://Assets/Scenes/menu(player).tscn").instantiate()
+	canvas.add_child(menuplayer)
+	menuplayer.set_BGRND(clearBGRND)
+	
+	call_deferred("queue_free")
 
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name.begins_with("Sdeath") or anim_name.begins_with("death"):
-		health_label.visible = false
-		value_label.visible = false
-		stats.initialise_stats()
-		
-		#Temporary
-		$fullAnim/hurtBox.set_deferred("monitorable", false)
-		fullAnim.self_modulate.a = 0
-		#Temporary
-		
-		var deathBGRND : ColorRect = canvas.get_node("DeathBGRND")
-		var menutaur : Menutaur = preload("res://Assets/Enemies/Minotaur/menu(taur).tscn").instantiate()
-		canvas.add_child(menutaur)
-		menutaur.set_BGRND(deathBGRND)
+		death_screen()
 		
 	if anim_name.begins_with("bbody"):
 		print("shooting arrow")
