@@ -5,7 +5,7 @@ class_name Menutaur extends CharacterBody2D
 @export var target_pos : Vector2
 var deathBGRND : ColorRect
 	
-func set_BGRND(_deathBGRND: ColorRect):
+func initialise(_deathBGRND: ColorRect):
 	deathBGRND = _deathBGRND
 	death_anim()
 	

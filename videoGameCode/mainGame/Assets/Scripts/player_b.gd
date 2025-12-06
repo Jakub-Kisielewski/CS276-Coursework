@@ -60,6 +60,9 @@ func _ready():
 	canvas = get_tree().get_first_node_in_group("canvas")
 	health_label = canvas.get_node("Health")
 	value_label = canvas.get_node("Value")	
+	
+	health_label.visible = true
+	value_label.visible = true
 
 	stats.set_owner_node(self)
 	
@@ -404,21 +407,27 @@ func death_screen() -> void:
 	stats.initialise_stats()
 	
 	var deathBGRND : ColorRect = canvas.get_node("DeathBGRND")
+	
 	var menutaur : Menutaur = preload("res://Assets/Enemies/Minotaur/menu(taur).tscn").instantiate()
 	canvas.add_child(menutaur)
-	menutaur.set_BGRND(deathBGRND)
+	menutaur.initialise(deathBGRND)
 	
 	call_deferred("queue_free")
 	
 func clear_screen() -> void:
+	get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
+	
 	health_label.visible = false
 	value_label.visible = false
 	stats.initialise_stats()
 	
 	var clearBGRND : ColorRect = canvas.get_node("ClearBGRND")
+	var player_scene : PackedScene = load(get_scene_file_path()) as PackedScene
+	var player_pos : Vector2 = global_position
+	
 	var menuplayer : MenuPlayer = preload("res://Assets/Scenes/menu(player).tscn").instantiate()
 	canvas.add_child(menuplayer)
-	menuplayer.set_BGRND(clearBGRND)
+	menuplayer.initialise(clearBGRND, player_scene, player_pos)
 	
 	call_deferred("queue_free")
 

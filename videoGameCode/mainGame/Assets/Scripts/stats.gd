@@ -36,6 +36,7 @@ func initialise_stats() -> void:
 func set_owner_node(node: Node) -> void:
 	owner_node = node
 	world = owner_node.get_tree().get_first_node_in_group("world")
+	end_darkness()
 	
 	initialise_stats()
 	health_changed.emit()
@@ -102,7 +103,9 @@ func start_visualise_damage() -> void:
 	damage_timer.timeout.connect(end_visualise_damage)
 
 func end_visualise_damage() -> void:
-	damage_timer.queue_free()
+	if damage_timer != null:
+		damage_timer.queue_free()
+	
 	if poison_timer != null:
 		set_status(Status.POISONED)
 	elif overheat_timer != null:
@@ -123,24 +126,10 @@ func start_darkness() -> void:
 	dark_timer.timeout.connect(end_darkness)
 	
 func end_darkness() -> void:
-	dark_timer.queue_free()
+	if dark_timer != null:
+		dark_timer.queue_free()
+	
 	world.set_standard()
-
-func start_overheat() -> void:
-	if overheat_timer != null:
-		overheat_timer.queue_free()
-
-	set_status(Status.OVERHEATING)
-	sprite.self_modulate = Color(1.353, 1.353, 1.353, 1.0)
-	print(owner_node.name + " is overheating")	
-	
-	overheat_timer = Timer.new()
-	
-	overheat_timer.wait_time = 1
-	overheat_timer.one_shot = false
-	overheat_timer.autostart = true
-	owner_node.add_child(overheat_timer)
-	overheat_timer.timeout.connect(take_overheat_damage)
 
 func start_poison() -> void:
 	if poison_timer != null:
@@ -161,10 +150,28 @@ func start_poison() -> void:
 func take_poison_damage() -> void:
 	take_damage(2, "None")
 	poison_hits_left -= 1
+	
 	if poison_hits_left == 0:
-		poison_timer.queue_free()
+		if poison_timer != null:
+			poison_timer.queue_free()
 		set_status(Status.HEALTHY)
 		print(owner_node.name + " is no longer poisoned")
+
+func start_overheat() -> void:
+	if overheat_timer != null:
+		overheat_timer.queue_free()
+
+	set_status(Status.OVERHEATING)
+	sprite.self_modulate = Color(1.353, 1.353, 1.353, 1.0)
+	print(owner_node.name + " is overheating")	
+	
+	overheat_timer = Timer.new()
+	
+	overheat_timer.wait_time = 1
+	overheat_timer.one_shot = false
+	overheat_timer.autostart = true
+	owner_node.add_child(overheat_timer)
+	overheat_timer.timeout.connect(take_overheat_damage)
 		
 func take_overheat_damage() -> void:
 	take_damage(3, "None")

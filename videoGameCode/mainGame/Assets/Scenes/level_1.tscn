@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=22 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_qfi48"]
@@ -9,6 +9,7 @@
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="4_pk5fv"]
 [ext_resource type="Script" uid="uid://ccqb3iwnfc1ax" path="res://Assets/Scripts/world.gd" id="5_pk5fv"]
 [ext_resource type="PackedScene" uid="uid://dl5lpjcwe5tsx" path="res://Assets/Enemies/Ghost/ghost.tscn" id="9_0fbdl"]
+[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="9_gfgg3"]
 [ext_resource type="PackedScene" uid="uid://d1001ii314vly" path="res://Assets/Enemies/Minotaur/minotaur.tscn" id="13_2ifi5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_637wq"]
@@ -2147,6 +2148,31 @@ cache/0/45/0/underline_position = 0.0
 cache/0/45/0/underline_thickness = 0.0
 cache/0/45/0/scale = 1.0
 
+[sub_resource type="Resource" id="Resource_2gvtk"]
+resource_local_to_scene = true
+script = ExtResource("9_gfgg3")
+max_health = 50.0
+damage = 14.0
+faction = 1
+value = 1000000
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_2ifi5"]
+resource_local_to_scene = true
+script = ExtResource("9_gfgg3")
+max_health = 200.0
+damage = 13.0
+faction = 1
+value = 60
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="Resource" id="Resource_gn4xj"]
+resource_local_to_scene = true
+script = ExtResource("9_gfgg3")
+max_health = 200.0
+damage = 12.0
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
 [node name="level1" type="Node2D"]
 
 [node name="Essentials" type="Node" parent="."]
@@ -2258,9 +2284,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -307.5
-offset_top = 2.5
+offset_top = 6.5
 offset_right = 307.5
-offset_bottom = 87.5
+offset_bottom = 91.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 1, 1, 1)
@@ -2316,9 +2342,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -307.5
-offset_top = 6.0
+offset_top = 10.0
 offset_right = 307.5
-offset_bottom = 91.0
+offset_bottom = 95.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0.30269834, 0.4894318, 1)
@@ -2330,9 +2356,12 @@ vertical_alignment = 1
 
 [node name="Minotaur2" parent="." instance=ExtResource("13_2ifi5")]
 position = Vector2(-172, 204)
+stats = SubResource("Resource_2gvtk")
 
 [node name="Ghost" parent="." instance=ExtResource("9_0fbdl")]
 position = Vector2(-165, 65)
+stats = SubResource("Resource_2ifi5")
 
 [node name="playerB" parent="." instance=ExtResource("3_qfi48")]
 position = Vector2(-49, 179)
+stats = SubResource("Resource_gn4xj")

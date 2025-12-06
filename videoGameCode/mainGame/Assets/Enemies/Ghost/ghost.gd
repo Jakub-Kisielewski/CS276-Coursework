@@ -32,8 +32,12 @@ func set_state(new_state : State) -> void:
 			sprite.play("arise")
 			
 		State.IDLE:
+			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
 			sprite.play("idle")
+			
+			await get_tree().create_timer(1.8).timeout
+			queue_free()
 
 		State.INVISIBLE_MOVING:
 			hurtbox.set_deferred("monitorable", false)
@@ -195,11 +199,14 @@ func _on_damaged() -> void:
 	
 func _on_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
-	player.collect_value(stats.value)
+	if is_instance_valid(player):
+		player.collect_value(stats.value)
 	set_state(State.DYING)
 	
 func _on_boss_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
+	if is_instance_valid(player):
+		player.collect_value(stats.value)
 	set_state(State.IDLE)
 	fade_out(1)
 

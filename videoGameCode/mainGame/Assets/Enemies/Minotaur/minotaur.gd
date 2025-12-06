@@ -48,6 +48,9 @@ func set_state(new_state : State) -> void:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
 			sprite.play("idle")
+			
+			await get_tree().create_timer(1.8).timeout
+			queue_free()
 		
 		State.MOVING:
 			hurtbox.set_deferred("monitorable", true)
@@ -318,7 +321,8 @@ func _on_damaged() -> void:
 
 func _on_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
-	player.collect_value(stats.value)
+	if is_instance_valid(player):
+		player.collect_value(stats.value)
 	emit_signal("boss_defeated")
 	
 	set_state(State.IDLE)

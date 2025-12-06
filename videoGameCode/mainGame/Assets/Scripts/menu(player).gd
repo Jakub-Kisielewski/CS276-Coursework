@@ -7,15 +7,22 @@ var start_pos : Vector2
 var target_pos : Vector2
 var clearBGRND : ColorRect
 
+var player_scene : PackedScene
+var player_pos : Vector2
+var skip : bool
+
 enum Direction { LEFT, ZERO, RIGHT }
 var direction : Direction = Direction.LEFT
 
-func set_BGRND(_clearBGRND: ColorRect):
+func initialise(_clearBGRND: ColorRect, _player_scene: PackedScene, _player_pos: Vector2):
 	clearBGRND = _clearBGRND
-	start_pos = global_position
-	death_anim()
+	player_scene = _player_scene
+	player_pos = _player_pos
 	
-func death_anim() -> void:
+	start_pos = global_position
+	clear_anim()
+	
+func clear_anim() -> void:
 	sprite.play("Srun_left")
 	
 	#Time passed in minutes since game started
@@ -35,13 +42,28 @@ func death_anim() -> void:
 			tween.tween_property(child, "modulate:a", 1, 1.1)
 			tween.parallel()
 
+
 func set_direction(new_direction : Direction) -> void:
 	await get_tree().create_timer(1.4).timeout
+	if skip == false:
+		skip = true
 	direction = new_direction
-	
-			
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	
+	if skip and Input.is_action_just_pressed("dash"):
+		clearBGRND.color.a = 0
+		for child in clearBGRND.get_children():
+			if child is Label:
+				child.modulate.a = 0
+			
+		var player : CharacterBody2D = player_scene.instantiate()
+		player.global_position = player_pos
+		get_tree().root.add_child(player)
+		
+		queue_free()
 	
 	match direction:
 		Direction.LEFT:

@@ -5,6 +5,7 @@ extends CharacterBody2D
 @export var nav: NavigationAgent2D
 @export var stats : Stats
 @export var hitbox_shape : Shape2D
+var hurtbox : hurtBox
 
 const THRUST_COOLDOWN_TIME : float = 0.8
 var thrust_direction : Vector2
@@ -29,8 +30,12 @@ func set_state(new_state : State) -> void:
 			sprite.play("arise")
 		
 		State.IDLE:
+			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
 			sprite.play("idle")
+			
+			await get_tree().create_timer(1.8).timeout
+			queue_free()
 		
 		State.MOVING:
 			handle_move()
@@ -53,6 +58,8 @@ func _ready() -> void:
 	stats.health_depleted.connect(_on_death)
 	stats.damage_taken.connect(_on_damaged)
 	stats.set_owner_node(self)
+
+	hurtbox = get_node("AnimatedSprite2D/hurtBox")
 	
 	set_state(State.ARISING)
 
@@ -157,12 +164,15 @@ func _on_damaged():
 	set_state(State.DAMAGED)	
 
 func _on_death():
-	$AnimatedSprite2D/hurtBox.set_deferred("monitorable", false)
-	player.collect_value(stats.value)
+	hurtbox.set_deferred("monitorable", false)
+	if is_instance_valid(player):
+		player.collect_value(stats.value)
 	set_state(State.DYING)
 	
 func _on_boss_death():
-	$AnimatedSprite2D/hurtBox.set_deferred("monitorable", false)
+	hurtbox.set_deferred("monitorable", false)
+	if is_instance_valid(player):
+		player.collect_value(stats.value)
 	set_state(State.IDLE)
 	fade_out(1)
 
