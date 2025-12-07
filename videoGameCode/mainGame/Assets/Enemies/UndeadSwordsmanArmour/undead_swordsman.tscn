@@ -1,7 +1,8 @@
-[gd_scene load_steps=76 format=3 uid="uid://cxk0mg0y5qdi0"]
+[gd_scene load_steps=77 format=3 uid="uid://cxk0mg0y5qdi0"]
 
 [ext_resource type="Script" uid="uid://dut5bplbuvr5v" path="res://Assets/Enemies/UndeadSwordsmanArmour/undead_swordsman.gd" id="1_wteio"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_3yio0"]
+[ext_resource type="PackedScene" uid="uid://dsyykvmrlnt18" path="res://Assets/Gold/golden_snake.tscn" id="2_m153v"]
 [ext_resource type="Texture2D" uid="uid://woppisagaauf" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Die.png" id="3_m153v"]
 [ext_resource type="Texture2D" uid="uid://bubxl05os68lb" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Attack1.png" id="4_tayrw"]
 [ext_resource type="Texture2D" uid="uid://csa4sufwbn2ro" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Hurt.png" id="5_2romr"]
@@ -16,7 +17,7 @@ script = ExtResource("2_3yio0")
 defense = 1.5
 damage = 11.0
 faction = 1
-value = 40
+itemdrop_scene = ExtResource("2_m153v")
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
@@ -524,7 +525,6 @@ avoidance_enabled = true
 collision_layer = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
-position = Vector2(-1, -1)
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
 

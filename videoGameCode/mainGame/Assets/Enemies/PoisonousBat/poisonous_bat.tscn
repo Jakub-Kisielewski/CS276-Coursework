@@ -1,7 +1,8 @@
-[gd_scene load_steps=86 format=3 uid="uid://dklpobami1hkg"]
+[gd_scene load_steps=87 format=3 uid="uid://dklpobami1hkg"]
 
 [ext_resource type="Script" uid="uid://bp5u60eoap8o8" path="res://Assets/Enemies/PoisonousBat/poisonous_bat.gd" id="1_j3spu"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_5gjic"]
+[ext_resource type="PackedScene" uid="uid://dsyykvmrlnt18" path="res://Assets/Gold/golden_snake.tscn" id="2_8wm3m"]
 [ext_resource type="Texture2D" uid="uid://cy0xw70gtr3hg" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-WakeUp.png" id="3_8wm3m"]
 [ext_resource type="Texture2D" uid="uid://kf6b5df0tui0" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-Attack2.png" id="4_hidas"]
 [ext_resource type="Texture2D" uid="uid://cy2281iy287my" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-Hurt.png" id="5_m0kb1"]
@@ -17,7 +18,7 @@ script = ExtResource("2_5gjic")
 max_health = 80.0
 damage = 9.0
 faction = 1
-value = 20
+itemdrop_scene = ExtResource("2_8wm3m")
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
@@ -589,7 +590,6 @@ avoidance_enabled = true
 collision_layer = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
-position = Vector2(-1, -1)
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
 

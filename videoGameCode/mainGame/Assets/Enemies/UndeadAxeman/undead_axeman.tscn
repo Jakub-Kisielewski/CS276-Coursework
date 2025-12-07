@@ -1,7 +1,8 @@
-[gd_scene load_steps=92 format=3 uid="uid://ctews1r14aqyh"]
+[gd_scene load_steps=93 format=3 uid="uid://ctews1r14aqyh"]
 
 [ext_resource type="Script" uid="uid://6eh0032pny6h" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.gd" id="1_vhwpw"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_0ejd5"]
+[ext_resource type="PackedScene" uid="uid://d6md17gbi280" path="res://Assets/Gold/golden_bird.tscn" id="2_4foux"]
 [ext_resource type="Texture2D" uid="uid://bh62q2v10soqr" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Attack1.png" id="3_vhwpw"]
 [ext_resource type="Texture2D" uid="uid://xivetvjg5ocb" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Hurt.png" id="4_0ejd5"]
 [ext_resource type="Texture2D" uid="uid://cd5ydbvb4mh71" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Die.png" id="5_qhmtf"]
@@ -15,7 +16,7 @@ resource_local_to_scene = true
 script = ExtResource("2_0ejd5")
 damage = 13.0
 faction = 1
-value = 40
+itemdrop_scene = ExtResource("2_4foux")
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ejd5"]
@@ -641,7 +642,6 @@ avoidance_enabled = true
 collision_layer = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
-position = Vector2(-1, -1)
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
 

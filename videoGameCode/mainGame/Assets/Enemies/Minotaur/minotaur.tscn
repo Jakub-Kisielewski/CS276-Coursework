@@ -1,7 +1,8 @@
-[gd_scene load_steps=66 format=3 uid="uid://d1001ii314vly"]
+[gd_scene load_steps=67 format=3 uid="uid://d1001ii314vly"]
 
 [ext_resource type="Script" uid="uid://cptafcit457xi" path="res://Assets/Enemies/Minotaur/minotaur.gd" id="1_n8nhx"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_a368x"]
+[ext_resource type="PackedScene" uid="uid://dypup8xitfyuf" path="res://Assets/Gold/golden_deer.tscn" id="2_wd3dm"]
 [ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.tscn" id="3_3xsit"]
 [ext_resource type="Texture2D" uid="uid://5kuyyld0jx7o" path="res://Assets/Sprites/goatman.png" id="3_6smlg"]
 [ext_resource type="PackedScene" uid="uid://dklpobami1hkg" path="res://Assets/Enemies/PoisonousBat/poisonous_bat.tscn" id="4_ik8mj"]
@@ -13,7 +14,7 @@ script = ExtResource("2_a368x")
 max_health = 400.0
 damage = 14.0
 faction = 1
-value = 1000000
+itemdrop_scene = ExtResource("2_wd3dm")
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
@@ -491,7 +492,6 @@ avoidance_enabled = true
 collision_layer = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
-position = Vector2(-1, -1)
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
 

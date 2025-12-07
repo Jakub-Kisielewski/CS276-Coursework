@@ -5585,10 +5585,10 @@ scale = Vector2(0.24023438, 0.2685547)
 sprite_frames = SubResource("SpriteFrames_yj04c")
 animation = &"battack_down"
 
-[node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
+[node name="fullAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 4
+frame = 5
 
 [node name="hurtBox" type="Area2D" parent="fullAnim"]
 script = ExtResource("9_p8spm")

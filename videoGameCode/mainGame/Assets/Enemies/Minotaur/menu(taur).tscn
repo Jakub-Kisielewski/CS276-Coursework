@@ -430,7 +430,7 @@ animations = [{
 "speed": 7.0
 }]
 
-[node name="(menu)taur" type="CharacterBody2D" node_paths=PackedStringArray("sprite") groups=["enemy"]]
+[node name="(menu)taur" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]
 position = Vector2(-720, 72)
 scale = Vector2(20, 20)
 motion_mode = 1

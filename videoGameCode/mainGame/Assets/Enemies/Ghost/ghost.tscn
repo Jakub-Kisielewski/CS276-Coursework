@@ -1,7 +1,8 @@
-[gd_scene load_steps=82 format=3 uid="uid://dl5lpjcwe5tsx"]
+[gd_scene load_steps=83 format=3 uid="uid://dl5lpjcwe5tsx"]
 
 [ext_resource type="Script" uid="uid://bdf607wwrww6s" path="res://Assets/Enemies/Ghost/ghost.gd" id="1_wleg1"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_6wpum"]
+[ext_resource type="PackedScene" uid="uid://cjef6tih8pnog" path="res://Assets/Gold/golden_wolf.tscn" id="2_k4e0d"]
 [ext_resource type="Texture2D" uid="uid://b4o135syegbtd" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Spawn.png" id="3_k4e0d"]
 [ext_resource type="Texture2D" uid="uid://bcuxyryhnhlqw" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Attack1.png" id="4_egld4"]
 [ext_resource type="Texture2D" uid="uid://0f75y8hyl4fd" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Hurt.png" id="5_oxm55"]
@@ -17,7 +18,7 @@ script = ExtResource("2_6wpum")
 max_health = 200.0
 damage = 13.0
 faction = 1
-value = 60
+itemdrop_scene = ExtResource("2_k4e0d")
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yviti"]
@@ -561,7 +562,6 @@ avoidance_enabled = true
 collision_layer = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
-position = Vector2(-1, -1)
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
 

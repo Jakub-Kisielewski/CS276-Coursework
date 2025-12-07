@@ -2263,7 +2263,7 @@ scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("CapsuleShape2D_qr26f")
 disabled = true
 
-[node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
+[node name="fullAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sdash_left"
 frame = 5

@@ -17,7 +17,8 @@ var sprite : AnimatedSprite2D
 @export var defense : float = 1 #Damage taken is divided by defense
 @export var damage : float = 10
 @export var faction : Faction = Faction.PLAYER
-@export var value : int
+@export var currency : int
+@export var itemdrop_scene : PackedScene
 
 enum Status { HEALTHY, POISONED, DAMAGED, OVERHEATING }
 var status : Status = Status.HEALTHY;
@@ -91,6 +92,11 @@ func take_damage(amount: float, attack_effect: String) -> void:
 	else:
 		damage_taken.emit()
 
+func drop_item() -> void:
+	var itemdrop : Node = load(itemdrop_scene.resource_path).instantiate()
+	itemdrop.global_position = owner_node.global_position
+	owner_node.get_tree().current_scene.add_child(itemdrop)
+
 func start_visualise_damage() -> void:
 	if damage_timer != null:
 		damage_timer.queue_free()
@@ -156,6 +162,7 @@ func take_poison_damage() -> void:
 			poison_timer.queue_free()
 		set_status(Status.HEALTHY)
 		print(owner_node.name + " is no longer poisoned")
+
 
 func start_overheat() -> void:
 	if overheat_timer != null:

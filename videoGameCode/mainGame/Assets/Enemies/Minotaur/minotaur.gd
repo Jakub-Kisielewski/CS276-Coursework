@@ -48,9 +48,9 @@ func set_state(new_state : State) -> void:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
 			sprite.play("idle")
-			
+
 			await get_tree().create_timer(1.8).timeout
-			queue_free()
+			reduce_to_gold()
 		
 		State.MOVING:
 			hurtbox.set_deferred("monitorable", true)
@@ -78,13 +78,13 @@ func set_state(new_state : State) -> void:
 			handle_charge()
 			
 		State.STUNNED:
-			hurtbox.monitorable = true
+			hurtbox.set_deferred("monitorable", true)
 			velocity = Vector2.ZERO
 			stun_duration = STUN_DURATION_TIME
 			sprite.play("stunned")
 		
 		State.DAMAGED:
-			hurtbox.monitorable = true
+			hurtbox.set_deferred("monitorable", true)
 			velocity = Vector2.ZERO
 			sprite.play("damage")
 
@@ -271,7 +271,7 @@ func handle_summon() -> void:
 	var x : int = rng.randi_range(0, summons.size()-1)  # like a dice roll
 	
 	for i in range (1,3):
-		var new_enemy = summons[x].instantiate()
+		var new_enemy : Node = summons[x].instantiate()
 
 		var target_point : Vector2
 		if (i == 1):
@@ -282,7 +282,7 @@ func handle_summon() -> void:
 		var map_rid : RID = get_world_2d().get_navigation_map() 
 		var closest_point : Vector2 = NavigationServer2D.map_get_closest_point(map_rid, target_point) 
 		new_enemy.global_position = closest_point	
-		get_tree().root.add_child(new_enemy)
+		get_tree().current_scene.add_child(new_enemy)
 		boss_defeated.connect(new_enemy._on_boss_death)
 	
 func handle_timers(delta: float) -> void:
@@ -321,8 +321,6 @@ func _on_damaged() -> void:
 
 func _on_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
-	if is_instance_valid(player):
-		player.collect_value(stats.value)
 	emit_signal("boss_defeated")
 	
 	set_state(State.IDLE)
@@ -335,6 +333,10 @@ func fade_out(duration: float) -> void:
 
 func clear_game() -> void:
 	player.clear_screen()
+	reduce_to_gold()
+
+func reduce_to_gold() -> void:	
+	stats.drop_item()
 	queue_free()
 
 func _on_animated_sprite_2d_animation_finished() -> void:

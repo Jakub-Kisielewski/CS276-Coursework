@@ -2,8 +2,8 @@ extends Camera2D
 var shake_size: int
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	shake_size = 2
+func _init() -> void:
+	shake_size = 2.8
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

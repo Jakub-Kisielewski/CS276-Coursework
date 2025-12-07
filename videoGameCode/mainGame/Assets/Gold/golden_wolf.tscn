@@ -1,0 +1,94 @@
+[gd_scene load_steps=13 format=3 uid="uid://cjef6tih8pnog"]
+
+[ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/golden_animal.gd" id="1_hqubr"]
+[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_lilhj"]
+[ext_resource type="Texture2D" uid="uid://dc7gierug6m1s" path="res://Assets/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_all.png" id="3_msqs6"]
+[ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="4_amgmp"]
+
+[sub_resource type="Resource" id="Resource_sp68t"]
+resource_local_to_scene = true
+script = ExtResource("2_lilhj")
+max_health = 50.0
+damage = 0.0
+faction = 1
+currency = 80
+metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vb2cf"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
+radius = 6.5
+height = 13.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_em6up"]
+atlas = ExtResource("3_msqs6")
+region = Rect2(208, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81xng"]
+atlas = ExtResource("3_msqs6")
+region = Rect2(208, 96, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j4qsk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_em6up")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81xng")
+}],
+"loop": true,
+"name": &"move",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yc8sv"]
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n0o3a"]
+radius = 22.5
+height = 45.0
+
+[node name="GoldenWolf" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_hqubr")
+sprite = NodePath("AnimatedSprite2D")
+nav = NodePath("Nav")
+stats = SubResource("Resource_sp68t")
+hitbox_shape = SubResource("CircleShape2D_vb2cf")
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_fa6de")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(1.353256, 1.353256, 1.353256, 1)
+sprite_frames = SubResource("SpriteFrames_j4qsk")
+animation = &"move"
+
+[node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
+script = ExtResource("4_amgmp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/hurtBox"]
+shape = SubResource("CapsuleShape2D_yc8sv")
+
+[node name="Nav" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+avoidance_enabled = true
+
+[node name="Range" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
+scale = Vector2(0.6, 0.6)
+shape = SubResource("CapsuleShape2D_n0o3a")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
+[connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]

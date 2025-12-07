@@ -37,7 +37,7 @@ func set_state(new_state : State) -> void:
 			sprite.play("idle")
 			
 			await get_tree().create_timer(1.8).timeout
-			queue_free()
+			reduce_to_gold()
 
 		State.INVISIBLE_MOVING:
 			hurtbox.set_deferred("monitorable", false)
@@ -199,22 +199,21 @@ func _on_damaged() -> void:
 	
 func _on_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
-	if is_instance_valid(player):
-		player.collect_value(stats.value)
 	set_state(State.DYING)
 	
 func _on_boss_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
-	if is_instance_valid(player):
-		player.collect_value(stats.value)
 	set_state(State.IDLE)
 	fade_out(1)
 
 func fade_out(duration: float) -> void:
 	var tween : Tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, duration)
-	tween.tween_callback(queue_free)
+	tween.tween_callback(reduce_to_gold)
 
+func reduce_to_gold() -> void:	
+	stats.drop_item()
+	queue_free()
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
@@ -229,7 +228,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 				set_state(State.VISIBLE_MOVING)
 
 		"death":
-			queue_free()
+			reduce_to_gold()
 	
 		"attack":
 			if lifeslash:

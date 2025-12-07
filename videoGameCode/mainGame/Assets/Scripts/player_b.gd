@@ -13,7 +13,7 @@ extends CharacterBody2D
 @export var stats : Stats
 var canvas : CanvasLayer
 var health_label : Label
-var value_label : Label
+var currency_label : Label
 
 var hitbox_shape : Shape2D
 var camera : Camera2D
@@ -59,10 +59,10 @@ func _ready():
 
 	canvas = get_tree().get_first_node_in_group("canvas")
 	health_label = canvas.get_node("Health")
-	value_label = canvas.get_node("Value")	
+	currency_label = canvas.get_node("Currency")	
 	
 	health_label.visible = true
-	value_label.visible = true
+	currency_label.visible = true
 
 	stats.set_owner_node(self)
 	
@@ -70,6 +70,7 @@ func _ready():
 	orig_pos = position
 	
 	camera = get_tree().get_first_node_in_group("camera")
+	update_camera()
 
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
@@ -394,16 +395,16 @@ func _on_damaged() -> void:
 func _on_health_changed() -> void:	
 	health_label.text = str(stats.current_health)
 
-func collect_value(enemy_value : int) -> void:
-	stats.value = stats.value + enemy_value
-	value_label.text = str(stats.value)
+func collect_currency(enemy_currency : int) -> void:
+	stats.currency = stats.currency + enemy_currency
+	currency_label.text = str(stats.currency)
 
 func player_busy() -> bool:
 	return attacking or dying
 
 func death_screen() -> void:
 	health_label.visible = false
-	value_label.visible = false
+	currency_label.visible = false
 	stats.initialise_stats()
 	
 	var deathBGRND : ColorRect = canvas.get_node("DeathBGRND")
@@ -418,7 +419,7 @@ func clear_screen() -> void:
 	get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
 	
 	health_label.visible = false
-	value_label.visible = false
+	currency_label.visible = false
 	stats.initialise_stats()
 	
 	var clearBGRND : ColorRect = canvas.get_node("ClearBGRND")
@@ -427,7 +428,7 @@ func clear_screen() -> void:
 	
 	var menuplayer : MenuPlayer = preload("res://Assets/Scenes/menu(player).tscn").instantiate()
 	canvas.add_child(menuplayer)
-	menuplayer.initialise(clearBGRND, player_scene, player_pos)
+	menuplayer.initialise(clearBGRND, player_scene, player_pos, stats.currency)
 	
 	call_deferred("queue_free")
 

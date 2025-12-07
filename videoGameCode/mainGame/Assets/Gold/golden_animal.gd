@@ -10,7 +10,7 @@ var hurtbox : hurtBox
 var player_in_range : bool = false
 @export var speed : float = 100.0
 
-enum State { ARISING, IDLE, MOVING, ATTACKING, DAMAGED, DYING }
+enum State { IDLE, MOVING, DAMAGED, DYING }
 var state : State = State.IDLE
 signal state_changed
 
@@ -20,23 +20,12 @@ func set_state(new_state : State) -> void:
 	state_changed.emit()
 	
 	match state:
-		State.ARISING:
-			velocity = Vector2.ZERO
-			sprite.play("arise")
-			
 		State.IDLE:
-			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
 			sprite.play("idle")
-			
-			await get_tree().create_timer(1.8).timeout
-			reduce_to_gold()
 		
 		State.MOVING:
 			handle_move()
-
-		State.ATTACKING:
-			handle_attack()
 
 		State.DAMAGED:
 			velocity = Vector2.ZERO
@@ -44,7 +33,7 @@ func set_state(new_state : State) -> void:
 
 		State.DYING:
 			velocity = Vector2.ZERO
-			sprite.play("death")
+			fade_out(0.2)
 
 func _ready() -> void:
 	stats.health_depleted.connect(_on_death)
@@ -53,34 +42,31 @@ func _ready() -> void:
 	
 	hurtbox = get_node("AnimatedSprite2D/hurtBox")
 	
-	set_state(State.ARISING)
+	set_state(State.IDLE)
 
 func _physics_process(delta: float) -> void:
-	if !is_instance_valid(player) and state != State.IDLE:
-		set_state(State.IDLE)
-		
+	if !is_instance_valid(player):
+		player = get_tree().get_first_node_in_group("player")
+	
 	match state:
-		State.ARISING:
-			return
-			
 		State.IDLE:
-			return
+			if is_instance_valid(player) and !player_in_range:
+				set_state(State.MOVING)
 		
 		State.MOVING:
-			if player_in_range:
-				set_state(State.ATTACKING)
-			handle_follow()
-
-		State.ATTACKING:
+			if !is_instance_valid(player) or player_in_range:
+				set_state(State.IDLE)
+				return
 			handle_follow()
 
 		State.DAMAGED:
-			pass
+			if stats.status == stats.Status.HEALTHY:
+				set_state(State.MOVING)
 
 		State.DYING:
 			pass
 
-func handle_follow() -> void:
+func handle_follow() -> void:	
 	nav.target_position = player.global_position	
 	var next : Vector2 = nav.get_next_path_position()
 	velocity = global_position.direction_to(next) * speed	
@@ -92,26 +78,7 @@ func handle_follow() -> void:
 
 func handle_move() -> void:	
 	sprite.play("move")
-	
-func handle_attack() -> void:
-	var hitbox : hitBox = hitBox.new(stats, "None", 0, hitbox_shape)
-	hitbox.scale = Vector2(1.4,1.4);
-	state_changed.connect(hitbox.queue_free)
-	add_child(hitbox)
-	
-	var vector_to_player : Vector2 = player.global_position - global_position
-	hitbox.rotation = vector_to_player.angle()
-	hitbox.position = vector_to_player.normalized() * 20
-	
-	if vector_to_player.y < 0:
-		sprite.play("attack_up")
-	else:
-		sprite.play("attack_down")
 
-func get_animation_length(animation: String) -> float:
-	var frames : int = sprite.sprite_frames.get_frame_count(animation)
-	var fps : float = sprite.sprite_frames.get_animation_speed(animation)
-	return frames/fps
 
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -129,33 +96,20 @@ func _on_damaged() -> void:
 
 func _on_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
+	if is_instance_valid(player):
+		player.collect_currency(stats.currency)
 	set_state(State.DYING)
-	
-func _on_boss_death() -> void:
-	hurtbox.set_deferred("monitorable", false)
-	set_state(State.IDLE)
-	fade_out(1)
 
 func fade_out(duration: float) -> void:
 	var tween : Tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, duration)
-	tween.tween_callback(reduce_to_gold)
+	tween.tween_callback(queue_free)
 	
-func reduce_to_gold() -> void:	
-	stats.drop_item()
-	queue_free()
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite.animation:
-		"arise":
-			set_state(State.MOVING)
-		
 		"damage":
 			set_state(State.MOVING)
 
 		"death":
-			reduce_to_gold()
-	
-		"attack_up", "attack_down":
-			set_state(State.MOVING)
-			print("enemy finished attack")	
+			queue_free()
