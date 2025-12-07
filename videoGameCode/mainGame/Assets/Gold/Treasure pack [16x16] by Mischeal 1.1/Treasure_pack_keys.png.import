@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bgaw1bcqn320x"
-path="res://.godot/imported/Treasure_pack_keys.png-2883f8138e25463d370d3a36f358be83.ctex"
+path="res://.godot/imported/Treasure_pack_keys.png-d467daf23045953ed15aebdc4ed18ebe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_keys.png"
-dest_files=["res://.godot/imported/Treasure_pack_keys.png-2883f8138e25463d370d3a36f358be83.ctex"]
+source_file="res://Assets/Gold/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_keys.png"
+dest_files=["res://.godot/imported/Treasure_pack_keys.png-d467daf23045953ed15aebdc4ed18ebe.ctex"]
 
 [params]
 

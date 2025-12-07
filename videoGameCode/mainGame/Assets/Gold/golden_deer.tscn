@@ -2,12 +2,13 @@
 
 [ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/golden_animal.gd" id="1_iloav"]
 [ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_27sg5"]
-[ext_resource type="Texture2D" uid="uid://dc7gierug6m1s" path="res://Assets/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_all.png" id="3_iloav"]
+[ext_resource type="Texture2D" uid="uid://dc7gierug6m1s" path="res://Assets/Gold/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_all.png" id="3_iloav"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="4_1wijk"]
 
 [sub_resource type="Resource" id="Resource_sp68t"]
 resource_local_to_scene = true
 script = ExtResource("2_27sg5")
+max_health = 80.0
 damage = 0.0
 faction = 1
 currency = 1000
