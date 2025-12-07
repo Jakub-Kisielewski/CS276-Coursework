@@ -193,5 +193,9 @@ func end_overheat() -> void:
 
 func _on_health_set(value : float) -> void:
 	current_health = value
-	health_changed.emit(current_health, max_health)
+	health_changed.emit()
 	
+	
+#use this for when player chooses to upgrade their defense, might change to specific defense later, eg. resistance to poison
+func upgrade_defense():
+	defense *= 1.3	
