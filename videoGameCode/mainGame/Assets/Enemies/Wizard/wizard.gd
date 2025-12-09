@@ -1,15 +1,13 @@
-extends CharacterBody2D
+extends EnemyEntity
 
 @onready var player : Node = get_tree().get_first_node_in_group("player")
-@export var sprite : AnimatedSprite2D
 @export var nav: NavigationAgent2D
-@export var stats : Stats
 @export var hitbox_shape : Shape2D
 @export var summons : Array[PackedScene]
 
 var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 var tilemap : TileMapLayer
-var hurtbox : hurtBox
+var hurtbox : HurtBox
 var countdown_label : Label
 var countdown_timer : Timer
 var time_left : int
@@ -38,18 +36,18 @@ func set_state(new_state : State) -> void:
 		State.ARISING:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
-			sprite.play("arise")
+			sprite_base.play("arise")
 		
 		State.IDLE:
 			hurtbox.set_deferred("monitorable", true)
 			set_collision(true)
 			velocity = Vector2.ZERO
-			sprite.play("idle")
+			sprite_base.play("idle")
 
 		State.TELEPORTING:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
-			sprite.play("escape_teleport")
+			sprite_base.play("escape_teleport")
 			
 		State.TRANSFORMED:
 			hurtbox.set_deferred("monitorable", false)
@@ -58,16 +56,14 @@ func set_state(new_state : State) -> void:
 
 		State.DAMAGED:
 			velocity = Vector2.ZERO
-			sprite.play("damage")
+			sprite_base.play("damage")
 
 		State.DYING:	
 			velocity = Vector2.ZERO
-			sprite.play("death")
+			sprite_base.play("death")
 
 func _ready() -> void:
-	stats.health_depleted.connect(_on_death)
-	stats.damage_taken.connect(_on_damaged)
-	stats.set_owner_node(self)
+	super._ready()
 	
 	setup_countdown_timer()
 	rng.randomize()
@@ -98,7 +94,7 @@ func _physics_process(delta: float) -> void:
 			if is_instance_valid(current_disguise):
 				global_position = current_disguise.global_position
 			else:
-				_on_damaged()
+				_on_damaged(0, "Force")
 
 		State.DAMAGED:
 			return
@@ -111,18 +107,18 @@ func handle_follow() -> void:
 	var next : Vector2 = nav.get_next_path_position()
 	velocity = global_position.direction_to(next) * speed	
 	if velocity.x > 0:
-		sprite.flip_h = true
+		sprite_base.flip_h = true
 	elif velocity.x < 0:
-		sprite.flip_h = false
+		sprite_base.flip_h = false
 	move_and_slide()
 
 func handle_move():	
-	sprite.play("move")
+	sprite_base.play("move")
 
 func handle_special() -> void:
-	sprite.play("special_attack")
+	sprite_base.play("special_attack")
 
-	var hitbox : hitBox = hitBox.new(stats, "Lifeslash", 0, hitbox_shape)
+	var hitbox : hitBox = hitBox.new(self, damage, "Lifeslash", 0, hitbox_shape)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
@@ -161,6 +157,9 @@ func handle_transformation() -> void:
 			current_disguise = new_enemy
 			new_enemy.stats.damage_taken.connect(_on_damaged)
 
+func _on_disguise_damaged(_amount, _type):
+	_on_damaged(0, "DisguiseHit")
+
 func handle_teleport() -> void:
 	teleport_cooldown = TELEPORT_COOLDOWN_TIME
 
@@ -172,7 +171,7 @@ func handle_teleport() -> void:
 	var closest_point : Vector2 = NavigationServer2D.map_get_closest_point(map_rid, target_point) 
 	global_position = closest_point
 
-	sprite.play("spawn_teleport")
+	sprite_base.play("spawn_teleport")
 
 func setup_countdown_timer() -> void:
 	player_hits_left = 10
@@ -211,7 +210,8 @@ func display_hits_left() -> void:
 	if player_hits_left == 0:
 		hits_left_label.text = "Level cleared!"
 		
-		stats.current_health = 0
+		if health_component:
+			health_component.take_damage(health_component.max_health, "Execution")
 		set_state(State.DYING)
 	else:
 		hits_left_label.text = "Hits Left: " + str(player_hits_left)
@@ -229,9 +229,11 @@ func set_collision(enabled: bool) -> void:
 		collision_mask = 1 << 1 #detect only layer 2
 
 
-func _on_damaged() -> void:
-	if is_instance_valid(current_disguise) && current_disguise.stats.damage_taken.is_connected(_on_damaged):
-		current_disguise.stats.damage_taken.disconnect(_on_damaged)
+func _on_damaged(amount, type) -> void:
+	super._on_damaged(amount, type)
+	if is_instance_valid(current_disguise):
+		if current_disguise.health_component.damage_taken.is_connected(_on_disguise_damaged):
+			current_disguise.health_component.damage_taken.disconnect(_on_disguise_damaged)
 	
 	player_hits_left -= 1
 	display_hits_left()
@@ -253,12 +255,8 @@ func fade_out(duration: float) -> void:
 	tween.tween_property(self, "modulate:a", 0.0, duration)
 	tween.tween_callback(reduce_to_gold)
 
-func reduce_to_gold() -> void:	
-	stats.drop_item()
-	queue_free()
-
 func _on_animated_sprite_2d_animation_finished() -> void:
-	match sprite.animation:
+	match sprite_base.animation:
 		"arise":
 			set_state(State.IDLE)
 
@@ -269,7 +267,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 				set_state(State.TELEPORTING)
 
 		"death":
-			if stats.current_health == 0:
+			if health_component.current_health <= 0:
 				reduce_to_gold()
 			else:
 				set_state(State.TRANSFORMED)

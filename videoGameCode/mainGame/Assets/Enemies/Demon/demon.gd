@@ -1,12 +1,10 @@
-extends CharacterBody2D
+extends EnemyEntity
 
 @onready var player : Node = get_tree().get_first_node_in_group("player")
-@export var sprite : AnimatedSprite2D
 @export var nav: NavigationAgent2D
-@export var stats : Stats
 @export var hitbox_shape : Shape2D
 var rng : RandomNumberGenerator = RandomNumberGenerator.new()
-var hurtbox : hurtBox
+var hurtbox : HurtBox
 
 const TELEPORT_COOLDOWN_TIME : float = 3.6
 var teleport_cooldown : float = 0.0
@@ -26,12 +24,12 @@ func set_state(new_state : State) -> void:
 	match state:
 		State.ARISING:
 			velocity = Vector2.ZERO
-			sprite.play("arise")
+			sprite_base.play("arise")
 		
 		State.IDLE:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
-			sprite.play("idle")
+			sprite_base.play("idle")
 			
 			await get_tree().create_timer(1.8).timeout
 			reduce_to_gold()
@@ -44,23 +42,22 @@ func set_state(new_state : State) -> void:
 
 		State.TELEPORTING:
 			velocity = Vector2.ZERO
-			sprite.play("escape_teleport")
+			sprite_base.play("escape_teleport")
 
 		State.SPECIAL:
 			handle_special()
 		
 		State.DAMAGED:
 			velocity = Vector2.ZERO
-			sprite.play("damage")
+			sprite_base.play("damage")
 
 		State.DYING:
 			velocity = Vector2.ZERO
-			sprite.play("death")
+			sprite_base.play("death")
 
 func _ready() -> void:
-	stats.health_depleted.connect(_on_death)
-	stats.damage_taken.connect(_on_damaged)
-	stats.set_owner_node(self)
+	super._ready() 
+	
 	rng.randomize()
 	
 	hurtbox = get_node("AnimatedSprite2D/hurtBox")
@@ -107,18 +104,18 @@ func handle_follow() -> void:
 	var next : Vector2 = nav.get_next_path_position()
 	velocity = global_position.direction_to(next) * speed	
 	if velocity.x > 0:
-		sprite.flip_h = true
+		sprite_base.flip_h = true
 	elif velocity.x < 0:
-		sprite.flip_h = false
+		sprite_base.flip_h = false
 	move_and_slide()
 
 func handle_move():	
-	sprite.play("move")
+	sprite_base.play("move")
 	
 func handle_attack() -> void:
-	sprite.play("attack")
+	sprite_base.play("attack")
 
-	var hitbox : hitBox = hitBox.new(stats, "None", 0, hitbox_shape)
+	var hitbox = hitBox.new(self, damage, "None", 0.1, hitbox_shape)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
@@ -128,9 +125,9 @@ func handle_attack() -> void:
 	hitbox.scale = Vector2(2.2,2.2)
 
 func handle_special() -> void:
-	sprite.play("special_attack")
+	sprite_base.play("special_attack")
 
-	var hitbox : hitBox = hitBox.new(stats, "Lifeslash", 0, hitbox_shape)
+	var hitbox : hitBox = hitBox.new(self, damage, "Lifeslash", 0, hitbox_shape)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
@@ -159,7 +156,7 @@ func handle_teleport() -> void:
 	var closest_point : Vector2 = NavigationServer2D.map_get_closest_point(map_rid, target_point) 
 	global_position = closest_point
 
-	sprite.play("spawn_teleport")
+	sprite_base.play("spawn_teleport")
 	
 func handle_timers(delta: float) -> void:
 	if teleport_cooldown > 0.0:
@@ -176,8 +173,9 @@ func _on_range_body_exited(body: Node2D) -> void:
 		print(player.name + " is no longer in range")
 		
 	
-func _on_damaged() -> void:
-	set_state(State.DAMAGED)	
+func _on_damaged(_amount, _type) -> void:
+	super._on_damaged(_amount, _type)
+	set_state(State.DAMAGED)
 	
 func _on_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
@@ -193,12 +191,8 @@ func fade_out(duration: float) -> void:
 	tween.tween_property(self, "modulate:a", 0.0, duration)
 	tween.tween_callback(reduce_to_gold)
 
-func reduce_to_gold() -> void:	
-	stats.drop_item()
-	queue_free()
-
 func _on_animated_sprite_2d_animation_finished() -> void:
-	match sprite.animation:
+	match sprite_base.animation:
 		"arise":
 			set_state(State.MOVING)
 		

@@ -1,9 +1,8 @@
-[gd_scene load_steps=969 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=968 format=3 uid="uid://gybvdpwifulg"]
 
-[ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player_b.gd" id="1_24q4e"]
+[ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
 [ext_resource type="Texture2D" uid="uid://xyyryh37fiw" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Idle/Sword_Idle_full.png" id="2_24q4e"]
-[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_p8spm"]
 [ext_resource type="Texture2D" uid="uid://ck0jycudaqfvx" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run/Sword_Run_full.png" id="3_7rtkj"]
 [ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="3_a86ck"]
 [ext_resource type="Script" uid="uid://co7tkofoxgpia" path="res://Assets/Scripts/weapon_data.gd" id="3_feila"]
@@ -29,11 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://ch27jnwl6tw8b" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Death/Unarmed_Death3_head.png" id="15_djc4d"]
 [ext_resource type="Texture2D" uid="uid://c2150h04g2iqs" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Run/Unarmed_Run3_head.png" id="16_0k6dv"]
 [ext_resource type="Texture2D" uid="uid://s212rbjef8bb" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Idle/Unarmed_Idle3_head.png" id="17_djc4d"]
-
-[sub_resource type="Resource" id="Resource_2crlu"]
-script = ExtResource("2_p8spm")
-max_health = 10000.0
-metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+[ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="29_ggw7w"]
 
 [sub_resource type="Resource" id="Resource_yj04c"]
 script = ExtResource("3_feila")
@@ -9845,9 +9840,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="playerB" type="CharacterBody2D" groups=["player"]]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_24q4e")
-stats = SubResource("Resource_2crlu")
 sword_data = SubResource("Resource_yj04c")
 spear_data = SubResource("Resource_visa7")
 
@@ -9894,10 +9888,11 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 7
+frame = 8
 
-[node name="hurtBox" type="Area2D" parent="fullAnim"]
+[node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")
+health_component = NodePath("../../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="fullAnim/hurtBox"]
 position = Vector2(0, 1)
@@ -9951,6 +9946,10 @@ animation = &""
 scale = Vector2(0.7, 0.7)
 sprite_frames = SubResource("SpriteFrames_gtqfd")
 animation = &"brelease"
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("29_ggw7w")
+metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="animation_finished" from="bowEffectslay2" to="." method="_on_bow_effectslay_2_animation_finished"]

@@ -2,27 +2,26 @@ extends CharacterBody2D
 
 @onready var anim_tree = $AnimationTree
 @onready var anim_state = anim_tree.get("parameters/playback")
+
 @onready var bodyAnim = $bodyAnim
 @onready var headAnim = $headAnim
 @onready var fullAnim = $fullAnim
 @onready var spearAnim = $spearAnim
 @onready var bowAnim = $bowAnim
+
 @onready var spearEffects = $spearEffects
 @onready var weaponEffects = $weaponEffects
 @onready var bodyEffects = $bodyEffects
 @onready var bowEffects = $bowEffects
 @onready var bowEffects2 = $bowEffectslay2
 
-@export var stats : Stats
-
 var canvas : CanvasLayer
-var health_bar : TextureProgressBar
+var health_bar : Label
 var currency_label : Label
 var camera : Camera2D
 
 var swordArc := preload("res://Assets/Scenes/sword_arc.tscn")
 var hitbox_shape : Shape2D
-
 
 var ghostSpear := preload("res://Assets/Scenes/ghost_spear.tscn")
 var SPEAR_GHOST_COOLDOWN : float = 15.0
@@ -30,13 +29,10 @@ var spear_ghost_timer : float = 0.0
 var spear_ghost_ready : bool = true
 var spear_ghost_active : bool = false
 
-
-
 var orig_spear_pos : Vector2
 var orig_pos : Vector2
 const DASH_COOLDOWN_TIME = 1.2
 const DASH_DURATION_TIME = 0.2
-
 
 var dash_multiplier = 2.0
 var dash_cooldown = 0.0
@@ -58,11 +54,9 @@ var player_facing: Facing
 @export var spear_data: WeaponData
 @export var bow_data: WeaponData
 
-
 enum Weapon {SWORD, SPEAR, BOW}
 var current_weapon: Weapon
 var current_weapon_data: WeaponData
-
 
 var attacking = false
 var attacked = false
@@ -81,27 +75,28 @@ var mouse_aiming = true #set this to true if you want to aim with mouse
 
 
 func _ready():
+	$HealthComponent.status_changed.connect(_on_status_changed)
+	$HealthComponent.special_effect_triggered.connect(_on_special_effect)
+	$HealthComponent.health_changed.connect(_on_health_changed)
+	$HealthComponent.health_depleted.connect(_on_death)
+	
 	anim_tree.active = true
 	current_weapon = Weapon.SWORD
 	current_weapon_data = sword_data
-
-	stats.set_owner_node(self)
-	stats.health_changed.connect(_on_health_changed)
-	stats.health_depleted.connect(_on_death)
-	stats.damage_taken.connect(_on_damaged)
+	
 	orig_spear_pos = spearAnim.position
 	orig_pos = position
 	
 	canvas = get_tree().get_first_node_in_group("canvas")
-	health_bar = canvas.get_node("health") # change
+	health_bar = canvas.get_node("Health") # change
 	currency_label = canvas.get_node("Currency") # change
-	# change
-	health_bar.text = "sigma"
+	
+	health_bar.text = str(GameData.current_health)
+	currency_label.text = str(GameData.currency)
+	health_bar.visible = true
 	currency_label.visible = true
 	
 	bowEffects2.visible = false
-	
-	stats.set_owner_node(self)
 	
 	camera = get_tree().get_first_node_in_group("camera")
 	update_camera()
@@ -110,12 +105,54 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
 	handle_input(delta)
-
 	updateSprite()
 	update_camera()
 	attacking_speed_test()
 	
 	#print("current node:", anim_state.get_current_node())
+
+func _on_status_changed(new_status):
+	var target_colour: Color = Color.WHITE
+	match new_status:
+		0: # HEALTHY
+			target_colour = Color.WHITE
+		1: # POISONED
+			target_colour = Color("#ffacff")
+		2: # DAMAGED
+			_flash_damage()
+			return
+		3: # OVERHEATING
+			target_colour = Color("f5a3b0")
+	
+	_apply_sprite_color(target_colour)
+
+# helper to color correct active sprites
+func _apply_sprite_color(color: Color):
+	if current_weapon == Weapon.SWORD:
+		fullAnim.modulate = color
+	else:
+		bodyAnim.modulate = color
+		headAnim.modulate = color
+		spearAnim.modulate = color
+		bowAnim.modulate = color
+
+func _flash_damage():
+	var flash_color: Color = Color("f5a3b0")
+	_apply_sprite_color(flash_color)
+	
+	# tween back to current status colour after 0.2s
+	var tween = create_tween()
+	tween.tween_interval(0.2)
+	tween.tween_callback(func(): 
+		# ask component what status is now in case we are still poisoned
+		_on_status_changed($HealthComponent.status)
+)
+
+func _on_special_effect(effect_name):
+	if effect_name == "darkness":
+		# Call your global world manager here
+		# SignalBus.emit_signal("request_world_darkness")
+		pass #temporary 
 
 #use this for movement
 func get_movement_direction() -> Vector2:
@@ -137,11 +174,6 @@ func get_nonzero_movement_direction() -> Vector2:
 		return last_dir
 	
 	return direction
-
-
-
-
-
 
 
 func handle_input(delta: float):
@@ -572,17 +604,19 @@ func shoot_arrow(dir: Vector2 = Vector2.ZERO): #triggered at end of battack anim
 	
 	arrow.global_position = global_position
 	arrow.direction = dir.normalized()
-	arrow.attacker_stats = stats
+	arrow.attacker = self
+	arrow.base_damage = GameData.damage
+	
 	arrow.weapon_data = bow_data
 	
 	get_parent().add_child(arrow)
 	print("shot arrow mhm")
 	
-	
-	
+
 func get_bow_dir(angle):
 	pass
 	
+
 func spear_attack():
 	#offset position of spear sprite
 
@@ -592,7 +626,7 @@ func spear_attack():
 	hitbox_shape.radius = 5
 	hitbox_shape.height = 70
 	
-	var hitbox = hitBox.new(stats, "None", 0.5, hitbox_shape, current_weapon_data)
+	var hitbox = hitBox.new(self, GameData.damage, "None", 0.5, hitbox_shape, current_weapon_data)
 	
 	var forward : Vector2
 	var hitbox_dist := 20.0
@@ -703,7 +737,7 @@ func sword_attack():
 	
 	hitbox_shape = CircleShape2D.new()
 	hitbox_shape.radius = 15 
-	var hitbox = hitBox.new(stats, "None", 0.5, hitbox_shape, current_weapon_data) #change hitbox based on weapon later
+	var hitbox = hitBox.new(self, GameData.damage, "None", 0.5, hitbox_shape, current_weapon_data) #change hitbox based on weapon later
 
 	match player_facing:
 		Facing.DOWN:
@@ -770,13 +804,16 @@ func sword_special_attack():
 		
 func spawn_arc(offset: Vector2, ang: float) -> void:
 	var arc: SwordArc = swordArc.instantiate()
-	arc.attacker_stats = stats
+	
+	arc.attacker = self
+	arc.base_damage = GameData.damage
+	
 	arc.weapon_data = current_weapon_data
 	arc.global_position = global_position + offset
 	arc.global_rotation = ang
 	get_parent().add_child(arc)
 	
-		
+
 func spear_special_attack():
 	if not spear_ghost_ready or spear_ghost_active:
 		print("spear not ready yet")
@@ -791,7 +828,6 @@ func spear_special_attack():
 	var ghost: ghostSpear = ghostSpear.instantiate()
 	ghost.global_position = global_position
 	ghost.owner_player = self
-	ghost.attacker_stats = stats
 	ghost.weapon_data = current_weapon_data
 	
 	ghost.returned_to_owner.connect(on_ghost_spear_returned)
@@ -861,12 +897,12 @@ func _on_death():
 func _on_damaged():
 	pass
 	
-func _on_health_changed() -> void:	
-	health_bar.text = str(stats.current_health)
+func _on_health_changed(new_amount, _max_amount) -> void:    
+	health_bar.text = str(new_amount)
 
 func collect_currency(enemy_currency : int) -> void:
-	stats.currency = stats.currency + enemy_currency
-	currency_label.text = str(stats.currency)
+	GameData.currency = GameData.currency + enemy_currency
+	currency_label.text = str(GameData.currency)
 
 func player_busy() -> bool:
 	return attacking or dying or special_charging
@@ -874,7 +910,7 @@ func player_busy() -> bool:
 func death_screen() -> void:
 	health_bar.visible = false
 	currency_label.visible = false
-	stats.initialise_stats()
+	GameData.reset_stats()
 	
 	var deathBGRND : ColorRect = canvas.get_node("DeathBGRND")
 	
@@ -889,7 +925,7 @@ func clear_screen() -> void:
 	
 	health_bar.visible = false
 	currency_label.visible = false
-	stats.initialise_stats()
+	GameData.reset_stats()
 	
 	var clearBGRND : ColorRect = canvas.get_node("ClearBGRND")
 	var player_scene : PackedScene = load(get_scene_file_path()) as PackedScene
@@ -897,7 +933,7 @@ func clear_screen() -> void:
 	
 	var menuplayer : MenuPlayer = preload("res://Assets/Scenes/menu(player).tscn").instantiate()
 	canvas.add_child(menuplayer)
-	menuplayer.initialise(clearBGRND, player_scene, player_pos, stats.currency)
+	menuplayer.initialise(clearBGRND, player_scene, player_pos, GameData.currency)
 	
 	call_deferred("queue_free")
 

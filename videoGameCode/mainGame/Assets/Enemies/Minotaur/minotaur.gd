@@ -1,11 +1,9 @@
-extends CharacterBody2D
+extends EnemyEntity
 
 @onready var player : Node = get_tree().get_first_node_in_group("player")
-@export var sprite : AnimatedSprite2D
 @export var nav: NavigationAgent2D
-@export var stats : Stats
 @export var hitbox_shape : Shape2D
-@export var hurtbox : hurtBox
+@export var hurtbox : HurtBox
 @export var summons : Array[PackedScene]
 @export var player_rays : Array[RayCast2D]
 var camera : Camera2D
@@ -43,11 +41,11 @@ func set_state(new_state : State) -> void:
 	state = new_state
 	state_changed.emit()
 	
-	match state:	
+	match state:
 		State.IDLE:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
-			sprite.play("idle")
+			sprite_base.play("idle")
 
 			await get_tree().create_timer(1.8).timeout
 			reduce_to_gold()
@@ -74,24 +72,22 @@ func set_state(new_state : State) -> void:
 	
 		State.OVERHEATING:
 			hurtbox.set_deferred("monitorable", false)
-			stats.start_overheat()
+			health_component.start_overheat()
 			handle_charge()
 			
 		State.STUNNED:
 			hurtbox.set_deferred("monitorable", true)
 			velocity = Vector2.ZERO
 			stun_duration = STUN_DURATION_TIME
-			sprite.play("stunned")
+			sprite_base.play("stunned")
 		
 		State.DAMAGED:
 			hurtbox.set_deferred("monitorable", true)
 			velocity = Vector2.ZERO
-			sprite.play("damage")
+			sprite_base.play("damage")
 
 func _ready() -> void:
-	stats.health_depleted.connect(_on_death)
-	stats.damage_taken.connect(_on_damaged)
-	stats.set_owner_node(self)
+	super._ready()
 	
 	rng.randomize()
 	
@@ -135,28 +131,30 @@ func _physics_process(delta: float) -> void:
 		State.POWERUP:
 			var direction : Vector2 = global_position.direction_to(player.global_position)
 			if direction.x > 0:
-				sprite.flip_h = false
+				sprite_base.flip_h = false
 			elif direction.x < 0:
-				sprite.flip_h = true
+				sprite_base.flip_h = true
 			
 		State.CHARGING:
 			if charge_duration <= 0:
 				set_state(State.MOVING)
 			if is_on_wall():
 				charge_collision.emit()
-				stats.take_damage(10, "None")
+				if health_component:
+					health_component.take_damage(10, "None")
 				set_state(State.STUNNED)
 			
 			velocity = charge_direction * speed * charge_multiplier
 			if velocity.x > 0:
-				sprite.flip_h = false
+				sprite_base.flip_h = false
 			elif velocity.x < 0:
-				sprite.flip_h = true
+				sprite_base.flip_h = true
 			move_and_slide()
 			
 		State.OVERHEATING:
 			if charge_duration <= 0:
-				stats.end_overheat()
+				if health_component:
+					health_component.stop_overheat()
 				set_state(State.MOVING)
 			if is_on_wall():        
 				charge_collision.emit()
@@ -172,9 +170,9 @@ func _physics_process(delta: float) -> void:
 
 			velocity = 1.4 * charge_direction * speed * charge_multiplier
 			if velocity.x > 0:
-				sprite.flip_h = false
+				sprite_base.flip_h = false
 			elif velocity.x < 0:
-				sprite.flip_h = true
+				sprite_base.flip_h = true
 			move_and_slide()
 
 		State.STUNNED:
@@ -200,39 +198,39 @@ func handle_follow() -> void:
 	var next : Vector2 = nav.get_next_path_position()
 	velocity = global_position.direction_to(next) * speed	
 	if velocity.x > 0:
-		sprite.flip_h = false
+		sprite_base.flip_h = false
 	elif velocity.x < 0:
-		sprite.flip_h = true
+		sprite_base.flip_h = true
 	move_and_slide()
 
 func handle_move() -> void:	
-	sprite.play("move")
+	sprite_base.play("move")
 	
 func handle_powerup() -> void:
 	velocity = Vector2.ZERO
-	sprite.play("idle")
+	sprite_base.play("idle")
 	
 	var tween : Tween = get_tree().create_tween()
 	
-	sprite.self_modulate = Color(1.526, 1.526, 1.526, 1.0)
-	tween.tween_property(sprite, "modulate", Color("f5a3b0"), 0.12)
+	sprite_base.self_modulate = Color(1.526, 1.526, 1.526, 1.0)
+	tween.tween_property(sprite_base, "modulate", Color("f5a3b0"), 0.12)
 	tween.tween_property(self, "scale", Vector2(0.94,0.94), 0.12)
-	tween.tween_property(sprite, "modulate", Color("ffffffff"), 0.12)
+	tween.tween_property(sprite_base, "modulate", Color("ffffffff"), 0.12)
 	tween.tween_property(self, "scale", Vector2(1,1), 0.12)
 	tween.set_loops()
 	
 	await get_tree().create_timer(3).timeout
 	tween.kill() 
 	
-	sprite.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
-	sprite.modulate = Color("ffffffff")
-	sprite.scale = Vector2(1,1)
+	sprite_base.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
+	sprite_base.modulate = Color("ffffffff")
+	sprite_base.scale = Vector2(1,1)
 	set_state(State.MOVING)
 
 func handle_attack() -> void:
-	sprite.play("attack")
+	sprite_base.play("attack")
 
-	var hitbox : hitBox = hitBox.new(stats, "None", 0, hitbox_shape)
+	var hitbox : hitBox = hitBox.new(self, damage, "None", 0, hitbox_shape)
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
@@ -242,7 +240,7 @@ func handle_attack() -> void:
 	hitbox.scale = Vector2(1.9,1.9)
 
 func handle_charge() -> void:
-	sprite.play("charge")
+	sprite_base.play("charge")
 	hurtbox.set_deferred("monitorable", false)
 	
 	if state == State.CHARGING:
@@ -252,7 +250,7 @@ func handle_charge() -> void:
 		charge_cooldown = OVERHEAT_COOLDOWN_TIME
 		charge_duration = OVERHEAT_DURATION_TIME
 
-	var hitbox : hitBox = hitBox.new(stats, "Critical", 0, hitbox_shape)
+	var hitbox : hitBox = hitBox.new(self, damage, "Critical", 0, hitbox_shape)
 	hitbox.scale = Vector2(2.6,2.6)
 	state_changed.connect(hitbox.queue_free)
 	if state == State.CHARGING:
@@ -264,7 +262,7 @@ func handle_charge() -> void:
 
 
 func handle_summon() -> void:
-	sprite.play("summon")
+	sprite_base.play("summon")
 	summon_cooldown = SUMMON_COOLDOWN_TIME
 	
 	var vector_to_player : Vector2 = player.global_position - global_position
@@ -309,10 +307,12 @@ func _on_range_body_exited(body: Node2D) -> void:
 		print(player.name + " is no longer in range")
 		
 	
-func _on_damaged() -> void:
+func _on_damaged(_amount, _type) -> void:
 	if state == State.OVERHEATING:
-		return	
-	set_state(State.DAMAGED)	
+		return
+	
+	super._on_damaged(_amount, _type)
+	set_state(State.DAMAGED)
 
 func _on_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
@@ -330,19 +330,16 @@ func clear_game() -> void:
 	player.clear_screen()
 	reduce_to_gold()
 
-func reduce_to_gold() -> void:	
-	stats.drop_item()
-	queue_free()
-
 func _on_animated_sprite_2d_animation_finished() -> void:
-	match sprite.animation:
+	match sprite_base.animation:
 		"damage":
-			if phase_two == false and stats.current_health <= stats.max_health/2:
+			var hp_threshold = health_component.max_health / 2
+			if phase_two == false and health_component.current_health <= hp_threshold:
 				phase_two = true
 				set_state(State.POWERUP)
 			else:
 				set_state(State.MOVING)
-	
+			
 		"attack":
 			set_state(State.MOVING)
 			print("enemy finished attack")	

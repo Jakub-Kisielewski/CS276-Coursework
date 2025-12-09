@@ -1,6 +1,5 @@
 class_name ghostSpear extends CharacterBody2D
 
-@export var attacker_stats: Stats
 @export var weapon_data: WeaponData
 @export var speed: float = 200.0
 @export var detection_dist: float = 250.0
@@ -131,11 +130,8 @@ func seek_target(delta: float) -> void:
 		move_towards(target.global_position, speed, delta)
 	else:
 		current_state = State.ATTACK
-		
 	
-	
-	
-	
+
 func try_attack(delta) -> void:
 	
 	if attacking or attack_cooldown > 0.0:
@@ -181,19 +177,16 @@ func spawn_hitbox():
 	var shape: Shape2D = CircleShape2D.new()
 	
 	shape.radius = 6.0
-
 	
-	var hitbox : hitBox = hitBox.new(attacker_stats, "None", 0.5, shape, weapon_data)
+	var hitbox = hitBox.new(owner_player, GameData.damage, "None", 0.5, shape, weapon_data)
 	
 	var forward : Vector2 = Vector2.RIGHT.rotated(rotation)
 	var offset :  Vector2 = forward * 20
 	
-	
 	hitbox.position = offset
 	add_child(hitbox)
 	
-	
-		
+
 func return_to_owner(delta: float):
 	if owner_player == null:
 		queue_free()
@@ -217,9 +210,4 @@ func _on_gsp_anim_animation_finished() -> void:
 		current_state = State.SEEK
 	else:
 		current_state = State.IDLE
-		
-		
-		
-		
-		
-		
+	

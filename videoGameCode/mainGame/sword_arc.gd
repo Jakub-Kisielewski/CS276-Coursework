@@ -1,7 +1,8 @@
 class_name SwordArc extends Area2D
 
 @onready var arcAnim = $arcAnim
-@export var attacker_stats: Stats
+var attacker: Node 
+var base_damage: float 
 @export var weapon_data: WeaponData
 
 var lifetime: float = 0.3
@@ -11,7 +12,10 @@ func _ready() -> void:
 	var shape: Shape2D = CircleShape2D.new()
 	shape.radius = 13
 	
-	hitbox = hitBox.new(attacker_stats, "None", lifetime, shape, weapon_data)
+	if attacker == null:
+		attacker = self
+	
+	hitbox = hitBox.new(attacker, base_damage, "None", lifetime, shape, weapon_data)
 	
 	add_child(hitbox)
 	
@@ -26,7 +30,6 @@ func _ready() -> void:
 	
 	
 func _process(delta: float) -> void:
-	
 	if hitbox:
 		hitbox.position = Vector2.ZERO
 		hitbox.rotation = 0.0

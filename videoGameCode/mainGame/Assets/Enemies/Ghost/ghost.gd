@@ -1,11 +1,9 @@
-extends CharacterBody2D
+extends EnemyEntity
 
 @onready var player : Node = get_tree().get_first_node_in_group("player")
-@export var sprite : AnimatedSprite2D
 @export var nav: NavigationAgent2D
-@export var stats : Stats
 @export var hitbox_shape : Shape2D
-@export var hurtbox : hurtBox
+@export var hurtbox : HurtBox
 var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
 const THRUST_COOLDOWN_TIME : float = 0.8
@@ -21,7 +19,6 @@ enum State { ARISING, IDLE, INVISIBLE_MOVING, VISIBLE_MOVING, ATTACKING, THRUSTI
 var state : State = State.IDLE
 signal state_changed
 
-
 func set_state(new_state : State) -> void:
 	state = new_state
 	state_changed.emit()
@@ -29,12 +26,12 @@ func set_state(new_state : State) -> void:
 	match state:
 		State.ARISING:
 			velocity = Vector2.ZERO
-			sprite.play("arise")
+			sprite_base.play("arise")
 			
 		State.IDLE:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
-			sprite.play("idle")
+			sprite_base.play("idle")
 			
 			await get_tree().create_timer(1.8).timeout
 			reduce_to_gold()
@@ -42,13 +39,13 @@ func set_state(new_state : State) -> void:
 		State.INVISIBLE_MOVING:
 			hurtbox.set_deferred("monitorable", false)
 			speed = 100
-			sprite.modulate = Color(1.719, 0.229, 0.334, 1.0)
+			sprite_base.modulate = Color(1.719, 0.229, 0.334, 1.0)
 			handle_move()
 	
 		State.VISIBLE_MOVING:
 			hurtbox.set_deferred("monitorable", true)
 			speed = 80
-			sprite.modulate = Color("ffffffff")
+			sprite_base.modulate = Color("ffffffff")
 			handle_move()
 
 		State.ATTACKING:
@@ -59,16 +56,14 @@ func set_state(new_state : State) -> void:
 
 		State.DAMAGED:
 			velocity = Vector2.ZERO
-			sprite.play("damage")
+			sprite_base.play("damage")
 
 		State.DYING:
 			velocity = Vector2.ZERO
-			sprite.play("death")
+			sprite_base.play("death")
 
 func _ready() -> void:
-	stats.health_depleted.connect(_on_death)
-	stats.damage_taken.connect(_on_damaged)
-	stats.set_owner_node(self)
+	super._ready()
 	
 	rng.randomize()
 	
@@ -104,9 +99,9 @@ func _physics_process(delta: float) -> void:
 		State.THRUSTING:
 			velocity = thrust_direction * speed * thrust_multiplier
 			if velocity.x > 0:
-				sprite.flip_h = true
+				sprite_base.flip_h = true
 			elif velocity.x < 0:
-				sprite.flip_h = false
+				sprite_base.flip_h = false
 			move_and_slide()
 			
 		State.DAMAGED:
@@ -120,23 +115,23 @@ func handle_follow() -> void:
 	var next : Vector2 = nav.get_next_path_position()
 	velocity = global_position.direction_to(next) * speed	
 	if velocity.x > 0:
-		sprite.flip_h = true
+		sprite_base.flip_h = true
 	elif velocity.x < 0:
-		sprite.flip_h = false
+		sprite_base.flip_h = false
 	move_and_slide()
 
 func handle_move() -> void:	
-	sprite.play("move")
+	sprite_base.play("move")
 	
 func handle_attack() -> void:
-	sprite.play("attack")
+	sprite_base.play("attack")
 	
 	var hitbox : hitBox
 	if lifeslash:
 		print("life")
-		hitbox = hitBox.new(stats, "Lifeslash", 0, hitbox_shape)
+		hitbox = hitBox.new(self, damage, "Lifeslash", 0, hitbox_shape)
 	else:
-		hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
+		hitbox = hitBox.new(self, damage, "None", 0, hitbox_shape)
 		
 	hitbox.scale = Vector2(1.6,1.8)	
 	state_changed.connect(hitbox.queue_free)
@@ -150,17 +145,17 @@ func handle_attack() -> void:
 		hitbox.position = Vector2(20, 0)
 
 func handle_thrust() -> void:
-	sprite.play("thrust")
+	sprite_base.play("thrust")
 	
 	thrust_cooldown = THRUST_COOLDOWN_TIME
 	
 	var hitbox : hitBox
 	if lifeslash:
-		hitbox = hitBox.new(stats, "Lifeslash", 0, hitbox_shape)
+		hitbox = hitBox.new(self, damage, "Lifeslash", 0, hitbox_shape)
 	else:
-		hitbox = hitBox.new(stats, "None", 0, hitbox_shape)
+		hitbox = hitBox.new(self, damage, "None", 0, hitbox_shape)
 	
-	hitbox.rotation_degrees = 90	
+	hitbox.rotation_degrees = 90
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 	
@@ -189,7 +184,8 @@ func _on_range_body_exited(body: Node2D) -> void:
 		print("player is no longer in range")
 		
 	
-func _on_damaged() -> void:
+func _on_damaged(_amount, _type) -> void:
+	super._on_damaged(_amount, _type)
 	set_state(State.DAMAGED)	
 	
 func _on_death() -> void:
@@ -206,12 +202,8 @@ func fade_out(duration: float) -> void:
 	tween.tween_property(self, "modulate:a", 0.0, duration)
 	tween.tween_callback(reduce_to_gold)
 
-func reduce_to_gold() -> void:	
-	stats.drop_item()
-	queue_free()
-
 func _on_animated_sprite_2d_animation_finished() -> void:
-	match sprite.animation:
+	match sprite_base.animation:
 		"arise":
 			set_state(State.VISIBLE_MOVING)
 		

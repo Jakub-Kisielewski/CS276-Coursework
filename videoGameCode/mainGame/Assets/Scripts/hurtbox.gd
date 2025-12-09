@@ -1,37 +1,37 @@
-class_name hurtBox
-extends Area2D
+class_name HurtBox extends Area2D
 
-@onready var owner_stats : Stats = owner.stats
+@export var health_component: HealthComponent
 
-func _init() -> void:
-	pass
-	
 func _ready() -> void:
-	monitorable = false
-	match owner_stats.faction:
-		Stats.Faction.PLAYER:
-			collision_layer = 1 << 0 #put area on layer 1
-			collision_mask = 1 << 1 #detect only layer 2
-		Stats.Faction.ENEMY, Stats.Faction.INVINCIBLE:
-			collision_layer = 1 << 1 #put area on layer 2
-			collision_mask = 1 << 0 #detect only layer 1
+	
+	if health_component == null and owner.has_node("HealthComponent"):
+		health_component = owner.get_node("HealthComponent")
+	
 	monitorable = true
+	monitoring = false
+	
+	if owner.is_in_group("player"):
+		collision_layer = 1 # Layer 1 (Player)
+		collision_mask = 0  
+	else:
+		# enemy
+		collision_layer = 2 # Layer 2 (Enemy)
+		collision_mask = 0
 	
 func receive_hit(damage: int, attacker : Node, attack_effect: String) -> void:
 	if attacker == null:
 		print("attacker is null")
 		return
-		
+	
 	if owner.has_method("iframes_on") and owner.iframes_on():
 		return
-		
-	if attacker.stats.faction == owner_stats.faction:
+	
+	if attacker.is_in_group("player") and owner.is_in_group("player"):
 		return
-		
-	if attacker == owner:
+	if attacker.is_in_group("enemy") and owner.is_in_group("enemy"):
 		return
 	
-	if owner_stats.faction == owner_stats.Faction.INVINCIBLE:
-		owner_stats.take_damage(0, "None")
+	if health_component:
+		health_component.take_damage(damage, attack_effect)
 	else:
-		owner_stats.take_damage(damage, attack_effect)
+		print("Error: Owner ", owner.name, " has no HealthComponent!")

@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var nav: NavigationAgent2D
 @export var stats : Stats
 @export var hitbox_shape : Shape2D
-var hurtbox : hurtBox
+var hurtbox : HurtBox
 
 var player_in_range : bool = false
 @export var speed : float = 100.0
@@ -13,7 +13,6 @@ var player_in_range : bool = false
 enum State { IDLE, MOVING, DAMAGED, DYING }
 var state : State = State.IDLE
 signal state_changed
-
 
 func set_state(new_state : State) -> void:
 	state = new_state
