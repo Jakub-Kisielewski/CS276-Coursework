@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=22 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Environment" uid="uid://cp3vl3du8x0j5" path="res://Assets/Scenes/standard_world.tres" id="1_gfgg3"]
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
@@ -8,7 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player.tscn" id="3_qfi48"]
 [ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="4_gn4xj"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_2v7sf"]
-[ext_resource type="PackedScene" uid="uid://becsynnrqprvl" path="res://Assets/Enemies/Wizard/wizard.tscn" id="9_0fbdl"]
+[ext_resource type="PackedScene" uid="uid://dklpobami1hkg" path="res://Assets/Enemies/PoisonousBat/poisonous_bat.tscn" id="8_0fbdl"]
+[ext_resource type="PackedScene" uid="uid://dl5lpjcwe5tsx" path="res://Assets/Enemies/Ghost/ghost.tscn" id="9_0fbdl"]
+[ext_resource type="PackedScene" uid="uid://btwfd83br58hn" path="res://Assets/Enemies/Demon/demon.tscn" id="9_pk5fv"]
+[ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.tscn" id="10_pk5fv"]
+[ext_resource type="PackedScene" uid="uid://cxk0mg0y5qdi0" path="res://Assets/Enemies/UndeadSwordsmanArmour/undead_swordsman.tscn" id="11_gfgg3"]
+[ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="14_gn4xj"]
 
 [sub_resource type="FontFile" id="FontFile_0fbdl"]
 subpixel_positioning = 0
@@ -2181,7 +2186,7 @@ theme_override_colors/font_color = Color(1, 0.39414454, 0.37854916, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = SubResource("FontFile_0fbdl")
 theme_override_font_sizes/font_size = 45
-text = "100"
+text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
@@ -2383,8 +2388,38 @@ tile_map_data = PackedByteArray("AAD2//z/AQAZAAEAAAD6//z/AQAdAAEAAAD3//z/AQAaAAE
 tile_set = SubResource("TileSet_nnog6")
 navigation_enabled = false
 
-[node name="playerB" parent="." instance=ExtResource("3_qfi48")]
-position = Vector2(-49, 179)
+[node name="player" parent="." instance=ExtResource("3_qfi48")]
+position = Vector2(-69, 168)
 
-[node name="Wizard" parent="." instance=ExtResource("9_0fbdl")]
-position = Vector2(0, -197)
+[node name="fullAnim" parent="player" index="8"]
+frame = 6
+
+[node name="BasicSkeleton" parent="." instance=ExtResource("10_pk5fv")]
+position = Vector2(-140, -120)
+
+[node name="Demon" parent="." instance=ExtResource("9_pk5fv")]
+position = Vector2(-83, -131)
+
+[node name="BasicSkeleton2" parent="." instance=ExtResource("10_pk5fv")]
+position = Vector2(30, -142)
+
+[node name="Ghost" parent="." instance=ExtResource("9_0fbdl")]
+position = Vector2(119, -121)
+
+[node name="PoisonousBat" parent="." instance=ExtResource("8_0fbdl")]
+position = Vector2(-153, 68)
+
+[node name="PoisonousBat2" parent="." instance=ExtResource("8_0fbdl")]
+position = Vector2(143, -58)
+
+[node name="UndeadSwordsman" parent="." instance=ExtResource("11_gfgg3")]
+position = Vector2(-25, 59)
+
+[node name="UndeadAxeman" parent="." instance=ExtResource("14_gn4xj")]
+position = Vector2(57, -73)
+speed = 60.0
+
+[node name="UndeadSwordsman2" parent="." instance=ExtResource("11_gfgg3")]
+position = Vector2(-10, -89)
+
+[editable path="player"]

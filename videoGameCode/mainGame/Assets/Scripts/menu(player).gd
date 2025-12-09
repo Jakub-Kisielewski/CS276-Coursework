@@ -11,16 +11,13 @@ var player_scene : PackedScene
 var player_pos : Vector2
 var skip : bool
 
-var player_currency : int
-
 enum Direction { LEFT, ZERO, RIGHT }
 var direction : Direction = Direction.LEFT
 
-func initialise(_clearBGRND: ColorRect, _player_scene: PackedScene, _player_pos: Vector2, _player_currency: int):
+func initialise(_clearBGRND: ColorRect, _player_scene: PackedScene, _player_pos: Vector2):
 	clearBGRND = _clearBGRND
 	player_scene = _player_scene
 	player_pos = _player_pos
-	player_currency = _player_currency
 	
 	start_pos = global_position
 	clear_anim()
@@ -64,7 +61,6 @@ func _process(_delta: float) -> void:
 			
 		var player : CharacterBody2D = player_scene.instantiate()
 		player.global_position = player_pos
-		player.stats.currency = player_currency
 		get_tree().root.add_child(player)
 		
 		queue_free()

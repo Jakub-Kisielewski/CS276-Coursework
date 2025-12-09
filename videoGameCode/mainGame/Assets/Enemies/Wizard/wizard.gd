@@ -212,7 +212,6 @@ func display_hits_left() -> void:
 		
 		if health_component:
 			health_component.take_damage(health_component.max_health, "Execution")
-		set_state(State.DYING)
 	else:
 		hits_left_label.text = "Hits Left: " + str(player_hits_left)
 

@@ -920,7 +920,7 @@ func clear_screen() -> void:
 	
 	var menuplayer : MenuPlayer = preload("res://Assets/Scenes/menu(player).tscn").instantiate()
 	canvas.add_child(menuplayer)
-	menuplayer.initialise(clearBGRND, player_scene, player_pos, GameData.currency)
+	menuplayer.initialise(clearBGRND, player_scene, player_pos)
 	
 	call_deferred("queue_free")
 

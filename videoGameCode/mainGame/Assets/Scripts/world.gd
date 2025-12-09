@@ -5,10 +5,10 @@ class_name World extends WorldEnvironment
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	SignalBus.request_darkness.connect(set_dark)
 
-func set_standard() -> void:
-	environment = standard_world
 
-func set_dark() -> void:
+func set_dark(time : int) -> void:
 	environment = dark_world
+	await get_tree().create_timer(time).timeout
+	environment = standard_world

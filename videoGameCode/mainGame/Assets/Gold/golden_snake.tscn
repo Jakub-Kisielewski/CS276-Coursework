@@ -42,7 +42,7 @@ height = 45.0
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_2vsxt")
-amount = 30
+amount = 40
 speed = 20.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

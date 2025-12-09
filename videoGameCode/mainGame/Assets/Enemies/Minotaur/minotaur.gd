@@ -154,6 +154,7 @@ func _physics_process(delta: float) -> void:
 		State.OVERHEATING:
 			if charge_duration <= 0:
 				if health_component:
+					sprite_base.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
 					health_component.stop_overheat()
 				set_state(State.MOVING)
 			if is_on_wall():        
@@ -247,6 +248,7 @@ func handle_charge() -> void:
 		charge_cooldown = CHARGE_COOLDOWN_TIME
 		charge_duration = CHARGE_DURATION_TIME
 	else:
+		sprite_base.self_modulate = Color(1.353, 1.353, 1.353, 1.0)
 		charge_cooldown = OVERHEAT_COOLDOWN_TIME
 		charge_duration = OVERHEAT_DURATION_TIME
 
@@ -319,7 +321,7 @@ func _on_death() -> void:
 	emit_signal("boss_defeated")
 	
 	set_state(State.IDLE)
-	fade_out(1)
+	fade_out(0.8)
 
 func fade_out(duration: float) -> void:
 	var tween : Tween = create_tween()

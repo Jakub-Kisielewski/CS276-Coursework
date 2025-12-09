@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b24ln4scmj10p" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-Attack1.png" id="9_rjbvo"]
 [ext_resource type="Script" uid="uid://bqjthq5jbw7og" path="res://Assets/Scripts/loot_component.gd" id="10_8wm3m"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="10_feiom"]
-[ext_resource type="PackedScene" uid="uid://cjef6tih8pnog" path="res://Assets/Gold/golden_wolf.tscn" id="11_hidas"]
+[ext_resource type="PackedScene" uid="uid://dsyykvmrlnt18" path="res://Assets/Gold/golden_snake.tscn" id="11_8wm3m"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="12_m0kb1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
@@ -587,11 +587,12 @@ shape = SubResource("CapsuleShape2D_n0o3a")
 
 [node name="LootComponent" type="Node" parent="."]
 script = ExtResource("10_8wm3m")
-item_drop_scene = ExtResource("11_hidas")
+item_drop_scene = ExtResource("11_8wm3m")
 metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("12_m0kb1")
+max_health = 80.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

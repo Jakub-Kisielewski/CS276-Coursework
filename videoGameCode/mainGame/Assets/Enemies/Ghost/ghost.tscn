@@ -528,6 +528,7 @@ hitbox_shape = SubResource("CapsuleShape2D_yviti")
 hurtbox = NodePath("AnimatedSprite2D/hurtBox")
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
+damage = 13.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
@@ -562,6 +563,7 @@ metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("12_egld4")
+max_health = 200.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

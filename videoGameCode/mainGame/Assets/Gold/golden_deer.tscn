@@ -42,7 +42,7 @@ height = 45.0
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_iloav")
-amount = 20
+amount = 1000
 speed = 20.0
 sprite = NodePath("AnimatedSprite2D")
 

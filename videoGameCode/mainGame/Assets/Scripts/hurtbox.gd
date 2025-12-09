@@ -32,6 +32,9 @@ func receive_hit(damage: int, attacker : Node, attack_effect: String) -> void:
 		return
 	
 	if health_component:
-		health_component.take_damage(damage, attack_effect)
+		if health_component.invincible and attack_effect != "Execution":
+			health_component.take_damage(0, attack_effect)
+		else:
+			health_component.take_damage(damage, attack_effect)
 	else:
 		print("Error: Owner ", owner.name, " has no HealthComponent!")

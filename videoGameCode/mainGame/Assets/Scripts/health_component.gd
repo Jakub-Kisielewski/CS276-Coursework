@@ -10,6 +10,7 @@ signal special_effect_triggered(effect_name)
 # stats
 @export var max_health: float = 100.0
 @export var defense: float = 1.0
+@export var invincible: bool = false
 
 # internal State
 var current_health: float
@@ -62,8 +63,9 @@ func take_damage(amount: float, attack_effect: String):
 		_:
 			# Standard Damage
 			final_damage = amount / defense
-	
+		
 	current_health = max(0, current_health - final_damage)
+	print(get_parent().name ," took ", final_damage, " damage, current hp = ", current_health)
 	
 	
 	if is_player:
@@ -120,13 +122,15 @@ func set_status(new_status : Status) -> void:
 	emit_signal("status_changed", new_status)
 
 func _handle_damage_status():
-	
-	if status == Status.POISONED:
+	if status == Status.OVERHEATING:
 		return
-	   
+
 	set_status(Status.DAMAGED)
 	
 	# revert back to healthy after 
 	await get_tree().create_timer(0.2).timeout
-	if status == Status.DAMAGED: # only revert if we haven't been re-poisoned 
+	
+	if poison_ticks_left > 0:
+		set_status(Status.POISONED)
+	else:
 		set_status(Status.HEALTHY)

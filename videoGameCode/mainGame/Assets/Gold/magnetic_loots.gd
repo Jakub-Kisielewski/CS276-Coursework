@@ -62,7 +62,7 @@ func collect() -> void:
 		LootType.CURRENCY:
 			# Add to Global Data
 			GameData.add_currency(amount)
-			print("Picked up ", amount, " gold.")
+			print("Picked up ", amount, " gold")
 				
 		LootType.ITEM:
 			# Logic to add to inventory
@@ -73,6 +73,5 @@ func collect() -> void:
 	var tween = create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(self, "modulate:a", 0.0, 0.2)
-	tween.tween_property(self, "global_position", global_position + Vector2(0, -20), 0.2)
-	
+
 	tween.chain().tween_callback(queue_free)

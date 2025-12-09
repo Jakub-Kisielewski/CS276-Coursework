@@ -4,8 +4,8 @@ signal player_stats_changed
 signal currency_updated(new_amount)
 
 # persisten player stats
-var max_health: float = 100.0
-var current_health: float = 100.0
+var max_health: float = 1000.0
+var current_health: float = 1000.0
 var currency: int = 0
 var defense: float = 1.0
 var damage: float = 10.0

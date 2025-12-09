@@ -184,7 +184,7 @@ func _on_death() -> void:
 func _on_boss_death() -> void:
 	hurtbox.set_deferred("monitorable", false)
 	set_state(State.IDLE)
-	fade_out(1)
+	fade_out(0.8)
 
 func fade_out(duration: float) -> void:
 	var tween : Tween = create_tween()
