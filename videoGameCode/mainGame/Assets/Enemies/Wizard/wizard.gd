@@ -155,7 +155,7 @@ func handle_transformation() -> void:
 		
 		if i == 0:
 			current_disguise = new_enemy
-			new_enemy.stats.damage_taken.connect(_on_damaged)
+			new_enemy.health_component.damage_taken.connect(_on_damaged)
 
 func _on_disguise_damaged(_amount, _type):
 	_on_damaged(0, "DisguiseHit")
@@ -174,7 +174,7 @@ func handle_teleport() -> void:
 	sprite_base.play("spawn_teleport")
 
 func setup_countdown_timer() -> void:
-	player_hits_left = 10
+	player_hits_left = 3
 	time_left = 60
 
 	var canvas : CanvasLayer = get_tree().get_first_node_in_group("canvas")

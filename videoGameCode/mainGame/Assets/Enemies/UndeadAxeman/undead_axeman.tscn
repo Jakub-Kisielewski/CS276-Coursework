@@ -601,7 +601,7 @@ height = 40.0
 radius = 105.0
 height = 210.0
 
-[node name="UndeadAxeman" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
+[node name="UndeadAxeman" type="CharacterBody2D" node_paths=PackedStringArray("nav", "health_component", "loot_component") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -609,6 +609,8 @@ script = ExtResource("1_vhwpw")
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CapsuleShape2D_0ejd5")
 speed = 80
+health_component = NodePath("HealthComponent")
+loot_component = NodePath("LootComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)

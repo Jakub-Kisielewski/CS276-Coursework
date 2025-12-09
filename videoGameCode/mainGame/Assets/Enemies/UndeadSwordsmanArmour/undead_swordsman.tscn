@@ -484,13 +484,15 @@ height = 40.0
 radius = 111.0
 height = 222.0
 
-[node name="UndeadSwordsman" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
+[node name="UndeadSwordsman" type="CharacterBody2D" node_paths=PackedStringArray("nav", "health_component", "loot_component") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_wteio")
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
+health_component = NodePath("HealthComponent")
+loot_component = NodePath("LootComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)

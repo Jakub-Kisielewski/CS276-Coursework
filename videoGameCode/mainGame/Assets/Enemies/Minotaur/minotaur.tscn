@@ -446,7 +446,7 @@ height = 36.0
 radius = 100.0
 height = 200.0
 
-[node name="Minotaur" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "player_rays") groups=["enemy"]]
+[node name="Minotaur" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "player_rays", "health_component", "loot_component") groups=["enemy"]]
 scale = Vector2(0.9, 0.9)
 motion_mode = 1
 wall_min_slide_angle = 0.34906584
@@ -457,6 +457,8 @@ hurtbox = NodePath("AnimatedSprite2D/hurtBox")
 summons = Array[PackedScene]([ExtResource("3_3xsit"), ExtResource("4_ik8mj")])
 player_rays = [NodePath("RayCast2D"), NodePath("RayCast2D2"), NodePath("RayCast2D3")]
 speed = 100.0
+health_component = NodePath("HealthComponent")
+loot_component = NodePath("LootComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 12)

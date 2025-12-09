@@ -518,7 +518,7 @@ radius = 13.0
 radius = 111.0
 height = 222.0
 
-[node name="Ghost" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox") groups=["enemy"]]
+[node name="Ghost" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "health_component", "loot_component") groups=["enemy"]]
 scale = Vector2(0.76, 0.76)
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -526,6 +526,8 @@ script = ExtResource("1_wleg1")
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CapsuleShape2D_yviti")
 hurtbox = NodePath("AnimatedSprite2D/hurtBox")
+health_component = NodePath("HealthComponent")
+loot_component = NodePath("LootComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)

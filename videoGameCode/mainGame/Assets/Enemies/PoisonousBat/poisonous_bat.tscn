@@ -548,7 +548,7 @@ height = 28.0
 radius = 70.0
 height = 140.0
 
-[node name="PoisonousBat" type="CharacterBody2D" node_paths=PackedStringArray("nav", "collider") groups=["enemy"]]
+[node name="PoisonousBat" type="CharacterBody2D" node_paths=PackedStringArray("nav", "collider", "health_component", "loot_component") groups=["enemy"]]
 scale = Vector2(1.2, 1.2)
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -556,6 +556,8 @@ script = ExtResource("1_j3spu")
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 collider = NodePath("CollisionShape2D")
+health_component = NodePath("HealthComponent")
+loot_component = NodePath("LootComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_fa6de")

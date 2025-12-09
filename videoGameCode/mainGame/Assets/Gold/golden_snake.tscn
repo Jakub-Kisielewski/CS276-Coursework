@@ -1,12 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dsyykvmrlnt18"]
+[gd_scene load_steps=9 format=3 uid="uid://dsyykvmrlnt18"]
 
 [ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/magnetic_loots.gd" id="1_2vsxt"]
 [ext_resource type="Texture2D" uid="uid://dc7gierug6m1s" path="res://Assets/Gold/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_all.png" id="3_kv80j"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="4_qkl1k"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
-radius = 6.5
-height = 13.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2vsxt"]
 atlas = ExtResource("3_kv80j")
@@ -48,9 +44,6 @@ wall_min_slide_angle = 0.0
 script = ExtResource("1_2vsxt")
 amount = 30
 speed = 20.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 self_modulate = Color(1.5257139, 1.5257139, 1.5257139, 1)

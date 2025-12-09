@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player.tscn" id="3_qfi48"]
 [ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="4_gn4xj"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_2v7sf"]
-[ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.tscn" id="9_0fbdl"]
+[ext_resource type="PackedScene" uid="uid://becsynnrqprvl" path="res://Assets/Enemies/Wizard/wizard.tscn" id="9_0fbdl"]
 
 [sub_resource type="FontFile" id="FontFile_0fbdl"]
 subpixel_positioning = 0
@@ -2386,5 +2386,5 @@ navigation_enabled = false
 [node name="playerB" parent="." instance=ExtResource("3_qfi48")]
 position = Vector2(-49, 179)
 
-[node name="BasicSkeleton" parent="." instance=ExtResource("9_0fbdl")]
-position = Vector2(2, -161)
+[node name="Wizard" parent="." instance=ExtResource("9_0fbdl")]
+position = Vector2(0, -197)
