@@ -108,11 +108,6 @@ func handle_attack() -> void:
 	else:
 		sprite.play("attack_down")
 
-func get_animation_length(animation: String) -> float:
-	var frames : int = sprite.sprite_frames.get_frame_count(animation)
-	var fps : float = sprite.sprite_frames.get_animation_speed(animation)
-	return frames/fps
-
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true
