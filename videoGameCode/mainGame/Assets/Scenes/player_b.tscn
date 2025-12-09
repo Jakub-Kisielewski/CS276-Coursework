@@ -30,6 +30,9 @@ max_health = 10000.0
 =======
 max_health = 1000.0
 damage = 15.0
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
@@ -6853,7 +6856,11 @@ frame = 4
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 frame = 11
+=======
+frame = 4
+>>>>>>> Stashed changes
 =======
 frame = 4
 >>>>>>> Stashed changes
