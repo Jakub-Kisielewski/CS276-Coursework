@@ -25,7 +25,12 @@
 
 [sub_resource type="Resource" id="Resource_2crlu"]
 script = ExtResource("2_p8spm")
+<<<<<<< Updated upstream
 max_health = 10000.0
+=======
+max_health = 1000.0
+damage = 15.0
+>>>>>>> Stashed changes
 metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="Resource" id="Resource_yj04c"]
@@ -6847,7 +6852,11 @@ frame = 4
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
+<<<<<<< Updated upstream
 frame = 11
+=======
+frame = 4
+>>>>>>> Stashed changes
 
 [node name="hurtBox" type="Area2D" parent="fullAnim"]
 script = ExtResource("9_p8spm")
