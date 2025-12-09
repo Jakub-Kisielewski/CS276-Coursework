@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://ib1ap1jt3i6j"]
 
-[ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/golden_animal.gd" id="1_d5jry"]
+[ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/magnetic_loots.gd" id="1_d5jry"]
 [ext_resource type="Texture2D" uid="uid://dc7gierug6m1s" path="res://Assets/Gold/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_all.png" id="3_8e5nt"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="4_gtlbj"]
 

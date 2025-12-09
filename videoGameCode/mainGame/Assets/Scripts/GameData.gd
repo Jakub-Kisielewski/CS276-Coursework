@@ -1,6 +1,7 @@
 extends Node
 
 signal player_stats_changed
+signal currency_updated(new_amount)
 
 # persisten player stats
 var max_health: float = 100.0
@@ -20,3 +21,7 @@ func upgrade_defense():
 func reset_stats():
 	current_health = max_health
 	player_stats_changed.emit()
+
+func add_currency(amount: int):
+	currency += amount
+	currency_updated.emit(currency)

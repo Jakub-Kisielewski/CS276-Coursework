@@ -79,6 +79,7 @@ func _ready():
 	$HealthComponent.special_effect_triggered.connect(_on_special_effect)
 	$HealthComponent.health_changed.connect(_on_health_changed)
 	$HealthComponent.health_depleted.connect(_on_death)
+	GameData.currency_updated.connect(_on_currency_updated)
 	
 	anim_tree.active = true
 	current_weapon = Weapon.SWORD
@@ -900,9 +901,8 @@ func _on_damaged():
 func _on_health_changed(new_amount, _max_amount) -> void:    
 	health_bar.text = str(new_amount)
 
-func collect_currency(enemy_currency : int) -> void:
-	GameData.currency = GameData.currency + enemy_currency
-	currency_label.text = str(GameData.currency)
+func _on_currency_updated(new_amount : int) -> void:
+	currency_label.text = str(new_amount)
 
 func player_busy() -> bool:
 	return attacking or dying or special_charging

@@ -1,20 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://dypup8xitfyuf"]
+[gd_scene load_steps=10 format=3 uid="uid://dypup8xitfyuf"]
 
-[ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/golden_animal.gd" id="1_iloav"]
-[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_27sg5"]
+[ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/magnetic_loots.gd" id="1_iloav"]
 [ext_resource type="Texture2D" uid="uid://dc7gierug6m1s" path="res://Assets/Gold/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_all.png" id="3_iloav"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="4_1wijk"]
-
-[sub_resource type="Resource" id="Resource_sp68t"]
-resource_local_to_scene = true
-script = ExtResource("2_27sg5")
-max_health = 80.0
-damage = 0.0
-faction = 1
-currency = 1000
-metadata/_custom_type_script = "uid://clj5tjl6n5w51"
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_vb2cf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
 radius = 6.5
@@ -54,15 +42,13 @@ height = 20.0
 radius = 22.5
 height = 45.0
 
-[node name="GoldenDeer" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
+[node name="GoldenDeer" type="CharacterBody2D" node_paths=PackedStringArray("sprite") groups=["enemy"]]
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_iloav")
-sprite = NodePath("AnimatedSprite2D")
-nav = NodePath("Nav")
-stats = SubResource("Resource_sp68t")
-hitbox_shape = SubResource("CircleShape2D_vb2cf")
+amount = 20
 speed = 20.0
+sprite = NodePath("AnimatedSprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_fa6de")

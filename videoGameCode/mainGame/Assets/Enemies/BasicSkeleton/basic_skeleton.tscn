@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="3_ey4mj"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="4_s8rwc"]
 [ext_resource type="Script" uid="uid://bqjthq5jbw7og" path="res://Assets/Scripts/loot_component.gd" id="5_1hlfi"]
-[ext_resource type="PackedScene" uid="uid://ib1ap1jt3i6j" path="res://Assets/Gold/treasure.tscn" id="5_u8cdu"]
+[ext_resource type="PackedScene" uid="uid://dypup8xitfyuf" path="res://Assets/Gold/golden_deer.tscn" id="5_u8cdu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vb2cf"]
 

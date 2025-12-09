@@ -1,10 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dsyykvmrlnt18"]
+[gd_scene load_steps=10 format=3 uid="uid://dsyykvmrlnt18"]
 
-[ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/golden_animal.gd" id="1_2vsxt"]
+[ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/magnetic_loots.gd" id="1_2vsxt"]
 [ext_resource type="Texture2D" uid="uid://dc7gierug6m1s" path="res://Assets/Gold/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_all.png" id="3_kv80j"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="4_qkl1k"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_vb2cf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
 radius = 6.5
@@ -44,12 +42,11 @@ height = 20.0
 radius = 22.5
 height = 45.0
 
-[node name="GoldenSnake" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
+[node name="GoldenSnake" type="CharacterBody2D" groups=["enemy"]]
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_2vsxt")
-nav = NodePath("Nav")
-hitbox_shape = SubResource("CircleShape2D_vb2cf")
+amount = 30
 speed = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
