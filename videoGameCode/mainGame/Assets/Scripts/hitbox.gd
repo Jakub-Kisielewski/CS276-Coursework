@@ -37,7 +37,7 @@ func _ready() -> void:
 		Stats.Faction.PLAYER:
 			collision_layer = 1 << 0 #put area on layer 1
 			collision_mask = 1 << 1 #detect only layer 2
-		Stats.Faction.ENEMY, Stats.Faction.INVINCIBLE:
+		Stats.Faction.ENEMY:
 			collision_layer = 1 << 1 #put area on layer 2
 			collision_mask = 1 << 0 #detect only layer 1
 	monitoring = true

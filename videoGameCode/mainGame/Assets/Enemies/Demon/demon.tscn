@@ -1,4 +1,4 @@
-[gd_scene load_steps=134 format=3 uid="uid://btwfd83br58hn"]
+[gd_scene load_steps=135 format=3 uid="uid://btwfd83br58hn"]
 
 [ext_resource type="Script" uid="uid://cvm5sbwlba1y6" path="res://Assets/Enemies/Demon/demon.gd" id="1_atlj7"]
 [ext_resource type="PackedScene" uid="uid://cjef6tih8pnog" path="res://Assets/Gold/golden_wolf.tscn" id="2_7mgto"]
@@ -889,6 +889,12 @@ height = 36.0
 radius = 130.0
 height = 260.0
 
+[sub_resource type="Environment" id="Environment_mk1nm"]
+background_mode = 3
+glow_enabled = true
+glow_blend_mode = 1
+glow_hdr_threshold = 0.6
+
 [node name="Demon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
@@ -927,6 +933,9 @@ collision_layer = 2
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mk1nm")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

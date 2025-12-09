@@ -26,8 +26,6 @@ enemy=""
 canvas=""
 camera=""
 world=""
-timer=""
-tilemap=""
 
 [input]
 

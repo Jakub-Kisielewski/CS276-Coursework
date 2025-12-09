@@ -142,6 +142,11 @@ func handle_strike() -> void:
 	var vector_to_player : Vector2 = player.global_position - global_position
 	strike_direction = vector_to_player.normalized()
 
+func get_animation_length(animation: String) -> float:
+	var frames : int = sprite.sprite_frames.get_frame_count(animation)
+	var fps : float = sprite.sprite_frames.get_animation_speed(animation)
+	return frames/fps
+
 func handle_timers(delta: float) -> void:
 	if strike_cooldown > 0.0:
 		strike_cooldown -= delta

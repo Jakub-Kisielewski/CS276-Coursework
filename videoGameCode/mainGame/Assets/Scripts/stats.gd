@@ -2,8 +2,7 @@ class_name Stats extends Resource
 
 enum Faction {
 	PLAYER,
-	ENEMY,
-	INVINCIBLE
+	ENEMY
 }
 
 var world : World
