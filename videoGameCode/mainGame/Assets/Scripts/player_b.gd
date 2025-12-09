@@ -10,6 +10,8 @@ extends CharacterBody2D
 @onready var spearEffects = $spearEffects
 @onready var weaponEffects = $weaponEffects
 @onready var bodyEffects = $bodyEffects
+@onready var bowEffects = $bowEffects
+@onready var bowEffects2 = $bowEffectslay2
 
 @export var stats : Stats
 
@@ -66,7 +68,7 @@ var attacking = false
 var attacked = false
 var special_charging: bool = false
 var special_hold_time : float = 0.0
-const SPECIAL_HOLD_TIME : float = 0.5 #wind up the attack for 1 second cuz op
+const SPECIAL_HOLD_TIME : float = 0.4 #wind up the attack for  second cuz op
 var charging_successful : bool = false
 var switch_activated: bool = false #bow switch special attack
 var shotgun_activated : bool = false #other bow attack
@@ -97,6 +99,8 @@ func _ready():
 	health_bar.text = "sigma"
 	currency_label.visible = true
 	
+	bowEffects2.visible = false
+	
 	stats.set_owner_node(self)
 	
 	camera = get_tree().get_first_node_in_group("camera")
@@ -110,6 +114,8 @@ func _physics_process(delta: float) -> void:
 	updateSprite()
 	update_camera()
 	attacking_speed_test()
+	
+	#print("current node:", anim_state.get_current_node())
 
 #use this for movement
 func get_movement_direction() -> Vector2:
@@ -132,6 +138,12 @@ func get_nonzero_movement_direction() -> Vector2:
 	
 	return direction
 
+
+
+
+
+
+
 func handle_input(delta: float):
 	
 	if Input.is_action_just_pressed("attack_special"):
@@ -139,10 +151,10 @@ func handle_input(delta: float):
 		if current_weapon == Weapon.SWORD and not player_busy():
 			print("sword charge anim start")
 			anim_state.travel("Scharge")
-		#elif current_weapon == Weapon.BOW:
-			#pass
-		#elif current_weapon == Weapon.SPEAR:
-			#pass
+		elif current_weapon == Weapon.BOW:
+			anim_state.travel("bcharge")
+		elif current_weapon == Weapon.SPEAR:
+			anim_state.travel("spattack")
 			
 		special_charging = true
 		special_hold_time = 0.0
@@ -163,7 +175,7 @@ func handle_input(delta: float):
 		
 		if charging_successful:
 			special_charging = false
-			special_hold_time = false
+			special_hold_time = 0.0
 			charging_successful = false
 			if current_weapon == Weapon.SWORD:
 				sword_special_attack()
@@ -180,12 +192,14 @@ func handle_input(delta: float):
 				print("i call on you spear")
 		else:
 			special_charging = false
-			special_hold_time = false
+			special_hold_time = 0.0
 			charging_successful = false
 			if current_weapon == Weapon.SPEAR or current_weapon == Weapon.BOW:
 				anim_state.travel("idle")
+				print("IDLE IDLE IDLE IDLE")
 			else: 
 				anim_state.travel("Sidle")
+				print("SIDLE SIDLE SIDLE SIDLE")
 		
 	
 	# movement
@@ -222,7 +236,7 @@ func handle_input(delta: float):
 	anim_tree.set("parameters/dash/BlendSpace2D/blend_position", last_dir)
 	
 	anim_tree.set("parameters/battack/BlendSpace2D/blend_position", last_dir)
-	
+	anim_tree.set("parameters/bcharge/BlendSpace2D/blend_position", last_dir)
 
 	if Input.is_action_just_pressed("dash"):
 		handle_dash() 
@@ -318,30 +332,83 @@ func set_player_facing(vec: Vector2) -> Facing:
 
 
 func updateSprite():
+	var in_action : bool = special_charging or attacking or charging_successful
 	
-	if current_weapon == Weapon.SWORD:
-		fullAnim.visible = true
-		bodyAnim.visible = false
-		headAnim.visible = false
-		spearAnim.visible = false
+	fullAnim.visible = false
+	bodyAnim.visible = false
+	headAnim.visible = false
+	spearAnim.visible = false
+	bowAnim.visible = false
+	
+	spearEffects.visible = false
+	weaponEffects.visible = false
+	bodyEffects.visible = false
+	bowEffects.visible = false
+	
+	
+	match current_weapon:
 		
-		bodyEffects.visible = special_charging or attacking
+		Weapon.SWORD:
+			fullAnim.visible = true
+			bodyEffects.visible = in_action
+
+		Weapon.SPEAR:
+			spearAnim.visible = true
+			bodyAnim.visible = true
+			headAnim.visible = true
+			if in_action:
+				spearEffects.visible = true
+				weaponEffects.visible = true
+			offset_spear_nonattacking()
+			
+				
+		Weapon.BOW:
+			
+			bowAnim.visible = true
+			bodyAnim.visible = true
+			headAnim.visible = true
+			#bowEffects2.visible = shotgun_activated
+			if in_action:	
+				bowEffects.visible = true
+			offset_bow()
+			
+				
+		_:
+			print("updateSprite: null weapon")
+				
+	#print("in action", in_action)
+	
+func offset_spear_nonattacking():
+	if attacking:
 		return
 		
-	if attacking or special_charging:
-		fullAnim.visible = false
-		bodyAnim.visible = true
-		headAnim.visible = true
-		spearAnim.visible = (current_weapon == Weapon.SPEAR)
-		bowAnim.visible = (current_weapon == Weapon.BOW)
-		#bodyEffects.visible = true when you add the other charging animations unk this
+	match player_facing:
+		Facing.DOWN:
+			spearAnim.rotation = PI/2
+			spearAnim.position = Vector2(0,0)
+		Facing.UP:
+			spearAnim.rotation = -PI/2
+			spearAnim.position = Vector2(0,0)
+		Facing.LEFT:
+			spearAnim.rotation = -PI
+			spearAnim.position = Vector2(0,8)
+		Facing.RIGHT:
+			spearAnim.rotation = 0
+			spearAnim.position = Vector2(0,0)
 		
-	else:
-		fullAnim.visible = true
-		bodyAnim.visible = false
-		headAnim.visible = false
-		spearAnim.visible = false
 
+func offset_bow():
+	match player_facing:
+		Facing.DOWN:
+			bowAnim.position = Vector2(-4,3) 
+		Facing.UP:
+			bowAnim.position = Vector2(2,3) 
+		Facing.LEFT:
+			bowAnim.position = Vector2(-2,2) 
+		Facing.RIGHT:
+			bowAnim.position = Vector2(4, 2)
+			
+	bowEffects.position = bowAnim.position
 
 func weapon_switch():
 	
@@ -414,18 +481,24 @@ func bow_attack():
 	
 	bowAnim.rotation = deg
 	
-	anim_state.travel("battack")
+	bowEffects.position = bowAnim.position
+	bowEffects.rotation = bowAnim.rotation
+	bowEffects.play("brelease")
+	
 	if (switch_activated):
+		
 		var arrows : float = 10.0
 		var duration : float = 1.0
 		bow_brrr(arrows, duration)
-		
-	if (shotgun_activated):
+	elif (shotgun_activated):
+
 		var arrows : float = 10.0
 		var duration : float = 0.5
 		shattering_bow(arrows, duration)
-			
-
+	else:
+		anim_state.travel("battack")
+		
+		
 func bow_brrr(total_arrows: int, duration: float):
 	var gap : float = duration / total_arrows #control the fire rate 
 	
@@ -433,6 +506,12 @@ func bow_brrr(total_arrows: int, duration: float):
 		shoot_arrow()
 		
 		await get_tree().create_timer(gap).timeout
+		
+		
+	
+	cancel_attack()
+		
+	
 		
 func shattering_bow(total_arrows: int, duration: int):
 	if total_arrows <= 0:
@@ -460,7 +539,24 @@ func shattering_bow(total_arrows: int, duration: int):
 		var dir: Vector2 = Vector2.RIGHT.rotated(angle)
 		shoot_arrow(dir)
 		
-
+	bowEffects2.visible = true
+	bowEffects2.position = bowAnim.position
+	bowEffects2.rotation = bowAnim.rotation
+	bowEffects2.play("brelease")
+	cancel_attack()
+		
+		
+func cancel_attack():
+	attacking = false
+	monitorable = true
+	switch_activated = false
+	shotgun_activated = false
+		
+		
+	if current_weapon == Weapon.SPEAR or current_weapon == Weapon.BOW:
+		anim_state.travel("idle")
+	else:
+		anim_state.travel("Sidle")
 
 	
 func shoot_arrow(dir: Vector2 = Vector2.ZERO): #triggered at end of battack anim
@@ -481,18 +577,20 @@ func shoot_arrow(dir: Vector2 = Vector2.ZERO): #triggered at end of battack anim
 	
 	get_parent().add_child(arrow)
 	print("shot arrow mhm")
-
+	
+	
+	
 func get_bow_dir(angle):
 	pass
 	
 func spear_attack():
 	#offset position of spear sprite
-	weaponEffects.visible = true
+
 	spearAnim.position = orig_spear_pos
 	spearEffects.position = orig_spear_pos
 	hitbox_shape = CapsuleShape2D.new()
 	hitbox_shape.radius = 5
-	hitbox_shape.height = 30
+	hitbox_shape.height = 70
 	
 	var hitbox = hitBox.new(stats, "None", 0.5, hitbox_shape, current_weapon_data)
 	
@@ -812,13 +910,13 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 		shoot_arrow()
 	
 	#anim_name is the name inside the animation player
-	if anim_name.begins_with("Srunattack") or anim_name.begins_with("spbody") or anim_name.begins_with("bbody") or anim_name.begins_with("battack") or anim_name.begins_with("Srelattack"):
+	if anim_name.begins_with("Srunattack") or anim_name.begins_with("spbody") or anim_name.begins_with("bbody") or anim_name.begins_with("battack") or anim_name.begins_with("Srelattack") or anim_name.begins_with("bcharge"):
 		print("player has finished attacking")
 		attacking = false
 		monitorable = true
 		switch_activated = false
 		shotgun_activated = false
-		weaponEffects.visible = false
+		
 		
 		
 	#if anim_name.begins_with("Scharge"):
@@ -839,3 +937,11 @@ func upgrade_dash():
 	else:
 		max_dashes += 1;
 #800
+
+
+func _on_bow_effectslay_2_animation_finished() -> void:
+	
+	if bowEffects2.animation == "brelease":
+		bowEffects2.visible = false
+		print("brelease animation fin")
+		

@@ -1,11 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://cdrrekks50nqj"]
+[gd_scene load_steps=33 format=3 uid="uid://cdrrekks50nqj"]
 
 [ext_resource type="Texture2D" uid="uid://dwmykgavqv0lw" path="res://Assets/Sprites/BaseSprite/weapons/oversize/two hand/either/dragonspear.png" id="1_5j4jt"]
 [ext_resource type="Script" uid="uid://dslufqnj2tmmm" path="res://Assets/Scenes/ghost_spear.gd" id="1_yiodj"]
+[ext_resource type="Texture2D" uid="uid://it4qhlh7uepa" path="res://Assets/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 A.png" id="3_ce5hl"]
+[ext_resource type="Texture2D" uid="uid://ymu12mstflb3" path="res://Assets/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 E.png" id="4_w6kj2"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yiodj"]
-radius = 3.0
-height = 20.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_ce5hl"]
+radius = 20.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2y8i3"]
 atlas = ExtResource("1_5j4jt")
@@ -125,20 +126,113 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhyj5"]
+atlas = ExtResource("3_ce5hl")
+region = Rect2(320, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1cyvi"]
+atlas = ExtResource("3_ce5hl")
+region = Rect2(384, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5v33j"]
+atlas = ExtResource("3_ce5hl")
+region = Rect2(448, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jn45d"]
+atlas = ExtResource("3_ce5hl")
+region = Rect2(512, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6p1fn"]
+atlas = ExtResource("3_ce5hl")
+region = Rect2(576, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vnv34"]
+atlas = ExtResource("3_ce5hl")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gaikg"]
+atlas = ExtResource("4_w6kj2")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfoqh"]
+atlas = ExtResource("3_ce5hl")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6hp6"]
+atlas = ExtResource("4_w6kj2")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2rh4"]
+atlas = ExtResource("3_ce5hl")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jn45d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhyj5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1cyvi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5v33j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jn45d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6p1fn")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnv34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gaikg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfoqh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x6hp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q2rh4")
+}],
+"loop": true,
+"name": &"gsp_spinny",
+"speed": 20.0
+}]
+
 [node name="ghost_spear" type="CharacterBody2D"]
 script = ExtResource("1_yiodj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(5, 3)
 rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_yiodj")
+shape = SubResource("CircleShape2D_ce5hl")
 disabled = true
 
 [node name="gspAnim" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_vnv34")
 animation = &"attack"
 frame = 5
 frame_progress = 1.0
+
+[node name="gspEffects" type="AnimatedSprite2D" parent="."]
+position = Vector2(1.9073486e-06, 4.7683716e-07)
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_jn45d")
+animation = &"attack"
 
 [connection signal="animation_finished" from="gspAnim" to="." method="_on_gsp_anim_animation_finished"]
