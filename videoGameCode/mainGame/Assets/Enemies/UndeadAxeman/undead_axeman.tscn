@@ -1,8 +1,6 @@
 [gd_scene load_steps=93 format=3 uid="uid://ctews1r14aqyh"]
 
 [ext_resource type="Script" uid="uid://6eh0032pny6h" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.gd" id="1_vhwpw"]
-[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_0ejd5"]
-[ext_resource type="PackedScene" uid="uid://d6md17gbi280" path="res://Assets/Gold/golden_bird.tscn" id="2_4foux"]
 [ext_resource type="Texture2D" uid="uid://bh62q2v10soqr" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Attack1.png" id="3_vhwpw"]
 [ext_resource type="Texture2D" uid="uid://xivetvjg5ocb" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Hurt.png" id="4_0ejd5"]
 [ext_resource type="Texture2D" uid="uid://cd5ydbvb4mh71" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Die.png" id="5_qhmtf"]
@@ -10,14 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://k4gc4jjierls" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Walk.png" id="6_5kng5"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="7_2ypfq"]
 [ext_resource type="Texture2D" uid="uid://ruwp32myuuy4" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Attack2.png" id="7_u340v"]
-
-[sub_resource type="Resource" id="Resource_0ejd5"]
-resource_local_to_scene = true
-script = ExtResource("2_0ejd5")
-damage = 13.0
-faction = 1
-itemdrop_scene = ExtResource("2_4foux")
-metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+[ext_resource type="Script" uid="uid://bqjthq5jbw7og" path="res://Assets/Scripts/loot_component.gd" id="9_3d6mj"]
+[ext_resource type="PackedScene" uid="uid://dypup8xitfyuf" path="res://Assets/Gold/golden_deer.tscn" id="10_au050"]
+[ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="11_hwuky"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ejd5"]
 
@@ -608,14 +601,12 @@ height = 40.0
 radius = 105.0
 height = 210.0
 
-[node name="UndeadAxeman" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
+[node name="UndeadAxeman" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_vhwpw")
-sprite = NodePath("AnimatedSprite2D")
 nav = NodePath("Nav")
-stats = SubResource("Resource_0ejd5")
 hitbox_shape = SubResource("CapsuleShape2D_0ejd5")
 speed = 80
 
@@ -644,6 +635,15 @@ collision_layer = 2
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
+
+[node name="LootComponent" type="Node" parent="."]
+script = ExtResource("9_3d6mj")
+item_drop_scene = ExtResource("10_au050")
+metadata/_custom_type_script = "uid://bqjthq5jbw7og"
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("11_hwuky")
+metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

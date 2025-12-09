@@ -52,20 +52,13 @@ func take_damage(amount: float, attack_effect: String):
 	
 	match attack_effect:
 		"Poison":
-			# Poison triggers the dot, but also deals initial damage?
-			# Based on your old code, it seemed to just start the timer + damage.
 			start_poison()
 			final_damage = amount / defense
-			  
 		"Lifeslash":
-			# We don't change world settings here. We signal the Main/Player to do it.
-			emit_signal("special_effect_triggered", "darkness")
-			final_damage = current_health * 0.2 # Reduce HP by 20% (0.8 remaining)
-			
+			SignalBus.request_darkness.emit(3.6)
+			final_damage = current_health * 0.2 # reduce hp by 20%
 		"Critical":
-			# Logic: (Amount * 1.2) / Defense
 			final_damage = (amount * 1.2) / defense
-			
 		_:
 			# Standard Damage
 			final_damage = amount / defense

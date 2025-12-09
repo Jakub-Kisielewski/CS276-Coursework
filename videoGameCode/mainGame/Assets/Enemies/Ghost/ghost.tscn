@@ -1,7 +1,6 @@
 [gd_scene load_steps=83 format=3 uid="uid://dl5lpjcwe5tsx"]
 
 [ext_resource type="Script" uid="uid://bdf607wwrww6s" path="res://Assets/Enemies/Ghost/ghost.gd" id="1_wleg1"]
-[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_6wpum"]
 [ext_resource type="PackedScene" uid="uid://cjef6tih8pnog" path="res://Assets/Gold/golden_wolf.tscn" id="2_k4e0d"]
 [ext_resource type="Texture2D" uid="uid://b4o135syegbtd" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Spawn.png" id="3_k4e0d"]
 [ext_resource type="Texture2D" uid="uid://bcuxyryhnhlqw" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Attack1.png" id="4_egld4"]
@@ -11,15 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://bpestxvphhvvi" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Fly.png" id="8_rv0pe"]
 [ext_resource type="Texture2D" uid="uid://niu0inqchpuv" path="res://Assets/Enemies/Sprites/FantasyEnemies/Ghost Warrior/Ghost Warrior Blue/Ghost Warrior with VFX/GhostWarrior-Attack2.png" id="9_l5pif"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="10_k2h7c"]
-
-[sub_resource type="Resource" id="Resource_ud2rd"]
-resource_local_to_scene = true
-script = ExtResource("2_6wpum")
-max_health = 200.0
-damage = 13.0
-faction = 1
-itemdrop_scene = ExtResource("2_k4e0d")
-metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+[ext_resource type="Script" uid="uid://bqjthq5jbw7og" path="res://Assets/Scripts/loot_component.gd" id="10_k4e0d"]
+[ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="12_egld4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yviti"]
 
@@ -526,14 +518,12 @@ radius = 13.0
 radius = 111.0
 height = 222.0
 
-[node name="Ghost" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav", "hurtbox") groups=["enemy"]]
+[node name="Ghost" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox") groups=["enemy"]]
 scale = Vector2(0.76, 0.76)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_wleg1")
-sprite = NodePath("AnimatedSprite2D")
 nav = NodePath("Nav")
-stats = SubResource("Resource_ud2rd")
 hitbox_shape = SubResource("CapsuleShape2D_yviti")
 hurtbox = NodePath("AnimatedSprite2D/hurtBox")
 
@@ -562,6 +552,15 @@ collision_layer = 2
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
+
+[node name="LootComponent" type="Node" parent="."]
+script = ExtResource("10_k4e0d")
+item_drop_scene = ExtResource("2_k4e0d")
+metadata/_custom_type_script = "uid://bqjthq5jbw7og"
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("12_egld4")
+metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

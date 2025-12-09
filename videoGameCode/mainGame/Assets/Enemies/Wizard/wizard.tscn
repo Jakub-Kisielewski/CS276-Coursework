@@ -1,8 +1,6 @@
 [gd_scene load_steps=110 format=3 uid="uid://becsynnrqprvl"]
 
 [ext_resource type="Script" uid="uid://bpymnqpk46hmr" path="res://Assets/Enemies/Wizard/wizard.gd" id="1_t4ypt"]
-[ext_resource type="PackedScene" uid="uid://ib1ap1jt3i6j" path="res://Assets/Gold/treasure.tscn" id="2_t7nqe"]
-[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="3_wes74"]
 [ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="4_t7nqe"]
 [ext_resource type="Texture2D" uid="uid://3kymg6cwisht" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Blue/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Spawn-Teleport.png" id="4_whjmo"]
 [ext_resource type="Texture2D" uid="uid://c1rf74pu1ypcx" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Blue/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Hurt.png" id="5_t7nqe"]
@@ -11,15 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://l87grp5ji1xi" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Blue/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Escape-Teleport.png" id="7_x30ta"]
 [ext_resource type="Texture2D" uid="uid://blexl4bygxqvx" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Blue/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Idle.png" id="8_hmy5p"]
 [ext_resource type="Texture2D" uid="uid://c7y3givs4klma" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Blue/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Attack2.png" id="10_dncxu"]
+[ext_resource type="Script" uid="uid://bqjthq5jbw7og" path="res://Assets/Scripts/loot_component.gd" id="11_xjwck"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="12_n8mma"]
-
-[sub_resource type="Resource" id="Resource_ud2rd"]
-resource_local_to_scene = true
-script = ExtResource("3_wes74")
-damage = 12.0
-faction = 2
-itemdrop_scene = ExtResource("2_t7nqe")
-metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+[ext_resource type="PackedScene" uid="uid://d6md17gbi280" path="res://Assets/Gold/golden_bird.tscn" id="12_x30ta"]
+[ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="13_hmy5p"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
 
@@ -710,14 +703,12 @@ height = 36.0
 radius = 130.0
 height = 260.0
 
-[node name="Wizard" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
+[node name="Wizard" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_t4ypt")
-sprite = NodePath("AnimatedSprite2D")
 nav = NodePath("Nav")
-stats = SubResource("Resource_ud2rd")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 summons = Array[PackedScene]([ExtResource("4_t7nqe"), ExtResource("5_xjwck")])
 speed = 100.0
@@ -747,6 +738,15 @@ collision_layer = 2
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
+
+[node name="LootComponent" type="Node" parent="."]
+script = ExtResource("11_xjwck")
+item_drop_scene = ExtResource("12_x30ta")
+metadata/_custom_type_script = "uid://bqjthq5jbw7og"
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("13_hmy5p")
+metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

@@ -1,8 +1,6 @@
 [gd_scene load_steps=77 format=3 uid="uid://cxk0mg0y5qdi0"]
 
 [ext_resource type="Script" uid="uid://dut5bplbuvr5v" path="res://Assets/Enemies/UndeadSwordsmanArmour/undead_swordsman.gd" id="1_wteio"]
-[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_3yio0"]
-[ext_resource type="PackedScene" uid="uid://dsyykvmrlnt18" path="res://Assets/Gold/golden_snake.tscn" id="2_m153v"]
 [ext_resource type="Texture2D" uid="uid://woppisagaauf" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Die.png" id="3_m153v"]
 [ext_resource type="Texture2D" uid="uid://bubxl05os68lb" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Attack1.png" id="4_tayrw"]
 [ext_resource type="Texture2D" uid="uid://csa4sufwbn2ro" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Hurt.png" id="5_2romr"]
@@ -10,15 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://div4nfk21sdh1" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Walk.png" id="7_2g06f"]
 [ext_resource type="Texture2D" uid="uid://bd736e625kui4" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Attack2.png" id="8_nrpbe"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="9_cwup0"]
-
-[sub_resource type="Resource" id="Resource_ud2rd"]
-resource_local_to_scene = true
-script = ExtResource("2_3yio0")
-defense = 1.5
-damage = 11.0
-faction = 1
-itemdrop_scene = ExtResource("2_m153v")
-metadata/_custom_type_script = "uid://clj5tjl6n5w51"
+[ext_resource type="Script" uid="uid://bqjthq5jbw7og" path="res://Assets/Scripts/loot_component.gd" id="9_m153v"]
+[ext_resource type="PackedScene" uid="uid://dypup8xitfyuf" path="res://Assets/Gold/golden_deer.tscn" id="10_tayrw"]
+[ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="11_2romr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
 
@@ -492,14 +484,12 @@ height = 40.0
 radius = 111.0
 height = 222.0
 
-[node name="UndeadSwordsman" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav") groups=["enemy"]]
+[node name="UndeadSwordsman" type="CharacterBody2D" node_paths=PackedStringArray("nav") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_wteio")
-sprite = NodePath("AnimatedSprite2D")
 nav = NodePath("Nav")
-stats = SubResource("Resource_ud2rd")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -527,6 +517,15 @@ collision_layer = 2
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_n0o3a")
+
+[node name="LootComponent" type="Node" parent="."]
+script = ExtResource("9_m153v")
+item_drop_scene = ExtResource("10_tayrw")
+metadata/_custom_type_script = "uid://bqjthq5jbw7og"
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("11_2romr")
+metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

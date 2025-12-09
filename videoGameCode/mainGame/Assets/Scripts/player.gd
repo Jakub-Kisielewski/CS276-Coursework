@@ -76,7 +76,6 @@ var mouse_aiming = true #set this to true if you want to aim with mouse
 
 func _ready():
 	$HealthComponent.status_changed.connect(_on_status_changed)
-	$HealthComponent.special_effect_triggered.connect(_on_special_effect)
 	$HealthComponent.health_changed.connect(_on_health_changed)
 	$HealthComponent.health_depleted.connect(_on_death)
 	GameData.currency_updated.connect(_on_currency_updated)
@@ -148,12 +147,6 @@ func _flash_damage():
 		# ask component what status is now in case we are still poisoned
 		_on_status_changed($HealthComponent.status)
 )
-
-func _on_special_effect(effect_name):
-	if effect_name == "darkness":
-		# Call your global world manager here
-		# SignalBus.emit_signal("request_world_darkness")
-		pass #temporary 
 
 #use this for movement
 func get_movement_direction() -> Vector2:
@@ -250,10 +243,6 @@ func handle_input(delta: float):
 		return
 
 	# movement
-	
-	
-	
-	
 	anim_tree.set("parameters/Srun/BlendSpace2D/blend_position", direction)
 	anim_tree.set("parameters/Sidle/BlendSpace2D/blend_position", last_dir)
 	anim_tree.set("parameters/Sattack/BlendSpace2D/blend_position", last_dir)
@@ -877,7 +866,7 @@ func handle_timers(delta: float):
 			dashing = false
 			
 	if dash_cooldown > 0.0:
-		dash_cooldown -= delta			
+		dash_cooldown -= delta
 		if dash_cooldown <= 0.0:
 			dash_cooldown = 0.0
 			dashes = max_dashes
@@ -887,8 +876,6 @@ func handle_timers(delta: float):
 		if spear_ghost_timer <= 0.0:
 			spear_ghost_ready = true
 			spear_ghost_timer = 0.0
-
-	
 
 func _on_death():
 	print("you should be dead")

@@ -1,21 +1,13 @@
 [gd_scene load_steps=67 format=3 uid="uid://d1001ii314vly"]
 
 [ext_resource type="Script" uid="uid://cptafcit457xi" path="res://Assets/Enemies/Minotaur/minotaur.gd" id="1_n8nhx"]
-[ext_resource type="Script" uid="uid://clj5tjl6n5w51" path="res://Assets/Scripts/stats.gd" id="2_a368x"]
-[ext_resource type="PackedScene" uid="uid://dypup8xitfyuf" path="res://Assets/Gold/golden_deer.tscn" id="2_wd3dm"]
 [ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.tscn" id="3_3xsit"]
 [ext_resource type="Texture2D" uid="uid://5kuyyld0jx7o" path="res://Assets/Sprites/goatman.png" id="3_6smlg"]
 [ext_resource type="PackedScene" uid="uid://dklpobami1hkg" path="res://Assets/Enemies/PoisonousBat/poisonous_bat.tscn" id="4_ik8mj"]
+[ext_resource type="Script" uid="uid://bqjthq5jbw7og" path="res://Assets/Scripts/loot_component.gd" id="6_ekckx"]
+[ext_resource type="PackedScene" uid="uid://dsyykvmrlnt18" path="res://Assets/Gold/golden_snake.tscn" id="7_yku5n"]
+[ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="8_qp4xt"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="11_u3cjf"]
-
-[sub_resource type="Resource" id="Resource_ud2rd"]
-resource_local_to_scene = true
-script = ExtResource("2_a368x")
-max_health = 400.0
-damage = 14.0
-faction = 1
-itemdrop_scene = ExtResource("2_wd3dm")
-metadata/_custom_type_script = "uid://clj5tjl6n5w51"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
 
@@ -454,14 +446,12 @@ height = 36.0
 radius = 100.0
 height = 200.0
 
-[node name="Minotaur" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "nav", "hurtbox", "player_rays") groups=["enemy"]]
+[node name="Minotaur" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "player_rays") groups=["enemy"]]
 scale = Vector2(0.9, 0.9)
 motion_mode = 1
 wall_min_slide_angle = 0.34906584
 script = ExtResource("1_n8nhx")
-sprite = NodePath("AnimatedSprite2D")
 nav = NodePath("Nav")
-stats = SubResource("Resource_ud2rd")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 hurtbox = NodePath("AnimatedSprite2D/hurtBox")
 summons = Array[PackedScene]([ExtResource("3_3xsit"), ExtResource("4_ik8mj")])
@@ -506,6 +496,15 @@ collision_mask = 15
 [node name="RayCast2D3" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
 collision_mask = 15
+
+[node name="LootComponent" type="Node" parent="."]
+script = ExtResource("6_ekckx")
+item_drop_scene = ExtResource("7_yku5n")
+metadata/_custom_type_script = "uid://bqjthq5jbw7og"
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("8_qp4xt")
+metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
