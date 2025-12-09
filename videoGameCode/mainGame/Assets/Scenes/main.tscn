@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://c7njgli8wtoay"]
+
+[node name="Main" type="Node"]
+
+[node name="GlobalMusicPlayer" type="AudioStreamPlayer2D" parent="."]
+
+[node name="SceneManager" type="Node" parent="."]
+
+[node name="RunManager" type="Node" parent="."]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="ActiveSceneContainer" type="Node" parent="."]

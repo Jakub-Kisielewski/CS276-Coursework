@@ -8,7 +8,7 @@ func _init() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-	
+
 func shake() -> void:
 	var tween : Tween = get_tree().create_tween()
 	tween.tween_property(self, "offset", Vector2(shake_size, -shake_size), 0.08).set_trans(Tween.TRANS_SINE)

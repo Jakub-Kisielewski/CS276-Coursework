@@ -14,7 +14,7 @@ extends CharacterBody2D
 @export var stats : Stats
 
 var canvas : CanvasLayer
-var health_label : Label
+var health_bar : TextureProgressBar
 var currency_label : Label
 var camera : Camera2D
 
@@ -91,12 +91,12 @@ func _ready():
 	orig_pos = position
 	
 	canvas = get_tree().get_first_node_in_group("canvas")
-	health_label = canvas.get_node("Health")
-	currency_label = canvas.get_node("Currency")	
-	
-	health_label.visible = true
+	health_bar = canvas.get_node("health") # change
+	currency_label = canvas.get_node("Currency") # change
+	# change
+	health_bar.text = "sigma"
 	currency_label.visible = true
-
+	
 	stats.set_owner_node(self)
 	
 	camera = get_tree().get_first_node_in_group("camera")
@@ -764,7 +764,7 @@ func _on_damaged():
 	pass
 	
 func _on_health_changed() -> void:	
-	health_label.text = str(stats.current_health)
+	health_bar.text = str(stats.current_health)
 
 func collect_currency(enemy_currency : int) -> void:
 	stats.currency = stats.currency + enemy_currency
@@ -774,7 +774,7 @@ func player_busy() -> bool:
 	return attacking or dying or special_charging
 
 func death_screen() -> void:
-	health_label.visible = false
+	health_bar.visible = false
 	currency_label.visible = false
 	stats.initialise_stats()
 	
@@ -789,7 +789,7 @@ func death_screen() -> void:
 func clear_screen() -> void:
 	get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
 	
-	health_label.visible = false
+	health_bar.visible = false
 	currency_label.visible = false
 	stats.initialise_stats()
 	
