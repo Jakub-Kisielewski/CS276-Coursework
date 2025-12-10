@@ -94,15 +94,6 @@ func _ready():
 	orig_spear_pos = spearAnim.position
 	orig_pos = position
 	
-	canvas = get_tree().get_first_node_in_group("canvas")
-	health_bar = canvas.get_node("Health") # change
-	currency_label = canvas.get_node("Currency") # change
-	
-	##health_bar.text = str(GameData.current_health) for now comment out
-	#currency_label.text = str(GameData.currency)
-	#health_bar.visible = true
-	#currency_label.visible = true
-	
 	bowEffects2.visible = false
 	
 	camera = get_tree().get_first_node_in_group("camera")
@@ -929,17 +920,17 @@ func _on_damaged():
 	pass
 	
 func _on_health_changed(new_amount, _max_amount) -> void:    
-	health_bar.text = str(new_amount)
+	#health_bar.text = str(new_amount)
+	pass
 
 func _on_currency_updated(new_amount : int) -> void:
-	currency_label.text = str(new_amount)
+	#currency_label.text = str(new_amount)
+	pass
 
 func player_busy() -> bool:
 	return attacking or dying or special_charging
 
 func death_screen() -> void:
-	health_bar.visible = false
-	currency_label.visible = false
 	GameData.reset_stats()
 	
 	var deathBGRND : ColorRect = canvas.get_node("DeathBGRND")
@@ -953,8 +944,6 @@ func death_screen() -> void:
 func clear_screen() -> void:
 	get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
 	
-	health_bar.visible = false
-	currency_label.visible = false
 	GameData.reset_stats()
 	
 	var clearBGRND : ColorRect = canvas.get_node("ClearBGRND")
@@ -1007,7 +996,7 @@ func upgrade_dash():
 	else:
 		max_dashes += 1;
 
-func  throw_decoy():
+func throw_decoy():
 	if decoy_scene == null:
 		print("where tf decoy scene")
 		return

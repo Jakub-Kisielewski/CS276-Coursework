@@ -11127,13 +11127,11 @@ animation = &""
 
 [node name="bodyAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_wt7tk")
-animation = &"hurt_down"
-frame = 4
+animation = &""
 
 [node name="headAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_feila")
-animation = &"hurt_down"
-frame = 4
+animation = &""
 
 [node name="bowAnim" type="AnimatedSprite2D" parent="."]
 position = Vector2(-4, 3)
@@ -11143,13 +11141,12 @@ animation = &""
 
 [node name="bodyEffects" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xhohc")
-animation = &"hurt_down"
-frame = 4
+animation = &""
 
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
-animation = &"hurt_down"
-frame = 4
+animation = &"Sidle_left"
+frame = 10
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")
@@ -11218,7 +11215,7 @@ metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="bodyEffectlay2" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a3rua")
-animation = &"blood"
+animation = &""
 frame = 1
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]

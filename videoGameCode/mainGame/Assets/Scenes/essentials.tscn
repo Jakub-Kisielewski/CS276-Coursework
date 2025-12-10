@@ -1,8 +1,5 @@
-[gd_scene load_steps=7 format=3 uid="uid://hmd60nmnud83"]
+[gd_scene load_steps=4 format=3 uid="uid://hmd60nmnud83"]
 
-[ext_resource type="Environment" uid="uid://cp3vl3du8x0j5" path="res://Assets/Scenes/standard_world.tres" id="1_ds032"]
-[ext_resource type="Script" uid="uid://ccqb3iwnfc1ax" path="res://Assets/Scripts/world.gd" id="2_45n5k"]
-[ext_resource type="Environment" uid="uid://rvb4jwyj6lko" path="res://Assets/Scenes/dark_world.tres" id="3_5dpuq"]
 [ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="4_qabso"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_4xcpp"]
 
@@ -32,12 +29,6 @@ cache/0/45/0/underline_thickness = 0.0
 cache/0/45/0/scale = 1.0
 
 [node name="Essentials" type="Node"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." groups=["world"]]
-environment = ExtResource("1_ds032")
-script = ExtResource("2_45n5k")
-standard_world = ExtResource("1_ds032")
-dark_world = ExtResource("3_5dpuq")
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 zoom = Vector2(3, 3)

@@ -1,5 +1,6 @@
-[gd_scene load_steps=20 format=4 uid="uid://clxjek3j3vqjd"]
+[gd_scene load_steps=21 format=4 uid="uid://clxjek3j3vqjd"]
 
+[ext_resource type="Script" uid="uid://bbnnthspq4ou2" path="res://Assets/Rooms/room_base.gd" id="1_b0c35"]
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_o7423"]
 [ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_b0c35"]
 [ext_resource type="Texture2D" uid="uid://cpht12j2lfc0y" path="res://Assets/Sprites/RF_Catacombs_v1.0/decorative.png" id="3_3kdpr"]
@@ -2393,6 +2394,7 @@ sources/6 = SubResource("TileSetAtlasSource_jyctu")
 sources/7 = SubResource("TileSetAtlasSource_8gaf6")
 
 [node name="basic_arena4" type="Node2D"]
+script = ExtResource("1_b0c35")
 
 [node name="layer_control" type="Node2D" parent="."]
 
@@ -2409,3 +2411,20 @@ navigation_enabled = false
 tile_map_data = PackedByteArray("AADo//b/AQAZAAEAAADo//f/AQAZAAIAAADo//j/AQAZAAMAAADo//n/AQAZAAQAAADp//b/AQAaAAEAAADq//b/AQAbAAEAAADr//b/AQAcAAEAAADs//b/AQAdAAEAAADs//f/AQAdAAIAAADs//j/AQAdAAMAAADs//n/AQAdAAQAAADz//b/AQAZAAEAAADz//f/AQAZAAIAAADz//j/AQAZAAMAAADz//n/AQAZAAQAAAD0//b/AQAaAAEAAAD1//b/AQAbAAEAAAD2//b/AQAcAAEAAAD3//b/AQAdAAEAAAD3//f/AQAdAAIAAAD3//j/AQAdAAMAAAD3//n/AQAdAAQAAAD+//b/AQAZAAEAAAD+//f/AQAZAAIAAAD+//j/AQAZAAMAAAD+//n/AQAZAAQAAAD///b/AQAaAAEAAAAAAPb/AQAbAAEAAAABAPb/AQAcAAEAAAACAPb/AQAdAAEAAAACAPf/AQAdAAIAAAACAPj/AQAdAAMAAAACAPn/AQAdAAQAAAAJAPb/AQAZAAEAAAAJAPf/AQAZAAIAAAAJAPj/AQAZAAMAAAAJAPn/AQAZAAQAAAAKAPb/AQAaAAEAAAALAPb/AQAbAAEAAAAMAPb/AQAcAAEAAAANAPb/AQAdAAEAAAANAPf/AQAdAAIAAAANAPj/AQAdAAMAAAANAPn/AQAdAAQAAAADAPb/AQAfAAIAAAADAPf/AQAfAAMAAAADAPj/AQAfAAQAAAADAPn/AQAfAAUAAAAEAPb/AQAgAAIAAAAEAPf/AQAgAAMAAAAEAPj/AQAgAAQAAAAEAPn/AQAgAAUAAAAFAPb/AQAhAAIAAAAFAPf/AQAhAAMAAAAFAPj/AQAhAAQAAAAFAPn/AQAhAAUAAAAGAPb/AQAiAAIAAAAGAPf/AQAiAAMAAAAGAPj/AQAiAAQAAAAGAPn/AQAiAAUAAAAHAPb/AQAjAAIAAAAHAPf/AQAjAAMAAAAHAPj/AQAjAAQAAAAHAPn/AQAjAAUAAAAIAPb/AQAkAAIAAAAIAPf/AQAkAAMAAAAIAPj/AQAkAAQAAAAIAPn/AQAkAAUAAAD4//b/AQAfAAIAAAD4//f/AQAfAAMAAAD4//j/AQAfAAQAAAD4//n/AQAfAAUAAAD5//b/AQAgAAIAAAD5//f/AQAgAAMAAAD5//j/AQAgAAQAAAD5//n/AQAgAAUAAAD6//b/AQAhAAIAAAD6//f/AQAhAAMAAAD6//j/AQAhAAQAAAD6//n/AQAhAAUAAAD7//b/AQAiAAIAAAD7//f/AQAiAAMAAAD7//j/AQAiAAQAAAD7//n/AQAiAAUAAAD8//b/AQAjAAIAAAD8//f/AQAjAAMAAAD8//j/AQAjAAQAAAD8//n/AQAjAAUAAAD9//b/AQAkAAIAAAD9//f/AQAkAAMAAAD9//j/AQAkAAQAAAD9//n/AQAkAAUAAADt//b/AQAfAAIAAADt//f/AQAfAAMAAADt//j/AQAfAAQAAADt//n/AQAfAAUAAADu//b/AQAgAAIAAADu//f/AQAgAAMAAADu//j/AQAgAAQAAADu//n/AQAgAAUAAADv//b/AQAhAAIAAADv//f/AQAhAAMAAADv//j/AQAhAAQAAADv//n/AQAhAAUAAADw//b/AQAiAAIAAADw//f/AQAiAAMAAADw//j/AQAiAAQAAADw//n/AQAiAAUAAADx//b/AQAjAAIAAADx//f/AQAjAAMAAADx//j/AQAjAAQAAADx//n/AQAjAAUAAADy//b/AQAkAAIAAADy//f/AQAkAAMAAADy//j/AQAkAAQAAADy//n/AQAkAAUAAAA=")
 tile_set = SubResource("TileSet_cl4vd")
 navigation_enabled = false
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(-81, -421)
+
+[node name="EnemySpawns" type="Node" parent="."]
+
+[node name="EnemySpawn1" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(-77, -191)
+
+[node name="EnemySpawn2" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(-220, 69)
+
+[node name="EnemySpawn3" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(48, 66)
+
+[node name="EnemySpawn4" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(-83, 198)
