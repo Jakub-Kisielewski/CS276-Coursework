@@ -891,7 +891,7 @@ hitbox_shape = SubResource("CircleShape2D_t3ldh")
 speed = 100.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
-damage = 12.0
+damage = 18.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7)

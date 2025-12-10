@@ -2381,24 +2381,6 @@ navigation_enabled = false
 [node name="player" parent="." instance=ExtResource("3_qfi48")]
 position = Vector2(-69, 168)
 
-[node name="spearAnim" parent="player" index="1"]
-animation = &""
-
-[node name="bodyAnim" parent="player" index="4"]
-animation = &""
-frame = 0
-
-[node name="headAnim" parent="player" index="5"]
-animation = &""
-frame = 0
-
-[node name="bowAnim" parent="player" index="6"]
-animation = &""
-
-[node name="fullAnim" parent="player" index="8"]
-animation = &"Sidle_left"
-frame = 5
-
 [node name="AnimationTree" parent="player" index="11"]
 parameters/hurt/TimeScale/scale = 1.0
 
@@ -2408,5 +2390,6 @@ tile_set = SubResource("TileSet_nnog6")
 navigation_enabled = false
 
 [node name="Minotaur" parent="." instance=ExtResource("9_0fbdl")]
+position = Vector2(-11, 49)
 
 [editable path="player"]

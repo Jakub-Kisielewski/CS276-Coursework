@@ -1,9 +1,11 @@
-[gd_scene load_steps=67 format=3 uid="uid://d1001ii314vly"]
+[gd_scene load_steps=69 format=3 uid="uid://d1001ii314vly"]
 
 [ext_resource type="Script" uid="uid://cptafcit457xi" path="res://Assets/Enemies/Minotaur/minotaur.gd" id="1_n8nhx"]
 [ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.tscn" id="3_3xsit"]
 [ext_resource type="Texture2D" uid="uid://5kuyyld0jx7o" path="res://Assets/Sprites/goatman.png" id="3_6smlg"]
 [ext_resource type="PackedScene" uid="uid://dklpobami1hkg" path="res://Assets/Enemies/PoisonousBat/poisonous_bat.tscn" id="4_ik8mj"]
+[ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="4_qp4xt"]
+[ext_resource type="PackedScene" uid="uid://cxk0mg0y5qdi0" path="res://Assets/Enemies/UndeadSwordsmanArmour/undead_swordsman.tscn" id="5_maes3"]
 [ext_resource type="Script" uid="uid://bqjthq5jbw7og" path="res://Assets/Scripts/loot_component.gd" id="6_ekckx"]
 [ext_resource type="PackedScene" uid="uid://dypup8xitfyuf" path="res://Assets/Gold/golden_deer.tscn" id="7_ekckx"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="8_qp4xt"]
@@ -454,12 +456,12 @@ script = ExtResource("1_n8nhx")
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 hurtbox = NodePath("AnimatedSprite2D/hurtBox")
-summons = Array[PackedScene]([ExtResource("3_3xsit"), ExtResource("4_ik8mj")])
+summons = Array[PackedScene]([ExtResource("3_3xsit"), ExtResource("4_ik8mj"), ExtResource("4_qp4xt"), ExtResource("5_maes3")])
 player_rays = [NodePath("RayCast2D"), NodePath("RayCast2D2"), NodePath("RayCast2D3")]
 speed = 100.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
-damage = 14.0
+damage = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 12)
@@ -467,8 +469,9 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"charge"
-frame_progress = 0.65816754
+animation = &"damage"
+frame = 2
+frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("11_u3cjf")

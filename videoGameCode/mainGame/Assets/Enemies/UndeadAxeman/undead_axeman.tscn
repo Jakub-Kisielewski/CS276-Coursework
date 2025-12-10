@@ -608,10 +608,10 @@ wall_min_slide_angle = 0.0
 script = ExtResource("1_vhwpw")
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CapsuleShape2D_0ejd5")
-speed = 80
+speed = 70.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
-damage = 13.0
+damage = 17.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)

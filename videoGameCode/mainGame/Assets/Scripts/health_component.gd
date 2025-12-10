@@ -57,9 +57,9 @@ func take_damage(amount: float, attack_effect: String):
 			final_damage = amount / defense
 		"Lifeslash":
 			SignalBus.request_darkness.emit(3.6)
-			final_damage = current_health * 0.2 # reduce hp by 20%
+			final_damage = current_health * 0.3 # reduce hp by 30%
 		"Critical":
-			final_damage = (amount * 1.2) / defense
+			final_damage = (amount * 1.5) / defense
 		_:
 			# Standard Damage
 			final_damage = amount / defense
@@ -95,6 +95,7 @@ func _on_poison_tick():
 	take_damage(2.0, "None") 
 	poison_ticks_left -= 1
 	
+	# Poison effect is over
 	if poison_ticks_left <= 0:
 		stop_poison()
 
@@ -127,10 +128,11 @@ func _handle_damage_status():
 
 	set_status(Status.DAMAGED)
 	
-	# revert back to healthy after 
+	# Revert back to healthy after 0.2 seconds
 	await get_tree().create_timer(0.2).timeout
 	
 	if poison_ticks_left > 0:
+		# Poison is currently in effect
 		set_status(Status.POISONED)
 	else:
 		set_status(Status.HEALTHY)

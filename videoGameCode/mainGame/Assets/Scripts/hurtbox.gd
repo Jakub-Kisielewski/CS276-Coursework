@@ -18,7 +18,9 @@ func _ready() -> void:
 		collision_layer = 2 # Layer 2 (Enemy)
 		collision_mask = 0
 	
+# Receive hit from an attacker
 func receive_hit(damage: int, attacker : Node, attack_effect: String, stun : bool = false) -> void:
+	# The attacker doesn't exist
 	if attacker == null:
 		print("attacker is null")
 		return
@@ -26,6 +28,7 @@ func receive_hit(damage: int, attacker : Node, attack_effect: String, stun : boo
 	if owner.has_method("iframes_on") and owner.iframes_on():
 		return
 	
+	# Enemies can't attack other enemies, and players cant attack other players
 	if attacker.is_in_group("player") and owner.is_in_group("player"):
 		return
 	if attacker.is_in_group("enemy") and owner.is_in_group("enemy"):
@@ -36,6 +39,7 @@ func receive_hit(damage: int, attacker : Node, attack_effect: String, stun : boo
 	
 	if health_component:
 		if health_component.invincible and attack_effect != "Execution":
+			# Invicible entities can't take damage, unless the attack is an execution
 			health_component.take_damage(0, attack_effect)
 		else:
 			health_component.take_damage(damage, attack_effect)

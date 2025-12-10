@@ -6,12 +6,12 @@ class_name EnemyEntity extends CharacterBody2D
 @onready var sprite_base: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready():
-	
 	if health_component:
 		health_component.status_changed.connect(_on_status_changed)
 		health_component.health_depleted.connect(_on_death)
 		health_component.damage_taken.connect(_on_damaged)
 
+# Change the modulate of the enemy sprite to reflect the enemy's state
 func _on_status_changed(new_status : HealthComponent.Status) -> void:
 	match new_status:
 		health_component.Status.HEALTHY:
@@ -31,6 +31,7 @@ func _on_death():
 	# Default behavior: Drop loot and die
 	reduce_to_gold()
 
+# Drop gold and destroy the enemy
 func reduce_to_gold():
 	if loot_component:
 		loot_component.drop_loot()

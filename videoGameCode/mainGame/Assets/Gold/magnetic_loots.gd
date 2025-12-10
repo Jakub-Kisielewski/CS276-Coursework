@@ -33,8 +33,11 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if state_collected: return
-	if !is_instance_valid(player): return
+	if state_collected: 
+		return
+	if !is_instance_valid(player):
+		player = get_tree().get_first_node_in_group("player")
+		return
 	
 	var dist = global_position.distance_to(player.global_position)
 	

@@ -9,13 +9,16 @@ func initialise(_deathBGRND: ColorRect):
 	deathBGRND = _deathBGRND
 	death_anim()
 	
+# Animation to visualise the death screen screen
 func death_anim() -> void:
 	sprite.play("charge")
-	
+
+	# Fade the ColorRect until fully visible
 	var tween : Tween = create_tween()
 	tween.tween_property(deathBGRND, "color:a", 1.0, 0.38)
 	tween.tween_interval(0.1)
-	
+
+	# Fade the child Labels until fully visible
 	for child in deathBGRND.get_children():
 		if child is Label:
 			tween.tween_property(child, "modulate:a", 1.0, 0.28)
@@ -24,7 +27,8 @@ func death_anim() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	var distance : float = global_position.distance_to(target_pos)
-	
+
+	# Move the sprite left until the target_pos is reached
 	if (distance > 100):
 		velocity = global_position.direction_to(target_pos) * speed	
 		if velocity.x > 0:

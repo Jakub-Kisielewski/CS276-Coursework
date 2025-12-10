@@ -526,9 +526,10 @@ script = ExtResource("1_wleg1")
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CapsuleShape2D_yviti")
 hurtbox = NodePath("AnimatedSprite2D/hurtBox")
+speed = 90.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
-damage = 13.0
+damage = 18.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)

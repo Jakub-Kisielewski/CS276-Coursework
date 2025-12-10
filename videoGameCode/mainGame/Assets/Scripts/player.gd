@@ -80,7 +80,6 @@ var monitorable = true
 
 var mouse_aiming = true #set this to true if you want to aim with mouse
 
-
 func _ready():
 	$HealthComponent.status_changed.connect(_on_status_changed)
 	$HealthComponent.health_changed.connect(_on_health_changed)
@@ -95,6 +94,8 @@ func _ready():
 	orig_pos = position
 	
 	bowEffects2.visible = false
+	
+	canvas = get_tree().get_first_node_in_group("canvas")
 	
 	camera = get_tree().get_first_node_in_group("camera")
 	update_camera()
@@ -942,9 +943,9 @@ func death_screen() -> void:
 	call_deferred("queue_free")
 	
 func clear_screen() -> void:
-	get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
-	
 	GameData.reset_stats()
+	
+	get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
 	
 	var clearBGRND : ColorRect = canvas.get_node("ClearBGRND")
 	var player_scene : PackedScene = load(get_scene_file_path()) as PackedScene
