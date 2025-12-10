@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=19 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Environment" uid="uid://cp3vl3du8x0j5" path="res://Assets/Scenes/standard_world.tres" id="1_gfgg3"]
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player.tscn" id="3_qfi48"]
 [ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="4_gn4xj"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_2v7sf"]
-[ext_resource type="PackedScene" uid="uid://d1001ii314vly" path="res://Assets/Enemies/Minotaur/minotaur.tscn" id="9_0fbdl"]
+[ext_resource type="PackedScene" uid="uid://btwfd83br58hn" path="res://Assets/Enemies/Demon/demon.tscn" id="9_0fbdl"]
+[ext_resource type="PackedScene" uid="uid://dl5lpjcwe5tsx" path="res://Assets/Enemies/Ghost/ghost.tscn" id="10_pk5fv"]
+[ext_resource type="PackedScene" uid="uid://d1001ii314vly" path="res://Assets/Enemies/Minotaur/minotaur.tscn" id="11_gfgg3"]
 
 [sub_resource type="FontFile" id="FontFile_0fbdl"]
 subpixel_positioning = 0
@@ -2381,6 +2383,9 @@ navigation_enabled = false
 [node name="player" parent="." instance=ExtResource("3_qfi48")]
 position = Vector2(-69, 168)
 
+[node name="fullAnim" parent="player" index="8"]
+frame = 0
+
 [node name="AnimationTree" parent="player" index="11"]
 parameters/hurt/TimeScale/scale = 1.0
 
@@ -2389,7 +2394,19 @@ tile_map_data = PackedByteArray("AAD2//z/AQAZAAEAAAD6//z/AQAdAAEAAAD3//z/AQAaAAE
 tile_set = SubResource("TileSet_nnog6")
 navigation_enabled = false
 
-[node name="Minotaur" parent="." instance=ExtResource("9_0fbdl")]
-position = Vector2(-11, 49)
+[node name="Ghost" parent="." instance=ExtResource("10_pk5fv")]
+position = Vector2(-105, -91)
+
+[node name="Demon" parent="." instance=ExtResource("9_0fbdl")]
+position = Vector2(-65, 73)
+
+[node name="Minotaur" parent="." instance=ExtResource("11_gfgg3")]
+position = Vector2(-15, -134)
+
+[node name="Ghost2" parent="." instance=ExtResource("10_pk5fv")]
+position = Vector2(-163, 106)
+
+[node name="Demon2" parent="." instance=ExtResource("9_0fbdl")]
+position = Vector2(11, 107)
 
 [editable path="player"]

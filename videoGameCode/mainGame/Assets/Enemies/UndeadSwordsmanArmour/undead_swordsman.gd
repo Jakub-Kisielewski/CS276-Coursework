@@ -8,7 +8,7 @@ extends EnemyEntity
 var hurtbox : HurtBox
 
 # Details about the bat's thrust attack
-const THRUST_COOLDOWN_TIME : float = 0.8
+const THRUST_COOLDOWN_TIME : float = 0.6
 var thrust_direction : Vector2
 var thrust_multiplier : float = 2.2
 var thrust_cooldown : float = 0.0

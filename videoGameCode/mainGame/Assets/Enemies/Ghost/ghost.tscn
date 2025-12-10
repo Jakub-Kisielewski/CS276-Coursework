@@ -310,7 +310,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"arise",
-"speed": 12.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -348,7 +348,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 12.0
+"speed": 22.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -368,7 +368,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"damage",
-"speed": 8.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -412,7 +412,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"death",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -441,7 +441,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -470,7 +470,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"move",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -515,8 +515,8 @@ animations = [{
 radius = 13.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n0o3a"]
-radius = 111.0
-height = 222.0
+radius = 100.0
+height = 200.0
 
 [node name="Ghost" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "health_component", "loot_component") groups=["enemy"]]
 scale = Vector2(0.76, 0.76)
@@ -529,7 +529,7 @@ hurtbox = NodePath("AnimatedSprite2D/hurtBox")
 speed = 90.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
-damage = 18.0
+damage = 22.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
@@ -537,7 +537,9 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"damage"
+animation = &"thrust"
+frame = 10
+frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("10_k2h7c")

@@ -392,7 +392,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_down",
-"speed": 17.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -430,7 +430,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_up",
-"speed": 17.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -450,7 +450,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"damage",
-"speed": 8.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -494,7 +494,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"death",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -523,7 +523,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -558,7 +558,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"move",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -608,10 +608,10 @@ wall_min_slide_angle = 0.0
 script = ExtResource("1_vhwpw")
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CapsuleShape2D_0ejd5")
-speed = 70.0
+speed = 80.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
-damage = 17.0
+damage = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)
@@ -619,7 +619,8 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"arise"
+animation = &"idle"
+metadata/_edit_group_ = true
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("7_2ypfq")

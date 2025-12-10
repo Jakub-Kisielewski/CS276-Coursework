@@ -252,7 +252,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 20.0
+"speed": 22.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -445,8 +445,8 @@ radius = 12.0
 height = 36.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n0o3a"]
-radius = 100.0
-height = 200.0
+radius = 95.0
+height = 190.0
 
 [node name="Minotaur" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "player_rays", "health_component", "loot_component") groups=["enemy"]]
 scale = Vector2(0.9, 0.9)
@@ -461,7 +461,7 @@ player_rays = [NodePath("RayCast2D"), NodePath("RayCast2D2"), NodePath("RayCast2
 speed = 100.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
-damage = 20.0
+damage = 24.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 12)
@@ -469,8 +469,8 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"damage"
-frame = 2
+animation = &"attack"
+frame = 5
 frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]

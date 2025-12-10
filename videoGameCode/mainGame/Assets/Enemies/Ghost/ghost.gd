@@ -9,7 +9,7 @@ extends EnemyEntity
 var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
 # Details about the ghost's thrust attack
-const THRUST_COOLDOWN_TIME : float = 0.8
+const THRUST_COOLDOWN_TIME : float = 0.6
 var thrust_direction : Vector2
 var thrust_multiplier : float = 2.2
 var thrust_cooldown : float = 0.0
@@ -161,7 +161,7 @@ func handle_attack() -> void:
 	else:
 		hitbox = hitBox.new(self, damage, "None", 0, hitbox_shape)
 
-	hitbox.scale = Vector2(1.6,1.8)	
+	hitbox.scale = Vector2(1.7,1.9)	
 	state_changed.connect(hitbox.queue_free)
 	add_child(hitbox)
 
@@ -190,7 +190,7 @@ func handle_thrust() -> void:
 	add_child(hitbox)
 	
 	hitbox.position.y = 3
-	hitbox.scale = Vector2(1.8,2.7)
+	hitbox.scale = Vector2(2.1,2.8)
 
 	var vector_to_player : Vector2 = player.global_position - global_position
 	thrust_direction = vector_to_player.normalized()
@@ -245,8 +245,8 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		
 		"damage":
 			# Every time ghost is damaged, there is a 50/50 chance it turns invisible
-			var x : int = rng.randi_range(1, 2)  # like a dice roll			
-			if x == 1:
+			var x : int = rng.randi_range(1, 3)  # like a dice roll			
+			if x < 3:
 				set_state(State.INVISIBLE_MOVING)
 			else:
 				set_state(State.VISIBLE_MOVING)

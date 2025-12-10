@@ -181,8 +181,9 @@ func _physics_process(delta: float) -> void:
 				# End charge
 				set_state(State.MOVING)
 			if is_on_wall():
-				if get_slide_collision(0).get_collider().is_in_group("enemy"):
-					# Enemy collided wit other enemy
+				var collider = get_slide_collision(0).get_collider() 
+				if is_instance_valid(collider) and collider.is_in_group("enemy"):
+					# Enemy collided with other enemy
 					return
 					
 				# Enemy has charged into wall

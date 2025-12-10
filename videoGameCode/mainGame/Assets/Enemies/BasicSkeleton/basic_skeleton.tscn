@@ -275,7 +275,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_down",
-"speed": 15.0
+"speed": 17.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -307,7 +307,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_up",
-"speed": 15.0
+"speed": 17.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -327,7 +327,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"damage",
-"speed": 8.0
+"speed": 13.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -422,14 +422,16 @@ hitbox_shape = SubResource("CircleShape2D_vb2cf")
 speed = 90.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
-damage = 13.0
+damage = 16.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"damage"
+animation = &"attack_up"
+frame = 8
+frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("3_ey4mj")

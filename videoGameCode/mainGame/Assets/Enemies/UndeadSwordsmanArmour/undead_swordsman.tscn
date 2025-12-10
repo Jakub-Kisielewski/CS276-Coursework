@@ -325,7 +325,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 12.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -345,7 +345,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"damage",
-"speed": 8.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -377,7 +377,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"death",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -406,7 +406,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -441,9 +441,12 @@ animations = [{
 }],
 "loop": true,
 "name": &"move",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": null
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kow8y")
 }, {
@@ -481,8 +484,8 @@ radius = 13.0
 height = 40.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n0o3a"]
-radius = 111.0
-height = 222.0
+radius = 100.0
+height = 200.0
 
 [node name="UndeadSwordsman" type="CharacterBody2D" node_paths=PackedStringArray("nav", "health_component", "loot_component") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
@@ -494,7 +497,7 @@ hitbox_shape = SubResource("CircleShape2D_t3ldh")
 speed = 90.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
-damage = 15.0
+damage = 18.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)
@@ -502,7 +505,7 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"arise"
+animation = &"damage"
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("9_cwup0")

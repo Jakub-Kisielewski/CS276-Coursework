@@ -12,7 +12,7 @@ var hurtbox : HurtBox
 # Details about the bat's strike attack
 const STRIKE_COOLDOWN_TIME : float = 0.2
 var strike_direction : Vector2
-var strike_multiplier : float = 2.2
+var strike_multiplier : float = 2
 var strike_cooldown : float = 0.0
 
 var player_in_range : bool = false
