@@ -17,21 +17,14 @@ func _ready() -> void:
 	transition_screen.visible = true
 	transition_screen.modulate.a = 0.0
 	
-	SignalBus.request_room_change.connect(_on_room_change_requested)
-	
-	_switch_ui_state(SceneType.MENU)
 
 func swap_content_scene(new_scene_node: Node) -> void:
-	
 	await _fade_out()
-	
 	
 	for child in active_scene_container.get_children():
 		child.queue_free()
 	
-	
 	active_scene_container.add_child(new_scene_node)
-	
 	
 	await _fade_in()
 
