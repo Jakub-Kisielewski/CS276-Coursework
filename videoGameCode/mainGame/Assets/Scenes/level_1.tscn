@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://cc8wxjynffnq8"]
+[gd_scene load_steps=17 format=4 uid="uid://cc8wxjynffnq8"]
 
 [ext_resource type="Environment" uid="uid://cp3vl3du8x0j5" path="res://Assets/Scenes/standard_world.tres" id="1_gfgg3"]
 [ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_vw6f2"]
@@ -8,10 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player.tscn" id="3_qfi48"]
 [ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="4_gn4xj"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_2v7sf"]
-[ext_resource type="PackedScene" uid="uid://dl5lpjcwe5tsx" path="res://Assets/Enemies/Ghost/ghost.tscn" id="9_0fbdl"]
-[ext_resource type="PackedScene" uid="uid://becsynnrqprvl" path="res://Assets/Enemies/Wizard/wizard.tscn" id="9_pk5fv"]
-[ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.tscn" id="10_pk5fv"]
-[ext_resource type="PackedScene" uid="uid://btwfd83br58hn" path="res://Assets/Enemies/Demon/demon.tscn" id="11_2gvtk"]
+[ext_resource type="PackedScene" uid="uid://d1001ii314vly" path="res://Assets/Enemies/Minotaur/minotaur.tscn" id="9_0fbdl"]
 
 [sub_resource type="FontFile" id="FontFile_0fbdl"]
 subpixel_positioning = 0
@@ -2384,31 +2381,32 @@ navigation_enabled = false
 [node name="player" parent="." instance=ExtResource("3_qfi48")]
 position = Vector2(-69, 168)
 
+[node name="spearAnim" parent="player" index="1"]
+animation = &""
+
+[node name="bodyAnim" parent="player" index="4"]
+animation = &""
+frame = 0
+
+[node name="headAnim" parent="player" index="5"]
+animation = &""
+frame = 0
+
+[node name="bowAnim" parent="player" index="6"]
+animation = &""
+
 [node name="fullAnim" parent="player" index="8"]
-frame = 2
+animation = &"Sidle_left"
+frame = 5
 
-[node name="Wizard" parent="." instance=ExtResource("9_pk5fv")]
-position = Vector2(-140, -120)
-
-[node name="BasicSkeleton" parent="." instance=ExtResource("10_pk5fv")]
-position = Vector2(-140, -120)
-
-[node name="Demon" parent="." instance=ExtResource("11_2gvtk")]
-position = Vector2(-52, -185)
-
-[node name="BasicSkeleton2" parent="." instance=ExtResource("10_pk5fv")]
-position = Vector2(146, -92)
-
-[node name="Ghost2" parent="." instance=ExtResource("9_0fbdl")]
-position = Vector2(97.99999, -165)
-scale = Vector2(0.5776, 0.5776)
-
-[node name="Ghost" parent="." instance=ExtResource("9_0fbdl")]
-position = Vector2(13, -129)
+[node name="AnimationTree" parent="player" index="11"]
+parameters/hurt/TimeScale/scale = 1.0
 
 [node name="AboveLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD2//z/AQAZAAEAAAD6//z/AQAdAAEAAAD3//z/AQAaAAEAAAD4//z/AQAbAAEAAAD5//z/AQAcAAEAAAA=")
 tile_set = SubResource("TileSet_nnog6")
 navigation_enabled = false
+
+[node name="Minotaur" parent="." instance=ExtResource("9_0fbdl")]
 
 [editable path="player"]

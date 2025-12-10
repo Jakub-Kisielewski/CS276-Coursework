@@ -14,6 +14,7 @@ extends CharacterBody2D
 @onready var bodyEffects = $bodyEffects
 @onready var bowEffects = $bowEffects
 @onready var bowEffects2 = $bowEffectslay2
+@onready var bodyEffects2 = $bodyEffectlay2
 
 var decoy_scene := preload("res://Assets/Scenes/decoy.tscn")
 var decoy_cooldown : float = 8.5
@@ -65,6 +66,7 @@ var current_weapon_data: WeaponData
 
 var attacking = false
 var attacked = false
+var stunned_status : bool = false
 var special_charging: bool = false
 var special_hold_time : float = 0.0
 const SPECIAL_HOLD_TIME : float = 0.4 #wind up the attack for  second cuz op
@@ -177,6 +179,13 @@ func get_nonzero_movement_direction() -> Vector2:
 
 func handle_input(delta: float):
 	
+	
+	if (stunned_status):
+		bodyEffects2.global_position = global_position
+		anim_state.travel("hurt")
+		return
+	
+	
 	if Input.is_action_just_pressed("attack_special"):
 		
 		if current_weapon == Weapon.SWORD and not player_busy():
@@ -266,6 +275,7 @@ func handle_input(delta: float):
 	
 	anim_tree.set("parameters/battack/BlendSpace2D/blend_position", last_dir)
 	anim_tree.set("parameters/bcharge/BlendSpace2D/blend_position", last_dir)
+	anim_tree.set("parameters/hurt/BlendSpace2D/blend_position", last_dir)
 
 	if Input.is_action_just_pressed("dash"):
 		handle_dash() 
@@ -411,6 +421,7 @@ func updateSprite():
 			print("updateSprite: null weapon")
 				
 	#print("in action", in_action)
+	bodyEffects2.visible = stunned_status
 	
 func offset_spear_nonattacking():
 	if attacking:
@@ -971,6 +982,10 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 		monitorable = true
 		switch_activated = false
 		shotgun_activated = false
+		
+	if anim_name.begins_with("hurt"):
+		stunned_status = false
+		#sprite visibility already handled isnide update sprite
 		
 		
 		

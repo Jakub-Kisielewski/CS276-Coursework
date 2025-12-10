@@ -252,7 +252,7 @@ func handle_charge() -> void:
 		charge_cooldown = OVERHEAT_COOLDOWN_TIME
 		charge_duration = OVERHEAT_DURATION_TIME
 
-	var hitbox : hitBox = hitBox.new(self, damage, "Critical", 0, hitbox_shape)
+	var hitbox : hitBox = hitBox.new(self, damage, "Critical", 0, hitbox_shape, null, true)
 	hitbox.scale = Vector2(2.6,2.6)
 	state_changed.connect(hitbox.queue_free)
 	if state == State.CHARGING:
