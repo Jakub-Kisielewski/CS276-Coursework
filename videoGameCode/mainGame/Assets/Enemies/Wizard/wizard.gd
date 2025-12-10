@@ -102,8 +102,17 @@ func _physics_process(delta: float) -> void:
 		State.DYING:
 			return
 
+func player_or_decoy_position() -> Vector2:
+	
+	var decoy := get_tree().get_first_node_in_group("decoy")
+	if decoy and is_instance_valid(decoy):
+		return decoy.global_position
+		print("going for decoy")
+	else:
+		return player.global_position
+
 func handle_follow() -> void:
-	nav.target_position = player.global_position	
+	nav.target_position = player_or_decoy_position()
 	var next : Vector2 = nav.get_next_path_position()
 	velocity = global_position.direction_to(next) * speed	
 	if velocity.x > 0:

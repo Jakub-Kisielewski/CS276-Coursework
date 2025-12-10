@@ -19,8 +19,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bn6vg"]
-radius = 4.0
-height = 21.968819
+radius = 0.5
+height = 1.0
 
 [node name="Arrow" type="Area2D"]
 script = ExtResource("1_urhp6")
@@ -28,8 +28,9 @@ script = ExtResource("1_urhp6")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.5703125, 0.7109375)
 sprite_frames = SubResource("SpriteFrames_j653t")
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-8, -2)
+position = Vector2(8, -1.0000002)
 rotation = 1.5563529
 shape = SubResource("CapsuleShape2D_bn6vg")

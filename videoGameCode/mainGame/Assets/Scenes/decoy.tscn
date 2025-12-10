@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://cpytb70lpo5n"]
+
+[ext_resource type="Script" uid="uid://cvemk8fhdna6m" path="res://Assets/Scripts/decoy.gd" id="1_fjwk3"]
+[ext_resource type="Texture2D" uid="uid://bh7o7387h4l22" path="res://Assets/Sprites/BaseSprite/weapons/itemstrans.png" id="2_a2x4a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_43iiv"]
+radius = 4.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2nvc"]
+atlas = ExtResource("2_a2x4a")
+region = Rect2(16, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvxo3"]
+atlas = ExtResource("2_a2x4a")
+region = Rect2(32, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2l087"]
+atlas = ExtResource("2_a2x4a")
+region = Rect2(48, 112, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8mbtb"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2nvc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvxo3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2l087")
+}],
+"loop": true,
+"name": &"oooshiny",
+"speed": 5.0
+}]
+
+[node name="decoy" type="CharacterBody2D" groups=["decoy"]]
+script = ExtResource("1_fjwk3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_43iiv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.55, 0.55)
+sprite_frames = SubResource("SpriteFrames_8mbtb")
+animation = &"oooshiny"
+frame_progress = 0.8240555

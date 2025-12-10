@@ -15,6 +15,10 @@ extends CharacterBody2D
 @onready var bowEffects = $bowEffects
 @onready var bowEffects2 = $bowEffectslay2
 
+var decoy_scene := preload("res://Assets/Scenes/decoy.tscn")
+var decoy_cooldown : float = 8.5
+var decoy_timer : float = 0.0
+
 var canvas : CanvasLayer
 var health_bar : Label
 var currency_label : Label
@@ -33,6 +37,7 @@ var orig_spear_pos : Vector2
 var orig_pos : Vector2
 const DASH_COOLDOWN_TIME = 1.2
 const DASH_DURATION_TIME = 0.2
+var dash_through_enemies : bool = true #set to true if you want to be able to dash through enemies
 
 var dash_multiplier = 2.0
 var dash_cooldown = 0.0
@@ -91,10 +96,10 @@ func _ready():
 	health_bar = canvas.get_node("Health") # change
 	currency_label = canvas.get_node("Currency") # change
 	
-	health_bar.text = str(GameData.current_health)
-	currency_label.text = str(GameData.currency)
-	health_bar.visible = true
-	currency_label.visible = true
+	##health_bar.text = str(GameData.current_health) for now comment out
+	#currency_label.text = str(GameData.currency)
+	#health_bar.visible = true
+	#currency_label.visible = true
 	
 	bowEffects2.visible = false
 	
@@ -242,6 +247,8 @@ func handle_input(delta: float):
 		move_and_slide()
 		return
 
+	
+	var motion_facing : Facing = set_player_facing(get_nonzero_movement_direction()) #used for dash animation so he dashes in direction of movement didnt work
 	# movement
 	anim_tree.set("parameters/Srun/BlendSpace2D/blend_position", direction)
 	anim_tree.set("parameters/Sidle/BlendSpace2D/blend_position", last_dir)
@@ -290,7 +297,12 @@ func handle_input(delta: float):
 	if Input.is_action_just_pressed("attack_basic"):
 		handle_attack()
 	
-	
+	#handle e input for decoy,brbrbr
+	if Input.is_action_just_pressed("use_item"):
+		if decoy_timer <= 0.0:
+			throw_decoy()
+		else:
+			print("decoy on cooldown!")
 	
 func update_camera() -> void:
 	camera.global_position = global_position
@@ -403,6 +415,8 @@ func updateSprite():
 func offset_spear_nonattacking():
 	if attacking:
 		return
+		
+	#var motion_facing : Facing = set_player_facing(get_nonzero_movement_direction()) 
 		
 	match player_facing:
 		Facing.DOWN:
@@ -850,7 +864,18 @@ func handle_dash():
 	
 	if dashes == max_dashes - 1 and dash_cooldown <= 0.0:
 		dash_cooldown = DASH_COOLDOWN_TIME
+		
+	if dash_through_enemies:
+		set_enemy_collision(false)
 
+
+func set_enemy_collision(enabled : bool) -> void:
+	if enabled:
+		collision_layer = 1
+		collision_mask = 1
+	else:
+		collision_layer = 2
+		collision_mask = 2
 
 func iframes_on() -> bool:
 	return dashing
@@ -864,6 +889,7 @@ func handle_timers(delta: float):
 		dash_timer -= delta
 		if dash_timer <= 0.0:
 			dashing = false
+			set_enemy_collision(true)
 			
 	if dash_cooldown > 0.0:
 		dash_cooldown -= delta
@@ -876,6 +902,12 @@ func handle_timers(delta: float):
 		if spear_ghost_timer <= 0.0:
 			spear_ghost_ready = true
 			spear_ghost_timer = 0.0
+			
+	if decoy_timer > 0.0:
+		decoy_timer -= delta
+		if decoy_timer <= 0.0:
+			decoy_timer = 0.0
+			
 
 func _on_death():
 	print("you should be dead")
@@ -959,8 +991,30 @@ func upgrade_dash():
 		print("already at max dashes")
 	else:
 		max_dashes += 1;
-#800
 
+func  throw_decoy():
+	if decoy_scene == null:
+		print("where tf decoy scene")
+		return
+		
+	var crazy_diamond := decoy_scene.instantiate()
+	crazy_diamond.global_position = global_position
+	
+	var dir: Vector2
+	if mouse_aiming:
+		dir = get_mouse_vec().normalized()
+	else:
+		dir = get_nonzero_movement_direction()
+		
+	if dir == Vector2.ZERO:
+		dir = Vector2.RIGHT #default
+		
+	crazy_diamond.throw_in_direction(dir)
+	get_parent().add_child(crazy_diamond)
+	
+	decoy_timer = decoy_cooldown
+		
+		
 
 func _on_bow_effectslay_2_animation_finished() -> void:
 	
