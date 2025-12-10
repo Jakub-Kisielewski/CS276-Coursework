@@ -18,7 +18,7 @@ func _ready() -> void:
 		collision_layer = 2 # Layer 2 (Enemy)
 		collision_mask = 0
 	
-func receive_hit(damage: int, attacker : Node, attack_effect: String) -> void:
+func receive_hit(damage: int, attacker : Node, attack_effect: String, stun : bool = false) -> void:
 	if attacker == null:
 		print("attacker is null")
 		return
@@ -30,6 +30,9 @@ func receive_hit(damage: int, attacker : Node, attack_effect: String) -> void:
 		return
 	if attacker.is_in_group("enemy") and owner.is_in_group("enemy"):
 		return
+	
+	if (stun) and owner.is_in_group("player"):
+		owner.stunned_status = true
 	
 	if health_component:
 		if health_component.invincible and attack_effect != "Execution":
