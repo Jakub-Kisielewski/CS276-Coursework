@@ -57,7 +57,7 @@ func take_damage(amount: float, attack_effect: String):
 			final_damage = amount / defense
 		"Lifeslash":
 			SignalBus.request_darkness.emit(3.6)
-			final_damage = current_health * 0.3 # reduce hp by 30%
+			final_damage = current_health * 0.25 # reduce hp by 25%
 		"Critical":
 			final_damage = (amount * 1.5) / defense
 		_:

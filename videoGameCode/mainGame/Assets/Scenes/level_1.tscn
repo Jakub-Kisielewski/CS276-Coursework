@@ -2382,7 +2382,10 @@ navigation_enabled = false
 [node name="player" parent="." instance=ExtResource("3_qfi48")]
 position = Vector2(-69, 168)
 
-[node name="AnimationTree" parent="player" index="11"]
+[node name="fullAnim" parent="player" index="7"]
+frame = 8
+
+[node name="AnimationTree" parent="player" index="10"]
 parameters/hurt/TimeScale/scale = 1.0
 
 [node name="AboveLayer" type="TileMapLayer" parent="."]

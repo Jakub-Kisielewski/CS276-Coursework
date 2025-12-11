@@ -1,10 +1,9 @@
-[gd_scene load_steps=1076 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=1075 format=3 uid="uid://gybvdpwifulg"]
 
 [ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
 [ext_resource type="Texture2D" uid="uid://xyyryh37fiw" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Idle/Sword_Idle_full.png" id="2_24q4e"]
 [ext_resource type="Texture2D" uid="uid://ck0jycudaqfvx" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run/Sword_Run_full.png" id="3_7rtkj"]
-[ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="3_a86ck"]
 [ext_resource type="Script" uid="uid://co7tkofoxgpia" path="res://Assets/Scripts/weapon_data.gd" id="3_feila"]
 [ext_resource type="Texture2D" uid="uid://cgm6p141odl85" path="res://Assets/Sprites/BaseSprite/weapons/oversize/two hand/either/spear.png" id="3_ral8p"]
 [ext_resource type="Texture2D" uid="uid://di2irdwtxxtne" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack3_body.png" id="4_jb3ds"]
@@ -11105,10 +11104,6 @@ script = ExtResource("1_24q4e")
 sword_data = SubResource("Resource_yj04c")
 spear_data = SubResource("Resource_visa7")
 
-[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
-zoom = Vector2(3, 3)
-script = ExtResource("3_a86ck")
-
 [node name="spearAnim" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.6, 0.342)
 sprite_frames = SubResource("SpriteFrames_scsdc")
@@ -11148,7 +11143,7 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 5
+frame = 3
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")

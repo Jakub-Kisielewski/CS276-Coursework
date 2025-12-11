@@ -277,7 +277,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"charge",
-"speed": 26.0
+"speed": 28.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -431,14 +431,14 @@ animations = [{
 }]
 
 [node name="(menu)taur" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]
-position = Vector2(-720, 72)
-scale = Vector2(20, 20)
+position = Vector2(-720, 130)
+scale = Vector2(20.5, 20.5)
 motion_mode = 1
 wall_min_slide_angle = 0.34906584
 script = ExtResource("1_tydif")
 sprite = NodePath("AnimatedSprite2D")
-speed = 3800.0
-target_pos = Vector2(2660, 72)
+speed = 5200.0
+target_pos = Vector2(2660, 130)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 12)
@@ -446,7 +446,8 @@ shape = SubResource("CapsuleShape2D_fa6de")
 disabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-modulate = Color(0.49177963, 0.23609191, 0.2994445, 1)
+modulate = Color(0.49019608, 0.23529412, 0.29803923, 1)
 sprite_frames = SubResource("SpriteFrames_j4qsk")
 animation = &"charge"
-frame_progress = 0.5842137
+frame = 9
+frame_progress = 1.0

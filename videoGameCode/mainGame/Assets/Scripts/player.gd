@@ -23,7 +23,6 @@ var decoy_timer : float = 0.0
 var canvas : CanvasLayer
 var health_bar : Label
 var currency_label : Label
-var camera : Camera2D
 
 var swordArc := preload("res://Assets/Scenes/sword_arc.tscn")
 var hitbox_shape : Shape2D
@@ -96,16 +95,12 @@ func _ready():
 	bowEffects2.visible = false
 	
 	canvas = get_tree().get_first_node_in_group("canvas")
-	
-	camera = $Camera2D
-	update_camera()
 
 
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
 	handle_input(delta)
 	updateSprite()
-	update_camera()
 	attacking_speed_test()
 	
 	#print("current node:", anim_state.get_current_node())
@@ -305,9 +300,6 @@ func handle_input(delta: float):
 			throw_decoy()
 		else:
 			print("decoy on cooldown!")
-	
-func update_camera() -> void:
-	camera.global_position = global_position
 	
 func attacking_speed_test():
 	if attacking:
