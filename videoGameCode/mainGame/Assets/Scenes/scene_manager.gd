@@ -14,7 +14,7 @@ var current_scene_node: Node = null
 enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, SETTINGS }
 
 func _ready() -> void:
-	transition_screen.visible = true
+	transition_screen.visible = false
 	transition_screen.modulate.a = 0.0
 
 func swap_content_scene(new_scene_node: Node, on_black_screen: Callable = Callable()) -> void:
@@ -34,6 +34,7 @@ func swap_content_scene(new_scene_node: Node, on_black_screen: Callable = Callab
 
 # --- Fade Effects ---
 func _fade_out() -> void:
+	transition_screen.visible = true
 	var tween = create_tween()
 	tween.tween_property(transition_screen, "modulate:a", 1.0, 1.5)
 	await tween.finished
@@ -42,6 +43,7 @@ func _fade_in() -> void:
 	var tween = create_tween()
 	tween.tween_property(transition_screen, "modulate:a", 0.0, 1.5)
 	await tween.finished
+	transition_screen.visible = false
 
 func _switch_ui_state(scene_type: SceneType) -> void:
 	if ui_main_menu: ui_main_menu.visible = false

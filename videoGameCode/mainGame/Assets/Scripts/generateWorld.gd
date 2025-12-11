@@ -69,6 +69,11 @@ var roomTypeTiles: Dictionary[String, Vector2i] = {
 func _ready() -> void:
 	rng.randomize()
 	
+	mapWidth = GameData.map_width
+	mapHeight = GameData.map_height
+	branchProb = GameData.branch_prob
+	difficultyModifier = GameData.difficulty_mod
+	
 	print("setting constraints")
 	scaleConstraints()
 	print("initialising map")

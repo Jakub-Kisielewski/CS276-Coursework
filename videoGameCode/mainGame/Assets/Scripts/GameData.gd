@@ -3,13 +3,17 @@ extends Node
 signal player_stats_changed
 signal currency_updated(new_amount)
 
-# persisten player stats
+# persisten game stats
 var max_health: float = 1000.0
 var current_health: float = 1000.0
 var currency: int = 0
 var defense: float = 1.0
 var damage: float = 10.0
 var maze_map: Array = [] # map[y][x]
+var map_width: int = 7
+var map_height: int = 7
+var branch_prob: float = 0.4
+var difficulty_mod: float = 1.0
 
 func update_health(amount: float):
 	current_health = clamp(current_health + amount, 0, max_health)

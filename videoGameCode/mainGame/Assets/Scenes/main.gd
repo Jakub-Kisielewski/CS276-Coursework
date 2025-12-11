@@ -16,6 +16,11 @@ func _ready() -> void:
 		menu.new_game_pressed.connect(_on_new_game)
 		menu.settings_pressed.connect(_on_settings)
 	
+	var maze_ui = scene_manager.ui_maze_gen
+	if maze_ui:
+		maze_ui.start_run_pressed.connect(_on_start_run)
+		maze_ui.back_pressed.connect(_on_back_to_menu)
+	
 
 func _process(delta: float) -> void:
 	if Input.is_key_pressed(KEY_ESCAPE):
@@ -24,7 +29,14 @@ func _process(delta: float) -> void:
 func _on_new_game() -> void:
 	print("Main: New Game Requested")
 	
+	scene_manager._switch_ui_state(scene_manager.SceneType.MAZE_GEN)
+
+func _on_start_run() -> void:
+	print("Main: Starting Run with Custom Settings")
 	run_manager.start_run_or_next_room()
+
+func _on_back_to_menu() -> void:
+	scene_manager.on_return_to_menu()
 
 func _on_load_game() -> void:
 	print("Main: Load Game Requested (Not Implemented)")
