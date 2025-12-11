@@ -1,35 +1,54 @@
-[gd_scene load_steps=1075 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=1095 format=3 uid="uid://gybvdpwifulg"]
 
 [ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
+[ext_resource type="AudioStream" uid="uid://7jew8of7wc8o" path="res://Assets/PlayerSFX/OGG Files/SFX/Footsteps/Stone/Stone Run 1.ogg" id="2_23c4v"]
 [ext_resource type="Texture2D" uid="uid://xyyryh37fiw" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Idle/Sword_Idle_full.png" id="2_24q4e"]
 [ext_resource type="Texture2D" uid="uid://ck0jycudaqfvx" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run/Sword_Run_full.png" id="3_7rtkj"]
 [ext_resource type="Script" uid="uid://co7tkofoxgpia" path="res://Assets/Scripts/weapon_data.gd" id="3_feila"]
 [ext_resource type="Texture2D" uid="uid://cgm6p141odl85" path="res://Assets/Sprites/BaseSprite/weapons/oversize/two hand/either/spear.png" id="3_ral8p"]
+[ext_resource type="AudioStream" uid="uid://sn0a76yb3cll" path="res://Assets/PlayerSFX/OGG Files/SFX/Footsteps/Stone/Stone Run 2.ogg" id="3_smmal"]
 [ext_resource type="Texture2D" uid="uid://di2irdwtxxtne" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack3_body.png" id="4_jb3ds"]
 [ext_resource type="Texture2D" uid="uid://chfdco30a8bet" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack_full.png" id="4_lysqc"]
+[ext_resource type="AudioStream" uid="uid://dtaf8v7ejc3gp" path="res://Assets/PlayerSFX/OGG Files/SFX/Footsteps/Stone/Stone Run 3.ogg" id="4_yh2vs"]
 [ext_resource type="Texture2D" uid="uid://bk3fuequviydl" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack3_body.png" id="5_2e1go"]
 [ext_resource type="Texture2D" uid="uid://upek3u1hc5l1" path="res://Assets/Sprites/BaseSprite/weapons/oversize/two hand/either/speary.png" id="5_7578i"]
 [ext_resource type="Texture2D" uid="uid://npvs5qh4e2nv" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Walk_Attack/Sword_Walk_Attack_full.png" id="5_p8spm"]
 [ext_resource type="Texture2D" uid="uid://it4qhlh7uepa" path="res://Assets/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 A.png" id="5_scsdc"]
+[ext_resource type="AudioStream" uid="uid://dw2hxbt4a3bhq" path="res://Assets/PlayerSFX/OGG Files/SFX/Footsteps/Stone/Stone Run 4.ogg" id="5_xtryy"]
 [ext_resource type="Texture2D" uid="uid://bjedx5sh7g7gp" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack5_head.png" id="6_2crlu"]
 [ext_resource type="Texture2D" uid="uid://d324mwi748ilq" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack5_head.png" id="6_a86ck"]
+[ext_resource type="AudioStream" uid="uid://b078si3q3s3q4" path="res://Assets/PlayerSFX/OGG Files/SFX/Footsteps/Stone/Stone Run 5.ogg" id="6_gmr2b"]
 [ext_resource type="Texture2D" uid="uid://tohvx74myvw0" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Idle/Unarmed_Idle_full.png" id="6_sv13v"]
 [ext_resource type="Texture2D" uid="uid://ymu12mstflb3" path="res://Assets/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 E.png" id="6_wt7tk"]
+[ext_resource type="AudioStream" uid="uid://8qnd62rfo1kr" path="res://Assets/PlayerSFX/OGG Files/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 1.ogg" id="7_4i0g1"]
 [ext_resource type="Texture2D" uid="uid://24ialp7pgrks" path="res://Assets/Sprites/BaseSprite/weapons/shoot/2.png" id="7_a86ck"]
 [ext_resource type="Texture2D" uid="uid://d4k52q7jrnbdd" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Death/Sword_Death_full.png" id="8_nfv7v"]
+[ext_resource type="AudioStream" uid="uid://1cl78cdsgvl3" path="res://Assets/PlayerSFX/OGG Files/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 2.ogg" id="8_ukllu"]
 [ext_resource type="Texture2D" uid="uid://d3p6e4licmb6y" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Idle/Unarmed_Idle2_body.png" id="9_haux5"]
 [ext_resource type="Texture2D" uid="uid://cnvssonhnri0w" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Death/Unarmed_Death2_body.png" id="9_m0ykw"]
+[ext_resource type="AudioStream" uid="uid://dhjppmncl7kwx" path="res://Assets/PlayerSFX/OGG Files/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 3.ogg" id="9_mkm62"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="9_p8spm"]
 [ext_resource type="Texture2D" uid="uid://jxtd8wcdsvak" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Run/Unarmed_Run2_body.png" id="10_05s1f"]
+[ext_resource type="AudioStream" uid="uid://c7aqruuudygdf" path="res://Assets/PlayerSFX/OGG Files/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Impact Hit 1.ogg" id="10_52fvq"]
 [ext_resource type="Texture2D" uid="uid://dr4afbbkvteaw" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Hurt/Unarmed_Hurt2_body.png" id="10_b5624"]
+[ext_resource type="AudioStream" uid="uid://dni6mwugv6cpa" path="res://Assets/PlayerSFX/OGG Files/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Impact Hit 2.ogg" id="11_nymsj"]
+[ext_resource type="AudioStream" uid="uid://dv2eimnjxd40x" path="res://Assets/PlayerSFX/OGG Files/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Impact Hit 3.ogg" id="12_yay7c"]
+[ext_resource type="AudioStream" uid="uid://ibxcalrwfvlq" path="res://Assets/PlayerSFX/OGG Files/SFX/Attacks/Bow Attacks Hits and Blocks/Bow Attack 1.ogg" id="13_1gme6"]
 [ext_resource type="Texture2D" uid="uid://6n667rum72fl" path="res://Assets/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 F.png" id="13_yj04c"]
 [ext_resource type="Texture2D" uid="uid://dpdmydoq8qflv" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Death/Unarmed_Death_full.png" id="14_2e1go"]
+[ext_resource type="AudioStream" uid="uid://fhhee3fs2jyl" path="res://Assets/PlayerSFX/OGG Files/SFX/Attacks/Bow Attacks Hits and Blocks/Bow Attack 2.ogg" id="14_tlww8"]
 [ext_resource type="Texture2D" uid="uid://cbp2o4xc8spps" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Run/Unarmed_Run_full.png" id="15_2crlu"]
 [ext_resource type="Texture2D" uid="uid://ch27jnwl6tw8b" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Death/Unarmed_Death3_head.png" id="15_djc4d"]
+[ext_resource type="AudioStream" uid="uid://bxth4eywojdk6" path="res://Assets/PlayerSFX/OGG Files/12_human_jump_3.ogg" id="15_smmal"]
+[ext_resource type="AudioStream" uid="uid://cvvdnexvaw3w7" path="res://Assets/PlayerSFX/OGG Files/21_orc_damage_2.ogg" id="15_yh2vs"]
 [ext_resource type="Texture2D" uid="uid://c2150h04g2iqs" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Run/Unarmed_Run3_head.png" id="16_0k6dv"]
+[ext_resource type="AudioStream" uid="uid://bk76uckfcfdx5" path="res://Assets/PlayerSFX/OGG Files/Retro Charge 07.ogg" id="16_gmr2b"]
+[ext_resource type="AudioStream" uid="uid://dfgjcxtng1ik0" path="res://Assets/PlayerSFX/OGG Files/13_Ice_explosion_01.ogg" id="17_4i0g1"]
 [ext_resource type="Texture2D" uid="uid://s212rbjef8bb" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Idle/Unarmed_Idle3_head.png" id="17_djc4d"]
 [ext_resource type="Texture2D" uid="uid://b6d4sm4xjprgm" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Hurt/Unarmed_Hurt3_head.png" id="17_w34vp"]
+[ext_resource type="AudioStream" uid="uid://bv30m222154k7" path="res://Assets/PlayerSFX/OGG Files/Retro Ascending Short 20.ogg" id="18_ukllu"]
+[ext_resource type="AudioStream" uid="uid://oujjs4iviyb4" path="res://Assets/PlayerSFX/OGG Files/Retro Explosion Short 15.ogg" id="19_mkm62"]
 [ext_resource type="Texture2D" uid="uid://b8kgh0im6vp0" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Hurt/Unarmed_Hurt4_red.png" id="20_7578i"]
 [ext_resource type="Texture2D" uid="uid://bbbg8va8pwoml" path="res://Assets/Sprites/BaseSprite/weapons/shoot/bow.png" id="21_mdvb1"]
 [ext_resource type="Texture2D" uid="uid://dergnjei0drvt" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Hurt/Sword_Hurt_full.png" id="27_35grl"]
@@ -6399,18 +6418,6 @@ height = 16.0
 
 [sub_resource type="Animation" id="Animation_2crlu"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("bodyEffectlay2:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
 
 [sub_resource type="Animation" id="Animation_6heem"]
 resource_name = "Scharge_down"
@@ -7196,6 +7203,26 @@ tracks/1/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_ti6pn"]
 resource_name = "Srun_left"
@@ -7224,6 +7251,26 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_dp5mj"]
@@ -7254,6 +7301,26 @@ tracks/1/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_vcnr6"]
 resource_name = "Srun_up"
@@ -7282,6 +7349,26 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_n034t"]
@@ -9444,6 +9531,26 @@ tracks/7/keys = {
 "update": 1,
 "values": [0, 0, 1, 1, 2, 2, 3, 3]
 }
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_0hy8v"]
 resource_name = "run_left"
@@ -9544,6 +9651,26 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 0, 1, 1, 2, 2, 3, 3]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_5agts"]
@@ -9646,6 +9773,26 @@ tracks/7/keys = {
 "update": 1,
 "values": [0, 0, 1, 1, 2, 2, 3, 3]
 }
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_wikct"]
 resource_name = "run_up"
@@ -9746,6 +9893,26 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 0, 1, 1, 2, 2, 3, 3]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}, {
+"args": [],
+"method": &"play_step_sfx"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_cwqcl"]
@@ -10517,10 +10684,16 @@ blend_point_3/node = SubResource("AnimationNodeAnimation_pemdu")
 blend_point_3/pos = Vector2(1, 0)
 blend_mode = 1
 
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_23c4v"]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_e0a6a"]
+graph_offset = Vector2(-136, 106)
+nodes/output/position = Vector2(550, 170)
 nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_gy37k")
 nodes/BlendSpace2D/position = Vector2(20, 110)
-node_connections = [&"output", 0, &"BlendSpace2D"]
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_23c4v")
+nodes/TimeScale/position = Vector2(280, 190)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"BlendSpace2D"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2crlu"]
 animation = &"bbody_left"
@@ -10746,6 +10919,7 @@ blend_mode = 1
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_hvd6h"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5dubb"]
+graph_offset = Vector2(-38, 135)
 nodes/output/position = Vector2(660, 190)
 nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_4s2gv")
 nodes/BlendSpace2D/position = Vector2(157.5, 196.5)
@@ -11101,6 +11275,12 @@ animations = [{
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_24q4e")
+step_sounds = Array[AudioStream]([ExtResource("2_23c4v"), ExtResource("3_smmal"), ExtResource("4_yh2vs"), ExtResource("5_xtryy"), ExtResource("6_gmr2b")])
+sword_attack_sounds = Array[AudioStream]([ExtResource("7_4i0g1"), ExtResource("8_ukllu"), ExtResource("9_mkm62")])
+spear_attack_sounds = Array[AudioStream]([ExtResource("10_52fvq"), ExtResource("11_nymsj"), ExtResource("12_yay7c")])
+bow_attack_sounds = Array[AudioStream]([ExtResource("13_1gme6"), ExtResource("14_tlww8")])
+misc_sounds = Array[AudioStream]([ExtResource("15_yh2vs"), ExtResource("16_gmr2b"), ExtResource("17_4i0g1"), ExtResource("18_ukllu"), ExtResource("19_mkm62")])
+dash_sounds = Array[AudioStream]([ExtResource("15_smmal")])
 sword_data = SubResource("Resource_yj04c")
 spear_data = SubResource("Resource_visa7")
 
@@ -11143,7 +11323,7 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 3
+frame = 6
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")
@@ -11173,6 +11353,7 @@ parameters/Sidle/BlendSpace2D/blend_position = Vector2(-0.2937467, 0.07981229)
 parameters/Srelease/BlendSpace2D/blend_position = Vector2(0, 0)
 parameters/Srelease/TimeScale/scale = 0.7000000000000028
 parameters/Srun/BlendSpace2D/blend_position = Vector2(-0.33263266, 0.32081378)
+parameters/Srun/TimeScale/scale = 0.5
 parameters/battack/BlendSpace2D/blend_position = Vector2(0.34209144, -0.024691343)
 parameters/battack/TimeScale/scale = 0.5
 parameters/bcharge/BlendSpace2D/blend_position = Vector2(0, 0)
@@ -11213,7 +11394,15 @@ metadata/_custom_type_script = "uid://d3enncgxl66lu"
 [node name="bodyEffectlay2" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a3rua")
 animation = &""
-frame = 1
+
+[node name="moveSfx" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
+[node name="attackSfx" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
+[node name="miscSfx" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="animation_finished" from="bowEffectslay2" to="." method="_on_bow_effectslay_2_animation_finished"]

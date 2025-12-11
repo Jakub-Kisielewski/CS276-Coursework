@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bq8b5tucxp87d"
+path="res://.godot/imported/Door Close 1.ogg-8648a9e087804b1981ca4bf254d4ff73.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/PlayerSFX/OGG Files/SFX/Doors Gates and Chests/Door Close 1.ogg"
+dest_files=["res://.godot/imported/Door Close 1.ogg-8648a9e087804b1981ca4bf254d4ff73.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

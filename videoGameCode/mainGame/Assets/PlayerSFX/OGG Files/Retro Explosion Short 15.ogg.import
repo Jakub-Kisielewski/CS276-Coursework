@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://oujjs4iviyb4"
+path="res://.godot/imported/Retro Explosion Short 15.ogg-81f26df8428a238c231c6d021c1653a2.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/PlayerSFX/OGG Files/Retro Explosion Short 15.ogg"
+dest_files=["res://.godot/imported/Retro Explosion Short 15.ogg-81f26df8428a238c231c6d021c1653a2.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

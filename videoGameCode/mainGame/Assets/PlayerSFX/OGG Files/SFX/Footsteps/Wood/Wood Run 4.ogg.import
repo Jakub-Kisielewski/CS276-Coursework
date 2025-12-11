@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://btkw6rlmxlf6o"
+path="res://.godot/imported/Wood Run 4.ogg-1c706e6c7067f76429cd74fd72efb51c.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/PlayerSFX/OGG Files/SFX/Footsteps/Wood/Wood Run 4.ogg"
+dest_files=["res://.godot/imported/Wood Run 4.ogg-1c706e6c7067f76429cd74fd72efb51c.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

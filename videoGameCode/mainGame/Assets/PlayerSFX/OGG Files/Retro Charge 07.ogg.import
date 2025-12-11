@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bk76uckfcfdx5"
+path="res://.godot/imported/Retro Charge 07.ogg-015c2ad990637c4fbf26a93496d99395.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/PlayerSFX/OGG Files/Retro Charge 07.ogg"
+dest_files=["res://.godot/imported/Retro Charge 07.ogg-015c2ad990637c4fbf26a93496d99395.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

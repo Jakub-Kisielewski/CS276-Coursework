@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bwunjdvsi2k14"
+path="res://.godot/imported/Giant_Grunt3.ogg-c24f4f80c342da2a0d1af5f39e77ec93.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/PlayerSFX/OGG Files/Giant_Grunt3.ogg"
+dest_files=["res://.godot/imported/Giant_Grunt3.ogg-c24f4f80c342da2a0d1af5f39e77ec93.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -4,6 +4,7 @@ signal new_game_pressed
 signal settings_pressed
 
 func _ready() -> void:
+	
 	var btn_new = $MarginContainer/VBoxContainer/BtnNewGame 
 	var btn_settings = $MarginContainer/VBoxContainer/BtnSettings
 	

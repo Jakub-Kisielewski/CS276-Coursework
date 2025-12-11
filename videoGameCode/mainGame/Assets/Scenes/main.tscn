@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c7njgli8wtoay"]
+[gd_scene load_steps=21 format=3 uid="uid://c7njgli8wtoay"]
 
 [ext_resource type="Script" uid="uid://cegk4g6d48rk1" path="res://Assets/Scenes/main.gd" id="1_l26l0"]
 [ext_resource type="Script" uid="uid://diff8hf67in4j" path="res://Assets/Scenes/scene_manager.gd" id="2_qplxx"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://6y0f5obexsye" path="res://Assets/UI/UI_MainMenu.tscn" id="15_uq7jr"]
 [ext_resource type="PackedScene" uid="uid://d7tmus33h2ta" path="res://Assets/UI/UI_Death.tscn" id="16_qscjt"]
 [ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="19_ccmul"]
+[ext_resource type="Script" uid="uid://cw883wtgvhncp" path="res://Assets/Scenes/music_player.gd" id="20_cun2r"]
 
 [node name="Main" type="Node" node_paths=PackedStringArray("run_manager", "scene_manager", "world_environment")]
 process_mode = 3
@@ -33,7 +34,9 @@ script = ExtResource("3_4qkp8")
 standard_world = ExtResource("2_ttgh6")
 dark_world = ExtResource("4_4qkp8")
 
-[node name="GlobalMusicPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+script = ExtResource("20_cun2r")
 
 [node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("active_scene_container", "transition_screen", "ui_main_menu", "ui_maze_gen", "ui_pause_menu", "ui_death")]
 script = ExtResource("2_qplxx")

@@ -1,5 +1,7 @@
 extends Control
 
+@onready var music_player = get_node("../../MusicPlayer")
+
 @export var menutaur_scene : PackedScene
 @export var background : ColorRect
 var menutaur : Menutaur
@@ -22,6 +24,7 @@ func _ready() -> void:
 		btn_quit.modulate.a = 0.0
 
 func start_death_sequence() -> void:
+	music_player.set_category(MusicPlayer.Category.DEAD) #play the creepy death music
 	visible = true
 	menutaur = menutaur_scene.instantiate()
 	add_child(menutaur)

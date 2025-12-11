@@ -1,5 +1,8 @@
 class_name SceneManager extends Node
 
+#assuming SceneManager and MusicPlayer are siblings always
+@onready var music_player : MusicPlayer = get_node("../MusicPlayer")
+
 @export_group("Scene Container")
 @export var active_scene_container: Node
 
@@ -17,6 +20,9 @@ enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, SETTINGS, DEATH }
 var current_ui_state: SceneType = SceneType.MENU
 
 func _ready() -> void:
+	
+	set_scene_music_category(current_ui_state) #initially the menu music
+
 	transition_screen.visible = false
 	transition_screen.modulate.a = 0.0
 
@@ -51,6 +57,9 @@ func _fade_in() -> void:
 func _switch_ui_state(scene_type: SceneType) -> void:
 	current_ui_state = scene_type
 	
+	#changing music as well here
+	set_scene_music_category(scene_type)
+	
 	if ui_main_menu: ui_main_menu.visible = false
 	if ui_maze_gen: ui_maze_gen.visible = false
 	if ui_room: ui_room.visible = false
@@ -84,3 +93,14 @@ func on_return_to_menu() -> void:
 		child.queue_free()
 	
 	_switch_ui_state(SceneType.MENU)
+
+
+#when you change scene call this function with the new scene type as parameter so that music changes accordingly
+func set_scene_music_category(scene_type : SceneType):
+	match scene_type:
+		SceneType.MENU, SceneType.SETTINGS, SceneType.MAZE_GEN:
+			music_player.set_category(MusicPlayer.Category.MENU_SETTINGS)
+		SceneType.ROOM :
+			music_player.set_category(MusicPlayer.Category.ROOMS)
+		SceneType.CORRIDOR:
+			music_player.set_category(MusicPlayer.Category.CORRIDORS)

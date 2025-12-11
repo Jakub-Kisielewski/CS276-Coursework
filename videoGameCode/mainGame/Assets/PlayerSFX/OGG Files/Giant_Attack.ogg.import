@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ng77w5d8yleb"
+path="res://.godot/imported/Giant_Attack.ogg-25a07b4bf6f3fdda1deb40932bdc606f.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/PlayerSFX/OGG Files/Giant_Attack.ogg"
+dest_files=["res://.godot/imported/Giant_Attack.ogg-25a07b4bf6f3fdda1deb40932bdc606f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

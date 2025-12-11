@@ -3,6 +3,21 @@ extends CharacterBody2D
 @onready var anim_tree = $AnimationTree
 @onready var anim_state = anim_tree.get("parameters/playback")
 
+@onready var move_sfx = $moveSfx
+@onready var attack_sfx = $attackSfx
+@onready var misc_sfx = $miscSfx
+
+
+@export var step_sounds: Array[AudioStream] = []
+@export var sword_attack_sounds: Array[AudioStream] = []
+@export var spear_attack_sounds : Array[AudioStream] = []
+@export var bow_attack_sounds : Array[AudioStream] = []
+
+#indexes 0: hurt sound, 1: sword special attack charge, 2: sword special attack release, 3: spear charge, 4: spear release, 5: bow charge, 6: bow release
+@export var misc_sounds : Array[AudioStream] = [] 
+@export var dash_sounds : Array[AudioStream] = []
+var special_track: AudioStream
+
 @onready var bodyAnim = $bodyAnim
 @onready var headAnim = $headAnim
 @onready var fullAnim = $fullAnim
@@ -80,6 +95,7 @@ var monitorable = true
 var mouse_aiming = true #set this to true if you want to aim with mouse
 
 func _ready():
+	randomize()
 	$HealthComponent.status_changed.connect(_on_status_changed)
 	$HealthComponent.health_changed.connect(_on_health_changed)
 	$HealthComponent.health_depleted.connect(_on_death)
@@ -170,23 +186,29 @@ func handle_input(delta: float):
 	if (stunned_status):
 		bodyEffects2.global_position = global_position
 		anim_state.travel("hurt")
+		misc_sfx.stream = misc_sounds[0]
+		misc_sfx.play()
 		return
 	
 	
 	if Input.is_action_just_pressed("attack_special"):
-		
+		special_track = null
 		if current_weapon == Weapon.SWORD and not player_busy():
 			print("sword charge anim start")
 			anim_state.travel("Scharge")
+			special_track = misc_sounds[1]
+			
 		elif current_weapon == Weapon.BOW:
 			anim_state.travel("bcharge")
+			special_track = misc_sounds[3]
 		elif current_weapon == Weapon.SPEAR:
 			anim_state.travel("spattack")
 			
 		special_charging = true
 		special_hold_time = 0.0
 		charging_successful = false
-			
+		misc_sfx.stream = special_track
+		misc_sfx.play()	
 			#need charging animation and some piza
 		
 	if special_charging:
@@ -199,24 +221,27 @@ func handle_input(delta: float):
 		
 		
 	if Input.is_action_just_released("attack_special"):
-		
+		misc_sfx.stop()
 		if charging_successful:
 			special_charging = false
 			special_hold_time = 0.0
 			charging_successful = false
 			if current_weapon == Weapon.SWORD:
 				sword_special_attack()
-					
+				special_track = misc_sounds[2]	
 				print("i call on you sword")
 			elif current_weapon == Weapon.BOW:
 				if trying_shotgun:
 					shotgun_activated = true
 				else:
 					switch_activated = true
+				special_track = misc_sounds[4]
 				bow_attack()
 			elif current_weapon == Weapon.SPEAR:
 				spear_special_attack()
 				print("i call on you spear")
+			misc_sfx.stream = special_track
+			misc_sfx.play()
 		else:
 			special_charging = false
 			special_hold_time = 0.0
@@ -463,6 +488,7 @@ func handle_attack():
 		spear_attack()
 	elif current_weapon == Weapon.BOW:
 		bow_attack()
+	play_attack_sfx()
 		
 	attacking = true
 	
@@ -852,6 +878,8 @@ func handle_dash():
 		anim_state.travel("dash")
 	else:
 		anim_state.travel("Sdash")
+	move_sfx.stream = dash_sounds[0]
+	move_sfx.play()
 
 	dashes -= 1
 	dash_timer = DASH_DURATION_TIME
@@ -992,7 +1020,27 @@ func throw_decoy():
 	
 	decoy_timer = decoy_cooldown
 		
-		
+func play_step_sfx():
+	if step_sounds.is_empty():
+		return
+	print("playing step hello")
+	var track = step_sounds[randi() % step_sounds.size()]
+	move_sfx.stream = track
+	move_sfx.play()
+	
+func play_attack_sfx() -> void :
+	var track : AudioStream = null
+	
+	match current_weapon:
+		Weapon.SWORD:
+			track = sword_attack_sounds[randi() % sword_attack_sounds.size()]
+		Weapon.SPEAR:
+			track = spear_attack_sounds[randi() % spear_attack_sounds.size()]
+		Weapon.BOW:
+			track = bow_attack_sounds[randi() % bow_attack_sounds.size()]
+			
+	attack_sfx.stream = track
+	attack_sfx.play()
 
 func _on_bow_effectslay_2_animation_finished() -> void:
 	

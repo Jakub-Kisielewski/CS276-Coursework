@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cgvgannp4qvho"
+path="res://.godot/imported/17_orc_atk_sword_2.ogg-8cdf65982ee78c7ff3812f5db488b59c.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/PlayerSFX/OGG Files/17_orc_atk_sword_2.ogg"
+dest_files=["res://.godot/imported/17_orc_atk_sword_2.ogg-8cdf65982ee78c7ff3812f5db488b59c.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
