@@ -2,7 +2,7 @@ extends Node2D
 
 # needs tileset and tilemap setup
 
-@onready var rng:RandomNumberGenerator = RandomNumberGenerator.new()
+var rng:RandomNumberGenerator = RandomNumberGenerator.new()
 @export var mapHeight: int = 7
 @export var mapWidth: int = 7
 var minSolutionPath: int = 0
@@ -67,6 +67,14 @@ var roomTypeTiles: Dictionary[String, Vector2i] = {
 }
 
 func _ready() -> void:
+	print("drawing map")
+	drawMap() # refactor this outta here
+
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("reset"):
+		get_tree().reload_current_scene()
+
+func generate_map_data() -> void:
 	rng.randomize()
 	
 	mapWidth = GameData.map_width
@@ -88,14 +96,10 @@ func _ready() -> void:
 	var branches: Array = generateBranches(solutionPath)
 	print("placing rooms")
 	placeRooms(solutionPath, branches)
-	print("drawing map")
-	drawMap()
+	
+	# Store the data
 	GameData.maze_map = map.duplicate(true)
 	print("Map stored in GameData")
-
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("reset"):
-		get_tree().reload_current_scene()
 
 func scaleConstraints() -> void:
 	var totalArea: int = mapWidth * mapHeight

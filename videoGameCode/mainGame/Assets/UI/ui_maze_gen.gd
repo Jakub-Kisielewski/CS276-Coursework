@@ -9,6 +9,8 @@ signal back_pressed
 @onready var btn_start: Button = %BtnStart
 @onready var btn_back: Button = %BtnBack
 
+const WorldGeneratorScript = preload("res://Assets/Scripts/generateWorld.gd")
+
 func _ready() -> void:
 	btn_start.pressed.connect(_on_start_pressed)
 	btn_back.pressed.connect(_on_back_pressed)
@@ -46,7 +48,11 @@ func _on_start_pressed() -> void:
 		2: # hard
 			GameData.difficulty_mod = 1.5
 	
+	var generator = WorldGeneratorScript.new()
+	generator.generate_map_data()
+	generator.free()
 	GameData.save_game()
+	
 	start_run_pressed.emit()
 
 func _on_back_pressed() -> void:
