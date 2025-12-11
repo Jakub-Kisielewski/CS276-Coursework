@@ -16,9 +16,8 @@ enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, SETTINGS }
 func _ready() -> void:
 	transition_screen.visible = true
 	transition_screen.modulate.a = 0.0
-	
 
-func swap_content_scene(new_scene_node: Node) -> void:
+func swap_content_scene(new_scene_node: Node, on_black_screen: Callable = Callable()) -> void:
 	await _fade_out()
 	
 	for child in active_scene_container.get_children():
@@ -26,15 +25,48 @@ func swap_content_scene(new_scene_node: Node) -> void:
 	
 	active_scene_container.add_child(new_scene_node)
 	
+	if on_black_screen.is_valid(): # spawn players and enemies
+		on_black_screen.call()
+	
+	await get_tree().process_frame
+	
 	await _fade_in()
 
 # --- Fade Effects ---
 func _fade_out() -> void:
 	var tween = create_tween()
-	tween.tween_property(transition_screen, "modulate:a", 1.0, 0.5)
+	tween.tween_property(transition_screen, "modulate:a", 1.0, 1.5)
 	await tween.finished
 
 func _fade_in() -> void:
 	var tween = create_tween()
-	tween.tween_property(transition_screen, "modulate:a", 0.0, 0.5)
+	tween.tween_property(transition_screen, "modulate:a", 0.0, 1.5)
 	await tween.finished
+
+func _switch_ui_state(scene_type: SceneType) -> void:
+	if ui_main_menu: ui_main_menu.visible = false
+	if ui_maze_gen: ui_maze_gen.visible = false
+	if ui_room: ui_room.visible = false
+	if ui_corridor: ui_corridor.visible = false
+	
+	match scene_type:
+		SceneType.MENU:
+			if ui_main_menu: ui_main_menu.visible = true
+		SceneType.MAZE_GEN:
+			if ui_maze_gen: ui_maze_gen.visible = true
+		SceneType.ROOM:
+			if ui_room: ui_room.visible = true
+		SceneType.CORRIDOR:
+			if ui_corridor: ui_corridor.visible = true
+		SceneType.SETTINGS:
+			#  settings UI, show it here.
+			pass
+
+func on_start_game_ui() -> void:
+	_switch_ui_state(SceneType.ROOM)
+
+func on_return_to_menu() -> void:
+	for child in active_scene_container.get_children():
+		child.queue_free()
+	
+	_switch_ui_state(SceneType.MENU)

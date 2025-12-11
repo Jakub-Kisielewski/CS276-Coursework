@@ -1,18 +1,35 @@
 extends Node
 
 @export var run_manager: RunManager
+@export var scene_manager: SceneManager
 @export var world_environment: WorldEnvironment
+
+var dark_timer: Timer
 
 func _ready() -> void:
 	SignalBus.request_darkness.connect(_on_darkness_requested)
 	
 	await get_tree().process_frame
 	
-	print("Main: Starting Run...")
-	run_manager.start_run_or_next_room()
+	var menu = scene_manager.ui_main_menu
+	if menu:
+		menu.new_game_pressed.connect(_on_new_game)
+		menu.load_game_pressed.connect(_on_load_game)
+		menu.settings_pressed.connect(_on_settings)
 	
 
-var dark_timer: Timer
+func _on_new_game() -> void:
+	print("Main: New Game Requested")
+	
+	scene_manager.on_start_game_ui()
+	
+	run_manager.start_run_or_next_room()
+
+func _on_load_game() -> void:
+	print("Main: Load Game Requested (Not Implemented)")
+
+func _on_settings() -> void:
+	print("Main: Settings Requested")
 
 func _on_darkness_requested(duration: float) -> void:
 	if world_environment:

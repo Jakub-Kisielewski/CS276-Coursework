@@ -1,5 +1,15 @@
-[gd_scene format=3 uid="uid://6y0f5obexsye"]
+[gd_scene load_steps=2 format=3 uid="uid://6y0f5obexsye"]
+
+[ext_resource type="Script" uid="uid://cn3wpol1al3i5" path="res://Assets/UI/ui_main_menu.gd" id="1_dsbl1"]
 
 [node name="UiMainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 1000.0
+offset_bottom = 1000.0
+script = ExtResource("1_dsbl1")
+
+[node name="BtnNewGame" type="Button" parent="."]
+layout_mode = 0
+offset_right = 30.0
+offset_bottom = 30.0

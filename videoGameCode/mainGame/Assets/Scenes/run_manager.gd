@@ -16,13 +16,13 @@ func start_run_or_next_room():
 	var room_packed = available_room_scenes.pick_random()
 	var room_instance = room_packed.instantiate() as RoomBase
 	
-	await scene_manager.swap_content_scene(room_instance)
+	# 
+	var setup_logic = func():
+		spawn_player_in_room(room_instance)
+		room_instance.setup_room(current_difficulty, enemy_pool)
+		room_instance.room_cleared.connect(_on_room_complete)
 	
-	spawn_player_in_room(room_instance)
-	
-	room_instance.setup_room(current_difficulty, enemy_pool) 
-	
-	room_instance.room_cleared.connect(_on_room_complete)
+	await scene_manager.swap_content_scene(room_instance, setup_logic)
 	
 func spawn_player_in_room(room: RoomBase):
 	var player = player_scene.instantiate()
