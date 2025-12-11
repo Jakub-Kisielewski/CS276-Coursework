@@ -18,7 +18,8 @@ var roomTemplate: Dictionary = {
 	"explored": false,
 	"type": "",
 	"onSolutionPath": false,
-	"order": 0
+	"order": 0,
+	"active": false
 }
 
 var corridorTemplate: Dictionary = {
@@ -27,7 +28,8 @@ var corridorTemplate: Dictionary = {
 	"type": null,
 	"onSolutionPath": false,
 	"emergent": false,
-	"compassDirection": -1
+	"compassDirection": -1,
+	"active": false
 }
 
 var compassDirections: Dictionary[String, int] = {
@@ -83,6 +85,8 @@ func _ready() -> void:
 	placeRooms(solutionPath, branches)
 	print("drawing map")
 	drawMap()
+	GameData.maze_map = map.duplicate(true)
+	print("Map stored in GameData")
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):

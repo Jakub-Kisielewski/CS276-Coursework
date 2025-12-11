@@ -9,6 +9,7 @@ var current_health: float = 1000.0
 var currency: int = 0
 var defense: float = 1.0
 var damage: float = 10.0
+var maze_map: Array = [] # map[y][x]
 
 func update_health(amount: float):
 	current_health = clamp(current_health + amount, 0, max_health)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=1074 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=1076 format=3 uid="uid://gybvdpwifulg"]
 
 [ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://di2irdwtxxtne" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack3_body.png" id="4_jb3ds"]
 [ext_resource type="Texture2D" uid="uid://chfdco30a8bet" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack_full.png" id="4_lysqc"]
 [ext_resource type="Texture2D" uid="uid://bk3fuequviydl" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack3_body.png" id="5_2e1go"]
+[ext_resource type="Texture2D" uid="uid://upek3u1hc5l1" path="res://Assets/Sprites/BaseSprite/weapons/oversize/two hand/either/speary.png" id="5_7578i"]
 [ext_resource type="Texture2D" uid="uid://npvs5qh4e2nv" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Walk_Attack/Sword_Walk_Attack_full.png" id="5_p8spm"]
 [ext_resource type="Texture2D" uid="uid://it4qhlh7uepa" path="res://Assets/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 A.png" id="5_scsdc"]
 [ext_resource type="Texture2D" uid="uid://bjedx5sh7g7gp" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack5_head.png" id="6_2crlu"]
@@ -31,6 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://s212rbjef8bb" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Idle/Unarmed_Idle3_head.png" id="17_djc4d"]
 [ext_resource type="Texture2D" uid="uid://b6d4sm4xjprgm" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Hurt/Unarmed_Hurt3_head.png" id="17_w34vp"]
 [ext_resource type="Texture2D" uid="uid://b8kgh0im6vp0" path="res://Assets/Sprites/BaseSprite/PNG/Unarmed_Hurt/Unarmed_Hurt4_red.png" id="20_7578i"]
+[ext_resource type="Texture2D" uid="uid://bbbg8va8pwoml" path="res://Assets/Sprites/BaseSprite/weapons/shoot/bow.png" id="21_mdvb1"]
 [ext_resource type="Texture2D" uid="uid://dergnjei0drvt" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Hurt/Sword_Hurt_full.png" id="27_35grl"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="29_ggw7w"]
 [ext_resource type="Texture2D" uid="uid://dntpeg2yvkse8" path="res://Assets/Sprites/BaseSprite/PNG/Blood Splat.png" id="34_w34vp"]
@@ -43,9 +45,9 @@ metadata/_custom_type_script = "uid://co7tkofoxgpia"
 script = ExtResource("3_feila")
 metadata/_custom_type_script = "uid://co7tkofoxgpia"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_a6liw"]
-atlas = ExtResource("3_ral8p")
-region = Rect2(384, 576, 192, 192)
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3rua"]
+atlas = ExtResource("5_7578i")
+region = Rect2(817, 989, 204, 197)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tsnqi"]
 atlas = ExtResource("3_ral8p")
@@ -147,7 +149,7 @@ region = Rect2(1344, 0, 192, 192)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_a6liw")
+"texture": SubResource("AtlasTexture_a3rua")
 }],
 "loop": true,
 "name": &"idle",
@@ -3020,9 +3022,9 @@ region = Rect2(576, 0, 64, 64)
 atlas = ExtResource("7_a86ck")
 region = Rect2(768, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_t2jr5"]
-atlas = ExtResource("7_a86ck")
-region = Rect2(128, 192, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxu8m"]
+atlas = ExtResource("21_mdvb1")
+region = Rect2(551, 874, 48, 46)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hdb1b"]
 atlas = ExtResource("7_a86ck")
@@ -3250,7 +3252,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_t2jr5")
+"texture": SubResource("AtlasTexture_jxu8m")
 }],
 "loop": true,
 "name": &"idle_down",
@@ -11146,7 +11148,7 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 3
+frame = 5
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")

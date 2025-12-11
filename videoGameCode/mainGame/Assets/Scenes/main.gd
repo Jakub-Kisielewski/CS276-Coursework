@@ -14,14 +14,15 @@ func _ready() -> void:
 	var menu = scene_manager.ui_main_menu
 	if menu:
 		menu.new_game_pressed.connect(_on_new_game)
-		menu.load_game_pressed.connect(_on_load_game)
 		menu.settings_pressed.connect(_on_settings)
 	
 
+func _process(delta: float) -> void:
+	if Input.is_key_pressed(KEY_ESCAPE):
+		get_tree().quit()
+
 func _on_new_game() -> void:
 	print("Main: New Game Requested")
-	
-	scene_manager.on_start_game_ui()
 	
 	run_manager.start_run_or_next_room()
 
