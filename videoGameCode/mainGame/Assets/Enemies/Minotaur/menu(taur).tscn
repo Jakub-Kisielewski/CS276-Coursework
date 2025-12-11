@@ -1,7 +1,7 @@
 [gd_scene load_steps=58 format=3 uid="uid://bn158qubeg1ki"]
 
 [ext_resource type="Script" uid="uid://c3omy4q13jqhc" path="res://Assets/Enemies/Minotaur/menu(taur).gd" id="1_tydif"]
-[ext_resource type="Texture2D" uid="uid://5kuyyld0jx7o" path="res://Assets/Sprites/goatman.png" id="5_noe6a"]
+[ext_resource type="Texture2D" uid="uid://5kuyyld0jx7o" path="res://Assets/Resources/Sprites/goatman.png" id="5_noe6a"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
 radius = 12.0

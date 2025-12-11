@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=4 uid="uid://bs6g550dorxa1"]
 
-[ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_8ecsc"]
+[ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Resources/Sprites/Pixel2DCastle1.1/ground.png" id="1_8ecsc"]
 [ext_resource type="Script" uid="uid://bbnnthspq4ou2" path="res://Assets/Rooms/room_base.gd" id="1_reoxh"]
-[ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_reoxh"]
+[ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Resources/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_reoxh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wgcjt"]
 texture = ExtResource("1_8ecsc")

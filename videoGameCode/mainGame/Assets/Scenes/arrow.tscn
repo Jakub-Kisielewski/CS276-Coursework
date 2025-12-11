@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b77o65h7xlcff"]
 
 [ext_resource type="Script" uid="uid://dkodf3apwl88b" path="res://Assets/Scripts/arrow.gd" id="1_urhp6"]
-[ext_resource type="Texture2D" uid="uid://bqrdkqr83s5lx" path="res://Assets/Sprites/BaseSprite/weapons/shoot/arrow.png" id="2_jlmnk"]
+[ext_resource type="Texture2D" uid="uid://bqrdkqr83s5lx" path="res://Assets/Resources/Sprites/BaseSprite/weapons/shoot/arrow.png" id="2_jlmnk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lkx68"]
 atlas = ExtResource("2_jlmnk")

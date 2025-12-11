@@ -1,14 +1,14 @@
 [gd_scene load_steps=21 format=4 uid="uid://clxjek3j3vqjd"]
 
 [ext_resource type="Script" uid="uid://bbnnthspq4ou2" path="res://Assets/Rooms/room_base.gd" id="1_b0c35"]
-[ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_o7423"]
-[ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_b0c35"]
-[ext_resource type="Texture2D" uid="uid://cpht12j2lfc0y" path="res://Assets/Sprites/RF_Catacombs_v1.0/decorative.png" id="3_3kdpr"]
-[ext_resource type="Texture2D" uid="uid://cnpwg3nuomm0b" path="res://Assets/Sprites/RF_Catacombs_v1.0/candleB_04.png" id="4_gjtqd"]
-[ext_resource type="Texture2D" uid="uid://cr8pt6xmkir04" path="res://Assets/Sprites/RF_Catacombs_v1.0/spike_4.png" id="5_dkb64"]
-[ext_resource type="Texture2D" uid="uid://d00ajul7a2ihh" path="res://Assets/Sprites/RF_Catacombs_v1.0/torch_4.png" id="6_nkhdk"]
-[ext_resource type="Texture2D" uid="uid://qbdf75c1mqgw" path="res://Assets/Sprites/Pixel2DCastle1.1/anim_lights.png" id="7_b5egl"]
-[ext_resource type="Texture2D" uid="uid://dxihyhqsr3d13" path="res://Assets/Sprites/Pixel2DCastle1.1/anim_light2.png" id="8_rf6ar"]
+[ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Resources/Sprites/Pixel2DCastle1.1/ground.png" id="1_o7423"]
+[ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Resources/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_b0c35"]
+[ext_resource type="Texture2D" uid="uid://cpht12j2lfc0y" path="res://Assets/Resources/Sprites/RF_Catacombs_v1.0/decorative.png" id="3_3kdpr"]
+[ext_resource type="Texture2D" uid="uid://cnpwg3nuomm0b" path="res://Assets/Resources/Sprites/RF_Catacombs_v1.0/candleB_04.png" id="4_gjtqd"]
+[ext_resource type="Texture2D" uid="uid://cr8pt6xmkir04" path="res://Assets/Resources/Sprites/RF_Catacombs_v1.0/spike_4.png" id="5_dkb64"]
+[ext_resource type="Texture2D" uid="uid://d00ajul7a2ihh" path="res://Assets/Resources/Sprites/RF_Catacombs_v1.0/torch_4.png" id="6_nkhdk"]
+[ext_resource type="Texture2D" uid="uid://qbdf75c1mqgw" path="res://Assets/Resources/Sprites/Pixel2DCastle1.1/anim_lights.png" id="7_b5egl"]
+[ext_resource type="Texture2D" uid="uid://dxihyhqsr3d13" path="res://Assets/Resources/Sprites/Pixel2DCastle1.1/anim_light2.png" id="8_rf6ar"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wgcjt"]
 texture = ExtResource("1_o7423")

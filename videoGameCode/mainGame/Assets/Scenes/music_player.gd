@@ -71,8 +71,6 @@ func set_category(new_category : Category) -> void:
 	play_random_track()
 		
 
-
-	
 func play_random_track() -> void:
 	if 	current_tracks.is_empty():
 		print("tracklist empty")

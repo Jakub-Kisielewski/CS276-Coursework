@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cn3wpol1al3i5" path="res://Assets/UI/ui_main_menu.gd" id="1_dsbl1"]
 [ext_resource type="StyleBox" uid="uid://c1vcpi70ucrtw" path="res://Assets/UI/mainMenuBackground.tres" id="2_1iiww"]
-[ext_resource type="Texture2D" uid="uid://cqv2i75mchibe" path="res://Assets/Sprites/kenney_game-icons/PNG/White/1x/forward.png" id="2_np0d5"]
-[ext_resource type="Texture2D" uid="uid://de4weuh06yvm7" path="res://Assets/Sprites/kenney_game-icons/PNG/White/1x/gear.png" id="3_1iiww"]
+[ext_resource type="Texture2D" uid="uid://cqv2i75mchibe" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/forward.png" id="2_np0d5"]
+[ext_resource type="Texture2D" uid="uid://de4weuh06yvm7" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/gear.png" id="3_1iiww"]
 [ext_resource type="FontFile" uid="uid://dfo5byu3tupte" path="res://Assets/Fonts/kenney_kenney-fonts/Fonts/Kenney High.ttf" id="5_35tj5"]
 
 [node name="UiMainMenu" type="Control"]

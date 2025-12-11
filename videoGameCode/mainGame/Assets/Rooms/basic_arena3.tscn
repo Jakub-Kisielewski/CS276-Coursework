@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=4 uid="uid://ypwdupxuwpmd"]
 
 [ext_resource type="Script" uid="uid://bbnnthspq4ou2" path="res://Assets/Rooms/room_base.gd" id="1_a5ds5"]
-[ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Sprites/Pixel2DCastle1.1/ground.png" id="1_trbv8"]
-[ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_a5ds5"]
-[ext_resource type="Texture2D" uid="uid://cpht12j2lfc0y" path="res://Assets/Sprites/RF_Catacombs_v1.0/decorative.png" id="3_4wx4e"]
+[ext_resource type="Texture2D" uid="uid://b8ihnwb08cmpy" path="res://Assets/Resources/Sprites/Pixel2DCastle1.1/ground.png" id="1_trbv8"]
+[ext_resource type="Texture2D" uid="uid://bhxn3pjh0qof0" path="res://Assets/Resources/Sprites/RF_Catacombs_v1.0/mainlevbuild.png" id="2_a5ds5"]
+[ext_resource type="Texture2D" uid="uid://cpht12j2lfc0y" path="res://Assets/Resources/Sprites/RF_Catacombs_v1.0/decorative.png" id="3_4wx4e"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wgcjt"]
 texture = ExtResource("1_trbv8")
