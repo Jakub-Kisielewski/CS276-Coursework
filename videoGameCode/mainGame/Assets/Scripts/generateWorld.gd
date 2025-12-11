@@ -13,6 +13,10 @@ var maxBranchLength: int = 3
 
 var map: Array = Array()
 
+# Add generation attempt tracking
+var maxGenerationAttempts: int = 100
+var currentAttempt: int = 0
+
 var roomTemplate: Dictionary = {
 	"coords": null,
 	"explored": false,
@@ -84,38 +88,65 @@ func generate_map_data() -> void:
 	
 	print("setting constraints")
 	scaleConstraints()
-	print("initialising map")
-	initMap()
-	print("choosing start")
-	var startCoords: Vector2i = chooseStart()
-	print("setting centre")
-	var centreCoords: Vector2i = setCentre()
-	print("creating solution path")
-	var solutionPath: Array[Vector2i] = generateSolutionPath(startCoords, centreCoords)
-	print("generating branches")
-	var branches: Array = generateBranches(solutionPath)
-	print("placing rooms")
-	placeRooms(solutionPath, branches)
 	
-	# Store the data
-	GameData.maze_map = map.duplicate(true)
-	print("Map stored in GameData")
+	# try generation multiple times with progressively relaxed constraints
+	currentAttempt = 0
+	var success: bool = false
+	
+	while currentAttempt < maxGenerationAttempts and not success:
+		currentAttempt += 1
+		print("Generation attempt ", currentAttempt)
+		
+		print("initialising map")
+		initMap()
+		print("choosing start")
+		var startCoords: Vector2i = chooseStart()
+		print("setting centre")
+		var centreCoords: Vector2i = setCentre()
+		print("creating solution path")
+		var solutionPath: Array[Vector2i] = generateSolutionPath(startCoords, centreCoords)
+		
+		if solutionPath.size() > 0:
+			print("generating branches")
+			var branches: Array = generateBranches(solutionPath)
+			print("placing rooms")
+			placeRooms(solutionPath, branches)
+			
+			# Store the data
+			GameData.maze_map = map.duplicate(true)
+			print("Map generation successful!")
+			success = true
+		else:
+			print("Failed to generate path, retrying...")
+			# relax constraints for next attempt
+			if currentAttempt % 10 == 0:
+				minSolutionPath = max(int(minSolutionPath * 0.9), int((mapWidth + mapHeight) * 0.5))
+				print("Relaxing min path length to: ", minSolutionPath)
+	
+	if not success:
+		print("Failed to generate maze after ", maxGenerationAttempts, " attempts")
+		get_tree().reload_current_scene()
 
 func scaleConstraints() -> void:
 	var totalArea: int = mapWidth * mapHeight
 	
-	# 35%-50% of map will be covered by solution path
-	minSolutionPath = int(totalArea * 0.35 * difficultyModifier)
-	maxSolutionPath = int(totalArea * 0.50)
-	
+	if mapHeight <= 7:
+		minSolutionPath = int(totalArea * 0.35 * difficultyModifier)  
+		maxSolutionPath = int(totalArea * 0.50)
+	else: # more lenient for larger mazes
+		minSolutionPath = int(totalArea * 0.25 * difficultyModifier)  
+		maxSolutionPath = int(totalArea * 0.55)
+	 
 	# manhatten distance from edge of maze to centre
 	var minPossibleDistance: int = max(mapWidth, mapHeight) / 2
 	
 	if minSolutionPath < minPossibleDistance:
-		minSolutionPath = minPossibleDistance + 3
+		minSolutionPath = minPossibleDistance + 2  # Reduced from +3
 	
 	# half of map width or height
 	maxBranchLength = int(max(mapWidth, mapHeight) / 2)
+	
+	print("Path constraints: min=", minSolutionPath, " max=", maxSolutionPath)
 
 func initMap() -> void:
 	map.resize(mapHeight)
@@ -175,50 +206,58 @@ func setCentre() -> Vector2i:
 	return Vector2i(centreX, centreY)
 
 func generateSolutionPath(startCoords:Vector2i, targetCoords:Vector2i) -> Array[Vector2i]:
-	var solutionPath: Array[Vector2i] = windingPath(startCoords, targetCoords, [])
-	if solutionPath.size() > 0:
-		# draw cooridors from generated soln path onto the map
-		var currIndex: int = 1 # starting from first corridor in path not from start room
-		var corridorNum: int = 1 # 0 reserved for cells with no corridor in them
-		
-		for coords in solutionPath:
-			if map[coords.y][coords.x].type == "Start": continue
+	# Try multiple times with different random seeds
+	for attempt in range(20):
+		var solutionPath: Array[Vector2i] = windingPath(startCoords, targetCoords, [], 0)
+		if solutionPath.size() > 0:
+			# draw corridors from generated soln path onto the map
+			var currIndex: int = 1 # starting from first corridor in path not from start room
+			var corridorNum: int = 1 # 0 reserved for cells with no corridor in them
 			
-			var direction: Vector2i = coords - solutionPath.get(currIndex - 1)
+			for coords in solutionPath:
+				if map[coords.y][coords.x].type == "Start": continue
+				
+				var direction: Vector2i = coords - solutionPath.get(currIndex - 1)
+				
+				var corridor: Dictionary = corridorTemplate.duplicate()
+				corridor["coords"] = coords
+				corridor["onSolutionPath"] = true
+				corridor["order"] = corridorNum
+				if rng.randf() > 0.8: corridor["emergent"] = true
+				
+				# direction of current cell relevant to previous cell in solution path
+				match direction:
+					Vector2i.DOWN: corridor["compassDirection"] = compassDirections.SOUTH
+					Vector2i.UP: corridor["compassDirection"] = compassDirections.NORTH
+					Vector2i.RIGHT: corridor["compassDirection"] = compassDirections.EAST
+					Vector2i.LEFT: corridor["compassDirection"] = compassDirections.WEST
+				
+				map[coords.y][coords.x] = corridor
+				var prevCoords: Vector2i = solutionPath.get(currIndex - 1)
+				var corridorTypes: Array[String] = setCorridorType(map[coords.y][coords.x], map[prevCoords.y][prevCoords.x], solutionPath.size())
+				if corridorTypes.size() == 1: corridor["type"] = corridorTypes[0]
+				else:
+					corridor["type"] = corridorTypes[0]
+					map[prevCoords.y][prevCoords.x].set("type", corridorTypes[1]) 
+				corridorNum += 1
+				currIndex += 1
 			
-			var corridor: Dictionary = corridorTemplate.duplicate()
-			corridor["coords"] = coords
-			corridor["onSolutionPath"] = true
-			corridor["order"] = corridorNum
-			if rng.randf() > 0.8: corridor["emergent"] = true
-			
-			# direction of current cell relevant to previous cell in solution path
-			match direction:
-				Vector2i.DOWN: corridor["compassDirection"] = compassDirections.SOUTH
-				Vector2i.UP: corridor["compassDirection"] = compassDirections.NORTH
-				Vector2i.RIGHT: corridor["compassDirection"] = compassDirections.EAST
-				Vector2i.LEFT: corridor["compassDirection"] = compassDirections.WEST
-			
-			map[coords.y][coords.x] = corridor
-			var prevCoords: Vector2i = solutionPath.get(currIndex - 1)
-			var corridorTypes: Array[String] = setCorridorType(map[coords.y][coords.x], map[prevCoords.y][prevCoords.x], solutionPath.size()) # output is length 1 when corridor is after start room or if corridor is of same type as one preceding it, 2 otherwies
-			if corridorTypes.size() == 1: corridor["type"] = corridorTypes[0]
-			else:
-				corridor["type"] = corridorTypes[0]
-				map[prevCoords.y][prevCoords.x].set("type", corridorTypes[1]) 
-			corridorNum += 1
-			currIndex += 1
-	else: get_tree().reload_current_scene()
-	return solutionPath
+			return solutionPath
 	
+	return []
 
-func windingPath(current: Vector2i, target: Vector2i, path: Array[Vector2i]) -> Array[Vector2i]:
+func windingPath(current: Vector2i, target: Vector2i, path: Array[Vector2i], depth: int) -> Array[Vector2i]:
+	# depth limit to prevent excessive recursion
+	if depth > mapWidth * mapHeight * 2:
+		return []
+	
 	path.append(current)
 	var solutionPathLength: int = path.size() - 2 # dont include start and centre rooms
 	
 	if current == target:
 		# dont include start and centre rooms
-		if solutionPathLength >= minSolutionPath: return path
+		if solutionPathLength >= minSolutionPath: 
+			return path
 		else:
 			path.pop_back()
 			return []
@@ -227,24 +266,47 @@ func windingPath(current: Vector2i, target: Vector2i, path: Array[Vector2i]) -> 
 		path.pop_back()
 		return []
 	
-	# random direction
+	# Get manhattan distance to target for biased direction selection
+	var toTarget: Vector2i = target - current
+	var manhattanDist: int = abs(toTarget.x) + abs(toTarget.y)
+	
+	# bias toward target more when we're far from min length or close to max length
+	var targetBias: float = 0.3  # base 30% chance to move toward target
+	if solutionPathLength < minSolutionPath * 0.7:
+		targetBias = 0.5  # 50% when we need more length
+	elif solutionPathLength > maxSolutionPath * 0.8:
+		targetBias = 0.7  # 70% when approaching max length
+	
 	var neighbours: Array[Vector2i] = [Vector2i.DOWN, Vector2i.UP, Vector2i.RIGHT, Vector2i.LEFT]
-	neighbours.shuffle()
+	
+	# Sort directions with bias toward target
+	if rng.randf() < targetBias:
+		neighbours.sort_custom(func(a, b): 
+			var distA = abs((current + a - target).x) + abs((current + a - target).y)
+			var distB = abs((current + b - target).x) + abs((current + b - target).y)
+			return distA < distB
+		)
+	else:
+		neighbours.shuffle()
 	
 	# check direction valid
 	for direction in neighbours:
 		var nextCell: Vector2i = current + direction
 		
-		if nextCell.y < 0 or nextCell.y >= mapHeight or nextCell.x < 0 or nextCell.x >= mapWidth: continue
+		if nextCell.y < 0 or nextCell.y >= mapHeight or nextCell.x < 0 or nextCell.x >= mapWidth: 
+			continue
 		
-		if nextCell in path: continue
+		if nextCell in path: 
+			continue
 		
 		# dont allow soln path to intersect with centre or start room
 		var nextCellType: String = map[nextCell.y][nextCell.x].get("type")
-		if nextCellType != "" and nextCell != target: continue
+		if nextCellType != "" and nextCell != target: 
+			continue
 		
-		var result: Array[Vector2i] = windingPath(nextCell, target, path)
-		if result.size() > 0: return result
+		var result: Array[Vector2i] = windingPath(nextCell, target, path, depth + 1)
+		if result.size() > 0: 
+			return result
 	
 	# no valid direction
 	path.pop_back()
@@ -308,7 +370,7 @@ func generateBranch(currentCell:Vector2i, solutionPath: Array[Vector2i]) -> Arra
 				if i == branch.size() - 1: # last corridor in branch
 					corridor["type"] += "Deadend"
 			else:
-				var corridorTypes: Array[String] = setCorridorType(map[coords.y][coords.x], map[prevCoords.y][prevCoords.x], solutionPath.size()) # length 1 when corridor is of same type as one preceding it, 2 otherwise
+				var corridorTypes: Array[String] = setCorridorType(map[coords.y][coords.x], map[prevCoords.y][prevCoords.x], solutionPath.size())
 				if corridorTypes.size() == 1: corridor["type"] = corridorTypes[0]
 				else:
 					corridor["type"] = corridorTypes[0]
