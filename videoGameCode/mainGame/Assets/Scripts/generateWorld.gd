@@ -56,6 +56,14 @@ var corridorTypeTiles: Dictionary[String, Vector2i] = {
 	"westDeadend": Vector2i()
 }
 
+var roomTypeTiles: Dictionary[String, Vector2i] = {
+	"basicArena": Vector2i(0,3),
+	"advancedArena": Vector2i(0,3),
+	"puzzleRoom": Vector2i(0,3),
+	"Start": Vector2i(1,1),
+	"Centre": Vector2i(1,1)
+}
+
 func _ready() -> void:
 	rng.randomize()
 	
@@ -74,7 +82,7 @@ func _ready() -> void:
 	print("placing rooms")
 	placeRooms(solutionPath, branches)
 	print("drawing map")
-	drawMap(solutionPath, branches)
+	drawMap()
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):
@@ -105,7 +113,6 @@ func initMap() -> void:
 			var emptyRoom: Dictionary = roomTemplate.duplicate()
 			emptyRoom["coords"] = Vector2i(j, i)
 			map[i][j] = emptyRoom
-			%mazeSegments.set_cell(Vector2i(j,i),3,Vector2i(4,2), 0)
 
 # choose location of start room in maze, only spawns on outer edges of maze and not in corners of maze
 func chooseStart() -> Vector2i:
@@ -476,7 +483,7 @@ func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
 		
 		var mustPlaceRoom: bool = corridorsSinceLastRoom >= 3
 		
-		var shouldPlaceRoom: bool = mustPlaceRoom or (corridorsSinceLastRoom >= 1 and rng.randf() < 0.5)
+		var shouldPlaceRoom: bool = mustPlaceRoom or (corridorsSinceLastRoom >= 2 and rng.randf() < 0.5)
 		
 		if shouldPlaceRoom:
 			var advancedChance: float = calculateAdvancedRoomChance(order, totalCorridors)
@@ -503,17 +510,19 @@ func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
 		
 		var corridorsSinceLastRoomBranch: int = 0 
 		
-		# skip root
-		for i in range(1, branch.size()):
+		# skip root and first cell to stop 2 rooms being adjacent
+		for i in range(2, branch.size()):
 			var coords: Vector2i = branch[i]
 			var cell: Dictionary = map[coords.y][coords.x]
 			
 			if cell.get("emergent") == true:
 				continue
 			
+			corridorsSinceLastRoomBranch += 1
+			
 			var mustPlaceRoom: bool = corridorsSinceLastRoomBranch >= 3
 			
-			var shouldPlaceRoom: bool = mustPlaceRoom or (corridorsSinceLastRoomBranch >= 1 and rng.randf() < 0.5)
+			var shouldPlaceRoom: bool = mustPlaceRoom or (corridorsSinceLastRoomBranch >= 2 and rng.randf() < 0.5)
 			
 			if shouldPlaceRoom:
 				var isAdvanced: bool = rng.randf() < branchAdvancedChance
@@ -523,26 +532,13 @@ func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
 					cell["type"] = "advancedArena"
 				else:
 					cell["type"] = "basicArena"
-				corridorsSinceLastRoomBranch = i
+				corridorsSinceLastRoomBranch = 0
 
-func drawMap(solutionPath: Array, branches: Array) -> void:
+func drawMap() -> void:
 	# draw solution path
-	for coords in solutionPath:
-		if map[coords.y][coords.x].get("type") == "Start":
-			%mazeSegments.set_cell(coords, 3, Vector2i(1,1), 0)
-			continue
-		if map[coords.y][coords.x].get("type") == "Centre":
-			%mazeSegments.set_cell(coords, 3, Vector2i(1,1), 0)
-			continue
-		
-		drawTile(coords)
-	
-	for branch in branches:
-		if branch == null or branch == []:
-			continue
-		for i in range(1, branch.size()):
-			var coords: Vector2i = branch[i]
-			drawTile(coords)
+	for y in range(mapHeight):
+		for x in range(mapWidth):
+			drawTile(map[y][x].get("coords"))
 
 
 func drawTile(coords:Vector2i) -> void:
@@ -568,4 +564,11 @@ func drawTile(coords:Vector2i) -> void:
 		"straightNorthDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("northDeadend"), 0)
 		"straightSouthDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("southDeadend"), 0)
 		"straightWestDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("westDeadend"), 0)
-		"straightEastDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("eastDeadend"), 0) 
+		"straightEastDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("eastDeadend"), 0)
+		# rooms
+		"basicArena": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("basicArena"), 0)
+		"advancedArena": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("advancedArena"), 0)
+		"puzzleRoom": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("puzzleRoom"), 0)
+		"Start": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("Start"), 0)
+		"Centre": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("Centre"), 0)
+		_: %mazeSegments.set_cell(coords, 3, Vector2i(4,2), 0)
