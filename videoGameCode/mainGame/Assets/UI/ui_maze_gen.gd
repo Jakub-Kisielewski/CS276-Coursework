@@ -46,6 +46,7 @@ func _on_start_pressed() -> void:
 		2: # hard
 			GameData.difficulty_mod = 1.5
 	
+	GameData.save_game()
 	start_run_pressed.emit()
 
 func _on_back_pressed() -> void:
