@@ -6,7 +6,7 @@ enum WeaponType {SWORD, SPEAR, BOW}
 @export var display_name: String
 @export var rarity: Rarity = Rarity.PRISMATIC
 @export var weapon_type: WeaponType = WeaponType.SWORD
-
+@export var special_unlocked: bool = false
 
 @export var base_attack: float = 10.0
 @export var weapon_mult : float = 1.0
@@ -46,3 +46,8 @@ func upgrade_type():
 		print("attack mult is at max")
 	else:
 		weapon_mult += 0.1 #10% damage increase for that weapon
+
+
+#use this for when player chooses to unlock a weapons special attack
+func unlock_special_attack():
+	special_unlocked = true

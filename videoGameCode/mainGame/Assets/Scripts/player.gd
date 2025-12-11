@@ -31,6 +31,7 @@ var special_track: AudioStream
 @onready var bowEffects2 = $bowEffectslay2
 @onready var bodyEffects2 = $bodyEffectlay2
 
+var have_decoy : bool = false #set this to true if player buys decoys
 var decoy_scene := preload("res://Assets/Scenes/decoy.tscn")
 var decoy_cooldown : float = 8.5
 var decoy_timer : float = 0.0
@@ -52,12 +53,12 @@ var orig_spear_pos : Vector2
 var orig_pos : Vector2
 const DASH_COOLDOWN_TIME = 1.2
 const DASH_DURATION_TIME = 0.2
-var dash_through_enemies : bool = true #set to true if you want to be able to dash through enemies
+var dash_through_enemies : bool = false #set to true if you want to be able to dash through enemies
 
 var dash_multiplier = 2.0
 var dash_cooldown = 0.0
 var dash_timer = 0.0
-var max_dashes := 3
+var max_dashes := 1 #increment this if player buys an additional dash, up to 3 consecutive dashes
 var dashes = max_dashes
 var dashing = false
 var speed = 260.0
@@ -85,9 +86,10 @@ var special_charging: bool = false
 var special_hold_time : float = 0.0
 const SPECIAL_HOLD_TIME : float = 0.4 #wind up the attack for  second cuz op
 var charging_successful : bool = false
-var switch_activated: bool = false #bow switch special attack
-var shotgun_activated : bool = false #other bow attack
+
+var shotgun_activated : bool = false #bow special attack
 var trying_shotgun = true #true -> shotgun switch, false -> auto switch
+
 
 var dying = false
 var monitorable = true
@@ -192,6 +194,10 @@ func handle_input(delta: float):
 	
 	
 	if Input.is_action_just_pressed("attack_special"):
+		if not current_weapon_data.special_unlocked:
+			print("You don't have this attack unlocked!")
+			return
+		
 		special_track = null
 		if current_weapon == Weapon.SWORD and not player_busy():
 			print("sword charge anim start")
@@ -222,7 +228,7 @@ func handle_input(delta: float):
 		
 	if Input.is_action_just_released("attack_special"):
 		misc_sfx.stop()
-		if charging_successful:
+		if charging_successful and current_weapon_data.special_unlocked:
 			special_charging = false
 			special_hold_time = 0.0
 			charging_successful = false
@@ -233,8 +239,7 @@ func handle_input(delta: float):
 			elif current_weapon == Weapon.BOW:
 				if trying_shotgun:
 					shotgun_activated = true
-				else:
-					switch_activated = true
+				
 				special_track = misc_sounds[4]
 				bow_attack()
 			elif current_weapon == Weapon.SPEAR:
@@ -542,12 +547,8 @@ func bow_attack():
 	bowEffects.rotation = bowAnim.rotation
 	bowEffects.play("brelease")
 	
-	if (switch_activated):
-		
-		var arrows : float = 10.0
-		var duration : float = 1.0
-		bow_brrr(arrows, duration)
-	elif (shotgun_activated):
+	
+	if (shotgun_activated):
 
 		var arrows : float = 10.0
 		var duration : float = 0.5
@@ -606,7 +607,7 @@ func shattering_bow(total_arrows: int, duration: int):
 func cancel_attack():
 	attacking = false
 	monitorable = true
-	switch_activated = false
+
 	shotgun_activated = false
 		
 		
@@ -971,7 +972,7 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 		print("player has finished attacking")
 		attacking = false
 		monitorable = true
-		switch_activated = false
+
 		shotgun_activated = false
 		
 	if anim_name.begins_with("hurt"):
@@ -997,10 +998,20 @@ func upgrade_dash():
 		print("already at max dashes")
 	else:
 		max_dashes += 1;
+		
+func unlock_decoy():
+	have_decoy = true
+	
+func upgrade_dash_transparency():
+	dash_through_enemies = true
+	
 
 func throw_decoy():
 	if decoy_scene == null:
 		print("where tf decoy scene")
+		return
+	if not have_decoy:
+		print("you haven't got a decoy!")
 		return
 		
 	var crazy_diamond := decoy_scene.instantiate()
