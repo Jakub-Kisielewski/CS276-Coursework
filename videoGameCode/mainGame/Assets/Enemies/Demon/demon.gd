@@ -9,7 +9,7 @@ var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 var hurtbox : HurtBox
 
 # Cooldown for the demon's teleport
-const TELEPORT_COOLDOWN_TIME : float = 3.6
+const TELEPORT_COOLDOWN_TIME : float = 2.6
 var teleport_cooldown : float = 0.0
 
 var player_in_range : bool = false
