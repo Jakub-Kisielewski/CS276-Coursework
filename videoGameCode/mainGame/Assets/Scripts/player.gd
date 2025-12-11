@@ -955,9 +955,16 @@ func player_busy() -> bool:
 func death_screen() -> void:
 	print("Player died. Signaling Main Game...")
 	
-	SignalBus.player_died.emit()
-
-	call_deferred("queue_free")
+	SignalBus.player_died.emit()	
+	set_physics_process(false)
+	set_process(false)
+	
+	if has_node("CollisionShape2D"):
+		$CollisionShape2D.set_deferred("disabled", true)
+	
+	if has_node("fullAnim/hurtBox"):
+		get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
+		get_node("fullAnim/hurtBox").set_deferred("monitoring", false)
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name.begins_with("Sdeath") or anim_name.begins_with("death"):

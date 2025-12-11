@@ -42,7 +42,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_ipubg")
 theme_override_font_sizes/font_size = 85
-text = "THE RUN'S OVER"
+text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
 

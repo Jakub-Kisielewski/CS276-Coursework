@@ -1,4 +1,4 @@
-[gd_scene load_steps=1095 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=1096 format=3 uid="uid://gybvdpwifulg"]
 
 [ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
@@ -54,6 +54,7 @@
 [ext_resource type="Texture2D" uid="uid://dergnjei0drvt" path="res://Assets/Sprites/BaseSprite/PNG/Sword_Hurt/Sword_Hurt_full.png" id="27_35grl"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="29_ggw7w"]
 [ext_resource type="Texture2D" uid="uid://dntpeg2yvkse8" path="res://Assets/Sprites/BaseSprite/PNG/Blood Splat.png" id="34_w34vp"]
+[ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="55_mkm62"]
 
 [sub_resource type="Resource" id="Resource_yj04c"]
 script = ExtResource("3_feila")
@@ -11323,7 +11324,7 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 6
+frame = 5
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")
@@ -11403,6 +11404,10 @@ bus = &"SFX"
 
 [node name="miscSfx" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
+
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
+zoom = Vector2(3, 3)
+script = ExtResource("55_mkm62")
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="animation_finished" from="bowEffectslay2" to="." method="_on_bow_effectslay_2_animation_finished"]

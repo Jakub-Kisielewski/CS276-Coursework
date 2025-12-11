@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c7njgli8wtoay"]
+[gd_scene load_steps=20 format=3 uid="uid://c7njgli8wtoay"]
 
 [ext_resource type="Script" uid="uid://cegk4g6d48rk1" path="res://Assets/Scenes/main.gd" id="1_l26l0"]
 [ext_resource type="Script" uid="uid://diff8hf67in4j" path="res://Assets/Scenes/scene_manager.gd" id="2_qplxx"]
@@ -18,7 +18,6 @@
 [ext_resource type="PackedScene" uid="uid://dx85q01r02ro5" path="res://Assets/UI/UI_Pause.tscn" id="14_tm25p"]
 [ext_resource type="PackedScene" uid="uid://6y0f5obexsye" path="res://Assets/UI/UI_MainMenu.tscn" id="15_uq7jr"]
 [ext_resource type="PackedScene" uid="uid://d7tmus33h2ta" path="res://Assets/UI/UI_Death.tscn" id="16_qscjt"]
-[ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="19_ccmul"]
 [ext_resource type="Script" uid="uid://cw883wtgvhncp" path="res://Assets/Scenes/music_player.gd" id="20_cun2r"]
 
 [node name="Main" type="Node" node_paths=PackedStringArray("run_manager", "scene_manager", "world_environment")]
@@ -91,7 +90,3 @@ grow_vertical = 2
 
 [node name="ActiveSceneContainer" type="Node" parent="."]
 process_mode = 1
-
-[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
-zoom = Vector2(3, 3)
-script = ExtResource("19_ccmul")
