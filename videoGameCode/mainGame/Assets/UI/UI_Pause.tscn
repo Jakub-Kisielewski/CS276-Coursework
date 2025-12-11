@@ -1,5 +1,76 @@
-[gd_scene format=3 uid="uid://dx85q01r02ro5"]
+[gd_scene load_steps=2 format=3 uid="uid://dx85q01r02ro5"]
+
+[ext_resource type="Script" uid="uid://ciiu2jqe07eis" path="res://Assets/UI/ui_pause.gd" id="1_2sbyx"]
 
 [node name="UiPause" type="Control"]
+process_mode = 2
+self_modulate = Color(0, 0, 0, 0.5882353)
 layout_mode = 3
 anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_2sbyx")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 0.5882353)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="MenuBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/MenuBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LblTime" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/MenuBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play Time: 00:00
+"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/MenuBox"]
+layout_mode = 2
+
+[node name="BtnResume" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MenuBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume"
+
+[node name="BtnSettings" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MenuBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Settings
+"
+
+[node name="BtnSaveQuit" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MenuBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save & Quit
+"

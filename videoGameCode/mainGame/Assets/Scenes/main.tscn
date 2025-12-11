@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c7njgli8wtoay"]
+[gd_scene load_steps=18 format=3 uid="uid://c7njgli8wtoay"]
 
 [ext_resource type="Script" uid="uid://cegk4g6d48rk1" path="res://Assets/Scenes/main.gd" id="1_l26l0"]
 [ext_resource type="Script" uid="uid://diff8hf67in4j" path="res://Assets/Scenes/scene_manager.gd" id="2_qplxx"]
@@ -15,9 +15,11 @@
 [ext_resource type="PackedScene" uid="uid://cgxpunr0ejuix" path="res://Assets/UI/UI_TransitionSceen.tscn" id="10_f1jyc"]
 [ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="12_4qkp8"]
 [ext_resource type="PackedScene" uid="uid://bn1ef75yn48d2" path="res://Assets/UI/UI_MazeGen.tscn" id="14_ltoj3"]
+[ext_resource type="PackedScene" uid="uid://dx85q01r02ro5" path="res://Assets/UI/UI_Pause.tscn" id="14_tm25p"]
 [ext_resource type="PackedScene" uid="uid://6y0f5obexsye" path="res://Assets/UI/UI_MainMenu.tscn" id="15_uq7jr"]
 
 [node name="Main" type="Node" node_paths=PackedStringArray("run_manager", "scene_manager", "world_environment")]
+process_mode = 3
 script = ExtResource("1_l26l0")
 run_manager = NodePath("RunManager")
 scene_manager = NodePath("SceneManager")
@@ -31,12 +33,13 @@ dark_world = ExtResource("4_4qkp8")
 
 [node name="GlobalMusicPlayer" type="AudioStreamPlayer2D" parent="."]
 
-[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("active_scene_container", "transition_screen", "ui_main_menu", "ui_maze_gen")]
+[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("active_scene_container", "transition_screen", "ui_main_menu", "ui_maze_gen", "ui_pause_menu")]
 script = ExtResource("2_qplxx")
 active_scene_container = NodePath("../ActiveSceneContainer")
 transition_screen = NodePath("../UILayer/UiTransitionSceen")
 ui_main_menu = NodePath("../UILayer/UiMainMenu")
 ui_maze_gen = NodePath("../UILayer/UiMazeGen")
+ui_pause_menu = NodePath("../UILayer/UiPause")
 
 [node name="RunManager" type="Node" parent="." node_paths=PackedStringArray("scene_manager")]
 script = ExtResource("3_elf4b")
@@ -51,6 +54,9 @@ enemy_pool = Array[PackedScene]([ExtResource("4_nacht"), ExtResource("5_acsc0"),
 
 [node name="UiMainMenu" parent="UILayer" instance=ExtResource("15_uq7jr")]
 
+[node name="UiPause" parent="UILayer" instance=ExtResource("14_tm25p")]
+
 [node name="UiTransitionSceen" parent="UILayer" instance=ExtResource("10_f1jyc")]
 
 [node name="ActiveSceneContainer" type="Node" parent="."]
+process_mode = 1

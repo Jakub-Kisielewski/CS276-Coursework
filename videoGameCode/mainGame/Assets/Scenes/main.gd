@@ -5,11 +5,17 @@ extends Node
 @export var world_environment: WorldEnvironment
 
 var dark_timer: Timer
+var is_paused: bool = false
 
 func _ready() -> void:
 	SignalBus.request_darkness.connect(_on_darkness_requested)
 	
 	await get_tree().process_frame
+	
+	if scene_manager.ui_pause_menu:
+		scene_manager.ui_pause_menu.resume_pressed.connect(_on_resume_game)
+		scene_manager.ui_pause_menu.save_and_quit_pressed.connect(_on_save_quit)
+		scene_manager.ui_pause_menu.start_time_msec = Time.get_ticks_msec()
 	
 	var menu = scene_manager.ui_main_menu
 	if menu:
@@ -22,9 +28,17 @@ func _ready() -> void:
 		maze_ui.back_pressed.connect(_on_back_to_menu)
 	
 
-func _process(delta: float) -> void:
-	if Input.is_key_pressed(KEY_ESCAPE):
-		get_tree().quit()
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("ui_cancel"):
+		print("Escape pressed. Current State: ", scene_manager.current_ui_state)
+		if is_paused:
+			toggle_pause() # unpause by pressing esc
+		else:
+			var state = scene_manager.current_ui_state
+			if state == SceneManager.SceneType.ROOM or state == SceneManager.SceneType.CORRIDOR:
+				toggle_pause()
+		
+		get_viewport().set_input_as_handled()
 
 func _on_new_game() -> void:
 	print("Main: New Game Requested")
@@ -43,6 +57,24 @@ func _on_load_game() -> void:
 
 func _on_settings() -> void:
 	print("Main: Settings Requested")
+
+func toggle_pause() -> void:
+	is_paused = !is_paused
+	get_tree().paused = is_paused
+	
+	if scene_manager.ui_pause_menu:
+		if is_paused:
+			scene_manager.ui_pause_menu.open_menu()
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			scene_manager.ui_pause_menu.close_menu()
+
+func _on_resume_game() -> void:
+	toggle_pause()
+
+func _on_save_quit() -> void:
+	print("Saving game... (Implemented later)")
+	get_tree().quit()
 
 func _on_darkness_requested(duration: float) -> void:
 	if world_environment:

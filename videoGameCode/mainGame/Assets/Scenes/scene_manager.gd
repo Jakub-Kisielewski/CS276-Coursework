@@ -10,8 +10,11 @@ class_name SceneManager extends Node
 @export var ui_room: Control
 @export var ui_corridor: Control
 
+@export var ui_pause_menu: Control
+
 var current_scene_node: Node = null
 enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, SETTINGS }
+var current_ui_state: SceneType = SceneType.MENU
 
 func _ready() -> void:
 	transition_screen.visible = false
@@ -46,10 +49,13 @@ func _fade_in() -> void:
 	transition_screen.visible = false
 
 func _switch_ui_state(scene_type: SceneType) -> void:
+	current_ui_state = scene_type
+	
 	if ui_main_menu: ui_main_menu.visible = false
 	if ui_maze_gen: ui_maze_gen.visible = false
 	if ui_room: ui_room.visible = false
 	if ui_corridor: ui_corridor.visible = false
+	if ui_pause_menu: ui_pause_menu.visible = false
 	
 	match scene_type:
 		SceneType.MENU:
