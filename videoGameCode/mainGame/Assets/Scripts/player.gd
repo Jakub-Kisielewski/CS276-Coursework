@@ -97,7 +97,7 @@ func _ready():
 	
 	canvas = get_tree().get_first_node_in_group("canvas")
 	
-	camera = get_tree().get_first_node_in_group("camera")
+	camera = $Camera2D
 	update_camera()
 
 

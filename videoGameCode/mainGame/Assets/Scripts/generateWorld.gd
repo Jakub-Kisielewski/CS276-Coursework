@@ -71,6 +71,8 @@ func _ready() -> void:
 	var solutionPath: Array[Vector2i] = generateSolutionPath(startCoords, centreCoords)
 	print("generating branches")
 	var branches: Array = generateBranches(solutionPath)
+	print("placing rooms")
+	placeRooms(solutionPath, branches)
 	print("drawing map")
 	drawMap(solutionPath, branches)
 
@@ -441,6 +443,88 @@ func setJunctionType(currentType: String, branchDir: Vector2i) -> String:
 	
 	return ""
 
+# calculate advanced room probability based on progress made in traversing solution path
+func calculateAdvancedRoomChance(order: int, totalCorridors: int) -> float:
+	var progress: float = float(order) / float(totalCorridors)
+	
+	# first 20% = 0% advanced rooms
+	if progress < 0.2:
+		return 0.0
+	
+	# gradually increase from 20% onwards every 5% of progress adds some chance
+	var adjustedProgress: float = (progress - 0.2) / 0.8 
+	
+	return adjustedProgress
+
+# place rooms along corridors with spacing and difficulty scaling
+func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
+	var totalCorridors: int = solutionPath.size() - 2
+	
+	var corridorsSinceLastRoom: int = 0
+	for coords in solutionPath:
+		var cell: Dictionary = map[coords.y][coords.x]
+		
+		if cell.get("type") == "Start" or cell.get("type") == "Centre":
+			continue
+		
+		if cell.get("emergent") == true:
+			continue
+		
+		corridorsSinceLastRoom += 1
+		
+		var order: int = cell.get("order")
+		
+		var mustPlaceRoom: bool = corridorsSinceLastRoom >= 3
+		
+		var shouldPlaceRoom: bool = mustPlaceRoom or (corridorsSinceLastRoom >= 1 and rng.randf() < 0.5)
+		
+		if shouldPlaceRoom:
+			var advancedChance: float = calculateAdvancedRoomChance(order, totalCorridors)
+			var isAdvanced: bool = rng.randf() < advancedChance
+			
+			if isAdvanced:
+				cell["type"] = "advancedArena"
+			else:
+				cell["type"] = "basicArena"
+			
+			corridorsSinceLastRoom = 0
+	
+	for branch in branches:
+		if branch == null or branch.size() < 2:
+			continue
+		
+		# get the order of the root
+		var rootCoords: Vector2i = branch[0]
+		var rootCell: Dictionary = map[rootCoords.y][rootCoords.x]
+		var branchRootOrder: int = rootCell.get("order")
+		
+		# determine branch difficulty based on where it branches off
+		var branchAdvancedChance: float = calculateAdvancedRoomChance(branchRootOrder, totalCorridors)
+		
+		var corridorsSinceLastRoomBranch: int = 0 
+		
+		# skip root
+		for i in range(1, branch.size()):
+			var coords: Vector2i = branch[i]
+			var cell: Dictionary = map[coords.y][coords.x]
+			
+			if cell.get("emergent") == true:
+				continue
+			
+			var mustPlaceRoom: bool = corridorsSinceLastRoomBranch >= 3
+			
+			var shouldPlaceRoom: bool = mustPlaceRoom or (corridorsSinceLastRoomBranch >= 1 and rng.randf() < 0.5)
+			
+			if shouldPlaceRoom:
+				var isAdvanced: bool = rng.randf() < branchAdvancedChance
+				
+				# Convert corridor to room
+				if isAdvanced:
+					cell["type"] = "advancedArena"
+				else:
+					cell["type"] = "basicArena"
+				corridorsSinceLastRoomBranch = i
+
 func drawMap(solutionPath: Array, branches: Array) -> void:
 	# draw solution path
 	for coords in solutionPath:
@@ -459,7 +543,7 @@ func drawMap(solutionPath: Array, branches: Array) -> void:
 		for i in range(1, branch.size()):
 			var coords: Vector2i = branch[i]
 			drawTile(coords)
-	
+
 
 func drawTile(coords:Vector2i) -> void:
 	var currentCell: Dictionary = map[coords.y][coords.x]
