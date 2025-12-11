@@ -32,7 +32,7 @@ const OVERHEAT_DURATION_TIME : float = 4
 
 # Details about the charge attack
 var charge_direction : Vector2
-var charge_multiplier : float = 4.4
+var charge_multiplier : float = 5
 var charge_cooldown : float = 0.0
 var charge_duration : float = 0.0
 
@@ -183,7 +183,8 @@ func _physics_process(delta: float) -> void:
 			if is_on_wall():
 				var collider = get_slide_collision(0).get_collider() 
 				if is_instance_valid(collider) and collider.is_in_group("enemy"):
-					# Enemy collided with other enemy
+					# Enemy collided with other enemy, end charge
+					set_state(State.MOVING)
 					return
 					
 				# Enemy has charged into wall
@@ -220,7 +221,7 @@ func _physics_process(delta: float) -> void:
 				var desired_direction : Vector2 = (player.global_position - global_position).normalized()
 				charge_direction = charge_direction.lerp(desired_direction, 0.52).normalized()
 
-			velocity = 1.4 * charge_direction * speed * charge_multiplier
+			velocity = 1.3 * charge_direction * speed * charge_multiplier
 
 			# Flip the sprite if neceessary
 			if velocity.x > 0:

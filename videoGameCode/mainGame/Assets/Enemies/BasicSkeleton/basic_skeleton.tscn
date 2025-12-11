@@ -275,7 +275,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_down",
-"speed": 17.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -307,7 +307,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_up",
-"speed": 17.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -430,8 +430,6 @@ shape = SubResource("CapsuleShape2D_fa6de")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
 animation = &"attack_up"
-frame = 8
-frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("3_ey4mj")
@@ -457,6 +455,7 @@ metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("4_s8rwc")
+max_health = 150.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

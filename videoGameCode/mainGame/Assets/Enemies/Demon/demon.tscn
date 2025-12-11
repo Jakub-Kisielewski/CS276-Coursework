@@ -923,7 +923,7 @@ shape = SubResource("CapsuleShape2D_n0o3a")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("11_5lpix")
-max_health = 200.0
+max_health = 300.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="LootComponent" type="Node" parent="."]

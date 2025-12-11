@@ -532,6 +532,7 @@ metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("11_2romr")
+max_health = 150.0
 defense = 1.5
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
 

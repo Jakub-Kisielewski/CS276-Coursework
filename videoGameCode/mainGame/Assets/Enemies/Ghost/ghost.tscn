@@ -566,7 +566,7 @@ metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("12_egld4")
-max_health = 200.0
+max_health = 300.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

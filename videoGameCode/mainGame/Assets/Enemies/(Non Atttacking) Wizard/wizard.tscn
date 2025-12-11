@@ -1,6 +1,6 @@
 [gd_scene load_steps=109 format=3 uid="uid://becsynnrqprvl"]
 
-[ext_resource type="Script" uid="uid://bpymnqpk46hmr" path="res://Assets/Enemies/Wizard/wizard.gd" id="1_t4ypt"]
+[ext_resource type="Script" uid="uid://bpymnqpk46hmr" path="res://Assets/Enemies/(Non Atttacking) Wizard/wizard.gd" id="1_t4ypt"]
 [ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="4_t7nqe"]
 [ext_resource type="Texture2D" uid="uid://3kymg6cwisht" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Blue/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Spawn-Teleport.png" id="4_whjmo"]
 [ext_resource type="Texture2D" uid="uid://c1rf74pu1ypcx" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Blue/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Hurt.png" id="5_t7nqe"]
