@@ -27,7 +27,7 @@ func update_health(amount: float):
 
 func upgrade_defense():
 	defense *= 1.3
-	player_stats_changed.emit()
+	player_stats_changed.emit()	
 
 func reset_stats():
 	current_health = max_health
@@ -89,3 +89,26 @@ func load_game():
 			print("Game Loaded")
 		else:
 			print("JSON Parse Error: ", json.get_error_message())
+
+func reset_run_state():
+	max_health = 1000.0
+	current_health = 1000.0
+	currency = 0
+	defense = 1.0
+	damage = 10.0
+	maze_map = []
+	map_width = 7
+	map_height = 7
+	branch_prob = 0.4
+	difficulty_mod = 1.0
+
+	if FileAccess.file_exists(SAVE_PATH):
+		var error = DirAccess.remove_absolute(SAVE_PATH)
+		if error == OK:
+			print("Save file deleted.")
+		else:
+			print("An error occurred when trying to delete the save file.")
+	
+	player_stats_changed.emit()
+	currency_updated.emit(currency)
+	print("Game Data Reset")

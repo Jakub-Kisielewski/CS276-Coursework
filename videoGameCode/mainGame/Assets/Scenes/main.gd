@@ -9,6 +9,7 @@ var is_paused: bool = false
 
 func _ready() -> void:
 	SignalBus.request_darkness.connect(_on_darkness_requested)
+	SignalBus.player_died.connect(_on_player_died)
 	
 	await get_tree().process_frame
 	
@@ -26,6 +27,11 @@ func _ready() -> void:
 	if maze_ui:
 		maze_ui.start_run_pressed.connect(_on_start_run)
 		maze_ui.back_pressed.connect(_on_back_to_menu)
+	
+	var death_ui = scene_manager.ui_death
+	if death_ui:
+		scene_manager.ui_death.return_to_menu_pressed.connect(_on_back_to_menu)
+		scene_manager.ui_death.quit_pressed.connect(_on_save_quit)
 	
 
 func _process(_delta: float) -> void:
@@ -75,6 +81,10 @@ func _on_resume_game() -> void:
 func _on_save_quit() -> void:
 	print("Saving game... (Implemented later)")
 	get_tree().quit()
+
+func _on_player_died() -> void:
+	print("Main: Player Died")
+	scene_manager._switch_ui_state(SceneManager.SceneType.DEATH)
 
 func _on_darkness_requested(duration: float) -> void:
 	if world_environment:

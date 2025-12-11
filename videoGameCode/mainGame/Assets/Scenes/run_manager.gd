@@ -38,6 +38,9 @@ func spawn_player_in_room(room: RoomBase):
 	room.add_child(player)
 
 func _on_room_complete():
+	# if we are in the MENU or DEATH screen, ignore this signal
+	if scene_manager.current_ui_state != SceneManager.SceneType.ROOM:
+		return
 	print("Room Cleared! Transitioning...")
 	start_run_or_next_room()
 

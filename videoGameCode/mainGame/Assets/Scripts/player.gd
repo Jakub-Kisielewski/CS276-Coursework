@@ -932,29 +932,10 @@ func player_busy() -> bool:
 	return attacking or dying or special_charging
 
 func death_screen() -> void:
-	GameData.reset_stats()
+	print("Player died. Signaling Main Game...")
 	
-	var deathBGRND : ColorRect = canvas.get_node("DeathBGRND")
-	
-	var menutaur : Menutaur = preload("res://Assets/Enemies/Minotaur/menu(taur).tscn").instantiate()
-	canvas.add_child(menutaur)
-	menutaur.initialise(deathBGRND)
-	
-	call_deferred("queue_free")
-	
-func clear_screen() -> void:
-	GameData.reset_stats()
-	
-	get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
-	
-	var clearBGRND : ColorRect = canvas.get_node("ClearBGRND")
-	var player_scene : PackedScene = load(get_scene_file_path()) as PackedScene
-	var player_pos : Vector2 = global_position
-	
-	var menuplayer : MenuPlayer = preload("res://Assets/Scenes/menu(player).tscn").instantiate()
-	canvas.add_child(menuplayer)
-	menuplayer.initialise(clearBGRND, player_scene, player_pos)
-	
+	SignalBus.player_died.emit()
+
 	call_deferred("queue_free")
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:

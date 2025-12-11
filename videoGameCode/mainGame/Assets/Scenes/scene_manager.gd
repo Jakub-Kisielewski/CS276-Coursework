@@ -9,11 +9,11 @@ class_name SceneManager extends Node
 @export var ui_maze_gen: Control
 @export var ui_room: Control
 @export var ui_corridor: Control
-
 @export var ui_pause_menu: Control
+@export var ui_death: Control
 
 var current_scene_node: Node = null
-enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, SETTINGS }
+enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, SETTINGS, DEATH }
 var current_ui_state: SceneType = SceneType.MENU
 
 func _ready() -> void:
@@ -56,6 +56,7 @@ func _switch_ui_state(scene_type: SceneType) -> void:
 	if ui_room: ui_room.visible = false
 	if ui_corridor: ui_corridor.visible = false
 	if ui_pause_menu: ui_pause_menu.visible = false
+	if ui_death: ui_death.visible = false
 	
 	match scene_type:
 		SceneType.MENU:
@@ -66,8 +67,13 @@ func _switch_ui_state(scene_type: SceneType) -> void:
 			if ui_room: ui_room.visible = true
 		SceneType.CORRIDOR:
 			if ui_corridor: ui_corridor.visible = true
+		SceneType.DEATH:
+			if ui_death: 
+				if ui_death.has_method("start_death_sequence"):
+					ui_death.start_death_sequence()
+				else:
+					ui_death.visible = true
 		SceneType.SETTINGS:
-			#  settings UI, show it here.
 			pass
 
 func on_start_game_ui() -> void:

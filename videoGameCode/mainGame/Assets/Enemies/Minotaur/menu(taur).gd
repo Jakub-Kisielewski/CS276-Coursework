@@ -9,7 +9,7 @@ func initialise(_deathBGRND: ColorRect):
 	deathBGRND = _deathBGRND
 	death_anim()
 	
-# Animation to visualise the death screen screen
+# Animation to visualise the death screen 
 func death_anim() -> void:
 	sprite.play("charge")
 
