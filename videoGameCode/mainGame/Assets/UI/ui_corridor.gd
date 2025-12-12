@@ -4,6 +4,7 @@ signal room_entered(room_type: String)
 @onready var map_display: TileMapLayer = %MapDisplay
 @onready var player_icon: Sprite2D = %PlayerIcon
 @onready var btn_enter_room: Button = %BtnEnterRoom
+@export var shop_reward_label: Label
 
 var current_hovered_room_type: String = ""
 # Definitions of what directions are allowed for each specific tile type
@@ -103,6 +104,16 @@ func _ready() -> void:
 	
 	if not GameData.maze_map.is_empty():
 		initialize_corridor_view()
+	
+	if shop_reward_label:
+		shop_reward_label.text = "Explore to find rewards..."
+
+func set_shop_label_text(text: String) -> void:
+	if shop_reward_label:
+		shop_reward_label.text = text
+		print("UI Updated: ", text)
+	else:
+		print("Warning: shop_reward_label not assigned in UI_Corridor")
 
 func _on_visibility_changed() -> void:
 	if visible:

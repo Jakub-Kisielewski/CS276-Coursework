@@ -5,12 +5,13 @@
 [ext_resource type="TileSet" uid="uid://ck02qayg8p1e0" path="res://Assets/UI/mapTileSet.tres" id="2_hx4x2"]
 [ext_resource type="Texture2D" uid="uid://ctfitul1ohst3" path="res://icon.svg" id="3_ibrva"]
 
-[node name="UiCorridor" type="Control"]
+[node name="UiCorridor" type="Control" node_paths=PackedStringArray("shop_reward_label")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 script = ExtResource("1_dm56r")
+shop_reward_label = NodePath("upgrade")
 
 [node name="Background" type="Panel" parent="."]
 layout_mode = 1
@@ -72,3 +73,10 @@ offset_top = 24.0
 offset_right = 348.0
 offset_bottom = 47.0
 text = "WASD TO NAVIGATE MAP"
+
+[node name="upgrade" type="Label" parent="."]
+layout_mode = 0
+offset_left = 854.0
+offset_top = 283.0
+offset_right = 894.0
+offset_bottom = 306.0

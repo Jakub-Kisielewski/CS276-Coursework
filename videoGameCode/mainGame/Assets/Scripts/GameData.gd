@@ -31,7 +31,7 @@ func update_health(amount: float):
 
 func upgrade_defense():
 	defense *= 1.3
-	player_stats_changed.emit()	
+	player_stats_changed.emit()
 
 func reset_stats():
 	current_health = max_health
@@ -41,10 +41,55 @@ func add_currency(amount: int):
 	currency += amount
 	currency_updated.emit(currency)
 
+func upgrade_damage(amount: int):
+	damage+=amount
+	player_stats_changed.emit()
+
 func set_active_weapon(index: int):
 	if index >= 0 and index < current_weapons.size():
 		active_weapon_index = index
 		active_weapon_changed.emit(active_weapon_index)
+
+func apply_random_completion_reward() -> String:
+	var options = ["heal", "gold", "defense", "damage"]
+	
+	if current_weapons.size() > 0 and active_weapon_index < current_weapons.size():
+		options.append("weapon_rarity")
+		options.append("weapon_type")
+	
+	var choice = options.pick_random()
+	
+	match choice:
+		"heal":
+			update_health(250)
+			return "Reward: Healed 250 HP"
+		"gold":
+			add_currency(100)
+			return "Reward: Found 100 Gold"
+		"defense":
+			upgrade_defense()
+			return "Reward: Defense Increased!"
+		"damage":
+			upgrade_damage(5.0)
+			return "Reward: Base Damage +5"
+		"weapon_rarity":
+			var wp = current_weapons[active_weapon_index]
+			if wp.rarity == WeaponData.Rarity.PRISMATIC:
+				add_currency(200)
+				return "Reward: 200 Gold (Weapon Maxed)"
+			else:
+				wp.upgrade_rarity()
+				return "Reward: Weapon Rarity Upgraded!"
+		"weapon_type":
+			var wp = current_weapons[active_weapon_index]
+			if wp.weapon_mult >= 2.0:
+				add_currency(150)
+				return "Reward: 150 Gold (Proficiency Maxed)"
+			else:
+				wp.upgrade_type()
+				return "Reward: Weapon Proficiency Up!"
+				
+	return "Reward: Room Cleared"
 
 func add_weapon(weapon_data: WeaponData):
 	if weapon_data == null:

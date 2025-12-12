@@ -118,16 +118,16 @@ func spawn_player_in_room(room: RoomBase):
 var _is_loading_corridor: bool = false
 
 func _on_room_complete():
-	# 1. STOP if we are not in a room OR if we are already loading the corridor
-	if scene_manager.current_ui_state != SceneManager.SceneType.ROOM or _is_loading_corridor:
+	if scene_manager.current_ui_state != SceneManager.SceneType.ROOM:
 		return
 	
 	print("Room Cleared!")
 	
-	# Lock the function so it cannot trigger again
-	_is_loading_corridor = true
+	var reward_text = GameData.apply_random_completion_reward()
 	
-	# update game data
+	if scene_manager.ui_corridor and scene_manager.ui_corridor.has_method("set_shop_label_text"):
+		scene_manager.ui_corridor.set_shop_label_text(reward_text)
+	
 	var coords = GameData.player_coords
 	if coords.y < GameData.maze_map.size() and coords.x < GameData.maze_map[0].size():
 		var cell = GameData.maze_map[coords.y][coords.x]
