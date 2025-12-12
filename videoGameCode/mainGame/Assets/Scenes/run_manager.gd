@@ -3,10 +3,16 @@ class_name RunManager extends Node
 @export var scene_manager: SceneManager
 #@export var ui_event_overlay: Control
 @export var possible_events: Array[EventData]
-@export var available_room_scenes: Array[PackedScene]
 @export var player_scene: PackedScene
 @export var enemy_pool: Array[PackedScene]
+
+
+@export_group("Rooms")
 @export var start_room_scene: PackedScene
+@export var available_basicArena_scenes: Array[PackedScene]
+@export var available_advancedArena_scenes: Array[PackedScene]
+@export var puzzle_scene: PackedScene
+@export var centre_scene: PackedScene
 
 var current_difficulty: int = 10
 
@@ -57,20 +63,23 @@ func load_room_from_type(type_name: String) -> void:
 	
 	var scene_to_load: PackedScene = null
 	
-	# Simple matching logic - you can expand this or use a Dictionary export later
 	match type_name:
 		"basicArena":
-			# Assuming you have an array of basic arenas, pick one or find specific
-			scene_to_load = available_room_scenes.pick_random() 
+			if available_basicArena_scenes.size() > 0:
+				scene_to_load = available_basicArena_scenes.pick_random()
+			
 		"advancedArena":
-			# If you have separate lists, pick from them. For now, we fallback:
-			scene_to_load = available_room_scenes.pick_random()
+			if available_advancedArena_scenes.size() > 0:
+				scene_to_load = available_advancedArena_scenes.pick_random()
+		
 		"puzzleRoom":
-			# If you have a specific puzzle room scene
-			scene_to_load = available_room_scenes[0] 
+			if puzzle_scene:
+				scene_to_load = puzzle_scene
+				
 		"Centre":
-			# Special boss room logic
-			pass
+			if centre_scene:
+				scene_to_load = centre_scene
+			
 		_:
 			printerr("RunManager: Unknown room type ", type_name)
 			return
@@ -79,7 +88,7 @@ func load_room_from_type(type_name: String) -> void:
 		load_room_scene(scene_to_load)
 
 func start_run_or_next_room():
-	var room_packed = available_room_scenes.pick_random()
+	var room_packed = available_basicArena_scenes.pick_random()
 	load_room_scene(room_packed)
 
 func spawn_player_in_room(room: RoomBase):

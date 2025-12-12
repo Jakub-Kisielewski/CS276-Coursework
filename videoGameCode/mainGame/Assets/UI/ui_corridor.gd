@@ -3,7 +3,9 @@ extends Control
 signal room_entered(room_type: String)
 @onready var map_display: TileMapLayer = %MapDisplay
 @onready var player_icon: Sprite2D = %PlayerIcon
+@onready var btn_enter_room: Button = %BtnEnterRoom
 
+var current_hovered_room_type: String = ""
 # Definitions of what directions are allowed for each specific tile type
 # Based on the logic in generateWorld.gd
 var connectivity: Dictionary = {
@@ -49,18 +51,35 @@ var room_types: Array = ["basicArena", "advancedArena", "puzzleRoom", "Start", "
 var tile_atlas_coords: Dictionary = {
 	"straightVertical": Vector2i(2,1),
 	"straightHorizontal": Vector2i(1,0),
+	"straightNorth": Vector2i(2,1),
+	"straightSouth": Vector2i(2,1),
+	"straightEast": Vector2i(1,0),
+	"straightWest": Vector2i(1,0),
+	
 	"rightDownTurn": Vector2i(2,0),
 	"upRightTurn": Vector2i(0,0),
 	"downLeftTurn": Vector2i(2,2),
 	"leftUpTurn": Vector2i(0,2),
+	
+	"northToEastTurn": Vector2i(0,0), 
+	"westToSouthTurn": Vector2i(0,0),
+	"northToWestTurn":Vector2i(2,0),
+	"eastToSouthTurn": Vector2i(2,0),
+	"southToWestTurn": Vector2i(2,2),
+	"eastToNorthTurn": Vector2i(2,2),
+	"southToEastTurn": Vector2i(0,2),
+	"westToNorthTurn": Vector2i(0,2),
+
 	"verticalLeftJunction": Vector2i(4,0),
 	"verticalRightJunction": Vector2i(3,0),
 	"horizontalUpJunction": Vector2i(4,1),
 	"horizontalDownJunction": Vector2i(3,1),
+	
 	"straightNorthDeadend": Vector2i(2,4),
 	"straightSouthDeadend": Vector2i(2,3),
-	"straightWestDeadend":Vector2i(3,3),
-	"straightEastDeadend":Vector2i(4,3),
+	"straightWestDeadend":Vector2i(4,3),
+	"straightEastDeadend":Vector2i(3,3),
+	
 	"basicArena": Vector2i(0,3),
 	"advancedArena": Vector2i(0,4),
 	"puzzleRoom": Vector2i(1,4),
@@ -69,14 +88,18 @@ var tile_atlas_coords: Dictionary = {
 }
 
 var inputs: Dictionary = {
-	"ui_up": Vector2i.UP,
-	"ui_down": Vector2i.DOWN,
-	"ui_left": Vector2i.LEFT,
-	"ui_right": Vector2i.RIGHT
+	"move_up": Vector2i.UP,
+	"move_down": Vector2i.DOWN,
+	"move_left": Vector2i.LEFT,
+	"move_right": Vector2i.RIGHT
 }
 
 func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
+	
+	if btn_enter_room:
+		btn_enter_room.pressed.connect(_on_enter_room_pressed)
+		btn_enter_room.visible = false # Ensure hidden at start
 	
 	if not GameData.maze_map.is_empty():
 		initialize_corridor_view()
@@ -84,6 +107,7 @@ func _ready() -> void:
 func _on_visibility_changed() -> void:
 	if visible:
 		initialize_corridor_view()
+		set_process_unhandled_input(true)
 		# Force focus to ensure keyboard input is captured
 		grab_focus()
 
@@ -140,19 +164,34 @@ func attempt_move(direction: Vector2i) -> void:
 	# 2. Connectivity check (Can we leave current? Can we enter new?)
 	if not is_connected_visually(current_pos, new_pos, direction):
 		return
-		
-	# 3. Check if current room is cleared
+	
+	# Get cell data for specific logic
 	var current_cell = GameData.maze_map[current_pos.y][current_pos.x]
+	var target_cell = GameData.maze_map[new_pos.y][new_pos.x]
+	
 	var current_type = current_cell.get("type", "")
-	var is_room = current_type in room_types
-	var is_cleared = current_cell.get("cleared", false) 
+	var target_type = target_cell.get("type", "")
 	
-	# Allow leaving Start without 'clearing' it, but block others
-	if is_room and current_type != "Start" and not is_cleared:
-		print("Room not cleared! Cannot leave.")
-		# Add visual feedback like a screen shake or sound here
+	var is_current_room = current_type in room_types
+	var is_target_room = target_type in room_types
+	
+	# --- FIX 1: Prevent Adjacent Room Skipping ---
+	# If we are currently in a room and trying to move directly into another room, BLOCK IT.
+	# This prevents skipping corridors or exploiting generation bugs.
+	if is_current_room and is_target_room:
+		print("Movement blocked: Cannot move directly between rooms.")
 		return
-	
+
+	# --- FIX 2: Restrict Movement from Uncleared Rooms ---
+	# If the current room is NOT Start and NOT cleared...
+	if is_current_room and current_type != "Start" and not current_cell.get("cleared", false):
+		# ...only allow movement to tiles that are ALREADY explored.
+		# This allows retreating (going back) but blocks progressing forward into the unknown.
+		if not target_cell.get("explored", false):
+			print("Room not cleared! You can only go back the way you came.")
+			# Optional: Play a 'denied' sound effect here
+			return
+
 	# Move Player
 	update_player_position(new_pos)
 
@@ -210,7 +249,9 @@ func update_player_position(new_pos: Vector2i):
 func update_player_visuals():
 	# Use map_to_local to center the sprite on the tile
 	if map_display:
-		player_icon.position = map_display.map_to_local(GameData.player_coords)
+		var map_pos = map_display.map_to_local(GameData.player_coords)
+		# Convert that local map position to a global position, then apply it to the icon
+		player_icon.global_position = map_display.to_global(map_pos)
 
 func draw_map():
 	map_display.clear()
@@ -232,20 +273,36 @@ func draw_map():
 					tile_coord = tile_atlas_coords.get("basicArena")
 					
 				# Set cell (layer 0, source_id 0, atlas coords)
-				map_display.set_cell(Vector2i(x, y), 0, tile_coord, 0) 
+				map_display.set_cell(Vector2i(x, y), 3, tile_coord, 0) 
 				# Note: source_id set to 0. Ensure your TileMapLayer has a TileSet with ID 0.
 
 func check_room_entry(cell_data: Dictionary):
 	var type = cell_data.get("type", "")
 	
-	# If we moved into a room (not a corridor), transition to gameplay
-	# We exclude "Start" because the player spawns there and might revisit it safely
+	# Reset state initially
+	btn_enter_room.visible = false
+	current_hovered_room_type = ""
+	
+	# Check if we are on a room tile (excluding Start)
 	if type in ["basicArena", "advancedArena", "puzzleRoom", "Centre"]:
+		# Only show button if the room hasn't been cleared yet
 		if not cell_data.get("cleared", false):
-			print("UI Corridor: Requesting entry to ", type)
+			print("UI Corridor: Standing on ", type)
 			
-			# Stop processing input immediately so player doesn't keep moving
-			set_process_unhandled_input(false)
+			# Store the type so we know where to go if clicked
+			current_hovered_room_type = type
 			
-			# Emit the signal for Main.gd to handle
-			room_entered.emit(type)
+			# Show the button to let the player decide
+			btn_enter_room.visible = true
+			
+
+func _on_enter_room_pressed() -> void:
+	print("Button Pressed! Attempting to enter: ", current_hovered_room_type)
+	
+	if current_hovered_room_type != "":
+		# Lock movement
+		set_process_unhandled_input(false)
+		btn_enter_room.visible = false
+		
+		# Load the room
+		room_entered.emit(current_hovered_room_type)
