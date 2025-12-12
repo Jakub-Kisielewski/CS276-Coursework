@@ -53,7 +53,6 @@ func load_room_scene(room_packed: PackedScene, startRoom: bool):
 	
 	var room_instance = room_packed.instantiate() as RoomBase
 	
-	# Define the setup logic to run HIDDEN behind the black screen
 	var setup_logic
 	if startRoom:
 		setup_logic = func():
@@ -64,7 +63,7 @@ func load_room_scene(room_packed: PackedScene, startRoom: bool):
 	else:
 		setup_logic = func():
 			spawn_player_in_room(room_instance)
-			room_instance.setup_room(current_difficulty, enemy_pool, 3)
+			room_instance.setup_room(current_difficulty, enemy_pool, GameData.game_difficulty * 2)
 			room_instance.room_cleared.connect(_on_room_complete)
 			scene_manager.on_start_game_ui()
 	

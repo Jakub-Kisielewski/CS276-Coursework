@@ -13,7 +13,7 @@ signal room_cleared
 signal wave_cleared(wave_number: int)
 signal wave_started(wave_number: int)
 
-func setup_room(total_enemies: int, _enemy_pool: Array[PackedScene], waves: int = 3):
+func setup_room(total_enemies: int, _enemy_pool: Array[PackedScene], waves: int):
 	enemy_pool = _enemy_pool
 	spawn_points = spawn_points_container.get_children()
 	

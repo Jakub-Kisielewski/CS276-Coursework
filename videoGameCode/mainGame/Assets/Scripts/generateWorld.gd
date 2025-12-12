@@ -79,7 +79,7 @@ func generate_map_data() -> void:
 	mapWidth = GameData.map_width
 	mapHeight = GameData.map_height
 	branchProb = GameData.branch_prob
-	difficultyModifier = GameData.difficulty_mod
+	difficultyModifier = GameData.game_difficulty
 	print("setting constraints")
 	scaleConstraints()
 	
@@ -551,7 +551,7 @@ func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
 		var order: int = cell.get("order")
 		
 		#dont let room be adjacent to centre
-		if order == solutionPath.size():
+		if order == totalCorridors:
 			continue
 		
 		var mustPlaceRoom: bool = corridorsSinceLastRoom >= 3
