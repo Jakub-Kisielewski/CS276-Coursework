@@ -40,23 +40,36 @@ func start_new_run():
 	start_cell["explored"] = true
 	
 	if start_room_scene:
-		load_room_scene(start_room_scene)
+		load_room_scene(start_room_scene, true)
 	else:
 		print("RunManager: No start_room_scene assigned! Loading random.")
 		start_run_or_next_room()
 
-func load_room_scene(room_packed: PackedScene):
+var is_transitioning: bool = false # Add this guard variable
+
+func load_room_scene(room_packed: PackedScene, startRoom: bool):
+	if is_transitioning: return # Block if already loading
+	is_transitioning = true
+	
 	var room_instance = room_packed.instantiate() as RoomBase
 	
-	var setup_logic = func():
-		spawn_player_in_room(room_instance)
-		# initialize room enemies/difficulty
-		room_instance.setup_room(current_difficulty, enemy_pool)
-		room_instance.room_cleared.connect(_on_room_complete)
-		
-		scene_manager.on_start_game_ui()
+	# Define the setup logic to run HIDDEN behind the black screen
+	var setup_logic
+	if startRoom:
+		setup_logic = func():
+			spawn_player_in_room(room_instance)
+			room_instance.setup_room(1, enemy_pool, 1)
+			room_instance.room_cleared.connect(_on_room_complete)
+			scene_manager.on_start_game_ui()
+	else:
+		setup_logic = func():
+			spawn_player_in_room(room_instance)
+			room_instance.setup_room(current_difficulty, enemy_pool, 3)
+			room_instance.room_cleared.connect(_on_room_complete)
+			scene_manager.on_start_game_ui()
 	
 	await scene_manager.swap_content_scene(room_instance, setup_logic)
+	is_transitioning = false # Release lock
 
 func load_room_from_type(type_name: String) -> void:
 	print("RunManager: Loading room type: ", type_name)
@@ -85,11 +98,11 @@ func load_room_from_type(type_name: String) -> void:
 			return
 
 	if scene_to_load:
-		load_room_scene(scene_to_load)
+		load_room_scene(scene_to_load, false)
 
 func start_run_or_next_room():
 	var room_packed = available_basicArena_scenes.pick_random()
-	load_room_scene(room_packed)
+	load_room_scene(room_packed, false)
 
 func spawn_player_in_room(room: RoomBase):
 	var player = player_scene.instantiate()
@@ -102,15 +115,20 @@ func spawn_player_in_room(room: RoomBase):
 	
 	room.add_child(player)
 
+var _is_loading_corridor: bool = false
+
 func _on_room_complete():
-	if scene_manager.current_ui_state != SceneManager.SceneType.ROOM:
+	# 1. STOP if we are not in a room OR if we are already loading the corridor
+	if scene_manager.current_ui_state != SceneManager.SceneType.ROOM or _is_loading_corridor:
 		return
 	
 	print("Room Cleared!")
 	
+	# Lock the function so it cannot trigger again
+	_is_loading_corridor = true
+	
 	# update game data
 	var coords = GameData.player_coords
-	# check bounds
 	if coords.y < GameData.maze_map.size() and coords.x < GameData.maze_map[0].size():
 		var cell = GameData.maze_map[coords.y][coords.x]
 		cell["cleared"] = true
@@ -120,12 +138,20 @@ func _on_room_complete():
 	load_corridor_ui()
 
 func load_corridor_ui():
-	# swap to an empty node to clear the previous room from the scene tree
+	# Create the placeholder for the corridor scene
 	var placeholder = Node2D.new()
 	placeholder.name = "CorridorState"
 	
-	await scene_manager.swap_content_scene(placeholder)
-	scene_manager.on_show_corridor_ui()
+	# 2. Define a function that switches the UI. 
+	# This will be passed to scene_manager to run ONLY when the screen is fully black.
+	var switch_ui_callback = func():
+		scene_manager.on_show_corridor_ui()
+	
+	# 3. Start the swap, passing the callback
+	await scene_manager.swap_content_scene(placeholder, switch_ui_callback)
+	
+	# Unlock the function now that loading is finished
+	_is_loading_corridor = false
 
 # --- Emergent Events ---
 #func trigger_random_event():

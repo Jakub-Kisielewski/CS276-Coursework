@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://dl5lpjcwe5tsx"]
+[gd_scene load_steps=87 format=3 uid="uid://dl5lpjcwe5tsx"]
 
 [ext_resource type="Script" uid="uid://bdf607wwrww6s" path="res://Assets/Enemies/Ghost/ghost.gd" id="1_wleg1"]
 [ext_resource type="AudioStream" uid="uid://d1x04ebudry73" path="res://Assets/Enemies/SFX/10_Battle_SFX/08_Bite_04.wav" id="2_ibddo"]
@@ -521,7 +521,10 @@ radius = 13.0
 radius = 100.0
 height = 200.0
 
-[node name="Ghost" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "health_component", "loot_component") groups=["enemy"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ibddo"]
+bg_color = Color(0.95046, 0, 0.12541446, 1)
+
+[node name="Ghost" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "health_component", "loot_component", "health_bar") groups=["enemy"]]
 scale = Vector2(0.76, 0.76)
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -534,6 +537,7 @@ speed = 90.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 22.0
+health_bar = NodePath("ProgressBar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
@@ -570,10 +574,19 @@ metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("12_egld4")
-max_health = 300.0
+max_health = 150.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="ghostSfx" type="AudioStreamPlayer2D" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = -17.0
+mouse_filter = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_ibddo")
+show_percentage = false
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

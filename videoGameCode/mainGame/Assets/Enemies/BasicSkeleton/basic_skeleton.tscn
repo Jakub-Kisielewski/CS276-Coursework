@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://vssh1p80uxnj"]
+[gd_scene load_steps=64 format=3 uid="uid://vssh1p80uxnj"]
 
 [ext_resource type="Texture2D" uid="uid://ciixyqu06owco" path="res://Assets/Resources/Sprites/Skeleton enemy.png" id="1_8a6c7"]
 [ext_resource type="Script" uid="uid://bjeu2daw8ap7g" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.gd" id="1_fa6de"]
@@ -416,7 +416,10 @@ height = 33.0
 radius = 55.0
 height = 110.0
 
-[node name="BasicSkeleton" type="CharacterBody2D" node_paths=PackedStringArray("nav", "health_component", "loot_component") groups=["enemy"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w600u"]
+bg_color = Color(0.95046, 0, 0.12541446, 1)
+
+[node name="BasicSkeleton" type="CharacterBody2D" node_paths=PackedStringArray("nav", "health_component", "loot_component", "health_bar") groups=["enemy"]]
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_fa6de")
@@ -427,6 +430,7 @@ speed = 90.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 16.0
+health_bar = NodePath("ProgressBar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_fa6de")
@@ -464,6 +468,15 @@ metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="skelSfx" type="AudioStreamPlayer2D" parent="."]
 volume_db = -10.0
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = -17.0
+mouse_filter = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_w600u")
+show_percentage = false
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

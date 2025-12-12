@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c7njgli8wtoay"]
+[gd_scene load_steps=29 format=3 uid="uid://c7njgli8wtoay"]
 
 [ext_resource type="Script" uid="uid://cegk4g6d48rk1" path="res://Assets/Scenes/main.gd" id="1_l26l0"]
 [ext_resource type="Script" uid="uid://diff8hf67in4j" path="res://Assets/Scenes/scene_manager.gd" id="2_qplxx"]
@@ -12,10 +12,13 @@
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player.tscn" id="7_acsc0"]
 [ext_resource type="PackedScene" uid="uid://clxjek3j3vqjd" path="res://Assets/Rooms/basic_arena4.tscn" id="9_uop3n"]
 [ext_resource type="PackedScene" uid="uid://cgxpunr0ejuix" path="res://Assets/UI/UI_TransitionSceen.tscn" id="10_f1jyc"]
+[ext_resource type="PackedScene" uid="uid://dl5lpjcwe5tsx" path="res://Assets/Enemies/Ghost/ghost.tscn" id="11_730o7"]
 [ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="12_4qkp8"]
+[ext_resource type="PackedScene" uid="uid://dklpobami1hkg" path="res://Assets/Enemies/PoisonousBat/poisonous_bat.tscn" id="12_shq5y"]
 [ext_resource type="PackedScene" uid="uid://bs6g550dorxa1" path="res://Assets/Rooms/basic_arena2.tscn" id="13_a8up6"]
 [ext_resource type="PackedScene" uid="uid://cufncon5rn2f2" path="res://Assets/Rooms/advanced_arena1.tscn" id="13_e0qyk"]
 [ext_resource type="PackedScene" uid="uid://bi7odcqsm7vfh" path="res://Assets/Rooms/advanced_arena2.tscn" id="14_747jk"]
+[ext_resource type="PackedScene" uid="uid://cxk0mg0y5qdi0" path="res://Assets/Enemies/UndeadSwordsmanArmour/undead_swordsman.tscn" id="14_cma7p"]
 [ext_resource type="PackedScene" uid="uid://bn1ef75yn48d2" path="res://Assets/UI/UI_MazeGen.tscn" id="14_ltoj3"]
 [ext_resource type="PackedScene" uid="uid://dx85q01r02ro5" path="res://Assets/UI/UI_Pause.tscn" id="14_tm25p"]
 [ext_resource type="PackedScene" uid="uid://cr1abpunt8ywc" path="res://Assets/Rooms/start_room.tscn" id="15_cun2r"]
@@ -58,7 +61,7 @@ ui_death = NodePath("../UILayer/UiDeath")
 script = ExtResource("3_elf4b")
 scene_manager = NodePath("../SceneManager")
 player_scene = ExtResource("7_acsc0")
-enemy_pool = Array[PackedScene]([ExtResource("4_nacht"), ExtResource("5_acsc0"), ExtResource("12_4qkp8")])
+enemy_pool = Array[PackedScene]([ExtResource("4_nacht"), ExtResource("5_acsc0"), ExtResource("11_730o7"), ExtResource("12_shq5y"), ExtResource("12_4qkp8"), ExtResource("14_cma7p")])
 start_room_scene = ExtResource("15_cun2r")
 available_basicArena_scenes = Array[PackedScene]([ExtResource("13_a8up6"), ExtResource("13_a8up6"), ExtResource("5_f1jyc"), ExtResource("9_uop3n")])
 available_advancedArena_scenes = Array[PackedScene]([ExtResource("13_e0qyk"), ExtResource("14_747jk")])
