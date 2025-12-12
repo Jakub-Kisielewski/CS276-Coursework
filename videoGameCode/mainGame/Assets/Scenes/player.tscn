@@ -1,4 +1,4 @@
-[gd_scene load_steps=1095 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=1099 format=3 uid="uid://gybvdpwifulg"]
 
 [ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
@@ -50,6 +50,9 @@
 [ext_resource type="AudioStream" uid="uid://oujjs4iviyb4" path="res://Assets/Resources/PlayerSFX/OGG Files/Retro Explosion Short 15.ogg" id="19_mkm62"]
 [ext_resource type="Texture2D" uid="uid://b8kgh0im6vp0" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Unarmed_Hurt/Unarmed_Hurt4_red.png" id="20_7578i"]
 [ext_resource type="Texture2D" uid="uid://bbbg8va8pwoml" path="res://Assets/Resources/Sprites/BaseSprite/weapons/shoot/bow.png" id="21_mdvb1"]
+[ext_resource type="Texture2D" uid="uid://bpruogdlhaw2o" path="res://Assets/Resources/sword.png" id="21_nymsj"]
+[ext_resource type="Texture2D" uid="uid://hi634iu2pm16" path="res://Assets/Resources/spear.png" id="23_yay7c"]
+[ext_resource type="Texture2D" uid="uid://d3t0be8etohxt" path="res://Assets/Resources/bow-and-arrow.png" id="24_1gme6"]
 [ext_resource type="Texture2D" uid="uid://dergnjei0drvt" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Hurt/Sword_Hurt_full.png" id="27_35grl"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="29_ggw7w"]
 [ext_resource type="Texture2D" uid="uid://dntpeg2yvkse8" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Blood Splat.png" id="34_w34vp"]
@@ -57,11 +60,24 @@
 
 [sub_resource type="Resource" id="Resource_yj04c"]
 script = ExtResource("3_feila")
+display_name = "Sword"
+icon = ExtResource("21_nymsj")
 special_unlocked = true
 metadata/_custom_type_script = "uid://co7tkofoxgpia"
 
 [sub_resource type="Resource" id="Resource_visa7"]
 script = ExtResource("3_feila")
+display_name = "Spear"
+icon = ExtResource("23_yay7c")
+weapon_type = 1
+special_unlocked = true
+metadata/_custom_type_script = "uid://co7tkofoxgpia"
+
+[sub_resource type="Resource" id="Resource_tlww8"]
+script = ExtResource("3_feila")
+display_name = "Bow"
+icon = ExtResource("24_1gme6")
+weapon_type = 2
 special_unlocked = true
 metadata/_custom_type_script = "uid://co7tkofoxgpia"
 
@@ -11285,6 +11301,7 @@ misc_sounds = Array[AudioStream]([ExtResource("15_yh2vs"), ExtResource("16_gmr2b
 dash_sounds = Array[AudioStream]([ExtResource("15_smmal")])
 sword_data = SubResource("Resource_yj04c")
 spear_data = SubResource("Resource_visa7")
+bow_data = SubResource("Resource_tlww8")
 
 [node name="spearAnim" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.6, 0.342)
