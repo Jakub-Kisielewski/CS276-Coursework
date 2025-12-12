@@ -1,6 +1,5 @@
-[gd_scene load_steps=34 format=3 uid="uid://cdrrekks50nqj"]
+[gd_scene load_steps=33 format=3 uid="uid://cdrrekks50nqj"]
 
-[ext_resource type="Texture2D" uid="uid://dwmykgavqv0lw" path="res://Assets/Resources/Sprites/BaseSprite/weapons/oversize/two hand/either/dragonspear.png" id="1_5j4jt"]
 [ext_resource type="Script" uid="uid://dslufqnj2tmmm" path="res://Assets/Scenes/ghost_spear.gd" id="1_yiodj"]
 [ext_resource type="Texture2D" uid="uid://dvrwjua3cicqm" path="res://Assets/Resources/Sprites/BaseSprite/weapons/oversize/two hand/either/bloo spear yay.png" id="2_w6kj2"]
 [ext_resource type="Texture2D" uid="uid://it4qhlh7uepa" path="res://Assets/Resources/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 A.png" id="3_ce5hl"]
@@ -9,72 +8,69 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ce5hl"]
 radius = 20.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2st3l"]
-atlas = ExtResource("2_w6kj2")
-region = Rect2(221, 986, 202, 197)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ce5hl"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(576, 576, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(1435, 990, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w6kj2"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(768, 576, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(1230, 990, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qi4hs"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(960, 576, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(615, 990, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hnkgo"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(1152, 576, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(205, 990, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lkjso"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(1344, 576, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(820, 990, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ow55h"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(0, 384, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(1025, 990, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j4t8q"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(192, 384, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(0, 792, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8v7xc"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(384, 384, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(205, 792, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yvofv"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(384, 384, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(410, 792, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5bitg"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(192, 384, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(410, 792, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rupwk"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(0, 384, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(205, 792, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8odxf"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(0, 576, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(0, 792, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ywf1"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(192, 576, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(0, 990, 205, 198)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gcheb"]
-atlas = ExtResource("1_5j4jt")
-region = Rect2(384, 576, 192, 192)
+atlas = ExtResource("2_w6kj2")
+region = Rect2(205, 990, 205, 198)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2st3l"]
+atlas = ExtResource("2_w6kj2")
+region = Rect2(410, 990, 205, 198)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vnv34"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2st3l")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ce5hl")
 }, {
@@ -89,15 +85,15 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lkjso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ow55h")
 }],
 "loop": false,
 "name": &"attack",
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ow55h")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_j4t8q")
 }, {
@@ -121,6 +117,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gcheb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2st3l")
 }],
 "loop": true,
 "name": &"idle",
@@ -227,6 +226,8 @@ disabled = true
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_vnv34")
 animation = &"attack"
+frame = 5
+frame_progress = 1.0
 
 [node name="gspEffects" type="AnimatedSprite2D" parent="."]
 position = Vector2(1.9073486e-06, 4.7683716e-07)
