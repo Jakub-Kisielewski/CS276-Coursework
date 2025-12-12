@@ -28,22 +28,20 @@ func _ready() -> void:
 	_switch_ui_state(current_ui_state)
 
 func swap_content_scene(new_scene_node: Node, on_black_screen: Callable = Callable()) -> void:
-	await _fade_out() # 1. Screen goes fully black
+	await _fade_out()
 	
-	# 2. Cleanup old scene
 	for child in active_scene_container.get_children():
 		child.queue_free()
 	
-	# 3. Add new scene
 	active_scene_container.add_child(new_scene_node)
 	
-	# 4. Execute the callback (Switch UI here!)
+	# IMPORTANT: This executes the UI switch while the screen is black
 	if on_black_screen.is_valid(): 
 		on_black_screen.call()
 	
-	await get_tree().process_frame # Wait for Godot to update visuals behind the black screen
+	await get_tree().process_frame
 	
-	await _fade_in() # 5. Reveal the new state
+	await _fade_in()
 
 # --- Fade Effects ---
 func _fade_out() -> void:
