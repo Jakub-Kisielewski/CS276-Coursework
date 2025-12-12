@@ -213,7 +213,7 @@ func generateSolutionPath(startCoords:Vector2i, targetCoords:Vector2i) -> Array[
 		if solutionPath.size() > 0:
 			# draw corridors from generated soln path onto the map
 			var currIndex: int = 1 # starting from first corridor in path not from start room
-			var corridorNum: int = 1 # 0 reserved for cells with no corridor in them
+			var corridorNum: int = 1 
 			
 			for coords in solutionPath:
 				if map[coords.y][coords.x].type == "Start": continue
@@ -267,7 +267,7 @@ func windingPath(current: Vector2i, target: Vector2i, path: Array[Vector2i], dep
 		path.pop_back()
 		return []
 	
-	# Get manhattan distance to target for biased direction selection
+	# manhattan distance to target for biased direction selection
 	var toTarget: Vector2i = target - current
 	var manhattanDist: int = abs(toTarget.x) + abs(toTarget.y)
 	
@@ -558,7 +558,7 @@ func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
 		var order: int = cell.get("order")
 		
 		#dont let room be adjacent to centre
-		if order == solutionPath.size() - 1:
+		if order == solutionPath.size():
 			continue
 		
 		var mustPlaceRoom: bool = corridorsSinceLastRoom >= 3
@@ -607,7 +607,6 @@ func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
 			if shouldPlaceRoom:
 				var isAdvanced: bool = rng.randf() < branchAdvancedChance
 				
-				# Convert corridor to room
 				if isAdvanced:
 					cell["type"] = "advancedArena"
 				else:

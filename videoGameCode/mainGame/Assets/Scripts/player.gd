@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+#Audio
 @onready var anim_tree = $AnimationTree
 @onready var anim_state = anim_tree.get("parameters/playback")
 
@@ -18,6 +19,7 @@ extends CharacterBody2D
 @export var dash_sounds : Array[AudioStream] = []
 var special_track: AudioStream
 
+#animation 
 @onready var bodyAnim = $bodyAnim
 @onready var headAnim = $headAnim
 @onready var fullAnim = $fullAnim
@@ -31,7 +33,7 @@ var special_track: AudioStream
 @onready var bowEffects2 = $bowEffectslay2
 @onready var bodyEffects2 = $bodyEffectlay2
 
-var have_decoy : bool = false #set this to true if player buys decoys
+var have_decoy : bool = true #set this to true if player buys decoys
 var decoy_scene := preload("res://Assets/Scenes/decoy.tscn")
 var decoy_cooldown : float = 8.5
 var decoy_timer : float = 0.0
@@ -53,17 +55,20 @@ var orig_spear_pos : Vector2
 var orig_pos : Vector2
 const DASH_COOLDOWN_TIME = 1.2
 const DASH_DURATION_TIME = 0.2
-var dash_through_enemies : bool = false #set to true if you want to be able to dash through enemies
+var dash_through_enemies : bool = true #set to true if you want to be able to dash through enemies
 
 var dash_multiplier = 2.0
 var dash_cooldown = 0.0
 var dash_timer = 0.0
-var max_dashes := 1 #increment this if player buys an additional dash, up to 3 consecutive dashes
+var max_dashes := 3 #increment this if player buys an additional dash, up to 3 consecutive dashes
 var dashes = max_dashes
 var dashing = false
 var speed = 260.0
-var damage = 10
-var dead = false
+var stun_duration = 0.4
+var stun_timer = 0.0
+
+#var damage = 10
+#var dead = false
 var direction: Vector2
 var last_dir := Vector2.RIGHT #default
 var facing_left = false
@@ -87,7 +92,7 @@ var special_hold_time : float = 0.0
 const SPECIAL_HOLD_TIME : float = 0.4 #wind up the attack for  second cuz op
 var charging_successful : bool = false
 
-var shotgun_activated : bool = false #bow special attack
+var shotgun_activated : bool = true #bow special attack
 var trying_shotgun = true #true -> shotgun switch, false -> auto switch
 
 
@@ -96,6 +101,8 @@ var monitorable = true
 
 var mouse_aiming = true #set this to true if you want to aim with mouse
 
+var stunnable: bool = true
+
 func _ready():
 	randomize()
 	$HealthComponent.status_changed.connect(_on_status_changed)
@@ -103,13 +110,14 @@ func _ready():
 	$HealthComponent.health_depleted.connect(_on_death)
 	GameData.currency_updated.connect(_on_currency_updated)
 	
-	# Register starting weapons to GameData if empty
-	if GameData.current_weapons.is_empty():
-		GameData.add_weapon(sword_data)
-		GameData.add_weapon(spear_data)
-		GameData.add_weapon(bow_data)
 	
-	GameData.set_active_weapon(0)
+	
+	#if GameData.current_weapons.is_empty():
+		#GameData.add_weapon(sword_data)
+		##GameData.add_weapon(spear_data)
+		##GameData.add_weapon(bow_data)
+	#
+	#GameData.set_active_weapon(0)
 	
 	anim_tree.active = true
 	current_weapon = Weapon.SWORD
@@ -189,12 +197,26 @@ func get_nonzero_movement_direction() -> Vector2:
 	return direction
 
 
+func apply_stun(duration : float = 0.2):
+	if stunned_status:
+		stun_timer = duration
+		return
+		
+	
+	stunned_status = true
+	stun_timer = duration
+	anim_state.travel("hurt")
+	print("playing hurt animation")
+	
+
+
+
 func handle_input(delta: float):
-	
-	
+
+	# player gets stunned by the minotaur
 	if (stunned_status):
+		print("stunned rn")
 		bodyEffects2.global_position = global_position
-		anim_state.travel("hurt")
 		if misc_sfx.stream != misc_sounds[0] or not misc_sfx.playing:
 			misc_sfx.stream = misc_sounds[0]
 			misc_sfx.play()
@@ -946,12 +968,20 @@ func handle_timers(delta: float):
 		if decoy_timer <= 0.0:
 			decoy_timer = 0.0
 			
+			
+	if stunned_status:
+		stun_timer -= delta
+		if stun_timer <= 0.0:
+			stunned_status = false
+			print("no longer stunned")
+			stun_timer = 0.0
+			
 
 func _on_death():
 	print("you should be dead")
 	dying = true
 	anim_state.travel("Sdeath")
-
+	
 	remove_from_group("player")
 	set_physics_process(false)
 	set_process(false)
@@ -974,6 +1004,13 @@ func death_screen() -> void:
 	print("Player died. Signaling Main Game...")
 	
 	SignalBus.player_died.emit()	
+	
+	if has_node("CollisionShape2D"):
+		$CollisionShape2D.set_deferred("disabled", true)
+	
+	if has_node("fullAnim/hurtBox"):
+		get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
+		get_node("fullAnim/hurtBox").set_deferred("monitoring", false)
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name.begins_with("Sdeath") or anim_name.begins_with("death"):
@@ -992,11 +1029,14 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 
 		shotgun_activated = false
 		
-	if anim_name.begins_with("hurt"):
-		stunned_status = false
+	#if anim_name.begins_with("hurt"):
+		#stunned_status = false
+		#stunnable = true
+		#print("no longer stunned")
 		#sprite visibility already handled isnide update sprite
 		
-		
+	if stunned_status:
+		return
 		
 	#if anim_name.begins_with("Scharge"):
 		#special_charging = false

@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://cgxpunr0ejuix"]
-
-[node name="UiTransitionSceen" type="ColorRect"]
-custom_minimum_size = Vector2(100, 100)
-offset_right = 1152.0
-offset_bottom = 648.0
-color = Color(0, 0, 0, 1)

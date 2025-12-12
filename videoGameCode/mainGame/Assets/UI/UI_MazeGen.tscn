@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bn1ef75yn48d2"]
+[gd_scene load_steps=16 format=3 uid="uid://bn1ef75yn48d2"]
 
 [ext_resource type="Texture2D" uid="uid://bwhbffjpkaacg" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/signal1.png" id="1_ra5ke"]
 [ext_resource type="Script" uid="uid://dbqlfu3ar5ikg" path="res://Assets/UI/ui_maze_gen.gd" id="1_yuwde"]
@@ -14,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://bfjdu5f08imtc" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/singleplayer.png" id="7_gxfx2"]
 [ext_resource type="Texture2D" uid="uid://c511r1ei0hkam" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/multiplayer.png" id="8_f5sgr"]
 [ext_resource type="Texture2D" uid="uid://bp6ri6n5e7tpx" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/massiveMultiplayer.png" id="9_f5sgr"]
-[ext_resource type="StyleBox" uid="uid://c1vcpi70ucrtw" path="res://Assets/UI/mainMenuBackground.tres" id="10_hs6mt"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kc8j6"]
 texture = ExtResource("3_r0f5b")
@@ -32,15 +31,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yuwde")
-
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = ExtResource("10_hs6mt")
 
 [node name="DeathBGRND" type="ColorRect" parent="."]
 layout_mode = 1

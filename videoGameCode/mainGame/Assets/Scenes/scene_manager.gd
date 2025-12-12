@@ -1,6 +1,5 @@
 class_name SceneManager extends Node
 
-#assuming SceneManager and MusicPlayer are siblings always
 @onready var music_player : MusicPlayer = get_node("../MusicPlayer")
 
 @export_group("Scene Container")
@@ -35,7 +34,7 @@ func swap_content_scene(new_scene_node: Node, on_black_screen: Callable = Callab
 	
 	active_scene_container.add_child(new_scene_node)
 	
-	# IMPORTANT: This executes the UI switch while the screen is black
+	# executes the UI switch while the screen is black
 	if on_black_screen.is_valid(): 
 		on_black_screen.call()
 	
@@ -62,6 +61,7 @@ func _switch_ui_state(scene_type: SceneType) -> void:
 	#changing music as well here
 	set_scene_music_category(scene_type)
 	
+	#resetting the visibility to false
 	if ui_main_menu: ui_main_menu.visible = false
 	if ui_maze_gen: ui_maze_gen.visible = false
 	if ui_room: ui_room.visible = false
@@ -69,6 +69,7 @@ func _switch_ui_state(scene_type: SceneType) -> void:
 	if ui_pause_menu: ui_pause_menu.visible = false
 	if ui_death: ui_death.visible = false
 	
+	#now set visibility to true
 	match scene_type:
 		SceneType.MENU:
 			if ui_main_menu: ui_main_menu.visible = true
@@ -91,13 +92,10 @@ func on_start_game_ui() -> void:
 	_switch_ui_state(SceneType.ROOM)
 
 func on_show_corridor_ui() -> void:
-	# 1. Fade the screen to black
 	await _fade_out()
 	
-	# 2. Switch the UI state while the screen is obscured
 	_switch_ui_state(SceneType.CORRIDOR)
 	
-	# 3. Fade back to normal visibility
 	await _fade_in()
 
 func on_return_to_menu() -> void:

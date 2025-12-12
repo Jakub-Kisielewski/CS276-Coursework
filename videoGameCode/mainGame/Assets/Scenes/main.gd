@@ -50,22 +50,19 @@ func _process(_delta: float) -> void:
 		get_viewport().set_input_as_handled()
 
 func _on_new_game() -> void:
-	print("Main: New Game Requested")
-	
 	scene_manager._switch_ui_state(scene_manager.SceneType.MAZE_GEN)
 
 func _on_start_run() -> void:
-	print("Main: Starting Run with Custom Settings")
 	run_manager.start_new_run()
 
 func _on_back_to_menu() -> void:
 	scene_manager.on_return_to_menu()
 
 func _on_load_game() -> void:
-	print("Main: Load Game Requested (Not Implemented)")
+	pass
 
 func _on_settings() -> void:
-	print("Main: Settings Requested")
+	pass
 
 func toggle_pause() -> void:
 	is_paused = !is_paused
@@ -82,14 +79,12 @@ func _on_resume_game() -> void:
 	toggle_pause()
 
 func _on_save_quit() -> void:
-	print("Saving game... (Implemented later)")
 	get_tree().quit()
 
 func _on_corridor_room_entered(room_type: String) -> void:
 	run_manager.load_room_from_type(room_type)
 
 func _on_player_died() -> void:
-	print("Main: Player Died")
 	scene_manager._switch_ui_state(SceneManager.SceneType.DEATH)
 
 func _on_darkness_requested(duration: float) -> void:

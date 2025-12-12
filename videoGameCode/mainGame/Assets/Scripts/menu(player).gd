@@ -3,21 +3,16 @@ class_name MenuPlayer extends CharacterBody2D
 @export var sprite : AnimatedSprite2D
 @export var speed : float = 80.0
 
-# Target positions for the player sprite
 @export var end_pos : Vector2
 var start_pos : Vector2
 
-# Reference to the ColorRect for the clear game screen
 var clearBGRND : ColorRect
 
-# Details about the player sprite
 var player_scene : PackedScene
 var player_pos : Vector2
 
-# Can the player close the clear game screen
 var skip : bool
 
-# Details about the direction the player sprite is moving
 enum Direction { LEFT, ZERO, RIGHT }
 var direction : Direction = Direction.LEFT
 
@@ -29,7 +24,7 @@ func initialise(_clearBGRND: ColorRect, _player_scene: PackedScene, _player_pos:
 	start_pos = global_position
 	clear_anim()
 	
-# Animation to visualise the clear game screen
+
 func clear_anim() -> void:
 	sprite.play("Srun_left")
 	
@@ -61,7 +56,6 @@ func set_direction(new_direction : Direction) -> void:
 	direction = new_direction
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if skip and Input.is_key_pressed(KEY_E):
 		# Close the clear game screen
@@ -70,7 +64,6 @@ func _process(_delta: float) -> void:
 			if child is Label:
 				child.modulate.a = 0
 		
-		# Re-instaniate the player
 		var player : CharacterBody2D = player_scene.instantiate()
 		player.global_position = player_pos
 		get_tree().root.add_child(player)
@@ -78,7 +71,6 @@ func _process(_delta: float) -> void:
 		queue_free()
 	
 	match direction:
-		# Move the sprite left until the end_pos is reached
 		Direction.LEFT:
 			var distance : float = global_position.distance_to(end_pos)
 			if (distance > 100):
@@ -92,7 +84,6 @@ func _process(_delta: float) -> void:
 				set_direction(Direction.RIGHT)
 
 		Direction.RIGHT:
-		# Move the sprite right until the start_pos is reached
 			var distance : float = global_position.distance_to(start_pos)
 			if (distance > 100):
 				velocity = global_position.direction_to(start_pos) * speed	

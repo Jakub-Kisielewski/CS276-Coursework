@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://r4bwy5b4gyc1"]
+[gd_scene load_steps=7 format=3 uid="uid://r4bwy5b4gyc1"]
 
 [ext_resource type="Script" uid="uid://tjmpphq7gslr" path="res://Assets/UI/ui_corridor.gd" id="1_dm56r"]
-[ext_resource type="StyleBox" uid="uid://c1vcpi70ucrtw" path="res://Assets/UI/mainMenuBackground.tres" id="2_1wiop"]
 [ext_resource type="TileSet" uid="uid://ck02qayg8p1e0" path="res://Assets/UI/mapTileSet.tres" id="2_hx4x2"]
+[ext_resource type="FontFile" uid="uid://dfo5byu3tupte" path="res://Assets/Resources/Fonts/kenney_kenney-fonts/Fonts/Kenney High.ttf" id="2_i6yk8"]
+[ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="3_3df1u"]
 [ext_resource type="Texture2D" uid="uid://ctfitul1ohst3" path="res://icon.svg" id="3_ibrva"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14x63"]
+atlas = ExtResource("3_3df1u")
+region = Rect2(300.14487, 268.06296, 104.06006, 104.06003)
 
 [node name="UiCorridor" type="Control" node_paths=PackedStringArray("shop_reward_label")]
 layout_mode = 3
@@ -13,16 +18,16 @@ offset_bottom = 648.0
 script = ExtResource("1_dm56r")
 shop_reward_label = NodePath("upgrade")
 
-[node name="Background" type="Panel" parent="."]
+[node name="DeathBGRND" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("2_1wiop")
+color = Color(0, 0, 0, 1)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="BoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -62,9 +67,154 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "Enter Room"
 
-[node name="ShopContainer" type="Panel" parent="HBoxContainer"]
+[node name="ShopContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="HBoxContainer/ShopContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 120
+text = "SHOP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/Title"]
+modulate = Color(0.38154417, 0.6030472, 0.3210315, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_14x63")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ShopContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ShopContainer" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 120
+text = "SHOP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/Title"]
+modulate = Color(0.38154417, 0.6030472, 0.3210315, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_14x63")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "sssssSSSSSS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "sssss"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "SSSSSSSSSSSSSSS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "SSSS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShopContainer2" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 60
+text = "1000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/Title"]
+modulate = Color(0.38154417, 0.6030472, 0.3210315, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_14x63")
+expand_mode = 2
+stretch_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "sssssSSSSSS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "sssss"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "SSSSSSSSSSSSSSS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "SSSS"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0

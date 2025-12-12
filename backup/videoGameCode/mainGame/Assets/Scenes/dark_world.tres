@@ -1,9 +1,0 @@
-[gd_resource type="Environment" format=3 uid="uid://rvb4jwyj6lko"]
-
-[resource]
-background_mode = 3
-glow_enabled = true
-glow_levels/1 = 16.0
-glow_blend_mode = 3
-glow_hdr_threshold = 0.0
-adjustment_enabled = true

@@ -35,7 +35,7 @@ func receive_hit(damage: int, attacker : Node, attack_effect: String, stun : boo
 		return
 	
 	if (stun) and owner.is_in_group("player"):
-		owner.stunned_status = true
+		owner.apply_stun()
 	
 	if health_component:
 		if health_component.invincible and attack_effect != "Execution":

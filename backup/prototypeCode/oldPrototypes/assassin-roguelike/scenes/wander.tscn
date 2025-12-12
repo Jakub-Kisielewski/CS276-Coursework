@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4yv150sj0e2p"]
-
-[ext_resource type="Script" uid="uid://bpgjmwrnc3pgh" path="res://scripts/wander.gd" id="1_x0rct"]
-
-[node name="wander" type="Node2D"]
-script = ExtResource("1_x0rct")
-group_name = "EnemyMarker"

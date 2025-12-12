@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://6y0f5obexsye"]
+[gd_scene load_steps=7 format=3 uid="uid://6y0f5obexsye"]
 
 [ext_resource type="Script" uid="uid://cn3wpol1al3i5" path="res://Assets/UI/ui_main_menu.gd" id="1_dsbl1"]
-[ext_resource type="StyleBox" uid="uid://c1vcpi70ucrtw" path="res://Assets/UI/mainMenuBackground.tres" id="2_1iiww"]
 [ext_resource type="FontFile" uid="uid://dfo5byu3tupte" path="res://Assets/Resources/Fonts/kenney_kenney-fonts/Fonts/Kenney High.ttf" id="5_35tj5"]
 [ext_resource type="PackedScene" uid="uid://vh5vpj0l0eb6" path="res://Assets/Enemies/PoisonousBat/menu_bat.tscn" id="6_2hrep"]
 [ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/default_button.tres" id="6_a6ne8"]
@@ -27,15 +26,6 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_dsbl1")
-
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = ExtResource("2_1iiww")
 
 [node name="DeathBGRND" type="ColorRect" parent="."]
 layout_mode = 1
