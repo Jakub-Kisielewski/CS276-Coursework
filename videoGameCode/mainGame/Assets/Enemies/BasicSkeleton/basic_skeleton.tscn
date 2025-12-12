@@ -426,7 +426,6 @@ script = ExtResource("1_fa6de")
 skel_sounds = Array[AudioStream]([ExtResource("2_w600u"), ExtResource("3_ptig1"), ExtResource("4_1vqj3")])
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CircleShape2D_vb2cf")
-speed = 90.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 16.0

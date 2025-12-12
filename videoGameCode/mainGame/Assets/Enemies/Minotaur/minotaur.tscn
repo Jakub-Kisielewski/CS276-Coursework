@@ -462,7 +462,7 @@ hitbox_shape = SubResource("CircleShape2D_t3ldh")
 hurtbox = NodePath("AnimatedSprite2D/hurtBox")
 summons = Array[PackedScene]([ExtResource("3_3xsit"), ExtResource("4_ik8mj"), ExtResource("4_qp4xt"), ExtResource("5_maes3")])
 player_rays = [NodePath("RayCast2D"), NodePath("RayCast2D2"), NodePath("RayCast2D3")]
-speed = 100.0
+speed = 110.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 24.0
@@ -474,7 +474,8 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"idle"
+animation = &"move"
+frame_progress = 0.28678986
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("11_u3cjf")

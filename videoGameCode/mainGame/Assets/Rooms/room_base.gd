@@ -36,9 +36,8 @@ func _start_next_wave():
 	wave_started.emit(current_wave)
 	
 	# Spawn enemies for this wave
-	for i in range(enemies_per_wave):
-		var spawn_index = i % spawn_points.size()  # Cycle through spawn points
-		var marker = spawn_points[spawn_index]
+	for i in range(min(enemies_per_wave,spawn_points.size())):
+		var marker = spawn_points[i]
 		_spawn_enemy(marker.global_position, enemy_pool)
 
 func _spawn_enemy(pos: Vector2, pool: Array[PackedScene]):
@@ -47,7 +46,7 @@ func _spawn_enemy(pos: Vector2, pool: Array[PackedScene]):
 	enemy.global_position = pos
 	print(enemy.name)
 	
-	enemy.tree_exited.connect(_on_enemy_killed)
+	enemy.tree_exiting.connect(_on_enemy_killed)
 	
 	call_deferred("add_child", enemy)
 	enemy_count += 1

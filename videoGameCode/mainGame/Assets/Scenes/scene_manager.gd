@@ -47,12 +47,12 @@ func swap_content_scene(new_scene_node: Node, on_black_screen: Callable = Callab
 func _fade_out() -> void:
 	transition_screen.visible = true
 	var tween = create_tween()
-	tween.tween_property(transition_screen, "modulate:a", 1.0, 1.5)
+	tween.tween_property(transition_screen, "modulate:a", 1.0, 0.8)
 	await tween.finished
 
 func _fade_in() -> void:
 	var tween = create_tween()
-	tween.tween_property(transition_screen, "modulate:a", 0.0, 1.5)
+	tween.tween_property(transition_screen, "modulate:a", 0.0, 0.8)
 	await tween.finished
 	transition_screen.visible = false
 

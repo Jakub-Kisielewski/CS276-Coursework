@@ -564,7 +564,7 @@ bat_sounds = Array[AudioStream]([ExtResource("2_mr7u1"), ExtResource("3_cd574"),
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 collider = NodePath("CollisionShape2D")
-speed = 110.0
+speed = 120.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 15.0
@@ -575,7 +575,9 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"strike"
+animation = &"damage"
+frame = 4
+frame_progress = 1.0
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("10_feiom")
@@ -608,9 +610,9 @@ metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -20.0
-offset_top = -14.166667
+offset_top = -16.0
 offset_right = 20.0
-offset_bottom = -10.166667
+offset_bottom = -12.0
 mouse_filter = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_mr7u1")
 show_percentage = false
