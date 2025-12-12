@@ -45,6 +45,7 @@ func _spawn_enemy(pos: Vector2, pool: Array[PackedScene]):
 	var enemy_scene = pool.pick_random() 
 	var enemy = enemy_scene.instantiate()
 	enemy.global_position = pos
+	print(enemy.name)
 	
 	enemy.tree_exited.connect(_on_enemy_killed)
 	

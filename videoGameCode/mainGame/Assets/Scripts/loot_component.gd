@@ -21,4 +21,5 @@ func drop_loot() -> void:
 		drop_instance.global_position = parent.global_position
 	
 	# item persists when enemy defeated
-	get_tree().current_scene.call_deferred("add_child", drop_instance)
+	var room = get_tree().current_scene.get_node("ActiveSceneContainer")
+	room.add_child(drop_instance)

@@ -581,9 +581,9 @@ metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -20.0
-offset_top = -28.0
+offset_top = -24.0
 offset_right = 20.0
-offset_bottom = -17.0
+offset_bottom = -20.0
 mouse_filter = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_ibddo")
 show_percentage = false

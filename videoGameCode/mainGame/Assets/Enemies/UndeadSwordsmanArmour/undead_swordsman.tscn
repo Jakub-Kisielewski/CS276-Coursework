@@ -549,9 +549,9 @@ volume_db = -10.0
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -20.0
-offset_top = -28.0
+offset_top = -22.0
 offset_right = 20.0
-offset_bottom = -17.0
+offset_bottom = -18.0
 mouse_filter = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_3hkv8")
 show_percentage = false

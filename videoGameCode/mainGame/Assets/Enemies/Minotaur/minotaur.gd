@@ -23,8 +23,8 @@ const SUMMON_COOLDOWN_TIME : float = 9
 var summon_cooldown : float = 0.0
 
 # Cooldown for the charge attack
-const CHARGE_COOLDOWN_TIME : float = 2
-const CHARGE_DURATION_TIME : float = 3
+const CHARGE_COOLDOWN_TIME : float = 3
+const CHARGE_DURATION_TIME : float = 2
 
 # Cooldown for the overheated charge attack
 const OVERHEAT_COOLDOWN_TIME : float = 6
@@ -129,7 +129,7 @@ func _physics_process(delta: float) -> void:
 	handle_timers(delta)
 	
 	#If the player disappears, make the enemy idle
-	if !is_instance_valid(player):
+	if !is_instance_valid(player) or !player.is_in_group("player"):
 		if state != State.IDLE:
 			set_state(State.IDLE)
 	else:
@@ -145,13 +145,12 @@ func _physics_process(delta: float) -> void:
 		State.MOVING:
 			if player_in_range:
 				set_state(State.ATTACKING)
-			elif phase_two:
+			elif can_overheat():
 				# If phase 2 & can charge, use overheat
 				if charge_cooldown <= 0 and not(is_on_wall()) and not(player_in_range) and player_in_sight():
 					set_state(State.OVERHEATING)
 			# If can charge, use charge
-			elif charge_cooldown <= 0:	
-				if not(is_on_wall()) and not(player_in_range) and player_in_sight():
+			elif can_charge():
 					set_state(State.CHARGING)
 			# If can't charge, use summoning
 			elif summon_cooldown <= 0:
@@ -181,8 +180,15 @@ func _physics_process(delta: float) -> void:
 				# End charge
 				set_state(State.MOVING)
 			if is_on_wall():
-				var collider = get_slide_collision(0).get_collider() 
-				if is_instance_valid(collider) and collider.is_in_group("enemy"):
+				var wall_collision : bool = true
+				
+				for x in range(get_slide_collision_count()):
+					var collider : Object = get_slide_collision(x).get_collider()
+					print(collider.name)
+					if  collider.is_in_group("enemy"):
+						wall_collision = false
+					
+				if wall_collision:
 					# Enemy collided with other enemy, end charge
 					set_state(State.MOVING)
 					return
@@ -237,6 +243,12 @@ func _physics_process(delta: float) -> void:
 		# Do nothing physics-related if the enemy is DAMAGED
 		State.DAMAGED:
 			return
+
+func can_overheat() -> bool:
+	return phase_two and charge_cooldown <= 0 and not(is_on_wall()) and not(player_in_range) and player_in_sight()
+
+func can_charge() -> bool:
+	return charge_cooldown <= 0 and not(is_on_wall()) and not(player_in_range) and player_in_sight()
 
 # Check raycasts to determine if player is fully in sight
 func player_in_sight() -> bool:
@@ -345,7 +357,7 @@ func handle_summon() -> void:
 	var filtered_cells: Array[Vector2i] = []
 	for cell in cells:
 		var world_pos = tilemap.map_to_local(cell)
-		if world_pos.distance_to(player.global_position) <= 130:
+		if world_pos.distance_to(player.global_position) <= 180:
 			filtered_cells.append(cell)
 
 	# If no cells are in the radius, fall back to original list

@@ -50,9 +50,9 @@
 [ext_resource type="AudioStream" uid="uid://oujjs4iviyb4" path="res://Assets/Resources/PlayerSFX/OGG Files/Retro Explosion Short 15.ogg" id="19_mkm62"]
 [ext_resource type="Texture2D" uid="uid://b8kgh0im6vp0" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Unarmed_Hurt/Unarmed_Hurt4_red.png" id="20_7578i"]
 [ext_resource type="Texture2D" uid="uid://bbbg8va8pwoml" path="res://Assets/Resources/Sprites/BaseSprite/weapons/shoot/bow.png" id="21_mdvb1"]
-[ext_resource type="Texture2D" path="res://Assets/Resources/sword.png" id="21_nymsj"]
-[ext_resource type="Texture2D" path="res://Assets/Resources/spear.png" id="23_yay7c"]
-[ext_resource type="Texture2D" path="res://Assets/Resources/bow-and-arrow.png" id="24_1gme6"]
+[ext_resource type="Texture2D" uid="uid://bpruogdlhaw2o" path="res://Assets/Resources/sword.png" id="21_nymsj"]
+[ext_resource type="Texture2D" uid="uid://hi634iu2pm16" path="res://Assets/Resources/spear.png" id="23_yay7c"]
+[ext_resource type="Texture2D" uid="uid://d3t0be8etohxt" path="res://Assets/Resources/bow-and-arrow.png" id="24_1gme6"]
 [ext_resource type="Texture2D" uid="uid://dergnjei0drvt" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Hurt/Sword_Hurt_full.png" id="27_35grl"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="29_ggw7w"]
 [ext_resource type="Texture2D" uid="uid://dntpeg2yvkse8" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Blood Splat.png" id="34_w34vp"]
@@ -11005,6 +11005,7 @@ advance_mode = 2
 advance_mode = 0
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2crlu"]
+break_loop_at_end = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a86ck"]
 
@@ -11091,7 +11092,7 @@ states/run/position = Vector2(103.50018, 396.1987)
 states/spattack/node = SubResource("AnimationNodeBlendTree_5agts")
 states/spattack/position = Vector2(-141.7862, 142.87788)
 transitions = ["Start", "Sidle", SubResource("AnimationNodeStateMachineTransition_117vg"), "Sidle", "Sattack", SubResource("AnimationNodeStateMachineTransition_ddl1c"), "Sattack", "Sidle", SubResource("AnimationNodeStateMachineTransition_y6wf2"), "Sidle", "Srun", SubResource("AnimationNodeStateMachineTransition_ukp40"), "Srun", "Sidle", SubResource("AnimationNodeStateMachineTransition_mytan"), "Sidle", "Sdash", SubResource("AnimationNodeStateMachineTransition_sjqh2"), "Sdash", "Sidle", SubResource("AnimationNodeStateMachineTransition_am3my"), "Sidle", "Sdeath", SubResource("AnimationNodeStateMachineTransition_o40nm"), "death", "End", SubResource("AnimationNodeStateMachineTransition_2crlu"), "Sdeath", "End", SubResource("AnimationNodeStateMachineTransition_a86ck"), "Scharge", "Sidle", SubResource("AnimationNodeStateMachineTransition_p7sn2"), "Sidle", "Scharge", SubResource("AnimationNodeStateMachineTransition_4s2gv"), "Srelease", "Sidle", SubResource("AnimationNodeStateMachineTransition_qg5ti"), "Sidle", "Srelease", SubResource("AnimationNodeStateMachineTransition_feila"), "Scharge", "Srelease", SubResource("AnimationNodeStateMachineTransition_yj04c"), "idle", "Sidle", SubResource("AnimationNodeStateMachineTransition_djc4d"), "Sidle", "idle", SubResource("AnimationNodeStateMachineTransition_0k6dv"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_kt143"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_0x8vc"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_odwh5"), "idle", "battack", SubResource("AnimationNodeStateMachineTransition_t4pft"), "idle", "bcharge", SubResource("AnimationNodeStateMachineTransition_qvlk0"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_h5fe2"), "idle", "spattack", SubResource("AnimationNodeStateMachineTransition_qe6gl"), "spattack", "idle", SubResource("AnimationNodeStateMachineTransition_uky5a"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_cwqcl"), "bcharge", "idle", SubResource("AnimationNodeStateMachineTransition_q445s"), "battack", "idle", SubResource("AnimationNodeStateMachineTransition_x67xl"), "idle", "hurt", SubResource("AnimationNodeStateMachineTransition_tk7rj"), "hurt", "idle", SubResource("AnimationNodeStateMachineTransition_b5624")]
-graph_offset = Vector2(-447.33264, 227.882)
+graph_offset = Vector2(-62.83772, 289.67102)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6bthq"]
 atlas = ExtResource("6_wt7tk")
@@ -11342,7 +11343,7 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 3
+frame = 11
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")

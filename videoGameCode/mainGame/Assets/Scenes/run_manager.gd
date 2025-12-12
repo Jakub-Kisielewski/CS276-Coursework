@@ -96,7 +96,7 @@ func load_room_from_type(type_name: String) -> void:
 		_:
 			printerr("RunManager: Unknown room type ", type_name)
 			return
-
+	
 	if scene_to_load:
 		load_room_scene(scene_to_load, false)
 

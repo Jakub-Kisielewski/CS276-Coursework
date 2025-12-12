@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://d1001ii314vly"]
+[gd_scene load_steps=71 format=3 uid="uid://d1001ii314vly"]
 
 [ext_resource type="Script" uid="uid://cptafcit457xi" path="res://Assets/Enemies/Minotaur/minotaur.gd" id="1_n8nhx"]
 [ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.tscn" id="3_3xsit"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bqjthq5jbw7og" path="res://Assets/Scripts/loot_component.gd" id="6_ekckx"]
 [ext_resource type="PackedScene" uid="uid://dypup8xitfyuf" path="res://Assets/Gold/golden_deer.tscn" id="7_ekckx"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="8_qp4xt"]
+[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/default_button.tres" id="11_maes3"]
 [ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="11_u3cjf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3ldh"]
@@ -448,10 +449,13 @@ height = 36.0
 radius = 95.0
 height = 190.0
 
-[node name="Minotaur" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "player_rays", "health_component", "loot_component") groups=["enemy"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qp4xt"]
+bg_color = Color(0.95046, 0, 0.12541446, 1)
+
+[node name="Minotaur" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "player_rays", "health_component", "loot_component", "health_bar") groups=["enemy"]]
 scale = Vector2(0.9, 0.9)
 motion_mode = 1
-wall_min_slide_angle = 0.34906584
+wall_min_slide_angle = 0.0
 script = ExtResource("1_n8nhx")
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
@@ -462,6 +466,7 @@ speed = 100.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 24.0
+health_bar = NodePath("ProgressBar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 12)
@@ -469,7 +474,7 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"charge"
+animation = &"idle"
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("11_u3cjf")
@@ -510,6 +515,16 @@ metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 script = ExtResource("8_qp4xt")
 max_health = 600.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme = ExtResource("11_maes3")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qp4xt")
+show_percentage = false
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

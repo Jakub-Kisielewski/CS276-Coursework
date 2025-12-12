@@ -951,6 +951,10 @@ func _on_death():
 	print("you should be dead")
 	dying = true
 	anim_state.travel("Sdeath")
+
+	remove_from_group("player")
+	set_physics_process(false)
+	set_process(false)
 	
 func _on_damaged():
 	pass
@@ -970,19 +974,11 @@ func death_screen() -> void:
 	print("Player died. Signaling Main Game...")
 	
 	SignalBus.player_died.emit()	
-	set_physics_process(false)
-	set_process(false)
-	
-	if has_node("CollisionShape2D"):
-		$CollisionShape2D.set_deferred("disabled", true)
-	
-	if has_node("fullAnim/hurtBox"):
-		get_node("fullAnim/hurtBox").set_deferred("monitorable", false)
-		get_node("fullAnim/hurtBox").set_deferred("monitoring", false)
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name.begins_with("Sdeath") or anim_name.begins_with("death"):
 		death_screen()
+		$AnimationTree.active = false
 		
 	if anim_name.begins_with("bbody"):
 		print("shooting arrow")

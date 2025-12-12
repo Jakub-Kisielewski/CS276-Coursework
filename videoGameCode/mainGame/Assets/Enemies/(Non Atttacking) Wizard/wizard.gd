@@ -99,7 +99,7 @@ func _physics_process(delta: float) -> void:
 	handle_timers(delta)
 
 	#If the player disappears, make the enemy idle
-	if !is_instance_valid(player) and state != State.IDLE:
+	if (!is_instance_valid(player) or !player.is_in_group("player")) and state != State.IDLE:
 		set_state(State.IDLE)
 		
 	match state:

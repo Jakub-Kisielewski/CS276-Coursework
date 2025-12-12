@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://vh5vpj0l0eb6"]
+[gd_scene load_steps=78 format=3 uid="uid://vh5vpj0l0eb6"]
 
 [ext_resource type="Texture2D" uid="uid://cy0xw70gtr3hg" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-WakeUp.png" id="2_qcjfy"]
 [ext_resource type="Texture2D" uid="uid://kf6b5df0tui0" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-Attack2.png" id="3_2r7x7"]
@@ -7,10 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://cvxuuoy27dbcp" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-IdleFly.png" id="6_fwhde"]
 [ext_resource type="Texture2D" uid="uid://dsp7nhquwm0gu" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-Run.png" id="7_h6vnp"]
 [ext_resource type="Texture2D" uid="uid://b24ln4scmj10p" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-Attack1.png" id="8_q5scc"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
-radius = 14.0
-height = 28.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fltfe"]
 atlas = ExtResource("2_qcjfy")
@@ -537,9 +533,6 @@ animations = [{
 scale = Vector2(6, 6)
 motion_mode = 1
 wall_min_slide_angle = 0.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 modulate = Color(0.6666667, 0.14117648, 0, 1)

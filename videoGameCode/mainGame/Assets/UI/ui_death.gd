@@ -32,7 +32,6 @@ func start_death_sequence() -> void:
 
 func _on_menu_pressed() -> void:
 	menutaur.close()
-	print("tuff")
 	
 	GameData.reset_run_state()
 	return_to_menu_pressed.emit()
