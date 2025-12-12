@@ -103,6 +103,14 @@ func _ready():
 	$HealthComponent.health_depleted.connect(_on_death)
 	GameData.currency_updated.connect(_on_currency_updated)
 	
+	# Register starting weapons to GameData if empty
+	if GameData.current_weapons.is_empty():
+		GameData.add_weapon(sword_data)
+		GameData.add_weapon(spear_data)
+		GameData.add_weapon(bow_data)
+	
+	GameData.set_active_weapon(0)
+	
 	anim_tree.active = true
 	current_weapon = Weapon.SWORD
 	current_weapon_data = sword_data
@@ -483,7 +491,15 @@ func weapon_switch():
 	else:	
 		current_weapon = Weapon.SWORD
 		current_weapon_data = sword_data
-		
+	
+	var new_index = 0
+	match current_weapon:
+		Weapon.SWORD: new_index = 0
+		Weapon.SPEAR: new_index = 1
+		Weapon.BOW: new_index = 2
+	
+	GameData.set_active_weapon(new_index)
+
 func handle_attack():
 	if player_busy():
 		return

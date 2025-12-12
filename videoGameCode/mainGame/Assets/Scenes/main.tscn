@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://c7njgli8wtoay"]
+[gd_scene load_steps=26 format=3 uid="uid://c7njgli8wtoay"]
 
 [ext_resource type="Script" uid="uid://cegk4g6d48rk1" path="res://Assets/Scenes/main.gd" id="1_l26l0"]
 [ext_resource type="Script" uid="uid://diff8hf67in4j" path="res://Assets/Scenes/scene_manager.gd" id="2_qplxx"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://dqqfvfx3d6pji" path="res://Assets/Rooms/puzzle_room.tscn" id="19_e0qyk"]
 [ext_resource type="Script" uid="uid://cw883wtgvhncp" path="res://Assets/Scenes/music_player.gd" id="20_cun2r"]
 [ext_resource type="PackedScene" uid="uid://r4bwy5b4gyc1" path="res://Assets/UI/UI_Corridor.tscn" id="21_nb11o"]
+[ext_resource type="PackedScene" uid="uid://cxll4c2oa64yj" path="res://Assets/UI/UI_Room.tscn" id="23_e0qyk"]
 
 [node name="Main" type="Node" node_paths=PackedStringArray("run_manager", "scene_manager", "world_environment")]
 process_mode = 3
@@ -42,12 +43,13 @@ dark_world = ExtResource("4_4qkp8")
 bus = &"Music"
 script = ExtResource("20_cun2r")
 
-[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("active_scene_container", "transition_screen", "ui_main_menu", "ui_maze_gen", "ui_corridor", "ui_pause_menu", "ui_death")]
+[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("active_scene_container", "transition_screen", "ui_main_menu", "ui_maze_gen", "ui_room", "ui_corridor", "ui_pause_menu", "ui_death")]
 script = ExtResource("2_qplxx")
 active_scene_container = NodePath("../ActiveSceneContainer")
 transition_screen = NodePath("../UILayer/UiTransitionSceen")
 ui_main_menu = NodePath("../UILayer/UiMainMenu")
 ui_maze_gen = NodePath("../UILayer/UiMazeGen")
+ui_room = NodePath("../UILayer/UiRoom")
 ui_corridor = NodePath("../UILayer/UiCorridor")
 ui_pause_menu = NodePath("../UILayer/UiPause")
 ui_death = NodePath("../UILayer/UiDeath")
@@ -80,6 +82,8 @@ offset_bottom = 0.0
 [node name="UiDeath" parent="UILayer" instance=ExtResource("16_qscjt")]
 
 [node name="UiCorridor" parent="UILayer" instance=ExtResource("21_nb11o")]
+
+[node name="UiRoom" parent="UILayer" instance=ExtResource("23_e0qyk")]
 
 [node name="UiPause" parent="UILayer" instance=ExtResource("14_tm25p")]
 anchors_preset = 15

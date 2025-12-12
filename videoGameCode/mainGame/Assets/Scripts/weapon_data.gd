@@ -4,6 +4,7 @@ enum Rarity {DULL, SHINY, PRISMATIC}
 enum WeaponType {SWORD, SPEAR, BOW}
 
 @export var display_name: String
+@export var icon: Texture2D
 @export var rarity: Rarity = Rarity.PRISMATIC
 @export var weapon_type: WeaponType = WeaponType.SWORD
 @export var special_unlocked: bool = false
@@ -21,7 +22,7 @@ func get_rarity_mult() -> float:
 			return 2.5
 	print("null rarity error")
 	return 1.0
-	
+
 func get_attack_value(base_stat_damage: float, attack_mult: float) -> float:
 	var atk : float = base_attack * get_rarity_mult() * get_type_mult() * attack_mult
 	return atk

@@ -2,24 +2,27 @@ extends Node
 
 signal player_stats_changed
 signal currency_updated(new_amount)
+signal weapon_list_changed
+signal active_weapon_changed(weapon_index) 
 
-# persisten game stats
+# Persistent game stats
 var max_health: float = 1000.0
 var current_health: float = 1000.0
 var currency: int = 0
 var defense: float = 1.0
 var damage: float = 10.0
-var maze_map: Array = [] # map[y][x]
+var maze_map: Array = []
 var map_width: int = 7
 var map_height: int = 7
 var branch_prob: float = 0.4
 var difficulty_mod: float = 1.0
 var player_coords: Vector2i = Vector2i(0, 0)
+var current_weapons: Array[WeaponData] = []
+var active_weapon_index: int = 0
 
 const SAVE_PATH = "user://savegame.json"
 
 func _ready() -> void:
-	# attempt to load data immediately when the game boots
 	load_game()
 
 func update_health(amount: float):
@@ -38,6 +41,19 @@ func add_currency(amount: int):
 	currency += amount
 	currency_updated.emit(currency)
 
+func set_active_weapon(index: int):
+	if index >= 0 and index < current_weapons.size():
+		active_weapon_index = index
+		active_weapon_changed.emit(active_weapon_index)
+
+func add_weapon(weapon_data: WeaponData):
+	if weapon_data == null:
+		return
+		
+	if weapon_data not in current_weapons:
+		current_weapons.append(weapon_data)
+		weapon_list_changed.emit()
+
 func save_game():
 	var save_dict = {
 		"max_health": max_health,
@@ -45,13 +61,8 @@ func save_game():
 		"currency": currency,
 		"defense": defense,
 		"damage": damage,
-		"maze_map": maze_map,
-		"map_width": map_width,
-		"map_height": map_height,
-		"branch_prob": branch_prob,
 		"difficulty_mod": difficulty_mod,
-		"player_coords_x": player_coords.x,
-		"player_coords_y": player_coords.y
+		"active_weapon_index": active_weapon_index
 	}
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -59,12 +70,10 @@ func save_game():
 		var json_string = JSON.stringify(save_dict)
 		file.store_string(json_string)
 		print("Game Saved")
-	else:
-		print("Failed to save game.")
 
 func load_game():
 	if not FileAccess.file_exists(SAVE_PATH):
-		return # no save file found
+		return
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
 	if file:
@@ -74,27 +83,16 @@ func load_game():
 		
 		if error == OK:
 			var data = json.data
-			# Use .get() with default values to prevent crashes if keys are missing
 			max_health = data.get("max_health", 1000.0)
 			current_health = data.get("current_health", 1000.0)
 			currency = data.get("currency", 0)
 			defense = data.get("defense", 1.0)
 			damage = data.get("damage", 10.0)
-			maze_map = data.get("maze_map", [])
-			map_width = data.get("map_width", 7)
-			map_height = data.get("map_height", 7)
-			branch_prob = data.get("branch_prob", 0.4)
-			difficulty_mod = data.get("difficulty_mod", 1.0)
-			var px = data.get("player_coords_x", 0)
-			var py = data.get("player_coords_y", 0)
-			player_coords = Vector2i(px, py)
+			active_weapon_index = data.get("active_weapon_index", 0)
 			
-			# Update UI with loaded values
 			player_stats_changed.emit()
 			currency_updated.emit(currency)
 			print("Game Loaded")
-		else:
-			print("JSON Parse Error: ", json.get_error_message())
 
 func reset_run_state():
 	max_health = 1000.0
@@ -102,18 +100,9 @@ func reset_run_state():
 	currency = 0
 	defense = 1.0
 	damage = 10.0
-	maze_map = []
-	map_width = 7
-	map_height = 7
-	branch_prob = 0.4
-	difficulty_mod = 1.0
-
+	
 	if FileAccess.file_exists(SAVE_PATH):
-		var error = DirAccess.remove_absolute(SAVE_PATH)
-		if error == OK:
-			print("Save file deleted.")
-		else:
-			print("An error occurred when trying to delete the save file.")
+		DirAccess.remove_absolute(SAVE_PATH)
 	
 	player_stats_changed.emit()
 	currency_updated.emit(currency)

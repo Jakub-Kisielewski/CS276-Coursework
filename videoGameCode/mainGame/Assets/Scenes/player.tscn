@@ -1,4 +1,4 @@
-[gd_scene load_steps=1096 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=1098 format=3 uid="uid://gybvdpwifulg"]
 
 [ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
@@ -50,6 +50,7 @@
 [ext_resource type="AudioStream" uid="uid://bv30m222154k7" path="res://Assets/Resources/PlayerSFX/OGG Files/Retro Ascending Short 20.ogg" id="18_ukllu"]
 [ext_resource type="AudioStream" uid="uid://oujjs4iviyb4" path="res://Assets/Resources/PlayerSFX/OGG Files/Retro Explosion Short 15.ogg" id="19_mkm62"]
 [ext_resource type="Texture2D" uid="uid://b8kgh0im6vp0" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Unarmed_Hurt/Unarmed_Hurt4_red.png" id="20_7578i"]
+[ext_resource type="Texture2D" uid="uid://bpruogdlhaw2o" path="res://Assets/Resources/sword.png" id="21_52fvq"]
 [ext_resource type="Texture2D" uid="uid://bbbg8va8pwoml" path="res://Assets/Resources/Sprites/BaseSprite/weapons/shoot/bow.png" id="21_mdvb1"]
 [ext_resource type="Texture2D" uid="uid://dergnjei0drvt" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Hurt/Sword_Hurt_full.png" id="27_35grl"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="29_ggw7w"]
@@ -58,11 +59,22 @@
 
 [sub_resource type="Resource" id="Resource_yj04c"]
 script = ExtResource("3_feila")
+display_name = "Sword"
+icon = ExtResource("21_52fvq")
 special_unlocked = true
 metadata/_custom_type_script = "uid://co7tkofoxgpia"
 
 [sub_resource type="Resource" id="Resource_visa7"]
 script = ExtResource("3_feila")
+display_name = "Spear"
+weapon_type = 1
+special_unlocked = true
+metadata/_custom_type_script = "uid://co7tkofoxgpia"
+
+[sub_resource type="Resource" id="Resource_mkm62"]
+script = ExtResource("3_feila")
+display_name = "Bow"
+weapon_type = 2
 special_unlocked = true
 metadata/_custom_type_script = "uid://co7tkofoxgpia"
 
@@ -11286,6 +11298,7 @@ misc_sounds = Array[AudioStream]([ExtResource("15_yh2vs"), ExtResource("16_gmr2b
 dash_sounds = Array[AudioStream]([ExtResource("15_smmal")])
 sword_data = SubResource("Resource_yj04c")
 spear_data = SubResource("Resource_visa7")
+bow_data = SubResource("Resource_mkm62")
 
 [node name="spearAnim" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.6, 0.342)
@@ -11326,7 +11339,7 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 8
+frame = 3
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")
@@ -11399,13 +11412,13 @@ sprite_frames = SubResource("SpriteFrames_a3rua")
 animation = &""
 
 [node name="moveSfx" type="AudioStreamPlayer2D" parent="."]
-bus = &"PlayerSFX"
+bus = &"SFX"
 
 [node name="attackSfx" type="AudioStreamPlayer2D" parent="."]
-bus = &"PlayerSFX"
+bus = &"SFX"
 
 [node name="miscSfx" type="AudioStreamPlayer2D" parent="."]
-bus = &"PlayerSFX"
+bus = &"SFX"
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 zoom = Vector2(3, 3)
