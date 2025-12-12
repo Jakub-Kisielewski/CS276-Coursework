@@ -188,15 +188,16 @@ func handle_input(delta: float):
 	if (stunned_status):
 		bodyEffects2.global_position = global_position
 		anim_state.travel("hurt")
-		misc_sfx.stream = misc_sounds[0]
-		misc_sfx.play()
+		if misc_sfx.stream != misc_sounds[0] or not misc_sfx.playing:
+			misc_sfx.stream = misc_sounds[0]
+			misc_sfx.play()
 		return
 	
 	
 	if Input.is_action_just_pressed("attack_special"):
-		if not current_weapon_data.special_unlocked:
-			print("You don't have this attack unlocked!")
-			return
+		#if not current_weapon_data.special_unlocked: need to make wepaon data global and then can check if special wepaon is unlocked
+		print("You don't have this attack unlocked!")
+		return
 		
 		special_track = null
 		if current_weapon == Weapon.SWORD and not player_busy():
@@ -228,7 +229,7 @@ func handle_input(delta: float):
 		
 	if Input.is_action_just_released("attack_special"):
 		misc_sfx.stop()
-		if charging_successful and current_weapon_data.special_unlocked:
+		if charging_successful: #and current_weapon_data.special_unlocked:
 			special_charging = false
 			special_hold_time = 0.0
 			charging_successful = false

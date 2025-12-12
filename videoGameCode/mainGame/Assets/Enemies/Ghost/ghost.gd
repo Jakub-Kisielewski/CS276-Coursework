@@ -1,5 +1,10 @@
 extends EnemyEntity
 
+@onready var ghost_sfx = $ghostSfx
+
+@export var ghost_sounds : Array[AudioStream] = [] #0: thrust, 1: sweep attack, 2:death
+
+
 # Get the reference to the player node
 @onready var player : Node = get_tree().get_first_node_in_group("player")
 
@@ -75,6 +80,8 @@ func set_state(new_state : State) -> void:
 		State.DYING:
 			velocity = Vector2.ZERO
 			sprite_base.play("death")
+			ghost_sfx.stream = ghost_sounds[2]
+			ghost_sfx.play()
 
 func _ready() -> void:
 	super._ready()
@@ -153,6 +160,8 @@ func handle_move() -> void:
 	
 func handle_attack() -> void:
 	sprite_base.play("attack")
+	ghost_sfx.stream = ghost_sounds[0]
+	ghost_sfx.play()
 
 	# Create a temporary hitbox for the attack
 	var hitbox : hitBox
@@ -175,7 +184,8 @@ func handle_attack() -> void:
 
 func handle_thrust() -> void:
 	sprite_base.play("thrust")
-	
+	ghost_sfx.stream = ghost_sounds[1]
+	ghost_sfx.play()
 	thrust_cooldown = THRUST_COOLDOWN_TIME
 
 	# Create a temporary hitbox for the attack

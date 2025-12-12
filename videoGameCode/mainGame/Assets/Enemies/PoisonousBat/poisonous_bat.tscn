@@ -1,8 +1,12 @@
-[gd_scene load_steps=87 format=3 uid="uid://dklpobami1hkg"]
+[gd_scene load_steps=91 format=3 uid="uid://dklpobami1hkg"]
 
 [ext_resource type="Script" uid="uid://bp5u60eoap8o8" path="res://Assets/Enemies/PoisonousBat/poisonous_bat.gd" id="1_j3spu"]
+[ext_resource type="AudioStream" uid="uid://dehkrivscvfny" path="res://Assets/Enemies/SFX/added_sfx/mouse-2.ogg" id="2_mr7u1"]
 [ext_resource type="Texture2D" uid="uid://cy0xw70gtr3hg" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-WakeUp.png" id="3_8wm3m"]
+[ext_resource type="AudioStream" uid="uid://pquka8ctroq7" path="res://Assets/Enemies/SFX/added_sfx/whoosh2.wav" id="3_cd574"]
 [ext_resource type="Texture2D" uid="uid://kf6b5df0tui0" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-Attack2.png" id="4_hidas"]
+[ext_resource type="AudioStream" uid="uid://cg3r1gp2awxk5" path="res://Assets/Enemies/SFX/added_sfx/Sizzle_Impact3.wav" id="4_rjbvo"]
+[ext_resource type="AudioStream" uid="uid://diforotjr44t7" path="res://Assets/Enemies/SFX/added_sfx/crack01.mp3.ogg" id="5_feiom"]
 [ext_resource type="Texture2D" uid="uid://cy2281iy287my" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-Hurt.png" id="5_m0kb1"]
 [ext_resource type="Texture2D" uid="uid://bwhg6lem3deq6" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-Die.png" id="6_iebg8"]
 [ext_resource type="Texture2D" uid="uid://cvxuuoy27dbcp" path="res://Assets/Enemies/Sprites/FantasyEnemies/Bat/Bat with VFX/Bat-IdleFly.png" id="7_mr7u1"]
@@ -553,6 +557,7 @@ scale = Vector2(1.2, 1.2)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_j3spu")
+bat_sounds = Array[AudioStream]([ExtResource("2_mr7u1"), ExtResource("3_cd574"), ExtResource("4_rjbvo"), ExtResource("5_feiom")])
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 collider = NodePath("CollisionShape2D")
@@ -566,9 +571,7 @@ shape = SubResource("CapsuleShape2D_fa6de")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j4qsk")
-animation = &"damage"
-frame = 4
-frame_progress = 1.0
+animation = &"strike"
 
 [node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("10_feiom")
@@ -596,6 +599,8 @@ metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 script = ExtResource("12_m0kb1")
 max_health = 120.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
+
+[node name="batSfx" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

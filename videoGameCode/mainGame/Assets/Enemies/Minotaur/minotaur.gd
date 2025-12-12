@@ -1,5 +1,16 @@
 extends EnemyEntity
 
+@onready var attack_sfx = $attackSfx
+@onready var mrbeast_sfx = $mrbeastSfx
+
+@export var step_sounds: Array[AudioStream] = [] #loopable
+@export var attack_sounds: Array[AudioStream] = [] #randi
+
+@export var misc_sounds : Array[AudioStream] = []
+@export var damaged_sounds : Array[AudioStream] = [] #randi
+enum misc_sounds_index {hooting=0,roar=1,endbellow=2,overheating=3,summoning=4}
+
+
 # Get the reference to the player node
 @onready var player : Node = get_tree().get_first_node_in_group("player")
 
@@ -56,8 +67,13 @@ var phase_two : bool
 
 # Change the state of the enemy
 func set_state(new_state : State) -> void:
+	var old_state := state
+	
 	state = new_state
 	state_changed.emit()
+	
+	if old_state == State.CHARGING and new_state != State.CHARGING:
+		stop_charge_sfx()
 	
 	match state:
 		#Enemy is idle
@@ -107,12 +123,14 @@ func set_state(new_state : State) -> void:
 			velocity = Vector2.ZERO
 			stun_duration = STUN_DURATION_TIME
 			sprite_base.play("stunned")
+			play_stunned_sfx()
 		
 		# Enemy has died
 		State.DAMAGED:
 			hurtbox.set_deferred("monitorable", true)
 			velocity = Vector2.ZERO
 			sprite_base.play("damage")
+			play_damaged_sfx()
 
 func _ready() -> void:
 	super._ready()
@@ -179,12 +197,14 @@ func _physics_process(delta: float) -> void:
 		State.CHARGING:
 			if charge_duration <= 0:
 				# End charge
+				
 				set_state(State.MOVING)
 			if is_on_wall():
 				var collider = get_slide_collision(0).get_collider() 
 				if is_instance_valid(collider) and collider.is_in_group("enemy"):
 					# Enemy collided with other enemy, end charge
 					set_state(State.MOVING)
+					
 					return
 					
 				# Enemy has charged into wall
@@ -192,6 +212,7 @@ func _physics_process(delta: float) -> void:
 				if health_component:
 					health_component.take_damage(6, "None")
 				set_state(State.STUNNED)
+				play_stunned_sfx()
 			
 			# Flip the sprite if neceessary
 			velocity = charge_direction * speed * charge_multiplier
@@ -272,6 +293,7 @@ func handle_move() -> void:
 func handle_powerup() -> void:
 	velocity = Vector2.ZERO
 	sprite_base.play("idle")
+	play_powerup_sfx()
 	
 	#Play powerup animation
 	var tween : Tween = get_tree().create_tween()
@@ -294,6 +316,8 @@ func handle_powerup() -> void:
 
 func handle_attack() -> void:
 	sprite_base.play("attack")
+	play_attack_sfx()
+	
 
 	# Create a temporary hitbox for the attack
 	var hitbox : hitBox = hitBox.new(self, damage, "None", 0, hitbox_shape)
@@ -308,6 +332,7 @@ func handle_attack() -> void:
 
 func handle_charge() -> void:
 	sprite_base.play("charge")
+	play_charge_sfx()
 	hurtbox.set_deferred("monitorable", false)
 	
 	if state == State.CHARGING:
@@ -335,6 +360,7 @@ func handle_charge() -> void:
 
 func handle_summon() -> void:
 	sprite_base.play("summon")
+	play_summon_sfx()
 	summon_cooldown = SUMMON_COOLDOWN_TIME
 	
 	# Get every point on the tilemap
@@ -440,3 +466,82 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		"summon":		
 			set_state(State.MOVING)
 			print("enemy finished summon")
+			
+			
+func play_attack_sfx():
+	if attack_sounds.is_empty():
+		return
+		
+	if attack_sfx.playing:
+		return
+	
+	var index: int = randi() % attack_sounds.size()
+	attack_sfx.stream = attack_sounds[index]
+	attack_sfx.pitch_scale = randf_range(0.95, 1.05) #lil variance in pitch
+	attack_sfx.play()
+	
+func play_damaged_sfx():
+	if damaged_sounds.is_empty():
+		return
+	
+	var index: int = randi() % damaged_sounds.size()
+	mrbeast_sfx.stream = damaged_sounds[index]
+	mrbeast_sfx.pitch_scale = randf_range(0.95, 1.05) #lil variance in pitch
+	mrbeast_sfx.play()
+	
+func play_overheating_sfx():
+	if misc_sounds.is_empty():
+		return
+	
+	mrbeast_sfx.stream = misc_sounds[misc_sounds_index.overheating]
+	mrbeast_sfx.play()
+	
+	
+func play_summon_sfx():
+	if misc_sounds.is_empty():
+		return
+	mrbeast_sfx.stream = misc_sounds[misc_sounds_index.summoning]
+	mrbeast_sfx.play()
+	play_attack_sfx()
+	
+func play_stunned_sfx():
+	if damaged_sounds.is_empty():
+		return
+	mrbeast_sfx.stream = damaged_sounds[0]
+	mrbeast_sfx.play()
+	
+	
+func play_powerup_sfx():
+	if misc_sounds.is_empty():
+		return
+		
+	attack_sfx.stream = misc_sounds[misc_sounds_index.hooting]
+	mrbeast_sfx.stream = misc_sounds[misc_sounds_index.roar]
+	
+	attack_sfx.play()
+	mrbeast_sfx.play()
+	
+	await mrbeast_sfx.finished
+	
+	mrbeast_sfx.stream = misc_sounds[misc_sounds_index.endbellow]
+	mrbeast_sfx.play()
+	
+func play_charge_sfx():
+	if step_sounds.is_empty():
+		return
+		
+	if attack_sfx.playing and attack_sfx.stream == step_sounds[0]:
+		return
+		
+	attack_sfx.stream = step_sounds[0]
+	attack_sfx.play() #need a way to stop this because it loops
+	
+func stop_charge_sfx():
+	if step_sounds.is_empty():
+		return
+		
+	if attack_sfx.playing and attack_sfx.stream == step_sounds[0]:
+		attack_sfx.stop()
+
+		
+	

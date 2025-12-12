@@ -1,7 +1,10 @@
-[gd_scene load_steps=77 format=3 uid="uid://cxk0mg0y5qdi0"]
+[gd_scene load_steps=80 format=3 uid="uid://cxk0mg0y5qdi0"]
 
 [ext_resource type="Script" uid="uid://dut5bplbuvr5v" path="res://Assets/Enemies/UndeadSwordsmanArmour/undead_swordsman.gd" id="1_wteio"]
+[ext_resource type="AudioStream" uid="uid://ng77w5d8yleb" path="res://Assets/Resources/PlayerSFX/OGG Files/Giant_Attack.ogg" id="2_3hkv8"]
+[ext_resource type="AudioStream" uid="uid://piu8vv1xigev" path="res://Assets/Enemies/SFX/added_sfx/DSGNMisc_MELEE-Sword Slash_HY_PC-004.wav" id="3_2g06f"]
 [ext_resource type="Texture2D" uid="uid://woppisagaauf" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Die.png" id="3_m153v"]
+[ext_resource type="AudioStream" uid="uid://diforotjr44t7" path="res://Assets/Enemies/SFX/added_sfx/crack01.mp3.ogg" id="4_nrpbe"]
 [ext_resource type="Texture2D" uid="uid://bubxl05os68lb" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Attack1.png" id="4_tayrw"]
 [ext_resource type="Texture2D" uid="uid://csa4sufwbn2ro" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Hurt.png" id="5_2romr"]
 [ext_resource type="Texture2D" uid="uid://bcdu45oih0tks" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Shield/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_03_Yellow_Idle.png" id="6_3hkv8"]
@@ -492,6 +495,7 @@ scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_wteio")
+swordsman_sounds = Array[AudioStream]([ExtResource("2_3hkv8"), ExtResource("3_2g06f"), ExtResource("4_nrpbe")])
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 speed = 90.0
@@ -535,6 +539,9 @@ script = ExtResource("11_2romr")
 max_health = 150.0
 defense = 1.5
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
+
+[node name="swordsmanSfx" type="AudioStreamPlayer2D" parent="."]
+volume_db = -10.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

@@ -11326,7 +11326,7 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 2
+frame = 8
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")
@@ -11399,13 +11399,13 @@ sprite_frames = SubResource("SpriteFrames_a3rua")
 animation = &""
 
 [node name="moveSfx" type="AudioStreamPlayer2D" parent="."]
-bus = &"SFX"
+bus = &"PlayerSFX"
 
 [node name="attackSfx" type="AudioStreamPlayer2D" parent="."]
-bus = &"SFX"
+bus = &"PlayerSFX"
 
 [node name="miscSfx" type="AudioStreamPlayer2D" parent="."]
-bus = &"SFX"
+bus = &"PlayerSFX"
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 zoom = Vector2(3, 3)

@@ -1,5 +1,9 @@
 extends EnemyEntity
 
+@onready var wiz_sfx = $wizSfx
+
+@export var wiz_sounds : Array[AudioStream] = [] #0: teleport, 1: death
+
 # Get the reference to the player node
 @onready var player : Node = get_tree().get_first_node_in_group("player")
 
@@ -60,6 +64,8 @@ func set_state(new_state : State) -> void:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
 			sprite_base.play("escape_teleport")
+			wiz_sfx.stream = wiz_sounds[0]
+			wiz_sfx.play()
 
 		# Enemy transforming into another enemy
 		State.TRANSFORMED:
@@ -74,6 +80,8 @@ func set_state(new_state : State) -> void:
 		State.DYING:	
 			velocity = Vector2.ZERO
 			sprite_base.play("death")
+			wiz_sfx.stream = wiz_sounds[1]
+			wiz_sfx.play()
 
 func _ready() -> void:
 	super._ready()
@@ -182,6 +190,8 @@ func handle_teleport() -> void:
 	global_position = closest_point
 
 	sprite_base.play("spawn_teleport")
+	wiz_sfx.stream = wiz_sounds[0]
+	wiz_sfx.play()
 
 func setup_countdown_timer() -> void:
 	player_hits_left = 10

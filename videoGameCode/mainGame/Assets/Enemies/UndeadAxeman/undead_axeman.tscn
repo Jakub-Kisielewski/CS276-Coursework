@@ -1,8 +1,11 @@
-[gd_scene load_steps=93 format=3 uid="uid://ctews1r14aqyh"]
+[gd_scene load_steps=96 format=3 uid="uid://ctews1r14aqyh"]
 
 [ext_resource type="Script" uid="uid://6eh0032pny6h" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.gd" id="1_vhwpw"]
+[ext_resource type="AudioStream" uid="uid://bwunjdvsi2k14" path="res://Assets/Resources/PlayerSFX/OGG Files/Giant_Grunt3.ogg" id="2_8v1tq"]
+[ext_resource type="AudioStream" uid="uid://bt8oiarahy1rf" path="res://Assets/Resources/PlayerSFX/OGG Files/SFX/Chopping and Mining/chop 1.ogg" id="3_hgsfa"]
 [ext_resource type="Texture2D" uid="uid://bh62q2v10soqr" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Attack1.png" id="3_vhwpw"]
 [ext_resource type="Texture2D" uid="uid://xivetvjg5ocb" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Hurt.png" id="4_0ejd5"]
+[ext_resource type="AudioStream" uid="uid://diforotjr44t7" path="res://Assets/Enemies/SFX/added_sfx/crack01.mp3.ogg" id="4_i2t5x"]
 [ext_resource type="Texture2D" uid="uid://cd5ydbvb4mh71" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Die.png" id="5_qhmtf"]
 [ext_resource type="Texture2D" uid="uid://drtunjrue2c23" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Idle.png" id="6_0ejd5"]
 [ext_resource type="Texture2D" uid="uid://k4gc4jjierls" path="res://Assets/Enemies/Sprites/Skeletons/Skeleton_Axe/Skeleton_Yellow/Skeleton_With_VFX/Skeleton_02_Yellow_Walk.png" id="6_5kng5"]
@@ -606,6 +609,7 @@ scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_vhwpw")
+axe_sounds = Array[AudioStream]([ExtResource("2_8v1tq"), ExtResource("3_hgsfa"), ExtResource("4_i2t5x")])
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CapsuleShape2D_0ejd5")
 speed = 80.0
@@ -649,6 +653,9 @@ metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 script = ExtResource("11_hwuky")
 max_health = 150.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
+
+[node name="axeSfx" type="AudioStreamPlayer2D" parent="."]
+volume_db = -10.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

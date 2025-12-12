@@ -5,7 +5,7 @@ class_name Menutaur extends CharacterBody2D
 @export var target_pos : Vector2
 var deathBGRND : ColorRect
 
-var acceleration : int = 6000
+var acceleration : int = 3600
 	
 func initialise(_deathBGRND: ColorRect):
 	deathBGRND = _deathBGRND
@@ -17,12 +17,12 @@ func death_anim() -> void:
 
 	# Fade the ColorRect until fully visible
 	var tween : Tween = create_tween()
-	tween.tween_property(deathBGRND, "modulate:a", 1.0, 0.7)
+	tween.tween_property(deathBGRND, "color:a", 1.0, 0.8)
 	tween.tween_interval(0.1)
 
 	# Fade the UI elements until fully visible
 	for child in get_parent().find_children("", "Button") + get_parent().find_children("", "Label"):
-		tween.tween_property(child, "modulate:a", 1.0, 0.6)
+		tween.tween_property(child, "modulate:a", 1.0, 0.7)
 		tween.parallel()
 
 
@@ -46,7 +46,7 @@ func _process(_delta: float) -> void:
 		
 # Close the death screen
 func close() -> void:
-	deathBGRND.modulate.a = 0
+	deathBGRND.color.a = 0
 	for child in get_parent().find_children("", "Button") + get_parent().find_children("", "Label"):
 		child.modulate.a = 0
 	

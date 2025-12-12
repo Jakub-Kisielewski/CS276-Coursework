@@ -1,5 +1,9 @@
 extends EnemyEntity
 
+@onready var axe_sfx = $axeSfx
+
+@export var axe_sounds : Array[AudioStream] = [] #0: grunt, 1: attack, 2:death,
+
 # Get the reference to the player node
 @onready var player : Node = get_tree().get_first_node_in_group("player")
 
@@ -48,11 +52,15 @@ func set_state(new_state : State) -> void:
 		State.DAMAGED:
 			velocity = Vector2.ZERO
 			sprite_base.play("damage")
+			#axe_sfx.stream = axe_sounds[0]
+			#axe_sfx.play()
 
 		#Enemy is dying
 		State.DYING:
 			velocity = Vector2.ZERO
 			sprite_base.play("death")
+			axe_sfx.stream = axe_sounds[2]
+			axe_sfx.play()
 
 func _ready() -> void:
 	super._ready()
@@ -118,6 +126,7 @@ func handle_follow() -> void:
 func handle_move() -> void:	
 	sprite_base.play("move")
 	
+	
 func handle_attack() -> void:
 	# Create a temporary hitbox for the attack
 	var hitbox : hitBox = hitBox.new(self, damage, "None", 0, hitbox_shape)
@@ -139,6 +148,9 @@ func handle_attack() -> void:
 		else:
 			hitbox.position = Vector2(20, 0)
 		sprite_base.play("attack_down")
+		
+	axe_sfx.stream = axe_sounds[1]
+	axe_sfx.play()
 
 # When enemy enters attack range
 func _on_range_body_entered(body: Node2D) -> void:

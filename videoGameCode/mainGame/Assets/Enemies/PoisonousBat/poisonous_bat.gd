@@ -1,6 +1,10 @@
 #Always ensure bat sprite is above player sprite
 extends EnemyEntity
 
+@onready var bat_sfx = $batSfx
+
+@export var bat_sounds : Array[AudioStream] = [] #0: fly, 1: attack, 2:poison bite, 3: death
+
 # Get the reference to the player node
 @onready var player : Node = get_tree().get_first_node_in_group("player")
 
@@ -68,6 +72,8 @@ func set_state(new_state : State) -> void:
 		State.DYING:
 			velocity = Vector2.ZERO
 			sprite_base.play("death")
+			bat_sfx.stream = bat_sounds[3]
+			bat_sfx.play()
 
 func _ready() -> void:
 	super._ready()
@@ -145,9 +151,14 @@ func handle_follow() -> void:
 
 func handle_move() -> void:	
 	sprite_base.play("move")
+	bat_sfx.stream = bat_sounds[0]
+	bat_sfx.play()
+	
 	
 func handle_bite() -> void:
 	sprite_base.play("bite")
+	bat_sfx.stream = bat_sounds[2]
+	bat_sfx.play()
 
 	# Create a temporary hitbox for the attack
 	var hitbox : hitBox = hitBox.new(self, damage, "Poison", 0, hitbox_shape)
@@ -164,6 +175,9 @@ func handle_strike() -> void:
 	set_collision(false)
 	
 	sprite_base.play("strike")
+	bat_sfx.stream = bat_sounds[1]
+	bat_sfx.play()
+	
 	strike_cooldown = STRIKE_COOLDOWN_TIME
 
 	# Create a temporary hitbox for the attack

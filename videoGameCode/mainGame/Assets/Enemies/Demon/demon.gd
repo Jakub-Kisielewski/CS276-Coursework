@@ -1,5 +1,9 @@
 extends EnemyEntity
 
+@onready var demon_sfx = $demonSfx
+
+@export var demon_sounds : Array[AudioStream] = [] #0: teleport, 1: attack, 2:death
+
 # Get the reference to the player node
 @onready var player : Node = get_tree().get_first_node_in_group("player")
 
@@ -53,6 +57,8 @@ func set_state(new_state : State) -> void:
 		State.TELEPORTING:
 			velocity = Vector2.ZERO
 			sprite_base.play("escape_teleport")
+			demon_sfx.stream = demon_sounds[0]
+			demon_sfx.play()
 
 		# Enemy has finished teleporting, now using its special attack
 		State.SPECIAL:
@@ -67,6 +73,8 @@ func set_state(new_state : State) -> void:
 		State.DYING:
 			velocity = Vector2.ZERO
 			sprite_base.play("death")
+			demon_sfx.stream = demon_sounds[2]
+			demon_sfx.play()
 
 func _ready() -> void:
 	super._ready() 
@@ -147,6 +155,8 @@ func handle_move():
 	
 func handle_attack() -> void:
 	sprite_base.play("attack")
+	demon_sfx.stream = demon_sounds[1]
+	demon_sfx.play()
 
 	# Create a temporary hitbox for the attack
 	var hitbox = hitBox.new(self, damage, "None", 0.1, hitbox_shape)
@@ -161,6 +171,8 @@ func handle_attack() -> void:
 
 func handle_special() -> void:
 	sprite_base.play("special_attack")
+	demon_sfx.stream = demon_sounds[1]
+	demon_sfx.play()
 
 	# Create a temporary hitbox for the attack
 	var hitbox : hitBox = hitBox.new(self, damage, "Lifeslash", 0, hitbox_shape)
@@ -197,6 +209,8 @@ func handle_teleport() -> void:
 	global_position = closest_point
 
 	sprite_base.play("spawn_teleport")
+	demon_sfx.stream = demon_sounds[0]
+	demon_sfx.play()
 
 func handle_timers(delta: float) -> void:
 	# Decrement the teleport cooldown

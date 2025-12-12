@@ -1,5 +1,9 @@
 extends EnemyEntity
 
+@onready var swordsman_sfx = $swordsmanSfx
+
+@export var swordsman_sounds : Array[AudioStream] = [] #0: grunt, 1: attack, 2:death,
+
 # Get the reference to the player node
 @onready var player : Node = get_tree().get_first_node_in_group("player")
 
@@ -57,11 +61,15 @@ func set_state(new_state : State) -> void:
 		State.DAMAGED:
 			velocity = Vector2.ZERO
 			sprite_base.play("damage")
+			#swordsman_sfx.stream = swordsman_sounds[0]
+			#swordsman_sfx.play()
 
 		#Enemy is dying
 		State.DYING:
 			velocity = Vector2.ZERO
 			sprite_base.play("death")
+			swordsman_sfx.stream = swordsman_sounds[2]
+			swordsman_sfx.play()
 
 func _ready() -> void:
 	super._ready()
@@ -143,6 +151,8 @@ func handle_move()-> void :
 	
 func handle_attack() -> void:
 	sprite_base.play("attack")
+	swordsman_sfx.stream = swordsman_sounds[1]
+	swordsman_sfx.play()
 
 	# Create a temporary hitbox for the attack
 	var hitbox : hitBox = hitBox.new(self, damage, "None", 0, hitbox_shape)

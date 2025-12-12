@@ -1,5 +1,8 @@
 extends EnemyEntity
 
+@onready var skel_sfx = $skelSfx
+
+@export var skel_sounds : Array[AudioStream] = [] #0: grunt, 1: attack, 2:death,
 # Get the reference to the player node
 @onready var player : Node = get_tree().get_first_node_in_group("player")
 
@@ -47,11 +50,16 @@ func set_state(new_state : State) -> void:
 		State.DAMAGED:
 			velocity = Vector2.ZERO
 			sprite_base.play("damage")
+			skel_sfx.stream = skel_sounds[0]
+			skel_sfx.play()
 		
 		#Enemy is dying
 		State.DYING:
 			velocity = Vector2.ZERO
 			sprite_base.play("death")
+
+			skel_sfx.stream = skel_sounds[2]
+			skel_sfx.play()
 
 func _ready() -> void:
 	super._ready()
@@ -133,6 +141,10 @@ func handle_attack() -> void:
 		sprite_base.play("attack_up")
 	else:
 		sprite_base.play("attack_down")
+		
+	
+	skel_sfx.stream = skel_sounds[1]
+	skel_sfx.play()
 
 # When enemy enters attack range
 func _on_range_body_entered(body: Node2D) -> void:

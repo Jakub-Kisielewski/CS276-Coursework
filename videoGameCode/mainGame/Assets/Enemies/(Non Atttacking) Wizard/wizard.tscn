@@ -1,6 +1,8 @@
-[gd_scene load_steps=109 format=3 uid="uid://becsynnrqprvl"]
+[gd_scene load_steps=111 format=3 uid="uid://becsynnrqprvl"]
 
 [ext_resource type="Script" uid="uid://bpymnqpk46hmr" path="res://Assets/Enemies/(Non Atttacking) Wizard/wizard.gd" id="1_t4ypt"]
+[ext_resource type="AudioStream" uid="uid://d3ajatemlrh45" path="res://Assets/Enemies/SFX/8_Buffs_Heals_SFX/39_Absorb_04.wav" id="2_5ntty"]
+[ext_resource type="AudioStream" uid="uid://diforotjr44t7" path="res://Assets/Enemies/SFX/added_sfx/crack01.mp3.ogg" id="3_b7nkx"]
 [ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="4_t7nqe"]
 [ext_resource type="Texture2D" uid="uid://3kymg6cwisht" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Blue/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Spawn-Teleport.png" id="4_whjmo"]
 [ext_resource type="Texture2D" uid="uid://c1rf74pu1ypcx" path="res://Assets/Enemies/Sprites/FantasyEnemies/Evil Creature/Evil Creature Blue/Evil Creature with VFX/Evil Creature Portal/EvilCreature-Hurt.png" id="5_t7nqe"]
@@ -704,6 +706,7 @@ scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_t4ypt")
+wiz_sounds = Array[AudioStream]([ExtResource("2_5ntty"), ExtResource("3_b7nkx")])
 nav = NodePath("Nav")
 hitbox_shape = SubResource("CircleShape2D_t3ldh")
 summons = Array[PackedScene]([ExtResource("4_t7nqe"), ExtResource("5_xjwck")])
@@ -739,5 +742,7 @@ metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 script = ExtResource("13_hmy5p")
 invincible = true
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
+
+[node name="wizSfx" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
