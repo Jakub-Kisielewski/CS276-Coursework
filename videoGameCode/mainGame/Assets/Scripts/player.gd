@@ -112,16 +112,14 @@ func _ready():
 	
 	
 	
-	#if GameData.current_weapons.is_empty():
-		#GameData.add_weapon(sword_data)
-		##GameData.add_weapon(spear_data)
-		##GameData.add_weapon(bow_data)
-	#
-	#GameData.set_active_weapon(0)
+	if GameData.current_weapons.is_empty():
+		GameData.add_weapon(sword_data)
+		#GameData.add_weapon(spear_data)
+		#GameData.add_weapon(bow_data)
 	
+	GameData.set_active_weapon(0)
+	sync_from_gameData()
 	anim_tree.active = true
-	current_weapon = Weapon.SWORD
-	current_weapon_data = sword_data
 	
 	orig_spear_pos = spearAnim.position
 	orig_pos = position
@@ -129,6 +127,27 @@ func _ready():
 	bowEffects2.visible = false
 	
 	canvas = get_tree().get_first_node_in_group("canvas")
+
+func sync_from_gameData():
+	
+	match GameData.active_weapon_index:
+		0: current_weapon = Weapon.SWORD
+		1: current_weapon = Weapon.SPEAR
+		2: current_weapon = Weapon.BOW
+		_: current_weapon = Weapon.SWORD
+		
+	var wp := GameData.get_active_weapon()
+	if wp != null:
+		current_weapon_data = wp
+	else:
+		current_weapon_data = sword_data
+	
+	
+	max_dashes = GameData.max_dashes_charges
+	dashes = max_dashes
+	dash_through_enemies = GameData.dash_through_enemies_unlocked
+	have_decoy = GameData.decoy_unlocked
+	
 
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
@@ -501,23 +520,13 @@ func offset_bow():
 
 func weapon_switch():
 	
-	if current_weapon == Weapon.SWORD:
-		current_weapon = Weapon.SPEAR
-		current_weapon_data = spear_data
-	elif current_weapon == Weapon.SPEAR: 
-		current_weapon = Weapon.BOW
-		current_weapon_data = bow_data
-	else:	
-		current_weapon = Weapon.SWORD
-		current_weapon_data = sword_data
-	
-	var new_index = 0
-	match current_weapon:
-		Weapon.SWORD: new_index = 0
-		Weapon.SPEAR: new_index = 1
-		Weapon.BOW: new_index = 2
-	
+	if GameData.current_weapons.is_empty():
+		return
+		
+	var new_index := (GameData.active_weapon_index + 1) % GameData.current_weapons.size()
 	GameData.set_active_weapon(new_index)
+	
+	sync_from_gameData()
 
 func handle_attack():
 	if player_busy():
@@ -669,7 +678,7 @@ func shoot_arrow(dir: Vector2 = Vector2.ZERO): #triggered at end of battack anim
 	arrow.attacker = self
 	arrow.base_damage = GameData.damage
 	
-	arrow.weapon_data = bow_data
+	arrow.weapon_data = current_weapon_data
 	
 	get_parent().add_child(arrow)
 	print("shot arrow mhm")
@@ -1049,18 +1058,8 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 		anim_state.travel("Sidle")
 		
 		
-#use this if player chooses to increase number of dashes in shop
-func upgrade_dash():
-	if max_dashes >=3:
-		print("already at max dashes")
-	else:
-		max_dashes += 1;
-		
-func unlock_decoy():
-	have_decoy = true
-	
-func upgrade_dash_transparency():
-	dash_through_enemies = true
+
+
 	
 
 func throw_decoy():

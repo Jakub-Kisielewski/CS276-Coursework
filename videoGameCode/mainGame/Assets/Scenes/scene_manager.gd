@@ -14,8 +14,10 @@ class_name SceneManager extends Node
 @export var ui_pause_menu: Control
 @export var ui_death: Control
 
+
+
 var current_scene_node: Node = null
-enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, SETTINGS, DEATH }
+enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, SETTINGS, DEATH}
 var current_ui_state: SceneType = SceneType.MENU
 
 func _ready() -> void:
