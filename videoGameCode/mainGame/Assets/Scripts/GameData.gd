@@ -14,6 +14,7 @@ var map_width: int = 7
 var map_height: int = 7
 var branch_prob: float = 0.4
 var difficulty_mod: float = 1.0
+var player_coords: Vector2i = Vector2i(0, 0)
 
 const SAVE_PATH = "user://savegame.json"
 
@@ -48,7 +49,9 @@ func save_game():
 		"map_width": map_width,
 		"map_height": map_height,
 		"branch_prob": branch_prob,
-		"difficulty_mod": difficulty_mod
+		"difficulty_mod": difficulty_mod,
+		"player_coords_x": player_coords.x,
+		"player_coords_y": player_coords.y
 	}
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -82,6 +85,9 @@ func load_game():
 			map_height = data.get("map_height", 7)
 			branch_prob = data.get("branch_prob", 0.4)
 			difficulty_mod = data.get("difficulty_mod", 1.0)
+			var px = data.get("player_coords_x", 0)
+			var py = data.get("player_coords_y", 0)
+			player_coords = Vector2i(px, py)
 			
 			# Update UI with loaded values
 			player_stats_changed.emit()

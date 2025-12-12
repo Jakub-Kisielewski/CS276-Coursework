@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c7njgli8wtoay"]
+[gd_scene load_steps=22 format=3 uid="uid://c7njgli8wtoay"]
 
 [ext_resource type="Script" uid="uid://cegk4g6d48rk1" path="res://Assets/Scenes/main.gd" id="1_l26l0"]
 [ext_resource type="Script" uid="uid://diff8hf67in4j" path="res://Assets/Scenes/scene_manager.gd" id="2_qplxx"]
@@ -16,9 +16,11 @@
 [ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="12_4qkp8"]
 [ext_resource type="PackedScene" uid="uid://bn1ef75yn48d2" path="res://Assets/UI/UI_MazeGen.tscn" id="14_ltoj3"]
 [ext_resource type="PackedScene" uid="uid://dx85q01r02ro5" path="res://Assets/UI/UI_Pause.tscn" id="14_tm25p"]
+[ext_resource type="PackedScene" uid="uid://cr1abpunt8ywc" path="res://Assets/Rooms/start_room.tscn" id="15_cun2r"]
 [ext_resource type="PackedScene" uid="uid://6y0f5obexsye" path="res://Assets/UI/UI_MainMenu.tscn" id="15_uq7jr"]
 [ext_resource type="PackedScene" uid="uid://d7tmus33h2ta" path="res://Assets/UI/UI_Death.tscn" id="16_qscjt"]
 [ext_resource type="Script" uid="uid://cw883wtgvhncp" path="res://Assets/Scenes/music_player.gd" id="20_cun2r"]
+[ext_resource type="PackedScene" uid="uid://r4bwy5b4gyc1" path="res://Assets/UI/UI_Corridor.tscn" id="21_nb11o"]
 
 [node name="Main" type="Node" node_paths=PackedStringArray("run_manager", "scene_manager", "world_environment")]
 process_mode = 3
@@ -37,12 +39,13 @@ dark_world = ExtResource("4_4qkp8")
 bus = &"Music"
 script = ExtResource("20_cun2r")
 
-[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("active_scene_container", "transition_screen", "ui_main_menu", "ui_maze_gen", "ui_pause_menu", "ui_death")]
+[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("active_scene_container", "transition_screen", "ui_main_menu", "ui_maze_gen", "ui_corridor", "ui_pause_menu", "ui_death")]
 script = ExtResource("2_qplxx")
 active_scene_container = NodePath("../ActiveSceneContainer")
 transition_screen = NodePath("../UILayer/UiTransitionSceen")
 ui_main_menu = NodePath("../UILayer/UiMainMenu")
 ui_maze_gen = NodePath("../UILayer/UiMazeGen")
+ui_corridor = NodePath("../UILayer/UiCorridor")
 ui_pause_menu = NodePath("../UILayer/UiPause")
 ui_death = NodePath("../UILayer/UiDeath")
 
@@ -52,6 +55,7 @@ scene_manager = NodePath("../SceneManager")
 available_room_scenes = Array[PackedScene]([ExtResource("4_4357x"), ExtResource("5_f1jyc"), ExtResource("9_uop3n")])
 player_scene = ExtResource("7_acsc0")
 enemy_pool = Array[PackedScene]([ExtResource("4_nacht"), ExtResource("5_acsc0"), ExtResource("12_4qkp8")])
+start_room_scene = ExtResource("15_cun2r")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
@@ -69,6 +73,8 @@ offset_right = 0.0
 offset_bottom = 0.0
 
 [node name="UiDeath" parent="UILayer" instance=ExtResource("16_qscjt")]
+
+[node name="UiCorridor" parent="UILayer" instance=ExtResource("21_nb11o")]
 
 [node name="UiPause" parent="UILayer" instance=ExtResource("14_tm25p")]
 anchors_preset = 15

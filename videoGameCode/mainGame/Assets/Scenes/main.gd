@@ -53,7 +53,7 @@ func _on_new_game() -> void:
 
 func _on_start_run() -> void:
 	print("Main: Starting Run with Custom Settings")
-	run_manager.start_run_or_next_room()
+	run_manager.start_new_run()
 
 func _on_back_to_menu() -> void:
 	scene_manager.on_return_to_menu()

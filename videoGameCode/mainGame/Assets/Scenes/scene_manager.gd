@@ -22,9 +22,10 @@ var current_ui_state: SceneType = SceneType.MENU
 func _ready() -> void:
 	
 	set_scene_music_category(current_ui_state) #initially the menu music
-
+	
 	transition_screen.visible = false
 	transition_screen.modulate.a = 0.0
+	_switch_ui_state(current_ui_state)
 
 func swap_content_scene(new_scene_node: Node, on_black_screen: Callable = Callable()) -> void:
 	await _fade_out()
@@ -87,6 +88,9 @@ func _switch_ui_state(scene_type: SceneType) -> void:
 
 func on_start_game_ui() -> void:
 	_switch_ui_state(SceneType.ROOM)
+
+func on_show_corridor_ui() -> void:
+	_switch_ui_state(SceneType.CORRIDOR)
 
 func on_return_to_menu() -> void:
 	for child in active_scene_container.get_children():
