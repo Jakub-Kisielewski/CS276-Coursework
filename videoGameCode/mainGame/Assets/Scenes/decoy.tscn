@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cpytb70lpo5n"]
 
-[ext_resource type="Script" uid="uid://cvemk8fhdna6m" path="res://Assets/Scripts/decoy.gd" id="1_fjwk3"]
+[ext_resource type="Script" path="res://Assets/Scripts/decoy.gd" id="1_fjwk3"]
 [ext_resource type="Texture2D" uid="uid://bh7o7387h4l22" path="res://Assets/Resources/Sprites/BaseSprite/weapons/itemstrans.png" id="2_a2x4a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_43iiv"]

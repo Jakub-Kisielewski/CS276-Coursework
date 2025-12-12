@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bu3jd7q25caqw"
+path="res://.godot/imported/Bow Blocked 1.ogg-eba72a9775c6a3e08574173ebc54358f.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Resources/PlayerSFX/OGG Files/SFX/Attacks/Bow Attacks Hits and Blocks/Bow Blocked 1.ogg"
+dest_files=["res://.godot/imported/Bow Blocked 1.ogg-eba72a9775c6a3e08574173ebc54358f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

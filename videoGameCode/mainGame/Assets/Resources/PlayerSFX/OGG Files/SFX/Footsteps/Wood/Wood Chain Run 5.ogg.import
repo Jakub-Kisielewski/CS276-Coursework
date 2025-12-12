@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b8jje2dxmbxvk"
+path="res://.godot/imported/Wood Chain Run 5.ogg-67f6a4e099f6a18907f9102541b8b5c4.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Resources/PlayerSFX/OGG Files/SFX/Footsteps/Wood/Wood Chain Run 5.ogg"
+dest_files=["res://.godot/imported/Wood Chain Run 5.ogg-67f6a4e099f6a18907f9102541b8b5c4.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -277,7 +277,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"charge",
-"speed": 28.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -437,7 +437,7 @@ motion_mode = 1
 wall_min_slide_angle = 0.34906584
 script = ExtResource("1_tydif")
 sprite = NodePath("AnimatedSprite2D")
-speed = 5200.0
+speed = 6000.0
 target_pos = Vector2(2660, 130)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -449,5 +449,4 @@ disabled = true
 modulate = Color(0.49019608, 0.23529412, 0.29803923, 1)
 sprite_frames = SubResource("SpriteFrames_j4qsk")
 animation = &"charge"
-frame = 9
-frame_progress = 1.0
+frame_progress = 0.35260364

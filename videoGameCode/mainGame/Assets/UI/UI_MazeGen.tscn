@@ -1,19 +1,28 @@
-[gd_scene load_steps=13 format=3 uid="uid://bn1ef75yn48d2"]
+[gd_scene load_steps=17 format=3 uid="uid://bn1ef75yn48d2"]
 
 [ext_resource type="Texture2D" uid="uid://bwhbffjpkaacg" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/signal1.png" id="1_ra5ke"]
 [ext_resource type="Script" uid="uid://dbqlfu3ar5ikg" path="res://Assets/UI/ui_maze_gen.gd" id="1_yuwde"]
 [ext_resource type="Texture2D" uid="uid://cp3trujjxkwff" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/signal2.png" id="2_e2n88"]
 [ext_resource type="Texture2D" uid="uid://d2hogl6qeah8r" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/signal3.png" id="3_0hsji"]
+[ext_resource type="FontFile" uid="uid://dfo5byu3tupte" path="res://Assets/Resources/Fonts/kenney_kenney-fonts/Fonts/Kenney High.ttf" id="3_fg1t6"]
+[ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="3_r0f5b"]
 [ext_resource type="Texture2D" uid="uid://gyy2so7y5uhh" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/smaller.png" id="4_is67t"]
 [ext_resource type="Texture2D" uid="uid://gate1pfemhou" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/share1.png" id="5_77orf"]
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_kc8j6"]
+[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/default_button.tres" id="5_uqyd8"]
 [ext_resource type="Texture2D" uid="uid://ufrkvu8lfi8j" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/larger.png" id="6_gxfx2"]
 [ext_resource type="Texture2D" uid="uid://bfjdu5f08imtc" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/singleplayer.png" id="7_gxfx2"]
 [ext_resource type="Texture2D" uid="uid://c511r1ei0hkam" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/multiplayer.png" id="8_f5sgr"]
 [ext_resource type="Texture2D" uid="uid://bp6ri6n5e7tpx" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/massiveMultiplayer.png" id="9_f5sgr"]
 [ext_resource type="StyleBox" uid="uid://c1vcpi70ucrtw" path="res://Assets/UI/mainMenuBackground.tres" id="10_hs6mt"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hs6mt"]
-bg_color = Color(0.20871013, 0.20871016, 0.20871004, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kc8j6"]
+texture = ExtResource("3_r0f5b")
+expand_margin_left = 110.0
+expand_margin_top = 30.0
+expand_margin_right = 110.0
+expand_margin_bottom = 30.0
+region_rect = Rect2(19, 275, 90, 90)
 
 [node name="UiMazeGen" type="Control"]
 layout_mode = 3
@@ -33,17 +42,27 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("10_hs6mt")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="DeathBGRND" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hs6mt")
+theme_override_styles/panel = SubResource("StyleBoxTexture_kc8j6")
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
 layout_mode = 2
@@ -52,23 +71,32 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox"]
+[node name="Title" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Setup"
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fg1t6")
+theme_override_font_sizes/font_size = 64
+text = "setup"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox"]
 layout_mode = 2
+theme = ExtResource("5_uqyd8")
 
 [node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_kc8j6")
 text = "Map Size: "
 
 [node name="OptMapSize" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_kc8j6")
 item_count = 3
 popup/item_0/text = "Small"
 popup/item_0/icon = ExtResource("1_ra5ke")
@@ -82,15 +110,20 @@ popup/item_2/id = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox"]
 layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("5_uqyd8")
 
 [node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_kc8j6")
 text = "Path Complexity:"
 
 [node name="OptBranches" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_kc8j6")
 item_count = 3
 popup/item_0/text = "Sparse"
 popup/item_0/icon = ExtResource("4_is67t")
@@ -104,15 +137,20 @@ popup/item_2/id = 2
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox"]
 layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("5_uqyd8")
 
 [node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_kc8j6")
 text = "Difficulty:"
 
 [node name="OptDifficulty" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_kc8j6")
 item_count = 3
 popup/item_0/text = "Easy"
 popup/item_0/icon = ExtResource("7_gxfx2")
@@ -133,10 +171,12 @@ layout_mode = 2
 [node name="BtnBack" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox/HBoxContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_kc8j6")
 text = "Back"
 
 [node name="BtnStart" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/ContentVBox/HBoxContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_kc8j6")
 text = "Start Run"

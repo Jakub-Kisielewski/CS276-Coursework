@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://d7tmus33h2ta"]
+[gd_scene load_steps=7 format=3 uid="uid://d7tmus33h2ta"]
 
 [ext_resource type="Script" uid="uid://cgrhfcjnbh253" path="res://Assets/UI/ui_death.gd" id="1_urwop"]
 [ext_resource type="PackedScene" uid="uid://bn158qubeg1ki" path="res://Assets/Enemies/Minotaur/menu(taur).tscn" id="2_wgu7x"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="3_ipubg"]
+[ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="4_ipubg"]
+[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/default_button.tres" id="5_gsnry"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsnry"]
+atlas = ExtResource("4_ipubg")
+region = Rect2(300.14487, 268.06296, 104.06006, 104.06003)
 
 [node name="UiDeath" type="Control" node_paths=PackedStringArray("background")]
 layout_mode = 3
@@ -16,6 +22,7 @@ menutaur_scene = ExtResource("2_wgu7x")
 background = NodePath("DeathBGRND")
 
 [node name="DeathBGRND" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,43 +30,56 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
-metadata/_edit_use_anchors_ = true
 
 [node name="Title" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -326.5
-offset_top = -124.0
-offset_right = 326.5
-offset_bottom = -34.0
+offset_left = -339.0
+offset_top = -132.0
+offset_right = 339.0
+offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_ipubg")
-theme_override_font_sizes/font_size = 85
+theme_override_font_sizes/font_size = 120
 text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnMenu" type="Button" parent="."]
-unique_name_in_owner = true
+[node name="TextureRect" type="TextureRect" parent="Title"]
+modulate = Color(1, 0, 0, 1)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = 20.0
-offset_right = 200.0
-offset_bottom = 80.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -377.0
+offset_top = -22.0
+offset_right = 385.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = SubResource("AtlasTexture_gsnry")
+
+[node name="BtnMenu" type="Button" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 310.0
+offset_top = 80.0
+offset_right = 535.0
+offset_bottom = 195.0
+grow_vertical = 2
+theme = ExtResource("5_gsnry")
 
 [node name="LabelMenu" type="Label" parent="BtnMenu"]
 layout_mode = 1
@@ -68,28 +88,30 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(1.1551381e-06, 0.43689093, 0.7017278, 1)
 theme_override_fonts/font = ExtResource("3_ipubg")
 theme_override_font_sizes/font_size = 40
-text = "return to menu"
+text = "load menu"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BtnQuit" type="Button" parent="."]
 unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 6
+anchor_left = 1.0
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = 115.0
-offset_right = 200.0
-offset_bottom = 175.0
-grow_horizontal = 2
+offset_left = -510.0
+offset_top = 80.0
+offset_right = -285.0
+offset_bottom = 195.0
+grow_horizontal = 0
 grow_vertical = 2
+theme = ExtResource("5_gsnry")
 
 [node name="LabelQuit" type="Label" parent="BtnQuit"]
 layout_mode = 1
@@ -98,7 +120,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(1.1551381e-06, 0.43689093, 0.7017278, 1)
 theme_override_fonts/font = ExtResource("3_ipubg")
 theme_override_font_sizes/font_size = 40

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://befisvrb6bfoc"
+path="res://.godot/imported/Dirt Chain Land.ogg-96a4c7b92036d39d80b7e2f317145b7d.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Resources/PlayerSFX/OGG Files/SFX/Footsteps/Dirt/Dirt Chain Land.ogg"
+dest_files=["res://.godot/imported/Dirt Chain Land.ogg-96a4c7b92036d39d80b7e2f317145b7d.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

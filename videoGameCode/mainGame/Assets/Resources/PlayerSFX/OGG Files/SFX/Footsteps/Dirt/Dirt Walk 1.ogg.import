@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dx1obup568olj"
+path="res://.godot/imported/Dirt Walk 1.ogg-da1826f9acf33bebf807a859352d924f.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Resources/PlayerSFX/OGG Files/SFX/Footsteps/Dirt/Dirt Walk 1.ogg"
+dest_files=["res://.godot/imported/Dirt Walk 1.ogg-da1826f9acf33bebf807a859352d924f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
