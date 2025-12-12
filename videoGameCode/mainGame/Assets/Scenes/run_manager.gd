@@ -45,18 +45,22 @@ func start_new_run():
 		print("RunManager: No start_room_scene assigned! Loading random.")
 		start_run_or_next_room()
 
+var is_transitioning: bool = false # Add this flag
+
 func load_room_scene(room_packed: PackedScene):
+	if is_transitioning: return # Guard against double calls
+	is_transitioning = true     # Lock
+	
 	var room_instance = room_packed.instantiate() as RoomBase
 	
 	var setup_logic = func():
 		spawn_player_in_room(room_instance)
-		# initialize room enemies/difficulty
 		room_instance.setup_room(current_difficulty, enemy_pool)
 		room_instance.room_cleared.connect(_on_room_complete)
-		
 		scene_manager.on_start_game_ui()
 	
 	await scene_manager.swap_content_scene(room_instance, setup_logic)
+	is_transitioning = false    # Unlock
 
 func load_room_from_type(type_name: String) -> void:
 	print("RunManager: Loading room type: ", type_name)
@@ -120,12 +124,21 @@ func _on_room_complete():
 	load_corridor_ui()
 
 func load_corridor_ui():
+	if is_transitioning: return # Guard against double calls
+	is_transitioning = true     # Lock
+	
 	# swap to an empty node to clear the previous room from the scene tree
 	var placeholder = Node2D.new()
 	placeholder.name = "CorridorState"
 	
-	await scene_manager.swap_content_scene(placeholder)
-	scene_manager.on_show_corridor_ui()
+	# Define the UI switch as a callback to happen WHILE screen is black
+	var switch_ui_callback = func():
+		scene_manager.on_show_corridor_ui()
+
+	# Pass the callback to swap_content_scene
+	await scene_manager.swap_content_scene(placeholder, switch_ui_callback)
+	
+	is_transitioning = false    # Unlock
 
 # --- Emergent Events ---
 #func trigger_random_event():

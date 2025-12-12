@@ -64,3 +64,11 @@ text = "Enter Room"
 [node name="ShopContainer" type="Panel" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 154.0
+offset_top = 24.0
+offset_right = 348.0
+offset_bottom = 47.0
+text = "WASD TO NAVIGATE MAP"

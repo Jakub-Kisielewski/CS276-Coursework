@@ -28,19 +28,22 @@ func _ready() -> void:
 	_switch_ui_state(current_ui_state)
 
 func swap_content_scene(new_scene_node: Node, on_black_screen: Callable = Callable()) -> void:
-	await _fade_out()
+	await _fade_out() # 1. Screen goes fully black
 	
+	# 2. Cleanup old scene
 	for child in active_scene_container.get_children():
 		child.queue_free()
 	
+	# 3. Add new scene
 	active_scene_container.add_child(new_scene_node)
 	
-	if on_black_screen.is_valid(): # spawn players and enemies
+	# 4. Execute the callback (Switch UI here!)
+	if on_black_screen.is_valid(): 
 		on_black_screen.call()
 	
-	await get_tree().process_frame
+	await get_tree().process_frame # Wait for Godot to update visuals behind the black screen
 	
-	await _fade_in()
+	await _fade_in() # 5. Reveal the new state
 
 # --- Fade Effects ---
 func _fade_out() -> void:
@@ -90,7 +93,14 @@ func on_start_game_ui() -> void:
 	_switch_ui_state(SceneType.ROOM)
 
 func on_show_corridor_ui() -> void:
+	# 1. Fade the screen to black
+	await _fade_out()
+	
+	# 2. Switch the UI state while the screen is obscured
 	_switch_ui_state(SceneType.CORRIDOR)
+	
+	# 3. Fade back to normal visibility
+	await _fade_in()
 
 func on_return_to_menu() -> void:
 	for child in active_scene_container.get_children():
