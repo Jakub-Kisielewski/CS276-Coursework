@@ -284,8 +284,11 @@ func draw_map():
 					tile_coord = tile_atlas_coords.get("basicArena")
 					
 				# Set cell (layer 0, source_id 0, atlas coords)
-				map_display.set_cell(Vector2i(x, y), 0, tile_coord, 0) 
+				map_display.set_cell(Vector2i(x, y), 0, tile_coord, 0)
 				# Note: source_id set to 0. Ensure your TileMapLayer has a TileSet with ID 0.
+			else:
+				# draw blank
+				map_display.set_cell(Vector2i(x,y), 0, Vector2i(4,4), 0)
 
 func check_room_entry(cell_data: Dictionary):
 	var type = cell_data.get("type", "")

@@ -14,7 +14,9 @@ var start_time_msec: int = 0
 func _ready() -> void:
 	btn_resume.pressed.connect(func(): resume_pressed.emit())
 	btn_settings.pressed.connect(func(): settings_pressed.emit())
-	btn_quit.pressed.connect(func(): save_and_quit_pressed.emit())
+	btn_quit.pressed.connect(func():
+		save_and_quit_pressed.emit()
+	)
 	
 	visible = false
 

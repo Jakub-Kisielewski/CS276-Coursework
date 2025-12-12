@@ -52,6 +52,7 @@ func _on_start_pressed() -> void:
 	generator.generate_map_data()
 	generator.free()
 	GameData.save_game()
+	print(GameData.maze_map)
 	
 	start_run_pressed.emit()
 

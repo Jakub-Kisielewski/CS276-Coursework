@@ -50,6 +50,7 @@ func _process(_delta: float) -> void:
 		get_viewport().set_input_as_handled()
 
 func _on_new_game() -> void:
+	GameData.reset_run_state()
 	scene_manager._switch_ui_state(scene_manager.SceneType.MAZE_GEN)
 
 func _on_start_run() -> void:
