@@ -1,4 +1,4 @@
-[gd_scene load_steps=1098 format=3 uid="uid://gybvdpwifulg"]
+[gd_scene load_steps=1100 format=3 uid="uid://gybvdpwifulg"]
 
 [ext_resource type="Script" uid="uid://cfrl5dk686v3e" path="res://Assets/Scripts/player.gd" id="1_24q4e"]
 [ext_resource type="Texture2D" uid="uid://5vyxaj5kdr8j" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack_full.png" id="1_36e6n"]
@@ -52,6 +52,8 @@
 [ext_resource type="Texture2D" uid="uid://b8kgh0im6vp0" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Unarmed_Hurt/Unarmed_Hurt4_red.png" id="20_7578i"]
 [ext_resource type="Texture2D" uid="uid://bpruogdlhaw2o" path="res://Assets/Resources/sword.png" id="21_52fvq"]
 [ext_resource type="Texture2D" uid="uid://bbbg8va8pwoml" path="res://Assets/Resources/Sprites/BaseSprite/weapons/shoot/bow.png" id="21_mdvb1"]
+[ext_resource type="Texture2D" uid="uid://hi634iu2pm16" path="res://Assets/Resources/spear.png" id="23_nymsj"]
+[ext_resource type="Texture2D" uid="uid://d3t0be8etohxt" path="res://Assets/Resources/bow-and-arrow.png" id="24_yay7c"]
 [ext_resource type="Texture2D" uid="uid://dergnjei0drvt" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Hurt/Sword_Hurt_full.png" id="27_35grl"]
 [ext_resource type="Script" uid="uid://d3enncgxl66lu" path="res://Assets/Scripts/health_component.gd" id="29_ggw7w"]
 [ext_resource type="Texture2D" uid="uid://dntpeg2yvkse8" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Blood Splat.png" id="34_w34vp"]
@@ -67,6 +69,7 @@ metadata/_custom_type_script = "uid://co7tkofoxgpia"
 [sub_resource type="Resource" id="Resource_visa7"]
 script = ExtResource("3_feila")
 display_name = "Spear"
+icon = ExtResource("23_nymsj")
 weapon_type = 1
 special_unlocked = true
 metadata/_custom_type_script = "uid://co7tkofoxgpia"
@@ -74,6 +77,7 @@ metadata/_custom_type_script = "uid://co7tkofoxgpia"
 [sub_resource type="Resource" id="Resource_mkm62"]
 script = ExtResource("3_feila")
 display_name = "Bow"
+icon = ExtResource("24_yay7c")
 weapon_type = 2
 special_unlocked = true
 metadata/_custom_type_script = "uid://co7tkofoxgpia"
@@ -11339,7 +11343,7 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 3
+frame = 6
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")
