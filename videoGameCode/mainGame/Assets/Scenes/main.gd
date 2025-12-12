@@ -18,6 +18,9 @@ func _ready() -> void:
 		scene_manager.ui_pause_menu.save_and_quit_pressed.connect(_on_save_quit)
 		scene_manager.ui_pause_menu.start_time_msec = Time.get_ticks_msec()
 	
+	if scene_manager.ui_corridor:
+		scene_manager.ui_corridor.room_entered.connect(_on_corridor_room_entered)
+	
 	var menu = scene_manager.ui_main_menu
 	if menu:
 		menu.new_game_pressed.connect(_on_new_game)
@@ -81,6 +84,9 @@ func _on_resume_game() -> void:
 func _on_save_quit() -> void:
 	print("Saving game... (Implemented later)")
 	get_tree().quit()
+
+func _on_corridor_room_entered(room_type: String) -> void:
+	run_manager.load_room_from_type(room_type)
 
 func _on_player_died() -> void:
 	print("Main: Player Died")

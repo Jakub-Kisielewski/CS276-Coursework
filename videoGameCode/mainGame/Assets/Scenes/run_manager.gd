@@ -52,6 +52,32 @@ func load_room_scene(room_packed: PackedScene):
 	
 	await scene_manager.swap_content_scene(room_instance, setup_logic)
 
+func load_room_from_type(type_name: String) -> void:
+	print("RunManager: Loading room type: ", type_name)
+	
+	var scene_to_load: PackedScene = null
+	
+	# Simple matching logic - you can expand this or use a Dictionary export later
+	match type_name:
+		"basicArena":
+			# Assuming you have an array of basic arenas, pick one or find specific
+			scene_to_load = available_room_scenes.pick_random() 
+		"advancedArena":
+			# If you have separate lists, pick from them. For now, we fallback:
+			scene_to_load = available_room_scenes.pick_random()
+		"puzzleRoom":
+			# If you have a specific puzzle room scene
+			scene_to_load = available_room_scenes[0] 
+		"Centre":
+			# Special boss room logic
+			pass
+		_:
+			printerr("RunManager: Unknown room type ", type_name)
+			return
+
+	if scene_to_load:
+		load_room_scene(scene_to_load)
+
 func start_run_or_next_room():
 	var room_packed = available_room_scenes.pick_random()
 	load_room_scene(room_packed)
