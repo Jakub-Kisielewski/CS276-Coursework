@@ -58,10 +58,12 @@
 
 [sub_resource type="Resource" id="Resource_yj04c"]
 script = ExtResource("3_feila")
+special_unlocked = true
 metadata/_custom_type_script = "uid://co7tkofoxgpia"
 
 [sub_resource type="Resource" id="Resource_visa7"]
 script = ExtResource("3_feila")
+special_unlocked = true
 metadata/_custom_type_script = "uid://co7tkofoxgpia"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a3rua"]
@@ -11324,7 +11326,7 @@ animation = &""
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
-frame = 5
+frame = 11
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")

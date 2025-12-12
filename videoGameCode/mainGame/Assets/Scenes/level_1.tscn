@@ -7,7 +7,7 @@
 [ext_resource type="Environment" uid="uid://rvb4jwyj6lko" path="res://Assets/Scenes/dark_world.tres" id="3_2ifi5"]
 [ext_resource type="PackedScene" uid="uid://gybvdpwifulg" path="res://Assets/Scenes/player.tscn" id="3_qfi48"]
 [ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="4_gn4xj"]
-[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_2v7sf"]
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_2v7sf"]
 [ext_resource type="PackedScene" uid="uid://btwfd83br58hn" path="res://Assets/Enemies/Demon/demon.tscn" id="9_0fbdl"]
 [ext_resource type="PackedScene" uid="uid://dl5lpjcwe5tsx" path="res://Assets/Enemies/Ghost/ghost.tscn" id="10_pk5fv"]
 

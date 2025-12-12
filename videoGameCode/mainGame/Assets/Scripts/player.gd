@@ -234,7 +234,7 @@ func handle_input(delta: float):
 			charging_successful = false
 			if current_weapon == Weapon.SWORD:
 				sword_special_attack()
-				special_track = misc_sounds[2]	
+				special_track = misc_sounds[2]
 				print("i call on you sword")
 			elif current_weapon == Weapon.BOW:
 				if trying_shotgun:

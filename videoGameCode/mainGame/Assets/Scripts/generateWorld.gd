@@ -20,6 +20,7 @@ var currentAttempt: int = 0
 var roomTemplate: Dictionary = {
 	"coords": null,
 	"explored": false,
+	"cleared": false,
 	"type": "",
 	"onSolutionPath": false,
 	"order": 0,

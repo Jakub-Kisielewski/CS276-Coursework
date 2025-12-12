@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cgrhfcjnbh253" path="res://Assets/UI/ui_death.gd" id="1_urwop"]
 [ext_resource type="PackedScene" uid="uid://bn158qubeg1ki" path="res://Assets/Enemies/Minotaur/menu(taur).tscn" id="2_wgu7x"]
-[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="3_ipubg"]
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="3_ipubg"]
 
 [node name="UiDeath" type="Control" node_paths=PackedStringArray("background")]
 layout_mode = 3

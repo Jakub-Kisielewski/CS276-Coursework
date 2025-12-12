@@ -20,29 +20,28 @@ var current_index : int = 0
 var fade_tween: Tween
 var default_volume_db : float = 0
 
-
 func _ready() -> void:
 	randomize()
 	#if you want to add any songs so that they can be used just preload them here into the arrays
 	menu_tracks = [
-		preload("res://Assets/GameMusic/TremLoadingloopl.ogg")
+		preload("res://Assets/Resources/GameMusic/TremLoadingloopl.ogg")
 		]
 		
 	corridor_tracks = [
-		preload("res://Assets/GameMusic/shrine.ogg")
+		preload("res://Assets/Resources/GameMusic/shrine.ogg")
 		]
 	
 	
 	room_tracks = [
-		preload("res://Assets/GameMusic/CleytonRX - Battle RPG Theme Var.ogg"),
-		preload("res://Assets/GameMusic/The-Last-Encounter-_Digitalized-Version_.ogg"),
-		preload("res://Assets/GameMusic/boss_battle__2_metal_opening.ogg"),
-		preload("res://Assets/GameMusic/Wasteland-Overdrive.ogg"),
+		preload("res://Assets/Resources/GameMusic/CleytonRX - Battle RPG Theme Var.ogg"),
+		preload("res://Assets/Resources/GameMusic/The-Last-Encounter-_Digitalized-Version_.ogg"),
+		preload("res://Assets/Resources/GameMusic/boss_battle__2_metal_opening.ogg"),
+		preload("res://Assets/Resources/GameMusic/Wasteland-Overdrive.ogg"),
 		
 	]
 	
 	death_track = [
-		preload("res://Assets/GameMusic/Iwan Gabovitch - Dark Ambience Loop.ogg") #DEATH MUSIC
+		preload("res://Assets/Resources/GameMusic/Iwan Gabovitch - Dark Ambience Loop.ogg") #DEATH MUSIC
 	]
 	
 	finished.connect(on_music_finished)
