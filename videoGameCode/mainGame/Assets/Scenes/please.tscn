@@ -1,10 +1,10 @@
 [gd_scene load_steps=122 format=3 uid="uid://bk23am7i0pirv"]
 
-[ext_resource type="Texture2D" uid="uid://cgm6p141odl85" path="res://Assets/Resources/Sprites/BaseSprite/weapons/oversize/two shand/either/spear.png" id="1_wcm6b"]
-[ext_resource type="Texture2D" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack3_body.png" id="2_kanet"]
-[ext_resource type="Texture2D" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack3_body.png" id="3_2wkbe"]
-[ext_resource type="Texture2D" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack5_head.png" id="4_i2r2v"]
-[ext_resource type="Texture2D" path="res://Assets/Resources/Sprites/BaseSprite/weapons/shoot/2.png" id="5_eqvhq"]
+[ext_resource type="Texture2D" uid="uid://cgm6p141odl85" path="res://Assets/Resources/Sprites/BaseSprite/weapons/oversize/two hand/either/spear.png" id="1_wcm6b"]
+[ext_resource type="Texture2D" uid="uid://di2irdwtxxtne" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack3_body.png" id="2_kanet"]
+[ext_resource type="Texture2D" uid="uid://bk3fuequviydl" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack3_body.png" id="3_2wkbe"]
+[ext_resource type="Texture2D" uid="uid://bjedx5sh7g7gp" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack5_head.png" id="4_i2r2v"]
+[ext_resource type="Texture2D" uid="uid://24ialp7pgrks" path="res://Assets/Resources/Sprites/BaseSprite/weapons/shoot/2.png" id="5_eqvhq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7sn2"]
 atlas = ExtResource("1_wcm6b")
