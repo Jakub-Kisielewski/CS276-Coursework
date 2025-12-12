@@ -218,7 +218,6 @@ func get_nonzero_movement_direction() -> Vector2:
 
 func apply_stun(duration : float = 0.2):
 	if stunned_status:
-		stun_timer = duration
 		return
 		
 	
