@@ -1,8 +1,7 @@
-[gd_resource type="Theme" load_steps=8 format=4 uid="uid://8i66koeg856t"]
+[gd_resource type="Theme" load_steps=7 format=4 uid="uid://8i66koeg856t"]
 
 [ext_resource type="StyleBox" uid="uid://ck75bf6evbbft" path="res://Assets/UI/Buttons/normal_button_texture.tres" id="1_tuy5j"]
 [ext_resource type="StyleBox" uid="uid://no3s44ctpxfh" path="res://Assets/UI/Buttons/hover_button_texture.tres" id="2_gdd1y"]
-[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="2_tuy5j"]
 [ext_resource type="StyleBox" uid="uid://b10r6ja43bt12" path="res://Assets/UI/Buttons/pressed_button_texture.tres" id="3_b56kk"]
 
 [sub_resource type="Image" id="Image_2ebit"]
@@ -1029,7 +1028,6 @@ cache/0/32/0/glyphs/39/uv_rect = Rect2(163, 1, 21, 25)
 cache/0/32/0/glyphs/39/texture_idx = 0
 
 [resource]
-default_font = ExtResource("2_tuy5j")
 Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
 Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
