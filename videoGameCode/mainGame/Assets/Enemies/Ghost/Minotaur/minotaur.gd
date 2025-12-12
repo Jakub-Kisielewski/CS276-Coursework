@@ -32,7 +32,7 @@ const OVERHEAT_DURATION_TIME : float = 4
 
 # Details about the charge attack
 var charge_direction : Vector2
-var charge_multiplier : float = 5.5
+var charge_multiplier : float = 5
 var charge_cooldown : float = 0.0
 var charge_duration : float = 0.0
 
@@ -221,7 +221,7 @@ func _physics_process(delta: float) -> void:
 				var desired_direction : Vector2 = (player.global_position - global_position).normalized()
 				charge_direction = charge_direction.lerp(desired_direction, 0.52).normalized()
 
-			velocity = 1.5 * charge_direction * speed * charge_multiplier
+			velocity = 1.3 * charge_direction * speed * charge_multiplier
 
 			# Flip the sprite if neceessary
 			if velocity.x > 0:
@@ -345,7 +345,7 @@ func handle_summon() -> void:
 	var filtered_cells: Array[Vector2i] = []
 	for cell in cells:
 		var world_pos = tilemap.map_to_local(cell)
-		if world_pos.distance_to(player.global_position) <= 130:
+		if world_pos.distance_to(player.global_position) <= 100:
 			filtered_cells.append(cell)
 
 	# If no cells are in the radius, fall back to original list
@@ -354,7 +354,7 @@ func handle_summon() -> void:
 		filtered_cells = cells
 	
 	# Choose the number of enemies to spawn
-	var n : int = rng.randi_range(6, 8)  # like a dice roll
+	var n : int = rng.randi_range(2, 4)  # like a dice roll
 	
 	for i in range(n):
 		var e : int = rng.randi_range(0, summons.size()-1)  # like a dice roll
