@@ -1,4 +1,4 @@
-[gd_scene load_steps=137 format=3 uid="uid://btwfd83br58hn"]
+[gd_scene load_steps=138 format=3 uid="uid://btwfd83br58hn"]
 
 [ext_resource type="Script" uid="uid://cvm5sbwlba1y6" path="res://Assets/Enemies/Demon/demon.gd" id="1_atlj7"]
 [ext_resource type="AudioStream" uid="uid://d3ajatemlrh45" path="res://Assets/Enemies/SFX/8_Buffs_Heals_SFX/39_Absorb_04.wav" id="2_x75m5"]
@@ -884,7 +884,10 @@ height = 36.0
 radius = 130.0
 height = 260.0
 
-[node name="Demon" type="CharacterBody2D" node_paths=PackedStringArray("nav", "health_component", "loot_component") groups=["enemy"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gvek"]
+bg_color = Color(0.95046, 0, 0.12541446, 1)
+
+[node name="Demon" type="CharacterBody2D" node_paths=PackedStringArray("nav", "health_component", "loot_component", "health_bar") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -896,6 +899,7 @@ speed = 100.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 22.0
+health_bar = NodePath("ProgressBar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7)
@@ -936,7 +940,15 @@ item_drop_scene = ExtResource("13_5lpix")
 metadata/_custom_type_script = "uid://bqjthq5jbw7og"
 
 [node name="demonSfx" type="AudioStreamPlayer2D" parent="."]
-bus = &"EnemySFX"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = -17.0
+mouse_filter = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_5gvek")
+show_percentage = false
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

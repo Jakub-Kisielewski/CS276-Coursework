@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://d1001ii314vly"]
+[gd_scene load_steps=81 format=3 uid="uid://d1001ii314vly"]
 
 [ext_resource type="Script" uid="uid://cptafcit457xi" path="res://Assets/Enemies/Minotaur/minotaur.gd" id="1_n8nhx"]
 [ext_resource type="AudioStream" uid="uid://d38ymyfwtmqwm" path="res://Assets/Enemies/SFX/added_sfx/stomp.ogg" id="2_maes3"]
@@ -459,7 +459,10 @@ height = 36.0
 radius = 95.0
 height = 190.0
 
-[node name="Minotaur" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "player_rays", "health_component", "loot_component") groups=["enemy"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tvm67"]
+bg_color = Color(0.95046, 0, 0.12541446, 1)
+
+[node name="Minotaur" type="CharacterBody2D" node_paths=PackedStringArray("nav", "hurtbox", "player_rays", "health_component", "loot_component", "health_bar") groups=["enemy"]]
 scale = Vector2(0.9, 0.9)
 motion_mode = 1
 wall_min_slide_angle = 0.34906584
@@ -477,6 +480,7 @@ speed = 100.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 24.0
+health_bar = NodePath("ProgressBar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 12)
@@ -528,10 +532,17 @@ max_health = 600.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="attackSfx" type="AudioStreamPlayer2D" parent="."]
-bus = &"EnemySFX"
 
 [node name="mrbeastSfx" type="AudioStreamPlayer2D" parent="."]
-bus = &"EnemySFX"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = -17.0
+mouse_filter = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_tvm67")
+show_percentage = false
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

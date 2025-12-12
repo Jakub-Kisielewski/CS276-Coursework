@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=3 uid="uid://dklpobami1hkg"]
+[gd_scene load_steps=92 format=3 uid="uid://dklpobami1hkg"]
 
 [ext_resource type="Script" uid="uid://bp5u60eoap8o8" path="res://Assets/Enemies/PoisonousBat/poisonous_bat.gd" id="1_j3spu"]
 [ext_resource type="AudioStream" uid="uid://dehkrivscvfny" path="res://Assets/Enemies/SFX/added_sfx/mouse-2.ogg" id="2_mr7u1"]
@@ -552,7 +552,10 @@ height = 28.0
 radius = 60.0
 height = 120.0
 
-[node name="PoisonousBat" type="CharacterBody2D" node_paths=PackedStringArray("nav", "collider", "health_component", "loot_component") groups=["enemy"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mr7u1"]
+bg_color = Color(0.95046, 0, 0.12541446, 1)
+
+[node name="PoisonousBat" type="CharacterBody2D" node_paths=PackedStringArray("nav", "collider", "health_component", "loot_component", "health_bar") groups=["enemy"]]
 scale = Vector2(1.2, 1.2)
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -565,6 +568,7 @@ speed = 110.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 15.0
+health_bar = NodePath("ProgressBar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_fa6de")
@@ -601,6 +605,15 @@ max_health = 120.0
 metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="batSfx" type="AudioStreamPlayer2D" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = -17.0
+mouse_filter = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_mr7u1")
+show_percentage = false
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

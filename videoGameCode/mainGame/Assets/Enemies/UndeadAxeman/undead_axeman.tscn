@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=3 uid="uid://ctews1r14aqyh"]
+[gd_scene load_steps=97 format=3 uid="uid://ctews1r14aqyh"]
 
 [ext_resource type="Script" uid="uid://6eh0032pny6h" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.gd" id="1_vhwpw"]
 [ext_resource type="AudioStream" uid="uid://bwunjdvsi2k14" path="res://Assets/Resources/PlayerSFX/OGG Files/Giant_Grunt3.ogg" id="2_8v1tq"]
@@ -604,7 +604,10 @@ height = 40.0
 radius = 105.0
 height = 210.0
 
-[node name="UndeadAxeman" type="CharacterBody2D" node_paths=PackedStringArray("nav", "health_component", "loot_component") groups=["enemy"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8v1tq"]
+bg_color = Color(0.95046, 0, 0.12541446, 1)
+
+[node name="UndeadAxeman" type="CharacterBody2D" node_paths=PackedStringArray("nav", "health_component", "loot_component", "health_bar") groups=["enemy"]]
 scale = Vector2(0.64, 0.64)
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -616,6 +619,7 @@ speed = 80.0
 health_component = NodePath("HealthComponent")
 loot_component = NodePath("LootComponent")
 damage = 20.0
+health_bar = NodePath("ProgressBar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)
@@ -656,6 +660,15 @@ metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="axeSfx" type="AudioStreamPlayer2D" parent="."]
 volume_db = -10.0
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = -17.0
+mouse_filter = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_8v1tq")
+show_percentage = false
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]

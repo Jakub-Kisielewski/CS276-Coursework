@@ -3,6 +3,8 @@ class_name EnemyEntity extends CharacterBody2D
 @export var loot_component: LootComponent
 @export var damage: float = 10.0 
 
+@export var health_bar: ProgressBar
+
 @onready var sprite_base: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready():
@@ -10,8 +12,21 @@ func _ready():
 		health_component.status_changed.connect(_on_status_changed)
 		health_component.health_depleted.connect(_on_death)
 		health_component.damage_taken.connect(_on_damaged)
+		
+		health_component.health_changed.connect(_on_health_changed)
+		
+		if health_bar:
+			health_bar.max_value = health_component.max_health
+			health_bar.value = health_component.max_health
+			health_bar.visible = false 
 
-# Change the modulate of the enemy sprite to reflect the enemy's state
+func _on_health_changed(new_amount: float, max_amount: float) -> void:
+	if health_bar:
+		health_bar.value = new_amount
+		# Show the bar only when damaged (cleaner look)
+		if new_amount < max_amount:
+			health_bar.visible = true
+
 func _on_status_changed(new_status : HealthComponent.Status) -> void:
 	match new_status:
 		health_component.Status.HEALTHY:
