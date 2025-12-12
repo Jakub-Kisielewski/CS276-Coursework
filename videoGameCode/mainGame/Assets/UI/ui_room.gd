@@ -38,29 +38,41 @@ func _on_currency_updated(amount: int):
 	currency_label.text = "Gold: " + str(amount)
 
 func _update_weapon_carousel():
-	# Clear existing children
+	# 1. Clear existing children properly
 	for child in weapon_container.get_children():
-		child.queue_free()
+		weapon_container.remove_child(child) # <--- ADD THIS (Removes from list immediately)
+		child.queue_free() # (Deletes from memory later)
 		
-	# Create icons for each unlocked weapon
+	# 2. Create icons for each unlocked weapon
 	for i in range(GameData.current_weapons.size()):
 		var weapon = GameData.current_weapons[i]
+		
+		# Null safety check
+		if weapon == null:
+			continue
+			
 		var icon = TextureRect.new()
 		
 		if "icon" in weapon and weapon.icon != null:
 			icon.texture = weapon.icon
 		else:
-			# Fallback placeholder (Red Square)
 			var placeholder = PlaceholderTexture2D.new()
 			placeholder.size = weapon_icon_size
 			icon.texture = placeholder
 			
 		icon.custom_minimum_size = weapon_icon_size
-		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icon.name = "WeaponIcon_" + str(i)
 		
+		# Use EXPAND mode so it scales nicely within the box
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		
+		# Set pivot to center so it scales from the middle, not top-left
+		icon.pivot_offset = weapon_icon_size / 2
+		
+		icon.name = "WeaponIcon_" + str(i)
 		weapon_container.add_child(icon)
 		
+	# 3. Highlight the correct one
 	_highlight_active_weapon(GameData.active_weapon_index)
 
 func _highlight_active_weapon(index: int):

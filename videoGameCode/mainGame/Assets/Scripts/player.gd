@@ -122,7 +122,6 @@ func _ready():
 	
 	canvas = get_tree().get_first_node_in_group("canvas")
 
-
 func _physics_process(delta: float) -> void:
 	handle_timers(delta)
 	handle_input(delta)
@@ -363,8 +362,6 @@ func set_player_facing(vec: Vector2) -> Facing:
 		#print("right")
 		return Facing.RIGHT
 	elif deg > 22.5 and deg <= 67.5:
-		
-		
 		last_dir = Vector2.RIGHT
 		#print("right down")
 		return Facing.RIGHT_DOWN
