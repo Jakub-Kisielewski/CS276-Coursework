@@ -284,7 +284,7 @@ func draw_map():
 					tile_coord = tile_atlas_coords.get("basicArena")
 					
 				# Set cell (layer 0, source_id 0, atlas coords)
-				map_display.set_cell(Vector2i(x, y), 3, tile_coord, 0) 
+				map_display.set_cell(Vector2i(x, y), 0, tile_coord, 0) 
 				# Note: source_id set to 0. Ensure your TileMapLayer has a TileSet with ID 0.
 
 func check_room_entry(cell_data: Dictionary):
