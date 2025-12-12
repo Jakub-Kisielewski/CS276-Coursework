@@ -1,10 +1,10 @@
 [gd_scene load_steps=34 format=3 uid="uid://cdrrekks50nqj"]
 
-[ext_resource type="Texture2D" uid="uid://dwmykgavqv0lw" path="res://Assets/Resources/Sprites/BaseSprite/weapons/oversize/two hand/either/dragonspear.png" id="1_5j4jt"]
+[ext_resource type="Texture2D" uid="uid://dwmykgavqv0lw" path="res://Assets/Resources/Sprites/BaseSprite/weapons/oversize/two shand/either/dragonspear.png" id="1_5j4jt"]
 [ext_resource type="Script" uid="uid://dslufqnj2tmmm" path="res://Assets/Scenes/ghost_spear.gd" id="1_yiodj"]
-[ext_resource type="Texture2D" uid="uid://dvrwjua3cicqm" path="res://Assets/Resources/Sprites/BaseSprite/weapons/oversize/two hand/either/bloo spear yay.png" id="2_w6kj2"]
-[ext_resource type="Texture2D" uid="uid://it4qhlh7uepa" path="res://Assets/Resources/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 A.png" id="3_ce5hl"]
-[ext_resource type="Texture2D" uid="uid://ymu12mstflb3" path="res://Assets/Resources/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 E.png" id="4_w6kj2"]
+[ext_resource type="Texture2D" uid="uid://dvrwjua3cicqm" path="res://Assets/Resources/Sprites/BaseSprite/weapons/oversize/two shand/either/bloo spear yay.png" id="2_w6kj2"]
+[ext_resource type="Texture2D" path="res://Assets/Resources/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 A.png" id="3_ce5hl"]
+[ext_resource type="Texture2D" path="res://Assets/Resources/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 E.png" id="4_w6kj2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ce5hl"]
 radius = 20.0

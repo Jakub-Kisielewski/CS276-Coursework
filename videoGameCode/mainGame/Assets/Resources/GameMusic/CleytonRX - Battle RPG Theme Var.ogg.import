@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://h10j054ex4tr"
+path="res://.godot/imported/CleytonRX - Battle RPG Theme Var.ogg-3dd8975b5cfc594da77c58a196efb73b.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Resources/GameMusic/CleytonRX - Battle RPG Theme Var.ogg"
+dest_files=["res://.godot/imported/CleytonRX - Battle RPG Theme Var.ogg-3dd8975b5cfc594da77c58a196efb73b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bv30m222154k7"
+path="res://.godot/imported/Retro Ascending Short 20.ogg-6091bfe25a530fc023c2f8b4ab696cdd.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Resources/PlayerSFX/OGG Files/Retro Ascending Short 20.ogg"
+dest_files=["res://.godot/imported/Retro Ascending Short 20.ogg-6091bfe25a530fc023c2f8b4ab696cdd.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

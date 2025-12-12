@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dckk8b1tqvdvr"
+path="res://.godot/imported/04_Fire_explosion_04_medium.ogg-d1f08d47a542a297168353cdbda5ad6a.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Resources/PlayerSFX/OGG Files/04_Fire_explosion_04_medium.ogg"
+dest_files=["res://.godot/imported/04_Fire_explosion_04_medium.ogg-d1f08d47a542a297168353cdbda5ad6a.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

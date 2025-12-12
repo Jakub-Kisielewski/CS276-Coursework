@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dfgjcxtng1ik0"
+path="res://.godot/imported/13_Ice_explosion_01.ogg-28546e99b08d52db4b4a29eac36642ce.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Resources/PlayerSFX/OGG Files/13_Ice_explosion_01.ogg"
+dest_files=["res://.godot/imported/13_Ice_explosion_01.ogg-28546e99b08d52db4b4a29eac36642ce.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
