@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3 uid="uid://ib1ap1jt3i6j"]
+
+[ext_resource type="Script" uid="uid://cdr2ltear27xx" path="res://Assets/Gold/magnetic_loots.gd" id="1_d5jry"]
+[ext_resource type="Texture2D" uid="uid://dc7gierug6m1s" path="res://Assets/Gold/Treasure pack [16x16] by Mischeal 1.1/Treasure_pack_all.png" id="3_8e5nt"]
+[ext_resource type="Script" uid="uid://bhaiij1tfp7v6" path="res://Assets/Scripts/hurtbox.gd" id="4_gtlbj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fa6de"]
+radius = 7.5
+height = 15.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5jry"]
+atlas = ExtResource("3_8e5nt")
+region = Rect2(208, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mpl2"]
+atlas = ExtResource("3_8e5nt")
+region = Rect2(208, 128, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j4qsk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5jry")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mpl2")
+}],
+"loop": true,
+"name": &"move",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yc8sv"]
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n0o3a"]
+radius = 22.5
+height = 45.0
+
+[node name="Treasure" type="CharacterBody2D" node_paths=PackedStringArray("sprite") groups=["enemy"]]
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_d5jry")
+amount = 300
+speed = 0.0
+sprite = NodePath("AnimatedSprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_fa6de")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_j4qsk")
+animation = &"idle"
+
+[node name="hurtBox" type="Area2D" parent="AnimatedSprite2D"]
+script = ExtResource("4_gtlbj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/hurtBox"]
+shape = SubResource("CapsuleShape2D_yc8sv")
+
+[node name="Nav" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+avoidance_enabled = true
+
+[node name="Range" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Range"]
+scale = Vector2(0.6, 0.6)
+shape = SubResource("CapsuleShape2D_n0o3a")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
+[connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]

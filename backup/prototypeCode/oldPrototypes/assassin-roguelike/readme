@@ -1,0 +1,5 @@
+Controls: WASD for movement, E to attack enemies
+Phantoms move randomly until you fall into their line of sight, then they will attack.
+If you die, press SPACE to respawn and your corpse will come back to life as a phantom. If you die too many times, you will essentially be swarmed with enemies.
+You lose once the number of phantoms reaches 10.
+You win once you kill all the phantoms.

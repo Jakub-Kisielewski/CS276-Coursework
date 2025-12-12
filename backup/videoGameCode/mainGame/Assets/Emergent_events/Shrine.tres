@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://lmtlkcfmtlwx"]
+
+[ext_resource type="Script" uid="uid://bn7fe4op0x556" path="res://Assets/Emergent_events/event_data.gd" id="1_mwdd4"]
+
+[resource]
+script = ExtResource("1_mwdd4")
+title = "Shrine"
+description = "You approach a golden shrine of a wolf. "
+options = Array[Dictionary]([{
+"effect_id": "gain_damage",
+"text": "Pray"
+}])
+metadata/_custom_type_script = "uid://bn7fe4op0x556"

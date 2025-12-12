@@ -1,0 +1,182 @@
+[gd_scene load_steps=4 format=3 uid="uid://hmd60nmnud83"]
+
+[ext_resource type="Script" uid="uid://52o752ecguoe" path="res://Assets/Scripts/camera.gd" id="4_qabso"]
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_4xcpp"]
+
+[sub_resource type="FontFile" id="FontFile_pk5fv"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/50/0/ascent = 0.0
+cache/0/50/0/descent = 0.0
+cache/0/50/0/underline_position = 0.0
+cache/0/50/0/underline_thickness = 0.0
+cache/0/50/0/scale = 1.0
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/40/0/ascent = 0.0
+cache/0/40/0/descent = 0.0
+cache/0/40/0/underline_position = 0.0
+cache/0/40/0/underline_thickness = 0.0
+cache/0/40/0/scale = 1.0
+cache/0/45/0/ascent = 0.0
+cache/0/45/0/descent = 0.0
+cache/0/45/0/underline_position = 0.0
+cache/0/45/0/underline_thickness = 0.0
+cache/0/45/0/scale = 1.0
+
+[node name="Essentials" type="Node"]
+
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
+zoom = Vector2(3, 3)
+script = ExtResource("4_qabso")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." groups=["canvas"]]
+
+[node name="Currency" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -134.0
+offset_top = 86.0
+offset_right = -31.0
+offset_bottom = 169.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.7477875, 0.6076626, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("FontFile_pk5fv")
+theme_override_font_sizes/font_size = 45
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeathBGRND" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = -450.0
+offset_right = 700.0
+offset_bottom = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Label1" type="Label" parent="CanvasLayer/DeathBGRND"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -326.5
+offset_top = -92.0
+offset_right = 326.5
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_4xcpp")
+theme_override_font_sizes/font_size = 85
+text = "THE RUN'S OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/DeathBGRND"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -307.5
+offset_top = 6.5
+offset_right = 307.5
+offset_bottom = 91.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1.1551381e-06, 0.43689093, 0.7017278, 1)
+theme_override_fonts/font = ExtResource("5_4xcpp")
+theme_override_font_sizes/font_size = 40
+text = "press E KEY to restart"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClearBGRND" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = -450.0
+offset_right = 700.0
+offset_bottom = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Label1" type="Label" parent="CanvasLayer/ClearBGRND"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -376.5
+offset_top = -96.0
+offset_right = 376.5
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.5063168, 0.73511755, 0.73713773, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_4xcpp")
+theme_override_font_sizes/font_size = 95
+text = "GAME CLEARED!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Runtime" type="Label" parent="CanvasLayer/ClearBGRND"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -307.5
+offset_top = 10.0
+offset_right = 307.5
+offset_bottom = 95.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.30269834, 0.4894318, 1)
+theme_override_fonts/font = ExtResource("5_4xcpp")
+theme_override_font_sizes/font_size = 40
+text = "runtime, 1D4H1M"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="health" type="TextureProgressBar" parent="CanvasLayer/HUD"]
+layout_mode = 1
+offset_right = 192.0
+offset_bottom = 40.0

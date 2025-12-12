@@ -1,0 +1,35 @@
+extends Control
+
+@onready var player = get_tree().get_first_node_in_group("player")
+
+
+@onready var health_button = $HealthButton
+@onready var damage_button = $DamageButton
+@onready var speed_button  = $speedButton
+
+func _ready():
+	visible = false
+
+func _on_speed_button_pressed() -> void:
+	player.speed += 20
+	print("Reward: +20 Speed")
+	if get_tree().current_scene.scene_file_path == "res://Assets/Scenes/area_1.tscn":
+		get_tree().change_scene_to_file("res://Assets/Scenes/area_2.tscn")
+	else:
+		get_tree().change_scene_to_file("res://Assets/Scenes/area_3.tscn")
+
+func _on_damage_button_pressed() -> void:
+	player.damage += 10
+	print("Reward: +10 Attack Damage")
+	if get_tree().current_scene.scene_file_path == "res://Assets/Scenes/area_1.tscn":
+		get_tree().change_scene_to_file("res://Assets/Scenes/area_2.tscn")
+	else:
+		get_tree().change_scene_to_file("res://Assets/Scenes/area_3.tscn")
+
+func _on_health_button_pressed() -> void:
+	player.max_health += 25
+	print("Reward: +25 Max Health")
+	if get_tree().current_scene.scene_file_path == "res://Assets/Scenes/area_1.tscn":
+		get_tree().change_scene_to_file("res://Assets/Scenes/area_2.tscn")
+	else:
+		get_tree().change_scene_to_file("res://Assets/Scenes/area_3.tscn")
