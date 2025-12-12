@@ -353,6 +353,7 @@ func handle_charge() -> void:
 	if state == State.CHARGING:
 		hitbox.successful_hit.connect(set_state.bind(State.MOVING))        
 	add_child(hitbox)
+	print("minotaur charge hitbox added")
 
 	var vector_to_player : Vector2 = player.global_position - global_position
 	charge_direction = vector_to_player.normalized()

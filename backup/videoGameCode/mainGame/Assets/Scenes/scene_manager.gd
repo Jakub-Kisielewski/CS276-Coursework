@@ -61,6 +61,7 @@ func _switch_ui_state(scene_type: SceneType) -> void:
 	#changing music as well here
 	set_scene_music_category(scene_type)
 	
+	#resetting the visibility to false
 	if ui_main_menu: ui_main_menu.visible = false
 	if ui_maze_gen: ui_maze_gen.visible = false
 	if ui_room: ui_room.visible = false
@@ -68,6 +69,7 @@ func _switch_ui_state(scene_type: SceneType) -> void:
 	if ui_pause_menu: ui_pause_menu.visible = false
 	if ui_death: ui_death.visible = false
 	
+	#now set visibility to true
 	match scene_type:
 		SceneType.MENU:
 			if ui_main_menu: ui_main_menu.visible = true

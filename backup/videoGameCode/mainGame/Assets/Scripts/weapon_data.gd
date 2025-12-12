@@ -42,13 +42,18 @@ func upgrade_rarity() -> void:
 			print("already max rarity")
 			
 #use this for when the player chooses to upgrade their weapon proficiency in the shop. Eg. Ranged weapon attack up"
-func upgrade_type():
+func upgrade_type() -> bool:
 	if weapon_mult >= 2.0: #200% max damage increase
 		print("attack mult is at max")
+		return false
 	else:
 		weapon_mult += 0.1 #10% damage increase for that weapon
+		return true
 
 
 #use this for when player chooses to unlock a weapons special attack
-func unlock_special_attack():
+func unlock_special_attack() -> bool:
+	if special_unlocked:
+		return false
 	special_unlocked = true
+	return true

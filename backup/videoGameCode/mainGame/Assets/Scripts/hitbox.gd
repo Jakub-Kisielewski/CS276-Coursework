@@ -14,7 +14,7 @@ signal successful_hit
 #stun player is optional because its resevred for the minotaur charge attack, stun will default to false for all other attacks, so player won't get stunned by other enemies
 #weapon data is optional because
 #enemies technically don't have their own weapons so default weapon data to null for enemies 
-func _init(_attacker: Node, _damage: float, _attack_effect: String, _hitbox_lifetime: float, _shape: Shape2D, _weapon_data: WeaponData = null, _stun_player: bool = false) -> void:
+func _init(_attacker: Node, _damage: float, _attack_effect: String, _hitbox_lifetime: float, _shape: Shape2D, _weapon_data: WeaponData = null, _stun_player: bool = true) -> void:
 	attacker = _attacker
 	base_damage = _damage
 	attack_effect = _attack_effect

@@ -20,10 +20,21 @@ var player_coords: Vector2i = Vector2i(0, 0)
 var current_weapons: Array[WeaponData] = []
 var active_weapon_index: int = 0
 
+var max_dashes_charges: int = 1
+var decoy_unlocked = false
+var dash_through_enemies_unlocked: bool = false
+
 const SAVE_PATH = "user://savegame.json"
 
 func _ready() -> void:
 	load_game()
+
+func get_active_weapon() -> WeaponData:
+	if current_weapons.is_empty():
+		return null
+	if active_weapon_index < 0 or active_weapon_index >=  current_weapons.size():
+		return null
+	return current_weapons[active_weapon_index]
 
 func update_health(amount: float):
 	current_health = clamp(current_health + amount, 0, max_health)
@@ -49,6 +60,50 @@ func set_active_weapon(index: int):
 	if index >= 0 and index < current_weapons.size():
 		active_weapon_index = index
 		active_weapon_changed.emit(active_weapon_index)
+
+func upgrade_active_weapon_rarity() -> bool:
+	var wp := get_active_weapon()
+	if wp == null:
+		return false
+	if wp.rarity == WeaponData.Rarity.PRISMATIC:
+		return false
+			
+	wp.upgrade_rarity()
+	return true
+	
+func upgrade_dash_charges() -> bool:
+	if max_dashes_charges >= 3:
+		return false
+		
+	max_dashes_charges =+ 1
+	return true
+	
+func unlock_decoy() -> bool:
+	if decoy_unlocked:
+		return false
+	decoy_unlocked = true
+	return true
+	
+func unlock_dash_through_enemies() -> bool:
+	if dash_through_enemies_unlocked:
+		return false
+	dash_through_enemies_unlocked = true
+	return true 
+	
+	
+func upgrade_active_weapon_type() -> bool:
+	var wp := get_active_weapon()
+	if wp == null:
+		return false
+	return wp.upgrade_type()
+	
+func unlock_active_weapon_special() -> bool:
+	var wp := get_active_weapon()
+	if wp == null:
+		return false
+	return wp.unlock_special_attack()
+	
+	
 
 func apply_random_completion_reward() -> String:
 	var options = ["heal", "gold", "defense", "damage"]
