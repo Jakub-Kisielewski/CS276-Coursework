@@ -204,7 +204,7 @@ func handle_teleport() -> void:
 
 func setup_countdown_timer() -> void:
 	player_hits_left = 6
-	time_left = 60
+	time_left = 120
 
 	var canvas : CanvasLayer = get_tree().get_first_node_in_group("canvas")
 	

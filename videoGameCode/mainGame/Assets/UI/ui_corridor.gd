@@ -252,8 +252,22 @@ func attempt_move(direction: Vector2i) -> void:
 	var is_current_room = current_type in room_types
 	var is_target_room = target_type in room_types
 	
+	# Check for puzzle room bypass
+	var allow_puzzle_room_movement = false
 	if is_current_room and is_target_room:
-		return
+		# If current room is a puzzle room, check if target is the next in solution order
+		if current_type == "puzzleRoom":
+			var current_order = current_cell.get("order", -1)
+			var target_order = target_cell.get("order", -1)
+			var is_target_in_solution = target_cell.get("onSolutionPath", false)
+			
+			# Allow movement if target is marked as solution room and is order + 1
+			if is_target_in_solution and target_order == current_order + 1:
+				allow_puzzle_room_movement = true
+		
+		# Block room-to-room movement unless it's a valid puzzle room bypass
+		if not allow_puzzle_room_movement:
+			return
 
 	if is_current_room and current_type != "Start" and not current_cell.get("cleared", false):
 		if not target_cell.get("explored", false):

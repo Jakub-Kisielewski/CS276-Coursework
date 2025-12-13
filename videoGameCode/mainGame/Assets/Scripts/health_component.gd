@@ -50,13 +50,16 @@ func sync_from_game_data():
 func take_damage(amount: float, attack_effect: String):
 	var final_damage: float = amount
 	
+	if GameData.god_mode_enabled:
+		return
+	
 	match attack_effect:
 		"Poison":
 			start_poison()
 			final_damage = amount / defense
 		"Lifeslash":
 			SignalBus.request_darkness.emit(3.6)
-			final_damage = current_health * 0.25 # reduce hp by 25%
+			final_damage = current_health * 0.10 # reduce hp by 25%
 		"Critical":
 			final_damage = (amount * 1.5) / defense
 		_:
