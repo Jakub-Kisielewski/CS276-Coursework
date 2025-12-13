@@ -72,27 +72,33 @@ func load_room_scene(room_packed: PackedScene, room_type: RoomType):
 	var room_instance = room_packed.instantiate() as RoomBase
 	
 	var enemy_pool_for_room: Array[PackedScene]
+	var waves
 	match room_type:
 		RoomType.START:
 			enemy_pool_for_room = start_room_enemies
+			waves = 1
 		RoomType.BASIC_ARENA:
 			enemy_pool_for_room = basicArena_enemies
+			waves = GameData.game_difficulty * 2
 		RoomType.ADVANCED_ARENA:
 			enemy_pool_for_room = advancedArena_enemies
+			waves = GameData.game_difficulty * 2
 		RoomType.PUZZLE:
 			enemy_pool_for_room = puzzle_enemies
+			waves = 1
 		RoomType.CENTRE:
 			enemy_pool_for_room = centre_enemies
+			waves = 1
 	
 	# lambda that will be called later
-	var setup_callback = _setup_room_logic.bind(room_instance, enemy_pool_for_room)
+	var setup_callback = _setup_room_logic.bind(room_instance, enemy_pool_for_room, waves)
 	
 	await scene_manager.swap_content_scene(room_instance, setup_callback)
 	is_transitioning = false # Release lock
 
-func _setup_room_logic(room_instance: RoomBase, enemy_pool: Array[PackedScene]):
+func _setup_room_logic(room_instance: RoomBase, enemy_pool: Array[PackedScene], waves: int):
 	spawn_player_in_room(room_instance)
-	room_instance.setup_room(10, enemy_pool, GameData.game_difficulty * 2)
+	room_instance.setup_room(10, enemy_pool, waves)
 	room_instance.room_cleared.connect(_on_room_complete)
 	scene_manager.on_start_game_ui()
 

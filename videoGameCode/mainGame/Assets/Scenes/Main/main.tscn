@@ -1,4 +1,4 @@
-[gd_scene load_steps=1141 format=3 uid="uid://c7njgli8wtoay"]
+[gd_scene load_steps=1142 format=3 uid="uid://c7njgli8wtoay"]
 
 [ext_resource type="Script" uid="uid://cegk4g6d48rk1" path="res://Assets/Scenes/Main/main.gd" id="1_6m25t"]
 [ext_resource type="Environment" uid="uid://cp3vl3du8x0j5" path="res://Assets/Scenes/standard_world.tres" id="2_gjiak"]
@@ -93,6 +93,7 @@
 [ext_resource type="PackedScene" uid="uid://ggd8e28b2dcg" path="res://Assets/UI/UI_EmergentEvent.tscn" id="86_gjiak"]
 [ext_resource type="PackedScene" uid="uid://dx85q01r02ro5" path="res://Assets/UI/UI_Pause.tscn" id="86_xik0f"]
 [ext_resource type="PackedScene" uid="uid://cgxpunr0ejuix" path="res://Assets/UI/UI_TransitionSceen.tscn" id="87_sjjsg"]
+[ext_resource type="PackedScene" uid="uid://whynvv65lpho" path="res://Assets/UI/UI_Settings.tscn" id="91_dnwjd"]
 
 [sub_resource type="Resource" id="Resource_yj04c"]
 script = ExtResource("29_dojpt")
@@ -11385,7 +11386,7 @@ dark_world = ExtResource("4_p1t6d")
 bus = &"Music"
 script = ExtResource("5_wrb81")
 
-[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("active_scene_container", "transition_screen", "ui_main_menu", "ui_maze_gen", "ui_room", "ui_corridor", "ui_pause_menu", "ui_death")]
+[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("active_scene_container", "transition_screen", "ui_main_menu", "ui_maze_gen", "ui_room", "ui_corridor", "ui_pause_menu", "ui_death", "ui_settings")]
 script = ExtResource("6_eusm5")
 active_scene_container = NodePath("../ActiveSceneContainer")
 transition_screen = NodePath("../UILayer/UiTransitionSceen")
@@ -11395,6 +11396,7 @@ ui_room = NodePath("../UILayer/UiRoom")
 ui_corridor = NodePath("../UILayer/UiCorridor")
 ui_pause_menu = NodePath("../UILayer/UiPause")
 ui_death = NodePath("../UILayer/UiDeath")
+ui_settings = NodePath("../UILayer/UiSettings")
 
 [node name="RunManager" type="Node" parent="." node_paths=PackedStringArray("scene_manager", "ui_event_overlay")]
 script = ExtResource("7_w37an")
@@ -11439,6 +11441,8 @@ bow_data = SubResource("Resource_p65bk")
 spear_data = SubResource("Resource_8c7qw")
 
 [node name="UiRoom" parent="UILayer" instance=ExtResource("85_jmke2")]
+
+[node name="UiSettings" parent="UILayer" instance=ExtResource("91_dnwjd")]
 
 [node name="UiEmergentEvent" parent="UILayer" instance=ExtResource("86_gjiak")]
 process_mode = 2
