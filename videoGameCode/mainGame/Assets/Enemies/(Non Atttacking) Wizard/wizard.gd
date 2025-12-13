@@ -25,7 +25,7 @@ var time_left : int
 var player_hits_left : int # Number of hits player must land on enemy
 
 # Details about the teleport move
-const TELEPORT_COOLDOWN_TIME : float = 1.36
+const TELEPORT_COOLDOWN_TIME : float = 1.6
 var teleport_cooldown : float = 0.0
 
 # Details about the wizard transforming into another enemy, ie a disguise
@@ -138,6 +138,17 @@ func handle_transformation() -> void:
 	var map_rid : RID = get_world_2d().get_navigation_map() 
 	var cells : Array[Vector2i] = tilemap.get_used_cells()
 	
+	# Get the points that are close to the player
+	var filtered_cells: Array[Vector2i] = []
+	for cell in cells:
+		var world_pos = tilemap.map_to_local(cell)
+		if world_pos.distance_to(player.global_position) <= 700:
+			filtered_cells.append(cell)
+
+	# If no cells are in the radius, fall back to original list
+	if filtered_cells.is_empty():
+		filtered_cells = cells
+	
 	# Choose the number of enemies to spawn
 	var n : int = rng.randi_range(2, 4)  # like a dice roll
 	
@@ -146,9 +157,9 @@ func handle_transformation() -> void:
 		var new_enemy : Node = summons[e].instantiate()
 		
 		#Place the spawned enemy at a random navigable point
-		var cell : Vector2i = cells.pick_random()  # like a dice roll
+		var cell : Vector2i = filtered_cells.pick_random()  # like a dice roll
 		var target_point : Vector2 = tilemap.map_to_local(cell)
-		cells.erase(cell)
+		filtered_cells.erase(cell)
 		
 		var closest_point : Vector2 = NavigationServer2D.map_get_closest_point(map_rid, target_point) 
 		new_enemy.global_position = closest_point
@@ -168,19 +179,31 @@ func handle_teleport() -> void:
 
 	#Place the wizard at a random navigable point
 	var cells : Array[Vector2i] = tilemap.get_used_cells()
-	var x : int = rng.randi_range(0, cells.size()-1)  # like a dice roll
-	var target_point : Vector2 = tilemap.map_to_local(cells[x])
+
+	# Get the points that are close to the player
+	var filtered_cells: Array[Vector2i] = []
+	for cell in cells:
+		var world_pos = tilemap.map_to_local(cell)
+		if world_pos.distance_to(player.global_position) <= 700:
+			filtered_cells.append(cell)
+
+	# If no cells are in the radius, fall back to original list
+	if filtered_cells.is_empty():
+		filtered_cells = cells
+	
+	var x : int = rng.randi_range(0, filtered_cells.size()-1)  # like a dice roll
+	var target_point : Vector2 = tilemap.map_to_local(filtered_cells[x])
 
 	var map_rid : RID = get_world_2d().get_navigation_map() 
 	var closest_point : Vector2 = NavigationServer2D.map_get_closest_point(map_rid, target_point) 
 	global_position = closest_point
-
+	
 	sprite_base.play("spawn_teleport")
 	wiz_sfx.stream = wiz_sounds[0]
 	wiz_sfx.play()
 
 func setup_countdown_timer() -> void:
-	player_hits_left = 10
+	player_hits_left = 6
 	time_left = 60
 
 	var canvas : CanvasLayer = get_tree().get_first_node_in_group("canvas")
@@ -188,7 +211,7 @@ func setup_countdown_timer() -> void:
 	# Get references to necessary labels
 	hits_left_label = canvas.get_node("UiRoom/Puzzle/HitsLeft")
 	hits_left_label.visible = true
-	hits_left_label.text = "Land 10 hits on the Wizard"
+	hits_left_label.text = "Land 6 hits on the Wizard"
 	
 	countdown_label = canvas.get_node("UiRoom/Puzzle/Countdown")
 	countdown_label.visible = true

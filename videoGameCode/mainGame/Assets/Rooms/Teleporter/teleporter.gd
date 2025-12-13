@@ -17,5 +17,5 @@ func _on_body_entered(body: Node2D) -> void:
 		target.teleport_locked = true
 		body.global_position = target.global_position
 			
-		await get_tree().create_timer(0.6).timeout
+		await get_tree().create_timer(1).timeout
 		target.teleport_locked = false

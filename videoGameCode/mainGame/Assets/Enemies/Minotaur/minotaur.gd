@@ -19,7 +19,7 @@ var tilemap : TileMapLayer
 var camera : Camera2D
 
 # Cooldown for the minotaur's summoning
-const SUMMON_COOLDOWN_TIME : float = 10
+const SUMMON_COOLDOWN_TIME : float = 11
 var summon_cooldown : float = 1
 
 # Cooldown for the charge attack
@@ -180,11 +180,11 @@ func _physics_process(delta: float) -> void:
 				# End charge
 				set_state(State.MOVING)
 			if is_on_wall():
-				var wall_collision : bool = true
+				var wall_collision : bool = false
 				
 				for x in range(get_slide_collision_count()):
 					var collider : Object = get_slide_collision(x).get_collider()
-					if  collider.is_in_group("enemy"):
+					if collider.name == "GroundLayer":
 						wall_collision = false
 					
 				if wall_collision:
@@ -364,11 +364,11 @@ func handle_summon() -> void:
 		filtered_cells = cells
 	
 	# Choose the number of enemies to spawn
-	var n : int = rng.randi_range(4, 6)  # like a dice roll
+	var n : int = rng.randi_range(2, 4)  # like a dice roll
 	
 	for i in range(n):
 		var e : int = rng.randi_range(0, summons.size()-1)  # like a dice roll
-		var new_enemy : Node = summons[e].instantiate()
+		var new_enemy : EnemyEntity = summons[e].instantiate()
 		
 		#Place the spawned enemy at a random navigable point
 		var cell : Vector2i = filtered_cells.pick_random()  # like a dice roll
@@ -380,6 +380,8 @@ func handle_summon() -> void:
 		
 		get_tree().current_scene.add_child(new_enemy)
 		boss_defeated.connect(new_enemy._on_boss_death)
+		
+		get_tree().create_timer(19).timeout.connect(new_enemy.reduce_to_gold)
 	
 func handle_timers(delta: float) -> void:
 	# Decrement the timers

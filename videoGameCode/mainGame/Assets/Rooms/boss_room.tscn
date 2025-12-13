@@ -2294,10 +2294,10 @@ navigation_enabled = false
 [node name="EnemySpawns" type="Node" parent="."]
 
 [node name="EnemySpawn1" type="Marker2D" parent="EnemySpawns"]
-position = Vector2(194, 679)
+position = Vector2(489, 520)
 
 [node name="PlayerSpawn" type="Marker2D" parent="."]
-position = Vector2(1281, 715)
+position = Vector2(-37, 789)
 
 [node name="Teleporters" type="Node" parent="."]
 

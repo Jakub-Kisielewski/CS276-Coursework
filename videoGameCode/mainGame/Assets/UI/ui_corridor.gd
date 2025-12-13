@@ -156,8 +156,8 @@ func _ready() -> void:
 		initialize_corridor_view()
 	
 func update_health_gold():
-	health_label.text = "Health: " + str(round(GameData.current_health))
-	gold_label.text = "Gold: " + str(GameData.currency)
+	health_label.text = "Health: " + str(round(GameData.current_health)) + "\n"
+	gold_label.text = "Gold: " + str(GameData.currency) + "\n"
 	
 
 func _on_visibility_changed() -> void:
