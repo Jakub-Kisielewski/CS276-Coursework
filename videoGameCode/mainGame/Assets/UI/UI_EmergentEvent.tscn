@@ -1,5 +1,106 @@
-[gd_scene format=3 uid="uid://c6mwb4w1gv73r"]
+[gd_scene load_steps=5 format=3 uid="uid://ggd8e28b2dcg"]
+
+[ext_resource type="Script" uid="uid://dxm5x4s5j18se" path="res://Assets/UI/ui_emerget_event.gd" id="1_bhske"]
+[ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="2_tg222"]
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="2_yfo6l"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_42m5a"]
+texture = ExtResource("2_tg222")
+expand_margin_left = 130.0
+expand_margin_top = 40.0
+expand_margin_right = 130.0
+expand_margin_bottom = 40.0
+region_rect = Rect2(19, 275, 90, 90)
 
 [node name="UiEmergentEvent" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_bhske")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 0.6745098)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 0.78431374)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 145.0
+offset_top = 95.0
+offset_right = -102.0
+offset_bottom = -87.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_42m5a")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="EventContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/EventContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_yfo6l")
+theme_override_font_sizes/font_size = 64
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Img" type="TextureRect" parent="CenterContainer/PanelContainer/MarginContainer/EventContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LblDescription" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/EventContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yfo6l")
+text = "Play Time: 00:00
+"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/EventContainer"]
+layout_mode = 2
+
+[node name="Choice1" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/EventContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yfo6l")
+text = "Settings
+"
+
+[node name="Choice2" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/EventContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yfo6l")
+text = "Quit
+"

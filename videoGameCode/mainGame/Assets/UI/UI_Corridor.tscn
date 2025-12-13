@@ -219,7 +219,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(1.1551381e-06, 0.43689093, 0.7017278, 1)
 theme_override_fonts/font = ExtResource("2_i6yk8")
 theme_override_font_sizes/font_size = 30
-text = "+HEALTH"
+text = "+50 HEALTH"
 horizontal_alignment = 1
 vertical_alignment = 1
 

@@ -24,6 +24,14 @@ var max_dashes_charges: int = 1
 var decoy_unlocked = false
 var dash_through_enemies_unlocked: bool = false
 
+var mouse_aiming: bool = true
+var god_mode_enabled: bool = false
+var show_controls: bool = false
+
+var master_volume_db: float = 0.0
+var music_volume_db: float = 0.0
+var sfx_volume_db: float = 0.0
+
 const SAVE_PATH = "user://savegame.json"
 
 func _ready() -> void:
@@ -104,47 +112,6 @@ func unlock_active_weapon_special() -> bool:
 	return wp.unlock_special_attack()
 	
 	
-
-func apply_random_completion_reward() -> String:
-	var options = ["heal", "gold", "defense", "damage"]
-	
-	if current_weapons.size() > 0 and active_weapon_index < current_weapons.size():
-		options.append("weapon_rarity")
-		options.append("weapon_type")
-	
-	var choice = options.pick_random()
-	
-	match choice:
-		"heal":
-			update_health(250)
-			return "Reward: Healed 250 HP"
-		"gold":
-			add_currency(100)
-			return "Reward: Found 100 Gold"
-		"defense":
-			upgrade_defense()
-			return "Reward: Defense Increased!"
-		"damage":
-			upgrade_damage(5.0)
-			return "Reward: Base Damage +5"
-		"weapon_rarity":
-			var wp = current_weapons[active_weapon_index]
-			if wp.rarity == WeaponData.Rarity.PRISMATIC:
-				add_currency(200)
-				return "Reward: 200 Gold (Weapon Maxed)"
-			else:
-				wp.upgrade_rarity()
-				return "Reward: Weapon Rarity Upgraded!"
-		"weapon_type":
-			var wp = current_weapons[active_weapon_index]
-			if wp.weapon_mult >= 2.0:
-				add_currency(150)
-				return "Reward: 150 Gold (Proficiency Maxed)"
-			else:
-				wp.upgrade_type()
-				return "Reward: Weapon Proficiency Up!"
-				
-	return "Reward: Room Cleared"
 
 func add_weapon(weapon_data: WeaponData):
 	if weapon_data == null:

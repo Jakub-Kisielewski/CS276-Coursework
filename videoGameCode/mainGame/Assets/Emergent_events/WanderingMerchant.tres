@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://c5jrl0eg6fh1v"]
+
+[ext_resource type="Script" uid="uid://bn7fe4op0x556" path="res://Assets/Emergent_events/event_data.gd" id="1_shqcp"]
+
+[resource]
+script = ExtResource("1_shqcp")
+title = "Gold Merchant"
+description = "A rather well dressed merchant approaches you and says \"Hello there. To trade health for gold or gold for health, THAT is the question.\""
+options = Array[Dictionary]([{
+"effect_id": "take_damage",
+"text": "Sell blood (-50hp) for gold (50g)"
+}, {
+"effect_id": "heal",
+"text": "Buy healing potion (50g)"
+}])
+metadata/_custom_type_script = "uid://bn7fe4op0x556"

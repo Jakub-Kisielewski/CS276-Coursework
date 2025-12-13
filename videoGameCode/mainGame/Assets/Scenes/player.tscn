@@ -11341,6 +11341,7 @@ animation = &""
 sprite_frames = SubResource("SpriteFrames_c1j8p")
 animation = &"Sidle_left"
 frame = 9
+frame = 1
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")

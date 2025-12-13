@@ -1,6 +1,8 @@
 extends Control
 
 signal room_entered(room_type: String)
+signal player_moved_to_cell(cell_data: Dictionary)
+
 @onready var help_label: Label = %Help
 @onready var map_display: TileMapLayer = %MapDisplay
 @onready var player_icon: Sprite2D = %PlayerIcon
@@ -125,7 +127,6 @@ func _ready() -> void:
 	
 	update_health_gold()
 	
-	#how do this part
 	btn_player_abilities.clear()
 	btn_player_abilities.add_item("Extra Dash", 0)
 	btn_player_abilities.add_item("Dash through enemies", 1)
@@ -149,7 +150,7 @@ func _ready() -> void:
 	
 	if btn_enter_room:
 		btn_enter_room.pressed.connect(_on_enter_room_pressed)
-		btn_enter_room.visible = false # Ensure hidden at start
+		btn_enter_room.visible = false 
 		btn_enter_room.position.y -= 100
 	
 	if not GameData.maze_map.is_empty():
@@ -225,6 +226,7 @@ func _is_valid_cell(coords: Vector2i) -> bool:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible: return
+	if get_tree().paused: return
 	
 	for dir_key in inputs.keys():
 		if event.is_action_pressed(dir_key):
@@ -306,10 +308,10 @@ func update_player_position(new_pos: Vector2i):
 	new_cell["explored"] = true
 	
 	update_player_visuals(head_direction)
-	
 	draw_map() 
-	
 	GameData.save_game()
+	
+	player_moved_to_cell.emit(new_cell)
 	
 	check_room_entry(new_cell)
 
@@ -342,17 +344,12 @@ func draw_map():
 			if cell_data.get("explored", false):
 				var type = cell_data.get("type", "")
 				var tile_coord = Vector2i(4, 4)
-				
 				if tile_atlas_coords.has(type):
 					tile_coord = tile_atlas_coords[type]
 				elif type in room_types:
-					# Fallback for rooms if they aren't explicitly in atlas dict
-					# (Though they are added above, this is safety)
 					tile_coord = tile_atlas_coords.get("basicArena")
-					
-				# Set cell (layer 0, source_id 0, atlas coords)
+				
 				map_display.set_cell(Vector2i(x, y), 0, tile_coord, 0)
-				# Note: source_id set to 0. Ensure your TileMapLayer has a TileSet with ID 0.
 			else:
 				# draw blank
 				map_display.set_cell(Vector2i(x,y), 0, Vector2i(4,4), 0)
@@ -381,6 +378,8 @@ func _on_enter_room_pressed() -> void:
 		btn_enter_room.visible = false
 		
 		room_entered.emit(current_hovered_room_type)
+
+
 
 #UPGRADES
 

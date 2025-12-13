@@ -9,7 +9,6 @@ var base_damage: float
 var hitbox : hitBox
 
 func _ready():
-	
 	var hitbox_shape = CapsuleShape2D.new()
 	hitbox_shape.radius = 5
 	hitbox_shape.height = 10

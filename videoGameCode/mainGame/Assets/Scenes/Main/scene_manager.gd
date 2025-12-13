@@ -13,19 +13,23 @@ class_name SceneManager extends Node
 @export var ui_corridor: Control
 @export var ui_pause_menu: Control
 @export var ui_death: Control
-
-
+@export var ui_settings: Control
 
 var current_scene_node: Node = null
-enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, SETTINGS, DEATH}
+
+enum SceneType { MENU, MAZE_GEN, ROOM, CORRIDOR, DEATH }
 var current_ui_state: SceneType = SceneType.MENU
 
 func _ready() -> void:
-	
-	set_scene_music_category(current_ui_state) #initially the menu music
+	set_scene_music_category(current_ui_state) # initially the menu music
 	
 	transition_screen.visible = false
 	transition_screen.modulate.a = 0.0
+	
+	# Hide settings initially (it's an overlay, not a scene)
+	if ui_settings:
+		ui_settings.visible = false
+	
 	_switch_ui_state(current_ui_state)
 
 func swap_content_scene(new_scene_node: Node, on_black_screen: Callable = Callable()) -> void:
@@ -57,14 +61,13 @@ func _fade_in() -> void:
 	await tween.finished
 	transition_screen.visible = false
 
-
 func _switch_ui_state(scene_type: SceneType) -> void:
 	current_ui_state = scene_type
 	
-	#changing music as well here
+	# changing music as well here
 	set_scene_music_category(scene_type)
 	
-	#resetting the visibility to false
+	# resetting the visibility to false (settings excluded - it's an overlay)
 	if ui_main_menu: ui_main_menu.visible = false
 	if ui_maze_gen: ui_maze_gen.visible = false
 	if ui_room: ui_room.visible = false
@@ -72,7 +75,7 @@ func _switch_ui_state(scene_type: SceneType) -> void:
 	if ui_pause_menu: ui_pause_menu.visible = false
 	if ui_death: ui_death.visible = false
 	
-	#now set visibility to true
+	# now set visibility to true
 	match scene_type:
 		SceneType.MENU:
 			if ui_main_menu: ui_main_menu.visible = true
@@ -88,8 +91,6 @@ func _switch_ui_state(scene_type: SceneType) -> void:
 					ui_death.start_death_sequence()
 				else:
 					ui_death.visible = true
-		SceneType.SETTINGS:
-			pass
 
 func on_start_game_ui() -> void:
 	_switch_ui_state(SceneType.ROOM)
@@ -103,13 +104,12 @@ func on_return_to_menu() -> void:
 	
 	_switch_ui_state(SceneType.MENU)
 
-
-#when you change scene call this function with the new scene type as parameter so that music changes accordingly
+# when you change scene call this function with the new scene type as parameter
 func set_scene_music_category(scene_type : SceneType):
 	match scene_type:
-		SceneType.MENU, SceneType.SETTINGS, SceneType.MAZE_GEN:
+		SceneType.MENU, SceneType.MAZE_GEN:
 			music_player.set_category(MusicPlayer.Category.MENU_SETTINGS)
-		SceneType.ROOM :
+		SceneType.ROOM:
 			music_player.set_category(MusicPlayer.Category.ROOMS)
 		SceneType.CORRIDOR:
 			music_player.set_category(MusicPlayer.Category.CORRIDORS)

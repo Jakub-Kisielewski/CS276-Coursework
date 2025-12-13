@@ -1,0 +1,176 @@
+[gd_scene load_steps=6 format=3 uid="uid://whynvv65lpho"]
+
+[ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="1_ttb4u"]
+[ext_resource type="Script" uid="uid://co1tns1pii3um" path="res://Assets/UI/ui_settings.gd" id="1_wk3vu"]
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="2_0clgh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0clgh"]
+texture = ExtResource("1_ttb4u")
+expand_margin_left = 130.0
+expand_margin_top = 40.0
+expand_margin_right = 130.0
+expand_margin_bottom = 40.0
+region_rect = Rect2(19, 275, 90, 90)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0clgh"]
+bg_color = Color(0.87329835, 0.87329847, 0.87329817, 1)
+
+[node name="UiSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_wk3vu")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 0.6745098)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 0.78431374)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 318.0
+offset_top = 50.0
+offset_right = -369.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 448.0
+offset_top = 90.0
+offset_right = 650.0
+offset_bottom = 562.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_0clgh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 394.0
+offset_top = 75.0
+offset_right = 694.0
+offset_bottom = 143.0
+
+[node name="Title2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_0clgh")
+theme_override_font_sizes/font_size = 64
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MasterVolume" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MasterVolume"]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="VBoxContainer/MasterVolume"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MusicVolume" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MusicVolume"]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="VBoxContainer/MusicVolume"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SFXVolume" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/SFXVolume"]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="SFXVolumeSlider" type="HSlider" parent="VBoxContainer/SFXVolume"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="GodMode" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/GodMode"]
+layout_mode = 2
+text = "Gode Mode"
+
+[node name="GodModeCheck" type="CheckBox" parent="VBoxContainer/GodMode"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_0clgh")
+
+[node name="Aim" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Aim"]
+layout_mode = 2
+text = "Aim with mouse"
+
+[node name="AimCheck" type="CheckBox" parent="VBoxContainer/Aim"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.66656864, 0.6665687, 0.66656864, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_0clgh")
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Controls" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Controls"]
+layout_mode = 2
+text = "Movement: W/A/S/D"
+
+[node name="Label2" type="Label" parent="VBoxContainer/Controls"]
+layout_mode = 2
+text = "Switch Weapon: Q"
+
+[node name="Label3" type="Label" parent="VBoxContainer/Controls"]
+layout_mode = 2
+text = "Dash: Spacebar"
+
+[node name="Label4" type="Label" parent="VBoxContainer/Controls"]
+layout_mode = 2
+text = "Throw Decoy: E"
+
+[node name="Label5" type="Label" parent="VBoxContainer/Controls"]
+layout_mode = 2
+text = "Primary Attack: Left Mouse Button"
+
+[node name="Label6" type="Label" parent="VBoxContainer/Controls"]
+layout_mode = 2
+text = "Special Attack: Right Mouse Button"
+
+[node name="HSeparator4" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="BackBtn" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back to game"
