@@ -82,7 +82,7 @@ visible = false
 layout_mode = 2
 text = "Enter Room"
 
-[node name="Title2" type="Label" parent="HBoxContainer/MapContainer"]
+[node name="Help" type="Label" parent="HBoxContainer/MapContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
