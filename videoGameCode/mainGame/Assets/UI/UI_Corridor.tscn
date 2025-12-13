@@ -20,13 +20,12 @@ resource_local_to_scene = true
 atlas = ExtResource("3_3df1u")
 region = Rect2(163, 147, 90, 90)
 
-[node name="UiCorridor" type="Control" node_paths=PackedStringArray("shop_reward_label")]
+[node name="UiCorridor" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 script = ExtResource("1_dm56r")
-shop_reward_label = NodePath("")
 
 [node name="CorridorBGRND" type="ColorRect" parent="."]
 layout_mode = 1
@@ -80,7 +79,7 @@ vertical_alignment = 1
 
 [node name="MapDisplay" type="TileMapLayer" parent="HBoxContainer/MapContainer"]
 unique_name_in_owner = true
-position = Vector2(297, 298)
+position = Vector2(275, 400)
 scale = Vector2(5, 5)
 tile_set = ExtResource("2_hx4x2")
 
