@@ -344,17 +344,12 @@ func draw_map():
 			if cell_data.get("explored", false):
 				var type = cell_data.get("type", "")
 				var tile_coord = Vector2i(4, 4)
-				
 				if tile_atlas_coords.has(type):
 					tile_coord = tile_atlas_coords[type]
 				elif type in room_types:
-					# Fallback for rooms if they aren't explicitly in atlas dict
-					# (Though they are added above, this is safety)
 					tile_coord = tile_atlas_coords.get("basicArena")
-					
-				# Set cell (layer 0, source_id 0, atlas coords)
+				
 				map_display.set_cell(Vector2i(x, y), 0, tile_coord, 0)
-				# Note: source_id set to 0. Ensure your TileMapLayer has a TileSet with ID 0.
 			else:
 				# draw blank
 				map_display.set_cell(Vector2i(x,y), 0, Vector2i(4,4), 0)

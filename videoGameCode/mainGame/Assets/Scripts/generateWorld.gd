@@ -125,7 +125,7 @@ func scaleConstraints() -> void:
 	var minPossibleDistance: int = max(mapWidth, mapHeight) / 2
 	
 	if minSolutionPath < minPossibleDistance:
-		minSolutionPath = minPossibleDistance + 2  # Reduced from +3
+		minSolutionPath = minPossibleDistance + 2 
 	
 	# half of map width or height
 	maxBranchLength = int(max(mapWidth, mapHeight) / 2)
@@ -557,6 +557,21 @@ func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
 				cell["type"] = "basicArena"
 			
 			corridorsSinceLastRoom = 0
+	
+	# Place a puzzle room in one of the last 4 cells before the centre
+	var puzzleCandidates: Array[Vector2i] = []
+	for coords in solutionPath:
+		var cell: Dictionary = map[coords.y][coords.x]
+		if cell.get("type") == "Start" or cell.get("type") == "Centre":
+			continue
+		var order: int = cell.get("order")
+		# Excludes the cell with order == totalCorridors (adjacent to centre)
+		if order >= totalCorridors - 4 and order < totalCorridors:
+			puzzleCandidates.append(coords)
+		
+	if puzzleCandidates.size() > 0:
+		var puzzleCoords: Vector2i = puzzleCandidates[rng.randi_range(0, puzzleCandidates.size() - 1)]
+		map[puzzleCoords.y][puzzleCoords.x]["type"] = "puzzleRoom"
 	
 	for branch in branches:
 		if branch == null or branch.size() < 2:
