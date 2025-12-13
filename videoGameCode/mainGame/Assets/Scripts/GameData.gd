@@ -24,6 +24,14 @@ var max_dashes_charges: int = 1
 var decoy_unlocked = false
 var dash_through_enemies_unlocked: bool = false
 
+var mouse_aiming: bool = true
+var god_mode_enabled: bool = false
+var show_controls: bool = false
+
+var master_volume_db: float = 0.0
+var music_volume_db: float = 0.0
+var sfx_volume_db: float = 0.0
+
 const SAVE_PATH = "user://savegame.json"
 
 func _ready() -> void:

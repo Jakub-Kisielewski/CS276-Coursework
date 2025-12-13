@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://whynvv65lpho"]
+[gd_scene load_steps=6 format=3 uid="uid://whynvv65lpho"]
 
 [ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="1_ttb4u"]
+[ext_resource type="Script" uid="uid://co1tns1pii3um" path="res://Assets/UI/ui_settings.gd" id="1_wk3vu"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="2_0clgh"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0clgh"]
@@ -19,6 +20,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
+script = ExtResource("1_wk3vu")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(0, 0, 0, 0.6745098)

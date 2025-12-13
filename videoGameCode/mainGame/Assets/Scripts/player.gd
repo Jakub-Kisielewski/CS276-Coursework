@@ -88,7 +88,7 @@ var trying_shotgun = true #true -> shotgun switch, false -> auto switch
 var dying = false
 var monitorable = true
 
-var mouse_aiming = true #set this to true if you want to aim with mouse
+
 
 func _ready():
 	randomize()
@@ -270,7 +270,7 @@ func handle_input(delta: float):
 	var direction : Vector2
 	direction = get_movement_direction()
 	velocity = direction * speed
-	if mouse_aiming:
+	if GameData.mouse_aiming:
 		set_mouse_facing()
 	else:
 		set_keys_facing(direction)
@@ -502,10 +502,13 @@ func set_keys_facing(direction : Vector2):
 func bow_attack():
 	attacking = true
 	var deg : float
-	if mouse_aiming:
+	if GameData.mouse_aiming:
 		deg = rad_to_deg(get_mouse_angle())
 	else:
 		deg = get_movement_angle()
+		
+	#overide
+	deg = rad_to_deg(get_mouse_angle())
 	
 	bowAnim.rotation = deg
 	
@@ -537,7 +540,7 @@ func shattering_bow(total_arrows: int, duration: int):
 	var gap :float = duration / total_arrows
 	
 	var base_angle: float
-	if mouse_aiming:
+	if GameData.mouse_aiming:
 		base_angle = deg_to_rad(get_mouse_angle())
 	else:
 		base_angle = deg_to_rad(get_movement_angle())
@@ -573,10 +576,13 @@ func cancel_attack():
 
 func shoot_arrow(dir: Vector2 = Vector2.ZERO): #triggered at end of battack anim
 	if dir == Vector2.ZERO:
-		if mouse_aiming:
+		if GameData.mouse_aiming:
 			dir = get_mouse_vec().normalized()
 		else:
 			dir = get_nonzero_movement_direction()
+			
+		#overide
+		dir = get_mouse_vec().normalized()
 	
 	var arrow_pre = preload("res://Assets/Weapons/arrow.tscn")
 	var arrow = arrow_pre.instantiate()
@@ -606,7 +612,7 @@ func spear_attack():
 	var fx_offset : Vector2
 	var fx_rotation: float
 	var fx_dist := 40.0
-	if mouse_aiming:
+	if GameData.mouse_aiming:
 		aim_angle = deg_to_rad(get_mouse_angle())
 		forward = get_mouse_vec()
 	else:
@@ -692,7 +698,7 @@ func sword_special_attack():
 	anim_state.travel("Srelease")#change to a different animation, but make a backup first, for later
 	
 	var base_angle: float
-	if mouse_aiming:
+	if GameData.mouse_aiming:
 		base_angle = deg_to_rad(get_mouse_angle())
 	else:
 		base_angle = deg_to_rad(get_movement_angle())
@@ -879,7 +885,7 @@ func throw_decoy():
 	crazy_diamond.global_position = global_position
 	
 	var dir: Vector2
-	if mouse_aiming:
+	if GameData.mouse_aiming:
 		dir = get_mouse_vec().normalized()
 	else:
 		dir = get_nonzero_movement_direction()
