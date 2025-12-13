@@ -4,15 +4,11 @@ signal room_entered(room_type: String)
 @onready var map_display: TileMapLayer = %MapDisplay
 @onready var player_icon: Sprite2D = %PlayerIcon
 @onready var btn_enter_room: Button = %BtnEnterRoom
-@onready var map_wrapper: Control = %MapWrapper
+@export var shop_reward_label: Label
 
 var current_hovered_room_type: String = ""
-var head_up = preload('res://Assets/Resources/head/up_head.png')
-var head_down = preload('res://Assets/Resources/head/down_head.png')
-var head_left = preload('res://Assets/Resources/head/left_head.png')
-var head_right = preload('res://Assets/Resources/head/right_head.png')
-
-
+# Definitions of what directions are allowed for each specific tile type
+# Based on the logic in generateWorld.gd
 var connectivity: Dictionary = {
 	# Straights (Pipes)
 	"straightVertical": [Vector2i.UP, Vector2i.DOWN],
@@ -23,17 +19,18 @@ var connectivity: Dictionary = {
 	"straightEast": [Vector2i.LEFT, Vector2i.RIGHT],
 	"straightWest": [Vector2i.LEFT, Vector2i.RIGHT],
 	
-	"northToWestTurn": [Vector2i.DOWN, Vector2i.LEFT],
-	"northToEastTurn": [Vector2i.DOWN, Vector2i.RIGHT], 
+	# Turns (Entry -> Exit logic inferred from names)
+	"northToWestTurn": [Vector2i.DOWN, Vector2i.LEFT], # Enters from South, Turns West
+	"northToEastTurn": [Vector2i.DOWN, Vector2i.RIGHT], # Enters from South, Turns East
 	
-	"southToWestTurn": [Vector2i.UP, Vector2i.LEFT], 
-	"southToEastTurn": [Vector2i.UP, Vector2i.RIGHT],
+	"southToWestTurn": [Vector2i.UP, Vector2i.LEFT], # Enters from North, Turns West
+	"southToEastTurn": [Vector2i.UP, Vector2i.RIGHT], # Enters from North, Turns East
 	
-	"eastToNorthTurn": [Vector2i.LEFT, Vector2i.UP],
-	"eastToSouthTurn": [Vector2i.LEFT, Vector2i.DOWN], 
+	"eastToNorthTurn": [Vector2i.LEFT, Vector2i.UP], # Enters from West, Turns North
+	"eastToSouthTurn": [Vector2i.LEFT, Vector2i.DOWN], # Enters from West, Turns South
 	
-	"westToNorthTurn": [Vector2i.RIGHT, Vector2i.UP], 
-	"westToSouthTurn": [Vector2i.RIGHT, Vector2i.DOWN],
+	"westToNorthTurn": [Vector2i.RIGHT, Vector2i.UP], # Enters from East, Turns North
+	"westToSouthTurn": [Vector2i.RIGHT, Vector2i.DOWN], # Enters from East, Turns South
 	
 	# Junctions
 	"verticalLeftJunction": [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT],
@@ -98,28 +95,52 @@ var inputs: Dictionary = {
 	"move_right": Vector2i.RIGHT
 }
 
-enum Head {
-	UP,
-	DOWN,
-	RIGHT,
-	LEFT
-}
-
 func _ready() -> void:
+	
+	#how do this part
+	btn_player_abilities.clear()
+	btn_player_abilities.add_item("Extra Dash", 0)
+	btn_player_abilities.add_item("Dash through enemies", 1)
+	btn_player_abilities.add_item("Decoy", 2)
+	
+	btn_player_abilities.item_selected.connect(on_player_abilities_item_selected)
+	
+	btn_health.pressed.connect(buy_heal)
+	btn_defence.pressed.connect(buy_defense_upgrade)
+	
+	btn_sword_ability.pressed.connect(on_sword_ability_pressed)
+	btn_spear_ability.pressed.connect(on_spear_ability_pressed)
+	btn_bow_ability.pressed.connect(on_bow_ability_pressed)
+	
+	btn_upgrade_bow.pressed.connect(on_upgrade_bow_pressed)
+	btn_upgrade_spear.pressed.connect(on_upgrade_spear_pressed)
+	btn_upgrade_sword.pressed.connect(on_upgrade_sword_pressed)
+	
+	
 	visibility_changed.connect(_on_visibility_changed)
 	
 	if btn_enter_room:
 		btn_enter_room.pressed.connect(_on_enter_room_pressed)
-		btn_enter_room.visible = false
+		btn_enter_room.visible = false # Ensure hidden at start
 	
 	if not GameData.maze_map.is_empty():
 		initialize_corridor_view()
+	
+	if shop_reward_label:
+		shop_reward_label.text = "Explore to find rewards..."
+
+func set_shop_label_text(text: String) -> void:
+	if shop_reward_label:
+		shop_reward_label.text = text
+		print("UI Updated: ", text)
+	else:
+		print("Warning: shop_reward_label not assigned in UI_Corridor")
 
 func _on_visibility_changed() -> void:
 	if visible:
 		initialize_corridor_view()
-		update_player_visuals(Head.RIGHT)
 		set_process_unhandled_input(true)
+		# Force focus to ensure keyboard input is captured
 		grab_focus()
 
 func initialize_corridor_view() -> void:
@@ -130,36 +151,9 @@ func initialize_corridor_view() -> void:
 	if GameData.player_coords == Vector2i(0,0) and not _is_valid_cell(Vector2i(0,0)):
 		find_player_start()
 	
-	await center_maze()
 	draw_map()
 	# Defer the visual update slightly to ensure TileMapLayer is ready
 	call_deferred("update_player_visuals")
-
-func center_maze() -> void:
-	if not map_display or not map_wrapper:
-		return
-	
-	var tile_set = map_display.tile_set
-	if not tile_set:
-		return
-	
-	# Set the scale
-	map_display.scale = Vector2(5, 5)  # Your desired scale
-	map_display.rotation = 0
-	
-	await get_tree().process_frame
-	
-	var tile_size = tile_set.tile_size
-	var container_size = map_wrapper.size
-	var center_tile_x = int(GameData.map_width / 2)
-	var center_tile_y = int(GameData.map_height / 2)
-	var center_tile_coords = Vector2i(center_tile_x, center_tile_y)
-	
-	# Get the local position and account for scale
-	var center_tile_local_pos = map_display.map_to_local(center_tile_coords) * map_display.scale
-	var container_center = container_size / 2.0
-	
-	map_display.position = container_center - center_tile_local_pos
 
 func find_player_start():
 	for y in range(GameData.map_height):
@@ -265,21 +259,9 @@ func get_allowed_directions(type: String) -> Array:
 
 func update_player_position(new_pos: Vector2i):
 	# Update Data
-	var old_pos: Vector2i = GameData.player_coords
+	var old_pos = GameData.player_coords
 	# Optional: Set old cell to inactive if your game logic requires it, 
 	# usually we just track current player pos.
-	var direction: Vector2i = new_pos - old_pos
-	
-	var head_direction: Head
-	match direction:
-		Vector2i.DOWN:
-			head_direction = Head.DOWN
-		Vector2i.UP:
-			head_direction = Head.UP
-		Vector2i.RIGHT:
-			head_direction = Head.RIGHT
-		Vector2i.LEFT:
-			head_direction = Head.LEFT
 	
 	GameData.player_coords = new_pos
 	var new_cell = GameData.maze_map[new_pos.y][new_pos.x]
@@ -288,7 +270,7 @@ func update_player_position(new_pos: Vector2i):
 	new_cell["explored"] = true
 	
 	# Update Visuals
-	update_player_visuals(head_direction)
+	update_player_visuals()
 	draw_map() 
 	
 	# Save State
@@ -296,26 +278,12 @@ func update_player_position(new_pos: Vector2i):
 	
 	check_room_entry(new_cell)
 
-func update_player_visuals(head_direction: Head = Head.RIGHT):
-	if not map_display or not player_icon:
-		return
-		
-	# Get the tile's local position on the map
-	var map_pos = map_display.map_to_local(GameData.player_coords)
-	
-	# Update head texture
-	match head_direction:
-		Head.UP:
-			player_icon.texture = head_up
-		Head.DOWN:
-			player_icon.texture = head_down
-		Head.RIGHT:
-			player_icon.texture = head_right
-		Head.LEFT:
-			player_icon.texture = head_left
-	
-	# Account for both the map's position AND its scale
-	player_icon.position = map_display.position + (map_pos * map_display.scale)
+func update_player_visuals():
+	# Use map_to_local to center the sprite on the tile
+	if map_display:
+		var map_pos = map_display.map_to_local(GameData.player_coords)
+		# Convert that local map position to a global position, then apply it to the icon
+		player_icon.global_position = map_display.to_global(map_pos)
 
 func draw_map():
 	map_display.clear()
@@ -331,8 +299,14 @@ func draw_map():
 				
 				if tile_atlas_coords.has(type):
 					tile_coord = tile_atlas_coords[type]
-				
+				elif type in room_types:
+					# Fallback for rooms if they aren't explicitly in atlas dict
+					# (Though they are added above, this is safety)
+					tile_coord = tile_atlas_coords.get("basicArena")
+					
+				# Set cell (layer 0, source_id 0, atlas coords)
 				map_display.set_cell(Vector2i(x, y), 0, tile_coord, 0)
+				# Note: source_id set to 0. Ensure your TileMapLayer has a TileSet with ID 0.
 			else:
 				# draw blank
 				map_display.set_cell(Vector2i(x,y), 0, Vector2i(4,4), 0)
@@ -373,25 +347,36 @@ func _on_enter_room_pressed() -> void:
 #UPGRADES
 
 
+@onready var btn_health = %HEALTH
+@onready var btn_defence = %DEFENCE
+@onready var btn_sword_ability = %swordAbility
+@onready var btn_spear_ability = %spearAbility
+@onready var btn_bow_ability = %bowAbility
+@onready var btn_upgrade_sword = %upgradeSword
+@onready var btn_upgrade_spear = %upgradeSpear
+@onready var btn_upgrade_bow = %upgradeBow
+@onready var btn_player_abilities = %playerAbilities
 
 #fire sale
 
 var cost_rarity_upgrade: int = 50.0
-var cost_type_upgrade : int = 50.0
 var cost_special_attack: int = 50.0
 var cost_heal : int = 50.0
 var cost_defense_upgrade: int = 50.0
-var cost_damage_upgrade: int = 50.0
 var cost_dash_charge: int = 50.0
 var cost_dash_transparency: int = 50.0 #dash through enemies
 var cost_decoy : int = 50.0
 var cost_weapon : int = 50.0
 #currency_updated updates the UI for money
+var selected_ability_id: int = 0
 
 #where is the weapon icon
 @export var bow_data : WeaponData
 @export var spear_data : WeaponData
+@export var sword_data : WeaponData
 
+
+#no buying weapons anymore
 func buy_bow():
 	if GameData.currency < cost_weapon:
 		return
@@ -422,28 +407,30 @@ func buy_spear():
 	
 
 	
-func buy_rarity_upgrade():
+func buy_rarity_upgrade(index: int):
 	if GameData.currency >= cost_rarity_upgrade:
+		GameData.set_active_weapon(index)
 		if GameData.upgrade_active_weapon_rarity():
 			GameData.currency -= cost_rarity_upgrade
 			GameData.currency_updated.emit(GameData.currency)
 			
 		
 
-func buy_special_attack():			
+func buy_special_attack(index : int):			
 	if GameData.currency >= cost_special_attack:
-			if GameData.unlock_active_weapon_special():
-				GameData.currency -= cost_special_attack
-				GameData.currency_updated.emit(GameData.currency)
+		GameData.set_active_weapon(index)
+		if GameData.unlock_active_weapon_special():
+			GameData.currency -= cost_special_attack
+			GameData.currency_updated.emit(GameData.currency)
 				
 func buy_heal():
 	if GameData.currency >= cost_heal:
-		GameData.currency =- cost_heal
+		GameData.currency -= cost_heal
 		GameData.update_health(250)
 		
 func buy_defense_upgrade():
 	if GameData.currency >= cost_defense_upgrade:
-		GameData.currency =- cost_defense_upgrade
+		GameData.currency -= cost_defense_upgrade
 		GameData.upgrade_defense()
 		
 
@@ -465,4 +452,27 @@ func buy_decoy():
 		if GameData.unlock_decoy():
 			GameData.currency -= cost_decoy
 			GameData.currency_updated.emit(GameData.currency)
-		
+			
+func on_player_abilities_item_selected(index: int):
+	selected_ability_id = btn_player_abilities.get_item_id(index)
+	
+#must populate current_weapons in this order
+func on_upgrade_sword_pressed():
+	buy_rarity_upgrade(0)	
+	
+func on_upgrade_spear_pressed():
+	buy_rarity_upgrade(1)
+	
+func on_upgrade_bow_pressed():
+	buy_rarity_upgrade(2)
+	
+func on_sword_ability_pressed():
+	buy_special_attack(0)
+
+func on_spear_ability_pressed():
+	buy_special_attack(1)
+	
+func on_bow_ability_pressed():
+	buy_special_attack(2)
+	
+			

@@ -156,7 +156,8 @@ vertical_alignment = 1
 layout_mode = 2
 alignment = 1
 
-[node name="Hidden Abilities" type="OptionButton" parent="HBoxContainer/ShopContainer/PLAYER"]
+[node name="playerAbilities" type="OptionButton" parent="HBoxContainer/ShopContainer/PLAYER"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("13_pud0r")
@@ -174,7 +175,7 @@ popup/item_4/id = 4
 popup/item_5/text = "FOO"
 popup/item_5/id = 5
 
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/PLAYER/Hidden Abilities"]
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/PLAYER/playerAbilities"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -191,6 +192,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HEALTH" type="Button" parent="HBoxContainer/ShopContainer/PLAYER"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("10_kyr3q")
@@ -266,13 +268,13 @@ vertical_alignment = 1
 layout_mode = 2
 alignment = 1
 
-[node name="Hidden Ability" type="Button" parent="HBoxContainer/ShopContainer/SWORD"]
+[node name="swordAbility" type="Button" parent="HBoxContainer/ShopContainer/SWORD"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("13_pud0r")
 
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SWORD/Hidden Ability"]
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SWORD/swordAbility"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -320,13 +322,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_trim_flags = 128
 
-[node name="UPGRADE" type="Button" parent="HBoxContainer/ShopContainer/SWORD"]
+[node name="upgradeSword" type="Button" parent="HBoxContainer/ShopContainer/SWORD"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("7_nfgdc")
 
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SWORD/UPGRADE"]
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SWORD/upgradeSword"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -346,12 +349,13 @@ vertical_alignment = 1
 layout_mode = 2
 alignment = 1
 
-[node name="Hidden Ability" type="Button" parent="HBoxContainer/ShopContainer/SPEAR"]
+[node name="spearAbility" type="Button" parent="HBoxContainer/ShopContainer/SPEAR"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("13_pud0r")
 
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SPEAR/Hidden Ability"]
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SPEAR/spearAbility"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -398,13 +402,14 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("10_6am0q")
 
-[node name="UPGRADE" type="Button" parent="HBoxContainer/ShopContainer/SPEAR"]
+[node name="upgradeSpear" type="Button" parent="HBoxContainer/ShopContainer/SPEAR"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("7_nfgdc")
 
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SPEAR/UPGRADE"]
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SPEAR/upgradeSpear"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -424,12 +429,13 @@ vertical_alignment = 1
 layout_mode = 2
 alignment = 1
 
-[node name="BtnSettings" type="Button" parent="HBoxContainer/ShopContainer/BOW"]
+[node name="bowAbility" type="Button" parent="HBoxContainer/ShopContainer/BOW"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("13_pud0r")
 
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/BOW/BtnSettings"]
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/BOW/bowAbility"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -476,13 +482,14 @@ OPTIONS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="UPGRADE" type="Button" parent="HBoxContainer/ShopContainer/BOW"]
+[node name="upgradeBow" type="Button" parent="HBoxContainer/ShopContainer/BOW"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("7_nfgdc")
 
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/BOW/UPGRADE"]
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/BOW/upgradeBow"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
