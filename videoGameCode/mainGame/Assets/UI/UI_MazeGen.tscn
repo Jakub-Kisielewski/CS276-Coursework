@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://gyy2so7y5uhh" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/smaller.png" id="4_is67t"]
 [ext_resource type="Texture2D" uid="uid://gate1pfemhou" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/share1.png" id="5_77orf"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_kc8j6"]
-[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/default_button.tres" id="5_uqyd8"]
+[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/Default/default_button.tres" id="5_uqyd8"]
 [ext_resource type="Texture2D" uid="uid://ufrkvu8lfi8j" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/larger.png" id="6_gxfx2"]
 [ext_resource type="Texture2D" uid="uid://bfjdu5f08imtc" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/singleplayer.png" id="7_gxfx2"]
 [ext_resource type="Texture2D" uid="uid://c511r1ei0hkam" path="res://Assets/Resources/Sprites/kenney_game-icons/PNG/White/1x/multiplayer.png" id="8_f5sgr"]

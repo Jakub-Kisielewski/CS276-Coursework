@@ -1,0 +1,32 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bl8slcke7qqpt"]
+
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="1_mod0y"]
+[ext_resource type="StyleBox" uid="uid://bajgg5p0qng5t" path="res://Assets/UI/Buttons/Shop/Defence/pressed_defence.tres" id="3_fpkj4"]
+[ext_resource type="StyleBox" uid="uid://bytqkv08xh85n" path="res://Assets/UI/Buttons/Shop/Defence/hover_defence.tres" id="4_3fs33"]
+[ext_resource type="StyleBox" uid="uid://o6k046ibssi7" path="res://Assets/UI/Buttons/Shop/Defence/normal_defence.tres" id="5_qhu4n"]
+
+[resource]
+default_font = ExtResource("1_mod0y")
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/constants/align_to_largest_stylebox = 0
+Button/constants/h_separation = 40
+Button/constants/icon_max_width = 0
+Button/constants/outline_size = 0
+Button/font_sizes/font_size = 20
+Button/fonts/font = ExtResource("1_mod0y")
+Button/styles/disabled = ExtResource("5_qhu4n")
+Button/styles/focus = ExtResource("5_qhu4n")
+Button/styles/hover = ExtResource("4_3fs33")
+Button/styles/normal = ExtResource("5_qhu4n")
+Button/styles/pressed = ExtResource("3_fpkj4")

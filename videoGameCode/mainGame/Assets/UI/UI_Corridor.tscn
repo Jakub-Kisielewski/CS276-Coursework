@@ -1,14 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://r4bwy5b4gyc1"]
+[gd_scene load_steps=16 format=3 uid="uid://r4bwy5b4gyc1"]
 
 [ext_resource type="Script" uid="uid://tjmpphq7gslr" path="res://Assets/UI/ui_corridor.gd" id="1_dm56r"]
 [ext_resource type="TileSet" uid="uid://ck02qayg8p1e0" path="res://Assets/UI/mapTileSet.tres" id="2_hx4x2"]
 [ext_resource type="FontFile" uid="uid://dfo5byu3tupte" path="res://Assets/Resources/Fonts/kenney_kenney-fonts/Fonts/Kenney High.ttf" id="2_i6yk8"]
 [ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="3_3df1u"]
 [ext_resource type="Texture2D" uid="uid://ctfitul1ohst3" path="res://icon.svg" id="3_ibrva"]
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_nfgdc"]
+[ext_resource type="Theme" uid="uid://dcdh5rpvcngju" path="res://Assets/UI/Buttons/Shop/Health/HEALTH_button.tres" id="6_14x63"]
+[ext_resource type="Theme" uid="uid://bl8slcke7qqpt" path="res://Assets/UI/Buttons/Shop/Defence/DEFENCE_button.tres" id="7_nfgdc"]
+[ext_resource type="PackedScene" uid="uid://be68a022nfbng" path="res://Assets/Scenes/shop(player).tscn" id="8_6am0q"]
+[ext_resource type="Texture2D" uid="uid://bpruogdlhaw2o" path="res://Assets/Resources/sword.png" id="9_cs06r"]
+[ext_resource type="Texture2D" uid="uid://hi634iu2pm16" path="res://Assets/Resources/spear.png" id="10_6am0q"]
+[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/Default/default_button.tres" id="10_kyr3q"]
+[ext_resource type="Texture2D" uid="uid://d3t0be8etohxt" path="res://Assets/Resources/bow-and-arrow.png" id="11_0jicc"]
+[ext_resource type="Theme" uid="uid://kaodpqfw067p" path="res://Assets/UI/Buttons/Shop/Hidden Ability/HIDDENABILITY_button.tres" id="13_pud0r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_14x63"]
+resource_local_to_scene = true
 atlas = ExtResource("3_3df1u")
-region = Rect2(300.14487, 268.06296, 104.06006, 104.06003)
+region = Rect2(163, 147, 90, 90)
 
 [node name="UiCorridor" type="Control" node_paths=PackedStringArray("shop_reward_label")]
 layout_mode = 3
@@ -16,28 +26,57 @@ anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 script = ExtResource("1_dm56r")
-shop_reward_label = NodePath("upgrade")
+shop_reward_label = NodePath("")
 
-[node name="DeathBGRND" type="ColorRect" parent="."]
+[node name="CorridorBGRND" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 78.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="StatsBGRND" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -42.0
+offset_top = 130.0
+offset_right = 106.0
+offset_bottom = -458.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.11403964, 0.22590804, 0.27121198, 0.11764706)
 
 [node name="HBoxContainer" type="BoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 35.0
+offset_right = -24.0
+offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MapContainer" type="Control" parent="HBoxContainer"]
+[node name="MapContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="HBoxContainer/MapContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 120
+text = "map"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MapDisplay" type="TileMapLayer" parent="HBoxContainer/MapContainer"]
 unique_name_in_owner = true
@@ -54,18 +93,20 @@ texture = ExtResource("3_ibrva")
 [node name="BtnEnterRoom" type="Button" parent="HBoxContainer/MapContainer"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.4921603
-anchor_top = 0.8256173
-anchor_right = 0.4921603
-anchor_bottom = 0.8256173
-offset_left = -49.5
-offset_top = -31.0
-offset_right = 49.5
-grow_horizontal = 2
-grow_vertical = 0
+layout_mode = 2
 text = "Enter Room"
+
+[node name="Title2" type="Label" parent="HBoxContainer/MapContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.27912283, 0.564655, 0.9082152, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
+theme_override_fonts/font = ExtResource("5_nfgdc")
+theme_override_font_sizes/font_size = 30
+text = "WASD TO NAVIGATE MAP"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ShopContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -82,96 +123,111 @@ text = "SHOP"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/Title"]
-modulate = Color(0.38154417, 0.6030472, 0.3210315, 1)
+[node name="STATS" type="HBoxContainer" parent="HBoxContainer/ShopContainer"]
+layout_mode = 2
+theme_override_constants/separation = -60
+alignment = 1
+
+[node name="Title" type="Label" parent="HBoxContainer/ShopContainer/STATS"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.7078744, 0.19446081, 0.3240573, 1)
+theme_override_fonts/font = ExtResource("5_nfgdc")
+theme_override_font_sizes/font_size = 30
+text = "60 health
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title3" type="Label" parent="HBoxContainer/ShopContainer/STATS"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.8024763, 0.53642297, 0.045732006, 1)
+theme_override_fonts/font = ExtResource("5_nfgdc")
+theme_override_font_sizes/font_size = 30
+text = "60 gold
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PLAYER" type="HBoxContainer" parent="HBoxContainer/ShopContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Hidden Abilities" type="OptionButton" parent="HBoxContainer/ShopContainer/PLAYER"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("13_pud0r")
+item_count = 6
+popup/item_0/text = "SOO"
+popup/item_0/id = 0
+popup/item_1/text = "DOO"
+popup/item_1/id = 1
+popup/item_2/text = "MTOO"
+popup/item_2/id = 2
+popup/item_3/text = "MOO"
+popup/item_3/id = 3
+popup/item_4/text = "GOO"
+popup/item_4/id = 4
+popup/item_5/text = "FOO"
+popup/item_5/id = 5
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/PLAYER/Hidden Abilities"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("AtlasTexture_14x63")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ShopContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="ShopContainer" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Title" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer"]
-layout_mode = 2
-size_flags_vertical = 1
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_i6yk8")
-theme_override_font_sizes/font_size = 120
-text = "SHOP"
+theme_override_font_sizes/font_size = 50
+text = "+HIDDEN 
+ABILITIES"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/Title"]
-modulate = Color(0.38154417, 0.6030472, 0.3210315, 1)
+[node name="HEALTH" type="Button" parent="HBoxContainer/ShopContainer/PLAYER"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("10_kyr3q")
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/PLAYER/HEALTH"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("AtlasTexture_14x63")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "sssssSSSSSS"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1.1551381e-06, 0.43689093, 0.7017278, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 30
+text = "+HEALTH"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "sssss"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "SSSSSSSSSSSSSSS"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "SSSS"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ShopContainer2" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer"]
+[node name="Visual" type="VBoxContainer" parent="HBoxContainer/ShopContainer/PLAYER"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Title" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2"]
+[node name="IGNORE" type="Label" parent="HBoxContainer/ShopContainer/PLAYER/Visual"]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 0)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 0)
 theme_override_fonts/font = ExtResource("2_i6yk8")
-theme_override_font_sizes/font_size = 60
-text = "1000"
+theme_override_font_sizes/font_size = 50
+text = "HIDDEN 
+ABILITIES"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/Title"]
-modulate = Color(0.38154417, 0.6030472, 0.3210315, 1)
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/PLAYER/Visual/IGNORE"]
+modulate = Color(0.75686276, 0.13725491, 0.1254902, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -179,54 +235,265 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_14x63")
-expand_mode = 2
-stretch_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2"]
+[node name="menu(player)" parent="HBoxContainer/ShopContainer/PLAYER/Visual" instance=ExtResource("8_6am0q")]
+position = Vector2(67, 45)
+scale = Vector2(3.6, 3.6)
+
+[node name="DEFENCE" type="Button" parent="HBoxContainer/ShopContainer/PLAYER"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("7_nfgdc")
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/PLAYER/DEFENCE"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1.1551381e-06, 0.43689093, 0.7017278, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 30
+text = "+DEFENCE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SWORD" type="HBoxContainer" parent="HBoxContainer/ShopContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer"]
+[node name="Hidden Ability" type="Button" parent="HBoxContainer/ShopContainer/SWORD"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("13_pud0r")
 
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "sssssSSSSSS"
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SWORD/Hidden Ability"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 50
+text = "+HIDDEN 
+ABILITY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer/VBoxContainer"]
+[node name="Visual" type="Button" parent="HBoxContainer/ShopContainer/SWORD"]
 layout_mode = 2
-text = "sssss"
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("6_14x63")
+disabled = true
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/SWORD/Visual"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_cs06r")
+
+[node name="Name" type="VBoxContainer" parent="HBoxContainer/ShopContainer/SWORD"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="HBoxContainer/ShopContainer/SWORD/Name"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 50
+text = "SWORD
+OPTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 128
+
+[node name="UPGRADE" type="Button" parent="HBoxContainer/ShopContainer/SWORD"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("7_nfgdc")
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SWORD/UPGRADE"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1.1551381e-06, 0.43689093, 0.7017278, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 30
+text = "upgrade to
+<INSERT>"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer"]
+[node name="SPEAR" type="HBoxContainer" parent="HBoxContainer/ShopContainer"]
 layout_mode = 2
+alignment = 1
 
-[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer/VBoxContainer2"]
+[node name="Hidden Ability" type="Button" parent="HBoxContainer/ShopContainer/SPEAR"]
 layout_mode = 2
-text = "SSSSSSSSSSSSSSS"
+size_flags_horizontal = 3
+theme = ExtResource("13_pud0r")
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SPEAR/Hidden Ability"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 50
+text = "+HIDDEN 
+ABILITY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="HBoxContainer/ShopContainer/HBoxContainer/ShopContainer2/HBoxContainer/VBoxContainer2"]
+[node name="Name" type="VBoxContainer" parent="HBoxContainer/ShopContainer/SPEAR"]
 layout_mode = 2
-text = "SSSS"
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="HBoxContainer/ShopContainer/SPEAR/Name"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 50
+text = "SPEAR
+OPTIONS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 154.0
-offset_top = 24.0
-offset_right = 348.0
-offset_bottom = 47.0
-text = "WASD TO NAVIGATE MAP"
+[node name="Visual" type="Button" parent="HBoxContainer/ShopContainer/SPEAR"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("6_14x63")
+disabled = true
 
-[node name="upgrade" type="Label" parent="."]
-layout_mode = 0
-offset_left = 854.0
-offset_top = 283.0
-offset_right = 894.0
-offset_bottom = 306.0
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/SPEAR/Visual"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_6am0q")
+
+[node name="UPGRADE" type="Button" parent="HBoxContainer/ShopContainer/SPEAR"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("7_nfgdc")
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/SPEAR/UPGRADE"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1.1551381e-06, 0.43689093, 0.7017278, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 30
+text = "upgrade to
+<INSERT>"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BOW" type="HBoxContainer" parent="HBoxContainer/ShopContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnSettings" type="Button" parent="HBoxContainer/ShopContainer/BOW"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("13_pud0r")
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/BOW/BtnSettings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 50
+text = "+HIDDEN 
+ABILITY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Visual" type="Button" parent="HBoxContainer/ShopContainer/BOW"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("6_14x63")
+disabled = true
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ShopContainer/BOW/Visual"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_0jicc")
+
+[node name="Name" type="VBoxContainer" parent="HBoxContainer/ShopContainer/BOW"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="HBoxContainer/ShopContainer/BOW/Name"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 50
+text = "BOW
+OPTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UPGRADE" type="Button" parent="HBoxContainer/ShopContainer/BOW"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("7_nfgdc")
+
+[node name="Label" type="Label" parent="HBoxContainer/ShopContainer/BOW/UPGRADE"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1.1551381e-06, 0.43689093, 0.7017278, 1)
+theme_override_fonts/font = ExtResource("2_i6yk8")
+theme_override_font_sizes/font_size = 30
+text = "upgrade to
+<INSERT>"
+horizontal_alignment = 1
+vertical_alignment = 1

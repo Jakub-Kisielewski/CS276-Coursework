@@ -1,12 +1,12 @@
 [gd_resource type="Theme" load_steps=5 format=3 uid="uid://8i66koeg856t"]
 
-[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="1_bsykc"]
-[ext_resource type="StyleBox" uid="uid://ck75bf6evbbft" path="res://Assets/UI/Buttons/normal_button_texture.tres" id="1_tuy5j"]
-[ext_resource type="StyleBox" uid="uid://no3s44ctpxfh" path="res://Assets/UI/Buttons/hover_button_texture.tres" id="2_gdd1y"]
-[ext_resource type="StyleBox" uid="uid://b10r6ja43bt12" path="res://Assets/UI/Buttons/pressed_button_texture.tres" id="3_b56kk"]
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="1_ules2"]
+[ext_resource type="StyleBox" uid="uid://b10r6ja43bt12" path="res://Assets/UI/Buttons/Default/pressed_button_texture.tres" id="2_g5rnk"]
+[ext_resource type="StyleBox" uid="uid://no3s44ctpxfh" path="res://Assets/UI/Buttons/Default/hover_button_texture.tres" id="3_yr7lv"]
+[ext_resource type="StyleBox" uid="uid://ck75bf6evbbft" path="res://Assets/UI/Buttons/Default/normal_button_texture.tres" id="4_ydaid"]
 
 [resource]
-default_font = ExtResource("1_bsykc")
+default_font = ExtResource("1_ules2")
 Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
 Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
@@ -24,9 +24,9 @@ Button/constants/h_separation = 40
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/font_sizes/font_size = 20
-Button/fonts/font = ExtResource("1_bsykc")
-Button/styles/disabled = ExtResource("3_b56kk")
-Button/styles/focus = ExtResource("3_b56kk")
-Button/styles/hover = ExtResource("2_gdd1y")
-Button/styles/normal = ExtResource("1_tuy5j")
-Button/styles/pressed = ExtResource("3_b56kk")
+Button/fonts/font = ExtResource("1_ules2")
+Button/styles/disabled = ExtResource("2_g5rnk")
+Button/styles/focus = ExtResource("2_g5rnk")
+Button/styles/hover = ExtResource("3_yr7lv")
+Button/styles/normal = ExtResource("4_ydaid")
+Button/styles/pressed = ExtResource("2_g5rnk")

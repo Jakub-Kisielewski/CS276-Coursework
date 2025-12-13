@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cn3wpol1al3i5" path="res://Assets/UI/ui_main_menu.gd" id="1_dsbl1"]
 [ext_resource type="FontFile" uid="uid://dfo5byu3tupte" path="res://Assets/Resources/Fonts/kenney_kenney-fonts/Fonts/Kenney High.ttf" id="5_35tj5"]
 [ext_resource type="PackedScene" uid="uid://vh5vpj0l0eb6" path="res://Assets/Enemies/PoisonousBat/menu_bat.tscn" id="6_2hrep"]
-[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/default_button.tres" id="6_a6ne8"]
+[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/Default/default_button.tres" id="6_a6ne8"]
 [ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="8_nirj7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a6ne8"]

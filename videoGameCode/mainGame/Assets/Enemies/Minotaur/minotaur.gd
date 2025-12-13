@@ -20,7 +20,7 @@ var camera : Camera2D
 
 # Cooldown for the minotaur's summoning
 const SUMMON_COOLDOWN_TIME : float = 9
-var summon_cooldown : float = 0.0
+var summon_cooldown : float = 1
 
 # Cooldown for the charge attack
 const CHARGE_COOLDOWN_TIME : float = 3

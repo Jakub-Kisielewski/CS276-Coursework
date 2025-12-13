@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bn158qubeg1ki" path="res://Assets/Enemies/Minotaur/menu(taur).tscn" id="2_wgu7x"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="3_ipubg"]
 [ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="4_ipubg"]
-[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/default_button.tres" id="5_gsnry"]
+[ext_resource type="Theme" uid="uid://8i66koeg856t" path="res://Assets/UI/Buttons/Default/default_button.tres" id="5_gsnry"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gsnry"]
 atlas = ExtResource("4_ipubg")

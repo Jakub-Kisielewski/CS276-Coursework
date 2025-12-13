@@ -81,9 +81,9 @@
 [ext_resource type="PackedScene" uid="uid://vssh1p80uxnj" path="res://Assets/Enemies/BasicSkeleton/basic_skeleton.tscn" id="65_p65bk"]
 [ext_resource type="PackedScene" uid="uid://btwfd83br58hn" path="res://Assets/Enemies/Demon/demon.tscn" id="66_8c7qw"]
 [ext_resource type="PackedScene" uid="uid://dl5lpjcwe5tsx" path="res://Assets/Enemies/Ghost/ghost.tscn" id="67_u2ugr"]
-[ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="68_xeq6g"]
+[ext_resource type="PackedScene" uid="uid://cxk0mg0y5qdi0" path="res://Assets/Enemies/UndeadSwordsmanArmour/undead_swordsman.tscn" id="68_xeq6g"]
 [ext_resource type="PackedScene" uid="uid://dklpobami1hkg" path="res://Assets/Enemies/PoisonousBat/poisonous_bat.tscn" id="69_0vpil"]
-[ext_resource type="PackedScene" uid="uid://cxk0mg0y5qdi0" path="res://Assets/Enemies/UndeadSwordsmanArmour/undead_swordsman.tscn" id="70_2y17c"]
+[ext_resource type="PackedScene" uid="uid://ctews1r14aqyh" path="res://Assets/Enemies/UndeadAxeman/undead_axeman.tscn" id="70_2y17c"]
 [ext_resource type="PackedScene" uid="uid://b3pqmmogkm2y4" path="res://Assets/Rooms/boss_room.tscn" id="71_p65bk"]
 
 [sub_resource type="Resource" id="Resource_yj04c"]

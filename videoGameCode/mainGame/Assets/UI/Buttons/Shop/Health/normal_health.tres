@@ -1,0 +1,8 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://bpnwxqdqnuo1o"]
+
+[ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="1_4o34x"]
+
+[resource]
+texture = ExtResource("1_4o34x")
+region_rect = Rect2(163, 147, 90, 90)
+modulate_color = Color(0.7564462, 0.13618714, 0.12739363, 1)
