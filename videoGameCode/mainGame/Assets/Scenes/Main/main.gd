@@ -23,7 +23,7 @@ func _ready() -> void:
 	
 	var settings = scene_manager.ui_settings
 	if settings:
-		settings.back_pressed.connect(_on_settings_back)
+		settings.settings_pressed.connect(_on_settings_back)
 		settings.visible = false # Start hidden
 	
 	var corridor = scene_manager.ui_corridor
