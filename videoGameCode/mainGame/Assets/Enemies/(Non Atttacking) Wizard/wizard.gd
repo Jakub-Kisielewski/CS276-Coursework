@@ -202,7 +202,7 @@ func setup_countdown_timer() -> void:
 	# Get references to necessary labels
 	hits_left_label = canvas.get_node("UiRoom/Puzzle/HitsLeft")
 	hits_left_label.visible = true
-	display_hits_left()
+	hits_left_label.text = "Land 10 hits on the Wizard"
 	
 	countdown_label = canvas.get_node("UiRoom/Puzzle/Countdown")
 	countdown_label.visible = true

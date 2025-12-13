@@ -98,17 +98,21 @@ offset_bottom = 47.0
 theme_override_colors/font_shadow_color = Color(0.28461108, 0.00078308734, 0.6787613, 1)
 theme_override_fonts/font = ExtResource("2_mjd7o")
 theme_override_font_sizes/font_size = 40
-text = "Hits Left: 10"
+text = "Land 10 hits on the Wizard"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Countdown" type="Label" parent="Puzzle"]
 visible = false
-layout_mode = 0
-offset_left = 394.0
-offset_top = 24.0
-offset_right = 601.0
-offset_bottom = 167.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 934.0
+offset_top = 25.0
+offset_right = 1141.0
+offset_bottom = 168.0
+grow_horizontal = 0
 theme_override_colors/font_shadow_color = Color(0.28461108, 0.00078308734, 0.6787613, 1)
 theme_override_fonts/font = ExtResource("2_mjd7o")
 theme_override_font_sizes/font_size = 40

@@ -19,7 +19,7 @@ var tilemap : TileMapLayer
 var camera : Camera2D
 
 # Cooldown for the minotaur's summoning
-const SUMMON_COOLDOWN_TIME : float = 9
+const SUMMON_COOLDOWN_TIME : float = 10
 var summon_cooldown : float = 1
 
 # Cooldown for the charge attack
@@ -366,7 +366,7 @@ func handle_summon() -> void:
 		filtered_cells = cells
 	
 	# Choose the number of enemies to spawn
-	var n : int = rng.randi_range(6, 8)  # like a dice roll
+	var n : int = rng.randi_range(4, 6)  # like a dice roll
 	
 	for i in range(n):
 		var e : int = rng.randi_range(0, summons.size()-1)  # like a dice roll
