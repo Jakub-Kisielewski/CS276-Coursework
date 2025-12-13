@@ -53,9 +53,10 @@ func _fade_out() -> void:
 
 func _fade_in() -> void:
 	var tween = create_tween()
-	tween.tween_property(transition_screen, "modulate:a", 0.0, 0.8)
+	tween.tween_property(transition_screen, "modulate:a", 0, 0.8)
 	await tween.finished
 	transition_screen.visible = false
+
 
 func _switch_ui_state(scene_type: SceneType) -> void:
 	current_ui_state = scene_type
@@ -94,11 +95,7 @@ func on_start_game_ui() -> void:
 	_switch_ui_state(SceneType.ROOM)
 
 func on_show_corridor_ui() -> void:
-	await _fade_out()
-	
 	_switch_ui_state(SceneType.CORRIDOR)
-	
-	await _fade_in()
 
 func on_return_to_menu() -> void:
 	for child in active_scene_container.get_children():

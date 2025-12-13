@@ -141,8 +141,8 @@ func _on_room_complete():
 	
 	var reward_text = GameData.apply_random_completion_reward()
 	
-	if scene_manager.ui_corridor and scene_manager.ui_corridor.has_method("set_shop_label_text"):
-		scene_manager.ui_corridor.set_shop_label_text(reward_text)
+	#if scene_manager.ui_corridor and scene_manager.ui_corridor.has_method("set_shop_label_text"):
+		#scene_manager.ui_corridor.set_shop_label_text(reward_text)
 	
 	var coords = GameData.player_coords
 	if coords.y < GameData.maze_map.size() and coords.x < GameData.maze_map[0].size():
