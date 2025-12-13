@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxll4c2oa64yj"]
+[gd_scene load_steps=4 format=3 uid="uid://cxll4c2oa64yj"]
 
 [ext_resource type="Script" uid="uid://bev4uomb87h8r" path="res://Assets/UI/ui_room.gd" id="1_c3ri0"]
+[ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="2_mjd7o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c3ri0"]
 bg_color = Color(0.8509804, 0.05882353, 0.08235294, 1)
@@ -15,14 +16,18 @@ script = ExtResource("1_c3ri0")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 170.0
-offset_bottom = 27.0
+offset_left = 6.0
+offset_top = 5.0
+offset_right = 176.0
+offset_bottom = 32.0
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-offset_right = 170.0
-offset_bottom = 27.0
+offset_left = 6.0
+offset_top = 5.0
+offset_right = 176.0
+offset_bottom = 32.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_c3ri0")
 min_value = 100.0
 value = 100.0
@@ -33,13 +38,19 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
+offset_left = -127.0
+offset_top = 18.0
+offset_right = -17.0
+offset_bottom = 58.0
 grow_horizontal = 0
 
 [node name="CurrencyLabel" type="Label" parent="CurrencyContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.35502812, 0.3972739, 0.35961062, 1)
+theme_override_fonts/font = ExtResource("2_mjd7o")
+theme_override_font_sizes/font_size = 36
 text = "Gold: 0"
 
 [node name="WeaponCarousel" type="Control" parent="."]
@@ -49,9 +60,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
+offset_left = -505.0
+offset_top = -599.0
+offset_right = -465.0
+offset_bottom = -559.0
 grow_horizontal = 2
 grow_vertical = 0
 
