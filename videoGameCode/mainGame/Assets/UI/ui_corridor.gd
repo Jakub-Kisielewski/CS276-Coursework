@@ -4,11 +4,14 @@ signal room_entered(room_type: String)
 @onready var map_display: TileMapLayer = %MapDisplay
 @onready var player_icon: Sprite2D = %PlayerIcon
 @onready var btn_enter_room: Button = %BtnEnterRoom
-@export var shop_reward_label: Label
 
 var current_hovered_room_type: String = ""
-# Definitions of what directions are allowed for each specific tile type
-# Based on the logic in generateWorld.gd
+var head_up = preload('res://Assets/Resources/head/up_head.png')
+var head_down = preload('res://Assets/Resources/head/down_head.png')
+var head_left = preload('res://Assets/Resources/head/left_head.png')
+var head_right = preload('res://Assets/Resources/head/right_head.png')
+
+
 var connectivity: Dictionary = {
 	# Straights (Pipes)
 	"straightVertical": [Vector2i.UP, Vector2i.DOWN],
@@ -19,18 +22,17 @@ var connectivity: Dictionary = {
 	"straightEast": [Vector2i.LEFT, Vector2i.RIGHT],
 	"straightWest": [Vector2i.LEFT, Vector2i.RIGHT],
 	
-	# Turns (Entry -> Exit logic inferred from names)
-	"northToWestTurn": [Vector2i.DOWN, Vector2i.LEFT], # Enters from South, Turns West
-	"northToEastTurn": [Vector2i.DOWN, Vector2i.RIGHT], # Enters from South, Turns East
+	"northToWestTurn": [Vector2i.DOWN, Vector2i.LEFT],
+	"northToEastTurn": [Vector2i.DOWN, Vector2i.RIGHT], 
 	
-	"southToWestTurn": [Vector2i.UP, Vector2i.LEFT], # Enters from North, Turns West
-	"southToEastTurn": [Vector2i.UP, Vector2i.RIGHT], # Enters from North, Turns East
+	"southToWestTurn": [Vector2i.UP, Vector2i.LEFT], 
+	"southToEastTurn": [Vector2i.UP, Vector2i.RIGHT],
 	
-	"eastToNorthTurn": [Vector2i.LEFT, Vector2i.UP], # Enters from West, Turns North
-	"eastToSouthTurn": [Vector2i.LEFT, Vector2i.DOWN], # Enters from West, Turns South
+	"eastToNorthTurn": [Vector2i.LEFT, Vector2i.UP],
+	"eastToSouthTurn": [Vector2i.LEFT, Vector2i.DOWN], 
 	
-	"westToNorthTurn": [Vector2i.RIGHT, Vector2i.UP], # Enters from East, Turns North
-	"westToSouthTurn": [Vector2i.RIGHT, Vector2i.DOWN], # Enters from East, Turns South
+	"westToNorthTurn": [Vector2i.RIGHT, Vector2i.UP], 
+	"westToSouthTurn": [Vector2i.RIGHT, Vector2i.DOWN],
 	
 	# Junctions
 	"verticalLeftJunction": [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT],
@@ -95,31 +97,28 @@ var inputs: Dictionary = {
 	"move_right": Vector2i.RIGHT
 }
 
+enum Head {
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT
+}
+
 func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
 	
 	if btn_enter_room:
 		btn_enter_room.pressed.connect(_on_enter_room_pressed)
-		btn_enter_room.visible = false # Ensure hidden at start
+		btn_enter_room.visible = false
 	
 	if not GameData.maze_map.is_empty():
 		initialize_corridor_view()
-	
-	if shop_reward_label:
-		shop_reward_label.text = "Explore to find rewards..."
-
-func set_shop_label_text(text: String) -> void:
-	if shop_reward_label:
-		shop_reward_label.text = text
-		print("UI Updated: ", text)
-	else:
-		print("Warning: shop_reward_label not assigned in UI_Corridor")
 
 func _on_visibility_changed() -> void:
 	if visible:
 		initialize_corridor_view()
+		update_player_visuals(Head.RIGHT)
 		set_process_unhandled_input(true)
-		# Force focus to ensure keyboard input is captured
 		grab_focus()
 
 func initialize_corridor_view() -> void:
@@ -238,9 +237,21 @@ func get_allowed_directions(type: String) -> Array:
 
 func update_player_position(new_pos: Vector2i):
 	# Update Data
-	var old_pos = GameData.player_coords
+	var old_pos: Vector2i = GameData.player_coords
 	# Optional: Set old cell to inactive if your game logic requires it, 
 	# usually we just track current player pos.
+	var direction: Vector2i = new_pos - old_pos
+	
+	var head_direction: Head
+	match direction:
+		Vector2i.DOWN:
+			head_direction = Head.DOWN
+		Vector2i.UP:
+			head_direction = Head.UP
+		Vector2i.RIGHT:
+			head_direction = Head.RIGHT
+		Vector2i.LEFT:
+			head_direction = Head.LEFT
 	
 	GameData.player_coords = new_pos
 	var new_cell = GameData.maze_map[new_pos.y][new_pos.x]
@@ -249,7 +260,7 @@ func update_player_position(new_pos: Vector2i):
 	new_cell["explored"] = true
 	
 	# Update Visuals
-	update_player_visuals()
+	update_player_visuals(head_direction)
 	draw_map() 
 	
 	# Save State
@@ -257,12 +268,23 @@ func update_player_position(new_pos: Vector2i):
 	
 	check_room_entry(new_cell)
 
-func update_player_visuals():
+func update_player_visuals(head_direction: Head):
 	# Use map_to_local to center the sprite on the tile
 	if map_display:
 		var map_pos = map_display.map_to_local(GameData.player_coords)
 		# Convert that local map position to a global position, then apply it to the icon
+		match head_direction:
+			Head.UP:
+				player_icon.texture = head_up
+			Head.DOWN:
+				player_icon.texture = head_down
+			Head.RIGHT:
+				player_icon.texture = head_right
+			Head.LEFT:
+				player_icon.texture = head_left
+			
 		player_icon.global_position = map_display.to_global(map_pos)
+		
 
 func draw_map():
 	map_display.clear()
@@ -278,14 +300,8 @@ func draw_map():
 				
 				if tile_atlas_coords.has(type):
 					tile_coord = tile_atlas_coords[type]
-				elif type in room_types:
-					# Fallback for rooms if they aren't explicitly in atlas dict
-					# (Though they are added above, this is safety)
-					tile_coord = tile_atlas_coords.get("basicArena")
-					
-				# Set cell (layer 0, source_id 0, atlas coords)
+				
 				map_display.set_cell(Vector2i(x, y), 0, tile_coord, 0)
-				# Note: source_id set to 0. Ensure your TileMapLayer has a TileSet with ID 0.
 			else:
 				# draw blank
 				map_display.set_cell(Vector2i(x,y), 0, Vector2i(4,4), 0)

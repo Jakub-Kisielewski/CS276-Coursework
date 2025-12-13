@@ -1,10 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://r4bwy5b4gyc1"]
+[gd_scene load_steps=15 format=3 uid="uid://r4bwy5b4gyc1"]
 
 [ext_resource type="Script" uid="uid://tjmpphq7gslr" path="res://Assets/UI/ui_corridor.gd" id="1_dm56r"]
 [ext_resource type="TileSet" uid="uid://ck02qayg8p1e0" path="res://Assets/UI/mapTileSet.tres" id="2_hx4x2"]
 [ext_resource type="FontFile" uid="uid://dfo5byu3tupte" path="res://Assets/Resources/Fonts/kenney_kenney-fonts/Fonts/Kenney High.ttf" id="2_i6yk8"]
 [ext_resource type="Texture2D" uid="uid://cjh54dhtln1q8" path="res://Assets/UI/Buttons/Pxiel Art UI borders/Pxiel Art UI borders.png" id="3_3df1u"]
-[ext_resource type="Texture2D" uid="uid://ctfitul1ohst3" path="res://icon.svg" id="3_ibrva"]
 [ext_resource type="FontFile" uid="uid://exda1oswnl8u" path="res://Assets/Resources/Fonts/Kurland_Font_0_45/TrueType (.ttf)/Kurland-Regular.ttf" id="5_nfgdc"]
 [ext_resource type="Theme" uid="uid://dcdh5rpvcngju" path="res://Assets/UI/Buttons/Shop/Health/HEALTH_button.tres" id="6_14x63"]
 [ext_resource type="Theme" uid="uid://bl8slcke7qqpt" path="res://Assets/UI/Buttons/Shop/Defence/DEFENCE_button.tres" id="7_nfgdc"]
@@ -79,17 +78,21 @@ vertical_alignment = 1
 
 [node name="MapDisplay" type="TileMapLayer" parent="HBoxContainer/MapContainer"]
 unique_name_in_owner = true
-position = Vector2(275, 400)
+position = Vector2(111.000015, 231.00002)
 scale = Vector2(5, 5)
 tile_set = ExtResource("2_hx4x2")
 
 [node name="PlayerIcon" type="Sprite2D" parent="HBoxContainer/MapContainer"]
 unique_name_in_owner = true
 position = Vector2(114.00001, 59)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_ibrva")
 
-[node name="Help" type="Label" parent="HBoxContainer/MapContainer"]
+[node name="BtnEnterRoom" type="Button" parent="HBoxContainer/MapContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Enter Room"
+
+[node name="Title2" type="Label" parent="HBoxContainer/MapContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -100,12 +103,6 @@ theme_override_font_sizes/font_size = 30
 text = "WASD TO NAVIGATE MAP"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="BtnEnterRoom" type="Button" parent="HBoxContainer/MapContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-text = "Enter Room"
 
 [node name="ShopContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
