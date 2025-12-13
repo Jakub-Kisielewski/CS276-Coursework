@@ -1,10 +1,10 @@
 class_name SwordArc extends Area2D
 
 @onready var arcAnim = $arcAnim
-var attacker: Node 
-var base_damage: float 
 @export var weapon_data: WeaponData
 
+var attacker: Node 
+var base_damage: float 
 var lifetime: float = 0.3
 var hitbox: hitBox
 
@@ -27,7 +27,6 @@ func _ready() -> void:
 	add_child(t)
 	t.timeout.connect(_on_timeout)
 	t.start()
-	
 	
 func _process(delta: float) -> void:
 	if hitbox:

@@ -50,7 +50,5 @@ func _on_death():
 func reduce_to_gold():
 	if loot_component:
 		loot_component.drop_loot()
-	else:
-		print("Warning: No LootComponent found on ", name)
 	
 	queue_free()

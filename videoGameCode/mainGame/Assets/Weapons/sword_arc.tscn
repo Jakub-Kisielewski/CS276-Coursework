@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://c1plmckptovpd"]
 
-[ext_resource type="Script" uid="uid://bajw2bg8f521c" path="res://sword_arc.gd" id="1_jqjku"]
+[ext_resource type="Script" uid="uid://bajw2bg8f521c" path="res://Assets/Weapons/sword_arc.gd" id="1_jqjku"]
 [ext_resource type="Texture2D" uid="uid://ymu12mstflb3" path="res://Assets/Resources/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 E.png" id="2_u3tfv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_urtvm"]

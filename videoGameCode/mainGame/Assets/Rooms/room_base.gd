@@ -44,7 +44,6 @@ func _spawn_enemy(pos: Vector2, pool: Array[PackedScene]):
 	var enemy_scene = pool.pick_random() 
 	var enemy = enemy_scene.instantiate()
 	enemy.global_position = pos
-	print(enemy.name)
 	
 	enemy.tree_exiting.connect(_on_enemy_killed)
 	
@@ -56,12 +55,10 @@ func _on_enemy_killed():
 	
 	if enemy_count <= 0:
 		wave_cleared.emit(current_wave)
-		print("Wave ", current_wave, " cleared")
 		
 		if current_wave < total_waves:
 			# Small delay before next wave
 			await get_tree().create_timer(2.0).timeout
 			_start_next_wave()
 		else:
-			print("All waves cleared - room complete!")
 			room_cleared.emit()

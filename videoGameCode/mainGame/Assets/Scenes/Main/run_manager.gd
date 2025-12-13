@@ -12,6 +12,10 @@ class_name RunManager extends Node
 @export var puzzle_scene: PackedScene
 @export var centre_scene: PackedScene
 
+@export var sword_data : WeaponData
+@export var spear_data : WeaponData
+@export var bow_data : WeaponData
+
 @export_group("Enemy Pools")
 @export var start_room_enemies: Array[PackedScene]
 @export var basicArena_enemies: Array[PackedScene]
@@ -52,6 +56,10 @@ func start_new_run():
 	
 	if start_room_scene:
 		load_room_scene(start_room_scene, RoomType.START)
+		if GameData.current_weapons.is_empty():
+			GameData.add_weapon(sword_data)
+			GameData.add_weapon(spear_data)
+			GameData.add_weapon(bow_data)
 	
 
 var is_transitioning: bool = false # Add this guard variable
@@ -88,7 +96,6 @@ func _setup_room_logic(room_instance: RoomBase, enemy_pool: Array[PackedScene]):
 	scene_manager.on_start_game_ui()
 
 func load_room_from_type(type_name: String) -> void:
-	print("RunManager: Loading room type: ", type_name)
 	
 	var scene_to_load: PackedScene = null
 	var room_type: RoomType
@@ -137,7 +144,6 @@ func _on_room_complete():
 	if scene_manager.current_ui_state != SceneManager.SceneType.ROOM:
 		return
 	
-	print("Room Cleared!")
 	
 	var reward_text = GameData.apply_random_completion_reward()
 	

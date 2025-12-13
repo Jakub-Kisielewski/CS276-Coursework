@@ -75,36 +75,23 @@ func _physics_process(delta: float) -> void:
 		set_state(State.IDLE)
 		
 	match state:
-			# Do nothing physics-related if the enemy is ARISING or IDLE
-		State.ARISING:
-			return
-		
-		State.IDLE:
-			return
-		
+		State.ARISING: return
+		State.IDLE: return
 		# Move enemy towards player until player is in range
 		State.MOVING:
 			if player_in_range:
 				set_state(State.ATTACKING)
 			handle_follow()
-
-		# Attack the enemy whilst following
-		State.ATTACKING:
-			handle_follow()
-
-		# Do nothing physics-related if the enemy is DAMAGED or DYING	
-		State.DAMAGED:
-			pass
-
-		State.DYING:
-			pass
+		
+		State.ATTACKING: handle_follow()
+		State.DAMAGED: pass
+		State.DYING: pass
 
 #player throws decoy - enemies move towards that decoy until its freed from the scene
 func player_or_decoy_position() -> Vector2:
 	var decoy := get_tree().get_first_node_in_group("decoy")
 	if decoy and is_instance_valid(decoy):
 		return decoy.global_position
-		print("going for decoy")
 	else:
 		return player.global_position
 
@@ -156,13 +143,11 @@ func handle_attack() -> void:
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true
-		print("player is in range")
 
 # When enemy exits attack range
 func _on_range_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = false
-		print("player is no longer in range")
 		
 # Triggered when enemy takes damage
 func _on_damaged(_amount, _type) -> void:
@@ -189,15 +174,7 @@ func fade_out(duration: float) -> void:
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite_base.animation:
-		"arise":
-			set_state(State.MOVING)
-		
-		"damage":
-			set_state(State.MOVING)
-
-		"death":
-			reduce_to_gold()
-	
-		"attack_up", "attack_down":
-			set_state(State.MOVING)
-			print("enemy finished attack")	
+		"arise": set_state(State.MOVING)
+		"damage": set_state(State.MOVING)
+		"death": reduce_to_gold()
+		"attack_up", "attack_down": set_state(State.MOVING)

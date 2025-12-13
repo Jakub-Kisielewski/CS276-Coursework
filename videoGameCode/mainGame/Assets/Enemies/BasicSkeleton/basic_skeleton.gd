@@ -1,16 +1,13 @@
 extends EnemyEntity
 
 @onready var skel_sfx = $skelSfx
-
 @export var skel_sounds : Array[AudioStream] = [] #0: grunt, 1: attack, 2:death,
-# Get the reference to the player node
 @onready var player : Node = get_tree().get_first_node_in_group("player")
-
 @export var nav: NavigationAgent2D
 @export var hitbox_shape : Shape2D
+@export var speed : float = 100.0
 var hurtbox : HurtBox
 var player_in_range : bool = false
-@export var speed : float = 100.0
 
 # Details about the enemy's current state
 enum State { ARISING, IDLE, MOVING, ATTACKING, DAMAGED, DYING }
@@ -27,37 +24,28 @@ func set_state(new_state : State) -> void:
 		State.ARISING:
 			velocity = Vector2.ZERO
 			sprite_base.play("arise")
-			
 		#Enemy is idle
 		State.IDLE:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
 			sprite_base.play("idle")
-			
 			#After 1.8 seconds of being idle, turn the enemy to gold
 			await get_tree().create_timer(1.8).timeout
 			reduce_to_gold()
-		
 		# Enemy is moving towards the player
-		State.MOVING:
-			handle_move()
-		
+		State.MOVING: handle_move()
 		# Enemy is attacking the player
-		State.ATTACKING:
-			handle_attack()
-		
+		State.ATTACKING: handle_attack()
 		# Enemy has been damaged
 		State.DAMAGED:
 			velocity = Vector2.ZERO
 			sprite_base.play("damage")
 			skel_sfx.stream = skel_sounds[0]
 			skel_sfx.play()
-		
 		#Enemy is dying
 		State.DYING:
 			velocity = Vector2.ZERO
 			sprite_base.play("death")
-
 			skel_sfx.stream = skel_sounds[2]
 			skel_sfx.play()
 
@@ -74,35 +62,24 @@ func _physics_process(delta: float) -> void:
 		
 	match state:
 		# Do nothing physics-related if the enemy is ARISING or IDLE
-		State.ARISING:
-			return
-			
-		State.IDLE:
-			return
-		
+		State.ARISING: return
+		State.IDLE: return
 		# Move enemy towards player until player is in range
 		State.MOVING:
 			if player_in_range:
 				set_state(State.ATTACKING)
 			handle_follow()
-		
 		# Attack the enemy whilst following
-		State.ATTACKING:
-			handle_follow()
-
+		State.ATTACKING: handle_follow()
 		# Do nothing physics-related if the enemy is DAMAGED or DYING
-		State.DAMAGED:
-			pass
-
-		State.DYING:
-			pass
+		State.DAMAGED: pass
+		State.DYING: pass
 
 #player throws decoy - enemies move towards that decoy until its freed from the scene
 func player_or_decoy_position() -> Vector2:
 	var decoy := get_tree().get_first_node_in_group("decoy")
 	if decoy and is_instance_valid(decoy):
 		return decoy.global_position
-		print("going for decoy")
 	else:
 		return player.global_position
 		
@@ -141,7 +118,6 @@ func handle_attack() -> void:
 		sprite_base.play("attack_up")
 	else:
 		sprite_base.play("attack_down")
-		
 	
 	skel_sfx.stream = skel_sounds[1]
 	skel_sfx.play()
@@ -150,13 +126,11 @@ func handle_attack() -> void:
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true
-		print("player is in range")
 
 # When enemy exits attack range
 func _on_range_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = false
-		print("player is no longer in range")
 		
 # Triggered when enemy takes damage
 func _on_damaged(_amount, _type) -> void:
@@ -182,12 +156,7 @@ func fade_out(duration: float) -> void:
 	
 func _on_animated_sprite_2d_animation_finished() -> void:
 	match sprite_base.animation:
-		"arise": 
-			set_state(State.MOVING)
-		"damage": 
-			set_state(State.MOVING)
-		"death": 
-			reduce_to_gold()
-		"attack_up", "attack_down":
-			set_state(State.MOVING)
-			print("enemy finished attack")
+		"arise": set_state(State.MOVING)
+		"damage": set_state(State.MOVING)
+		"death": reduce_to_gold()
+		"attack_up", "attack_down": set_state(State.MOVING)

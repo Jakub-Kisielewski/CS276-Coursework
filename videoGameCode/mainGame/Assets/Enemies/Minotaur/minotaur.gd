@@ -184,7 +184,6 @@ func _physics_process(delta: float) -> void:
 				
 				for x in range(get_slide_collision_count()):
 					var collider : Object = get_slide_collision(x).get_collider()
-					print(collider.name)
 					if  collider.is_in_group("enemy"):
 						wall_collision = false
 					
@@ -362,7 +361,6 @@ func handle_summon() -> void:
 
 	# If no cells are in the radius, fall back to original list
 	if filtered_cells.is_empty():
-		print("Ues")
 		filtered_cells = cells
 	
 	# Choose the number of enemies to spawn
@@ -400,13 +398,11 @@ func handle_timers(delta: float) -> void:
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true
-		print(player.name + " is in range")
 		
 # When enemy exits attack range
 func _on_range_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = false
-		print(player.name + " is no longer in range")
 		
 # Triggered when enemy takes damage		
 func _on_damaged(_amount, _type) -> void:
@@ -447,8 +443,6 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 			
 		"attack":
 			set_state(State.MOVING)
-			print("enemy finished attack")	
 			
-		"summon":		
+		"summon":
 			set_state(State.MOVING)
-			print("enemy finished summon")

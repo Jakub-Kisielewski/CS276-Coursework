@@ -51,14 +51,12 @@ func set_state(new_state : State) -> void:
 			hurtbox.set_deferred("monitorable", false)
 			velocity = Vector2.ZERO
 			sprite_base.play("arise")
-
 		#Enemy is idle
 		State.IDLE:
 			hurtbox.set_deferred("monitorable", true)
 			set_collision(true)
 			velocity = Vector2.ZERO
 			sprite_base.play("idle")
-
 		# Enemy is moving teleporting
 		State.TELEPORTING:
 			hurtbox.set_deferred("monitorable", false)
@@ -66,17 +64,14 @@ func set_state(new_state : State) -> void:
 			sprite_base.play("escape_teleport")
 			wiz_sfx.stream = wiz_sounds[0]
 			wiz_sfx.play()
-
 		# Enemy transforming into another enemy
 		State.TRANSFORMED:
 			hurtbox.set_deferred("monitorable", false)
 			set_collision(false)
 			handle_transformation()
-
 		State.DAMAGED:
 			velocity = Vector2.ZERO
 			sprite_base.play("damage")
-
 		State.DYING:	
 			velocity = Vector2.ZERO
 			sprite_base.play("death")
@@ -103,29 +98,20 @@ func _physics_process(delta: float) -> void:
 		set_state(State.IDLE)
 		
 	match state:
-		# Do nothing physics-related if the enemy is ARISING
-		State.ARISING:
-			return
-		
+		State.ARISING: return
 		# Remain stationary until teleport cooldown is over
 		State.IDLE:
 			if teleport_cooldown <= 0:
 				set_state(State.TELEPORTING)
-
-		State.TELEPORTING:
-			return
+		State.TELEPORTING: return
 		
 		# Ensure wizard follows its disguise
 		State.TRANSFORMED:
 			if is_instance_valid(current_disguise):
 				global_position = current_disguise.global_position
-
 		# Do nothing physics-related if the enemy is DAMAGED or DYING	
-		State.DAMAGED:
-			return
-
-		State.DYING:
-			return
+		State.DAMAGED: return
+		State.DYING: return
 
 # Navigate towards the player
 func handle_follow() -> void:

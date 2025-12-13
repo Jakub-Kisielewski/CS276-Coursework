@@ -5,22 +5,18 @@ enum WeaponType {SWORD, SPEAR, BOW}
 
 @export var display_name: String
 @export var icon: Texture2D
-@export var rarity: Rarity = Rarity.PRISMATIC
+@export var rarity: Rarity = Rarity.DULL
 @export var weapon_type: WeaponType = WeaponType.SWORD
-@export var special_unlocked: bool = true
+@export var special_unlocked: bool = false
 
 @export var base_attack: float = 15
 @export var weapon_mult : float = 1.0
 
 func get_rarity_mult() -> float:
 	match rarity:
-		Rarity.DULL:
-			return 1.0
-		Rarity.SHINY:
-			return 1.5
-		Rarity.PRISMATIC:
-			return 2.5
-	print("null rarity error")
+		Rarity.DULL: return 1.0
+		Rarity.SHINY: return 1.5
+		Rarity.PRISMATIC: return 2.5
 	return 1.0
 
 func get_attack_value(base_stat_damage: float, attack_mult: float) -> float:
@@ -30,26 +26,19 @@ func get_attack_value(base_stat_damage: float, attack_mult: float) -> float:
 func get_type_mult() -> float:
 	return weapon_mult
 
-
 #Use this for when player chooses to upgrade their weapon to a better rarity in the shop
 func upgrade_rarity() -> void:
-	match rarity:
-		Rarity.DULL:
-			rarity = Rarity.SHINY
-		Rarity.SHINY:
-			rarity = Rarity.PRISMATIC
-		Rarity.PRISMATIC:
-			print("already max rarity")
-			
+	match rarity: # prismatic is max so no need to check
+		Rarity.DULL: rarity = Rarity.SHINY
+		Rarity.SHINY: rarity = Rarity.PRISMATIC
+
 #use this for when the player chooses to upgrade their weapon proficiency in the shop. Eg. Ranged weapon attack up"
 func upgrade_type() -> bool:
 	if weapon_mult >= 2.0: #200% max damage increase
-		print("attack mult is at max")
 		return false
 	else:
 		weapon_mult += 0.1 #10% damage increase for that weapon
 		return true
-
 
 #use this for when player chooses to unlock a weapons special attack
 func unlock_special_attack() -> bool:

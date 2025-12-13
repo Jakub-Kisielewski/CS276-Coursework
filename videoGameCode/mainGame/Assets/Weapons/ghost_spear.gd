@@ -5,12 +5,11 @@ class_name ghostSpear extends CharacterBody2D
 @export var detection_dist: float = 250.0
 @export var attack_range: float = 0.6
 @export var life_time: float = 10.0 #can increase this based on rarity later
+@onready var anim: AnimatedSprite2D = $gspAnim
+@onready var fx: AnimatedSprite2D = $gspEffects
 
 var orbit_radius : float = 32.0
 var speed_div: float = 500.0
-
-@onready var anim: AnimatedSprite2D = $gspAnim
-@onready var fx: AnimatedSprite2D = $gspEffects
 
 var owner_player: Node = null
 var current_target: Node2D = null
@@ -25,15 +24,12 @@ var closest: Node2D = null
 signal returned_to_owner
 
 func _ready() -> void:
-	print("gsp ready")
 	life_timer = life_time
-	
-	
+
 func _physics_process(delta: float) -> void:
 	if owner_player == null or not is_instance_valid(owner_player):
 		queue_free()
 		return
-	
 	
 	update_sprite()
 	
@@ -59,7 +55,7 @@ func _physics_process(delta: float) -> void:
 			try_attack(delta)
 		State.RETURN:
 			return_to_owner(delta)
-			
+	
 func pick_target_or_orbit(delta: float) -> void:
 	if owner_player == null:
 		queue_free()
@@ -79,40 +75,31 @@ func pick_target_or_orbit(delta: float) -> void:
 	if closest != null:
 		current_target = closest
 		current_state = State.SEEK
-		print("closest != null SEEK")
 		
 	else:
 		var orbit_offset : Vector2 = Vector2(64, 0).rotated(Time.get_ticks_msec()/ 10000)
-		#print("hello there")
 		var target_pos : Vector2 = owner_player.global_position + orbit_offset
 		move_towards(target_pos, speed * 0.7, delta)
-	
 	
 func get_orbit_offset(radius: float) -> Vector2:
 	var angle : float = Time.get_ticks_msec() / speed_div
 	return Vector2(radius, 0).rotated(angle)
 		
 	
-	
 func move_towards(target_pos: Vector2, speed: float, delta: float) -> void:
 	var dir : Vector2 = target_pos - global_position
 	var dir_norm = dir.normalized()
 	if dir.length() < 12.0:
 		velocity = dir_norm * speed * 0.5
-
+	
 	velocity = dir_norm * speed
 	move_and_slide()
-	
-	#if current_state == State.SEEK:
-		#rotation = dir.angle()
-	
 	
 	anim.play("idle")
 	if current_state == State.SEEK or current_state == State.ATTACK:
 		anim.rotate(dir.angle()) #ITS YOUUUU YOURE THE ONE
 	
 func seek_target(delta: float) -> void:
-	
 	var target := current_target
 	if target == null or not is_instance_valid(target):
 		current_target = null
@@ -124,19 +111,16 @@ func seek_target(delta: float) -> void:
 	if dist > detection_dist:
 		current_target = null
 		current_state = State.IDLE
-		print("procker")
 		
 	if dist > attack_range:
 		move_towards(target.global_position, speed, delta)
 	else:
 		current_state = State.ATTACK
-	
 
 func try_attack(delta) -> void:
-	
 	if attacking or attack_cooldown > 0.0:
 		return
-
+	
 	attacking = true
 	attack_cooldown = attack_cooldown
 	
@@ -145,19 +129,15 @@ func try_attack(delta) -> void:
 		var ang : float = dir.angle()
 		var target_pos: Vector2 = get_orbit_offset(orbit_radius)
 		move_towards(target_pos, speed, delta)
-		#rotation = ang
-
+	
 	anim.play("attack")
 	fx.play("attack")
-	
 	spawn_hitbox()
-	
+
 func vec_to_target() -> Vector2:
 	if current_target != null and is_instance_valid(current_target):
 		return current_target.global_position - global_position
-	print("ghost spear target null")
 	return Vector2(0,0)
-	
 	
 func update_sprite():
 	if current_state == State.SEEK:
@@ -172,14 +152,12 @@ func update_sprite():
 		var offset :  Vector2 = forward * -20
 		fx.position = offset
 
-	
 func spawn_hitbox():
 	var shape: Shape2D = CircleShape2D.new()
 	
 	shape.radius = 6.0
 	
 	var hitbox = hitBox.new(owner_player, GameData.damage, "None", 0.5, shape, weapon_data)
-	
 	var forward : Vector2 = Vector2.RIGHT.rotated(rotation)
 	var offset :  Vector2 = forward * 20
 	
@@ -198,7 +176,6 @@ func return_to_owner(delta: float):
 		emit_signal("returned_to_owner")
 		queue_free()
 		return
-		print("successfully returned to owner")
 		
 	move_towards(owner_player.global_position, speed * 1.5, delta)
 

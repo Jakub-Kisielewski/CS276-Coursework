@@ -12,6 +12,18 @@ var head_down = preload("res://Assets/Resources/head/down_head.png")
 var head_right = preload("res://Assets/Resources/head/right_head.png")
 var head_left = preload("res://Assets/Resources/head/left_head.png")
 
+@onready var btn_health = %HEALTH
+@onready var btn_defence = %DEFENCE
+@onready var btn_sword_ability = %swordAbility
+@onready var btn_spear_ability = %spearAbility
+@onready var btn_bow_ability = %bowAbility
+@onready var btn_upgrade_sword = %upgradeSword
+@onready var btn_upgrade_spear = %upgradeSpear
+@onready var btn_upgrade_bow = %upgradeBow
+@onready var btn_player_abilities = %playerAbilities
+@onready var health_label = %stat_health
+@onready var gold_label = %stat_gold
+
 var current_hovered_room_type: String = ""
 var connectivity: Dictionary = {
 	# Straights (Pipes)
@@ -108,6 +120,11 @@ enum Head {
 
 func _ready() -> void:
 	
+	GameData.player_stats_changed.connect(on_player_stats_changed)
+	GameData.currency_updated.connect(on_currency_updated)
+	
+	update_health_gold()
+	
 	#how do this part
 	btn_player_abilities.clear()
 	btn_player_abilities.add_item("Extra Dash", 0)
@@ -138,6 +155,10 @@ func _ready() -> void:
 	if not GameData.maze_map.is_empty():
 		initialize_corridor_view()
 	
+func update_health_gold():
+	health_label.text = "Health: " + str(round(GameData.current_health))
+	gold_label.text = "Gold: " + str(GameData.currency)
+	
 
 func _on_visibility_changed() -> void:
 	if visible:
@@ -145,6 +166,7 @@ func _on_visibility_changed() -> void:
 		update_player_visuals(Head.RIGHT)
 		set_process_unhandled_input(true)
 		grab_focus()
+		update_health_gold()
 
 func initialize_corridor_view() -> void:
 	if GameData.maze_map.is_empty():
@@ -229,12 +251,10 @@ func attempt_move(direction: Vector2i) -> void:
 	var is_target_room = target_type in room_types
 	
 	if is_current_room and is_target_room:
-		print("Movement blocked: Cannot move directly between rooms.")
 		return
 
 	if is_current_room and current_type != "Start" and not current_cell.get("cleared", false):
 		if not target_cell.get("explored", false):
-			print("Room not cleared! You can only go back the way you came.")
 			return
 	
 	update_player_position(new_pos)
@@ -346,7 +366,6 @@ func check_room_entry(cell_data: Dictionary):
 	
 	if type in ["basicArena", "advancedArena", "puzzleRoom", "Centre"]:
 		if not cell_data.get("cleared", false):
-			print("UI Corridor: Standing on ", type)
 			
 			current_hovered_room_type = type
 			
@@ -355,7 +374,6 @@ func check_room_entry(cell_data: Dictionary):
 			
 
 func _on_enter_room_pressed() -> void:
-	print("Button Pressed! Attempting to enter: ", current_hovered_room_type)
 	
 	if current_hovered_room_type != "":
 		set_process_unhandled_input(false)
@@ -366,15 +384,7 @@ func _on_enter_room_pressed() -> void:
 
 #UPGRADES
 
-@onready var btn_health = %HEALTH
-@onready var btn_defence = %DEFENCE
-@onready var btn_sword_ability = %swordAbility
-@onready var btn_spear_ability = %spearAbility
-@onready var btn_bow_ability = %bowAbility
-@onready var btn_upgrade_sword = %upgradeSword
-@onready var btn_upgrade_spear = %upgradeSpear
-@onready var btn_upgrade_bow = %upgradeBow
-@onready var btn_player_abilities = %playerAbilities
+
 
 #fire sale
 
@@ -394,105 +404,87 @@ var selected_ability_id: int = 0
 @export var spear_data : WeaponData
 @export var sword_data : WeaponData
 
-
-#no buying weapons anymore
-func buy_bow():
-	if GameData.currency < cost_weapon:
-		return
-		
-	if bow_data in GameData.current_weapons:
-		print("Weapon already owned")
-		return
-	
-	GameData.currency -= cost_weapon
-	GameData.currency_updated.emit(GameData.currency)
-	
-	GameData.add_weapon(bow_data)
-	
-
-func buy_spear():
-
-	if GameData.currency < cost_weapon:
-		return
-		
-	if spear_data in GameData.current_weapons:
-		print("Weapon already owned")
-		return
-	
-	GameData.currency -= cost_weapon
-	GameData.currency_updated.emit(GameData.currency)
-	
-	GameData.add_weapon(spear_data)
-	
-
-	
 func buy_rarity_upgrade(index: int):
 	if GameData.currency >= cost_rarity_upgrade:
 		GameData.set_active_weapon(index)
 		if GameData.upgrade_active_weapon_rarity():
 			GameData.currency -= cost_rarity_upgrade
 			GameData.currency_updated.emit(GameData.currency)
+			update_health_gold()
 			
 		
 
-
-func buy_special_attack(index : int):			
+func buy_special_attack(index : int):
 	if GameData.currency >= cost_special_attack:
 		GameData.set_active_weapon(index)
 		if GameData.unlock_active_weapon_special():
 			GameData.currency -= cost_special_attack
 			GameData.currency_updated.emit(GameData.currency)
+			update_health_gold()
 				
 func buy_heal():
 	if GameData.currency >= cost_heal:
 		GameData.currency -= cost_heal
 		GameData.update_health(250)
+		update_health_gold()
 		
 func buy_defense_upgrade():
 	if GameData.currency >= cost_defense_upgrade:
 		GameData.currency -= cost_defense_upgrade
 		GameData.upgrade_defense()
+		update_health_gold()
 		
 
-		
 func buy_dash_charge():
 	if GameData.currency >= cost_dash_charge:
 		if GameData.upgrade_dash_charges():
 			GameData.currency -= cost_dash_charge
 			GameData.currency_updated.emit(GameData.currency)
+			update_health_gold()
 			
 func buy_dash_transparency():
 	if GameData.currency >= cost_dash_transparency:
 		if GameData.unlock_dash_through_enemies():
 			GameData.currency -= cost_dash_transparency
 			GameData.currency_updated.emit(GameData.currency)
+			update_health_gold()
 			
 func buy_decoy():
 	if GameData.currency >= cost_decoy:
 		if GameData.unlock_decoy():
 			GameData.currency -= cost_decoy
 			GameData.currency_updated.emit(GameData.currency)
+			update_health_gold()
 			
 func on_player_abilities_item_selected(index: int):
 	selected_ability_id = btn_player_abilities.get_item_id(index)
 	
+	match selected_ability_id: 
+		0: buy_dash_charge()
+		1: buy_dash_transparency()
+		2: buy_decoy()
+	
 #must populate current_weapons in this order
 func on_upgrade_sword_pressed():
 	buy_rarity_upgrade(0)	
-	
+
 func on_upgrade_spear_pressed():
 	buy_rarity_upgrade(1)
-	
+
 func on_upgrade_bow_pressed():
 	buy_rarity_upgrade(2)
-	
+
 func on_sword_ability_pressed():
 	buy_special_attack(0)
 
 func on_spear_ability_pressed():
 	buy_special_attack(1)
-	
+
 func on_bow_ability_pressed():
 	buy_special_attack(2)
-	
-			
+
+func on_currency_updated():
+	update_health_gold()
+
+func on_player_stats_changed():
+	update_health_gold()

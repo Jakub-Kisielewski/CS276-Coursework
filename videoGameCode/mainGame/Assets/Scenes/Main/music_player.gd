@@ -1,36 +1,25 @@
 class_name MusicPlayer extends AudioStreamPlayer
 
-#MENU = MENU + SETTINGS
-#ROOM = ROOM+MAZE_GEN
-#CORRIDOR = CORRIDOR
-#NULL = do not use this 
 enum Category {MENU_SETTINGS, ROOMS, CORRIDORS, DEAD, NULL}
-
-
 var current_category : Category = Category.NULL
-
 var menu_tracks: Array[AudioStream] = []
 var corridor_tracks : Array[AudioStream] = []
 var room_tracks : Array[AudioStream] = []
 var death_track: Array[AudioStream] = []
-
 var current_tracks : Array[AudioStream] = []
 var current_index : int = 0
-
 var fade_tween: Tween
 var default_volume_db : float = 0
 
 func _ready() -> void:
 	randomize()
-	#if you want to add any songs so that they can be used just preload them here into the arrays
 	menu_tracks = [
 		preload("res://Assets/Resources/GameMusic/TremLoadingloopl.ogg")
 		]
-		
+	
 	corridor_tracks = [
 		preload("res://Assets/Resources/GameMusic/shrine.ogg")
 		]
-	
 	
 	room_tracks = [
 		preload("res://Assets/Resources/GameMusic/CleytonRX - Battle RPG Theme Var.ogg"),
@@ -47,7 +36,6 @@ func _ready() -> void:
 	finished.connect(on_music_finished)
 	
 	set_category(Category.MENU_SETTINGS) #default to menu
-	
 	
 func set_category(new_category : Category) -> void:
 	
@@ -72,7 +60,6 @@ func set_category(new_category : Category) -> void:
 
 func play_random_track() -> void:
 	if 	current_tracks.is_empty():
-		print("tracklist empty")
 		return
 		
 	var new_index := current_index
@@ -90,8 +77,6 @@ func play_random_track() -> void:
 	play()
 	fade_in()
 
-
-
 func fade_in(duration : float = 1.0):
 	if fade_tween:
 		fade_tween.kill()
@@ -107,5 +92,3 @@ func fade_out(duration : float = 0.5):
 func on_music_finished() -> void:
 	fade_out()
 	play_random_track()
-
-	

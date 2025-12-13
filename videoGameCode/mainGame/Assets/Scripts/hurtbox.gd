@@ -22,7 +22,6 @@ func _ready() -> void:
 func receive_hit(damage: int, attacker : Node, attack_effect: String, stun : bool = false) -> void:
 	# The attacker doesn't exist
 	if attacker == null:
-		print("attacker is null")
 		return
 	
 	if owner.has_method("iframes_on") and owner.iframes_on():
@@ -43,5 +42,3 @@ func receive_hit(damage: int, attacker : Node, attack_effect: String, stun : boo
 			health_component.take_damage(0, attack_effect)
 		else:
 			health_component.take_damage(damage, attack_effect)
-	else:
-		print("Error: Owner ", owner.name, " has no HealthComponent!")
