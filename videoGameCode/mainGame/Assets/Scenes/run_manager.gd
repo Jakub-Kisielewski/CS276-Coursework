@@ -12,6 +12,10 @@ class_name RunManager extends Node
 @export var puzzle_scene: PackedScene
 @export var centre_scene: PackedScene
 
+@export var sword_data : WeaponData
+@export var spear_data : WeaponData
+@export var bow_data : WeaponData
+
 @export_group("Enemy Pools")
 @export var start_room_enemies: Array[PackedScene]
 @export var basicArena_enemies: Array[PackedScene]
@@ -52,6 +56,10 @@ func start_new_run():
 	
 	if start_room_scene:
 		load_room_scene(start_room_scene, RoomType.START)
+		if GameData.current_weapons.is_empty():
+			GameData.add_weapon(sword_data)
+			GameData.add_weapon(spear_data)
+			GameData.add_weapon(bow_data)
 	
 
 var is_transitioning: bool = false # Add this guard variable

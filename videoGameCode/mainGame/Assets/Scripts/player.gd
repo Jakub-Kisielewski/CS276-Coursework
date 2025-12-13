@@ -92,7 +92,7 @@ var special_hold_time : float = 0.0
 const SPECIAL_HOLD_TIME : float = 0.4 #wind up the attack for  second cuz op
 var charging_successful : bool = false
 
-var shotgun_activated : bool = true #bow special attack
+var shotgun_activated : bool = false #bow special attack
 var trying_shotgun = true #true -> shotgun switch, false -> auto switch
 
 
@@ -112,8 +112,8 @@ func _ready():
 	
 	
 	
-	if GameData.current_weapons.is_empty():
-		GameData.add_weapon(sword_data)
+	#if GameData.current_weapons.is_empty():
+		#GameData.add_weapon(sword_data)
 		#GameData.add_weapon(spear_data)
 		#GameData.add_weapon(bow_data)
 	
@@ -242,9 +242,9 @@ func handle_input(delta: float):
 	
 	
 	if Input.is_action_just_pressed("attack_special"):
-		#if not current_weapon_data.special_unlocked: need to make wepaon data global and then can check if special wepaon is unlocked
-		print("You don't have this attack unlocked!")
-		return
+		if not current_weapon_data.special_unlocked:
+			print("You don't have this attack unlocked!")
+			return
 		
 		special_track = null
 		if current_weapon == Weapon.SWORD and not player_busy():

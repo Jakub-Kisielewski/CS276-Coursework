@@ -5,9 +5,9 @@ enum WeaponType {SWORD, SPEAR, BOW}
 
 @export var display_name: String
 @export var icon: Texture2D
-@export var rarity: Rarity = Rarity.PRISMATIC
+@export var rarity: Rarity = Rarity.DULL
 @export var weapon_type: WeaponType = WeaponType.SWORD
-@export var special_unlocked: bool = true
+@export var special_unlocked: bool = false
 
 @export var base_attack: float = 15
 @export var weapon_mult : float = 1.0

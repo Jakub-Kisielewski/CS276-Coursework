@@ -135,7 +135,8 @@ layout_mode = 2
 theme_override_constants/separation = -60
 alignment = 1
 
-[node name="Title" type="Label" parent="HBoxContainer/ShopContainer/STATS"]
+[node name="stat_health" type="Label" parent="HBoxContainer/ShopContainer/STATS"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -147,7 +148,8 @@ text = "60 health
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Title3" type="Label" parent="HBoxContainer/ShopContainer/STATS"]
+[node name="stat_gold" type="Label" parent="HBoxContainer/ShopContainer/STATS"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
