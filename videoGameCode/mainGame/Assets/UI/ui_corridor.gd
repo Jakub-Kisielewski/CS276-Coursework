@@ -4,6 +4,7 @@ signal room_entered(room_type: String)
 @onready var map_display: TileMapLayer = %MapDisplay
 @onready var player_icon: Sprite2D = %PlayerIcon
 @onready var btn_enter_room: Button = %BtnEnterRoom
+@onready var map_wrapper: Control = %MapWrapper
 
 var current_hovered_room_type: String = ""
 var head_up = preload('res://Assets/Resources/head/up_head.png')
@@ -129,9 +130,36 @@ func initialize_corridor_view() -> void:
 	if GameData.player_coords == Vector2i(0,0) and not _is_valid_cell(Vector2i(0,0)):
 		find_player_start()
 	
+	await center_maze()
 	draw_map()
 	# Defer the visual update slightly to ensure TileMapLayer is ready
 	call_deferred("update_player_visuals")
+
+func center_maze() -> void:
+	if not map_display or not map_wrapper:
+		return
+	
+	var tile_set = map_display.tile_set
+	if not tile_set:
+		return
+	
+	# Set the scale
+	map_display.scale = Vector2(5, 5)  # Your desired scale
+	map_display.rotation = 0
+	
+	await get_tree().process_frame
+	
+	var tile_size = tile_set.tile_size
+	var container_size = map_wrapper.size
+	var center_tile_x = int(GameData.map_width / 2)
+	var center_tile_y = int(GameData.map_height / 2)
+	var center_tile_coords = Vector2i(center_tile_x, center_tile_y)
+	
+	# Get the local position and account for scale
+	var center_tile_local_pos = map_display.map_to_local(center_tile_coords) * map_display.scale
+	var container_center = container_size / 2.0
+	
+	map_display.position = container_center - center_tile_local_pos
 
 func find_player_start():
 	for y in range(GameData.map_height):
@@ -268,23 +296,26 @@ func update_player_position(new_pos: Vector2i):
 	
 	check_room_entry(new_cell)
 
-func update_player_visuals(head_direction: Head):
-	# Use map_to_local to center the sprite on the tile
-	if map_display:
-		var map_pos = map_display.map_to_local(GameData.player_coords)
-		# Convert that local map position to a global position, then apply it to the icon
-		match head_direction:
-			Head.UP:
-				player_icon.texture = head_up
-			Head.DOWN:
-				player_icon.texture = head_down
-			Head.RIGHT:
-				player_icon.texture = head_right
-			Head.LEFT:
-				player_icon.texture = head_left
-			
-		player_icon.global_position = map_display.to_global(map_pos)
+func update_player_visuals(head_direction: Head = Head.RIGHT):
+	if not map_display or not player_icon:
+		return
 		
+	# Get the tile's local position on the map
+	var map_pos = map_display.map_to_local(GameData.player_coords)
+	
+	# Update head texture
+	match head_direction:
+		Head.UP:
+			player_icon.texture = head_up
+		Head.DOWN:
+			player_icon.texture = head_down
+		Head.RIGHT:
+			player_icon.texture = head_right
+		Head.LEFT:
+			player_icon.texture = head_left
+	
+	# Account for both the map's position AND its scale
+	player_icon.position = map_display.position + (map_pos * map_display.scale)
 
 func draw_map():
 	map_display.clear()

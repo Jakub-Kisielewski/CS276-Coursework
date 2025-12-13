@@ -76,16 +76,6 @@ text = "map"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MapDisplay" type="TileMapLayer" parent="HBoxContainer/MapContainer"]
-unique_name_in_owner = true
-position = Vector2(111.000015, 231.00002)
-scale = Vector2(5, 5)
-tile_set = ExtResource("2_hx4x2")
-
-[node name="PlayerIcon" type="Sprite2D" parent="HBoxContainer/MapContainer"]
-unique_name_in_owner = true
-position = Vector2(114.00001, 59)
-
 [node name="BtnEnterRoom" type="Button" parent="HBoxContainer/MapContainer"]
 unique_name_in_owner = true
 visible = false
@@ -103,6 +93,20 @@ theme_override_font_sizes/font_size = 30
 text = "WASD TO NAVIGATE MAP"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MapWrapper" type="Control" parent="HBoxContainer/MapContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MapDisplay" type="TileMapLayer" parent="HBoxContainer/MapContainer/MapWrapper"]
+unique_name_in_owner = true
+position = Vector2(263, 216.99998)
+tile_set = ExtResource("2_hx4x2")
+
+[node name="PlayerIcon" type="Sprite2D" parent="HBoxContainer/MapContainer/MapWrapper"]
+unique_name_in_owner = true
+position = Vector2(114, -87)
 
 [node name="ShopContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
