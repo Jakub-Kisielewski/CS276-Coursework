@@ -169,7 +169,6 @@ func save_game():
 	if file:
 		var json_string = JSON.stringify(save_dict)
 		file.store_string(json_string)
-		print("Game Saved")
 
 func load_game():
 	if not FileAccess.file_exists(SAVE_PATH):
@@ -193,7 +192,6 @@ func load_game():
 			
 			player_stats_changed.emit()
 			currency_updated.emit(currency)
-			print("Game Loaded")
 
 func reset_run_state():
 	max_health = 1000.0
@@ -207,4 +205,3 @@ func reset_run_state():
 	
 	player_stats_changed.emit()
 	currency_updated.emit(currency)
-	print("Game Data Reset")

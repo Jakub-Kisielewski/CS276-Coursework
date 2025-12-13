@@ -14,9 +14,7 @@ var cost_decoy : int = 50.0
 func ready():
 	#button press connect to appropriate function, 
 	pass
-	
-	
-	
+
 func buy_rarity_upgrade():
 	if GameData.currency >= cost_rarity_upgrade:
 		if GameData.upgrade_active_weapon_rarity():
@@ -29,7 +27,7 @@ func buy_type_upgrade():
 			GameData.currency -= cost_type_upgrade
 			GameData.currency_updated.emit(GameData.currency)
 
-func buy_special_attack():			
+func buy_special_attack():
 	if GameData.currency >= cost_special_attack:
 			if GameData.unlock_active_weapon_special():
 				GameData.currency -= cost_special_attack
@@ -69,6 +67,3 @@ func buy_decoy():
 		if GameData.unlock_decoy():
 			GameData.currency -= cost_decoy
 			GameData.currency_updated.emit(GameData.currency)
-		
-
-	

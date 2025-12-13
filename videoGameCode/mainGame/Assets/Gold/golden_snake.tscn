@@ -38,12 +38,13 @@ height = 20.0
 radius = 22.5
 height = 45.0
 
-[node name="GoldenSnake" type="CharacterBody2D" groups=["enemy"]]
+[node name="GoldenSnake" type="CharacterBody2D" node_paths=PackedStringArray("sprite") groups=["enemy"]]
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_2vsxt")
 amount = 40
 speed = 20.0
+sprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 self_modulate = Color(1.5257139, 1.5257139, 1.5257139, 1)

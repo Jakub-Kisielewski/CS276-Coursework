@@ -80,7 +80,6 @@ func generate_map_data() -> void:
 	mapHeight = GameData.map_height
 	branchProb = GameData.branch_prob
 	difficultyModifier = GameData.game_difficulty
-	print("setting constraints")
 	scaleConstraints()
 	
 	# try generation multiple times with progressively relaxed constraints
@@ -89,36 +88,25 @@ func generate_map_data() -> void:
 	
 	while currentAttempt < maxGenerationAttempts and not success:
 		currentAttempt += 1
-		print("Generation attempt ", currentAttempt)
 		
-		print("initialising map")
 		initMap()
-		print("choosing start")
 		var startCoords: Vector2i = chooseStart()
-		print("setting centre")
 		var centreCoords: Vector2i = setCentre()
-		print("creating solution path")
 		var solutionPath: Array[Vector2i] = generateSolutionPath(startCoords, centreCoords)
 		
 		if solutionPath.size() > 0:
-			print("generating branches")
 			var branches: Array = generateBranches(solutionPath)
-			print("placing rooms")
 			placeRooms(solutionPath, branches)
 			
 			# Store the data
 			GameData.maze_map = map.duplicate(true)
-			print("Map generation successful!")
 			success = true
 		else:
-			print("Failed to generate path, retrying...")
 			# relax constraints for next attempt
 			if currentAttempt % 10 == 0:
 				minSolutionPath = max(int(minSolutionPath * 0.9), int((mapWidth + mapHeight) * 0.5))
-				print("Relaxing min path length to: ", minSolutionPath)
 	
 	if not success:
-		print("Failed to generate maze after ", maxGenerationAttempts, " attempts")
 		get_tree().reload_current_scene()
 
 func scaleConstraints() -> void:
@@ -140,7 +128,6 @@ func scaleConstraints() -> void:
 	# half of map width or height
 	maxBranchLength = int(max(mapWidth, mapHeight) / 2)
 	
-	print("Path constraints: min=", minSolutionPath, " max=", maxSolutionPath)
 
 func initMap() -> void:
 	map.resize(mapHeight)

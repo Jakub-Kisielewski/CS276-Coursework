@@ -130,7 +130,6 @@ func player_or_decoy_position() -> Vector2:
 	var decoy := get_tree().get_first_node_in_group("decoy")
 	if decoy and is_instance_valid(decoy):
 		return decoy.global_position
-		print("going for decoy")
 	else:
 		return player.global_position
 
@@ -209,13 +208,11 @@ func _on_range_body_entered(body: Node2D) -> void:
 		if state in [State.MOVING] and strike_cooldown <= 0:
 			set_state(State.STRIKING)
 		player_in_range = true
-		print("player is in range")
 
 # When enemy exits attack range
 func _on_range_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = false
-		print("player is no longer in range")
 		
 # Triggered when enemy takes damage	
 func _on_damaged(_amount, _type) -> void:
@@ -254,8 +251,6 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 			if health_component:
 				# The enemy dies after giving the player poison
 				health_component.take_damage(health_component.current_health, "None")
-			print("enemy finished bite")	
 		
 		"strike":
 			set_state(State.MOVING)
-			print("enemy finished strike")

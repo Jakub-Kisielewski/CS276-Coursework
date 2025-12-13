@@ -20,9 +20,6 @@ func _ready():
 	_on_currency_updated(GameData.currency)
 	_update_weapon_carousel()
 	
-	# If current weapons are empty in GameData (dev testing), populate manually or wait for player
-	if GameData.current_weapons.is_empty():
-		print("UI: No weapons in GameData yet.")
 
 func _on_stats_changed():
 	health_bar.max_value = GameData.max_health

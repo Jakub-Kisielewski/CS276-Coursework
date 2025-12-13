@@ -214,7 +214,6 @@ func handle_timers(delta: float) -> void:
 func _on_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true
-		print("player is in range")
 
 # When enemy exits attack range
 func _on_range_body_exited(body: Node2D) -> void:
@@ -224,7 +223,6 @@ func _on_range_body_exited(body: Node2D) -> void:
 			set_state(State.THRUSTING)
 
 		player_in_range = false
-		print("player is no longer in range")
 		
 # Triggered when enemy takes damage	
 func _on_damaged(_amount, _type) -> void:
@@ -268,10 +266,8 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 			if lifeslash:
 				lifeslash = false
 			set_state(State.VISIBLE_MOVING)
-			print("enemy finished attack")	
 		
 		"thrust":
 			if lifeslash:
 				lifeslash = false
 			set_state(State.VISIBLE_MOVING)
-			print("enemy finished thrust")	

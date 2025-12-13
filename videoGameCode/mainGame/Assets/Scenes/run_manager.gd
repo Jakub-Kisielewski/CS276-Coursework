@@ -96,7 +96,6 @@ func _setup_room_logic(room_instance: RoomBase, enemy_pool: Array[PackedScene]):
 	scene_manager.on_start_game_ui()
 
 func load_room_from_type(type_name: String) -> void:
-	print("RunManager: Loading room type: ", type_name)
 	
 	var scene_to_load: PackedScene = null
 	var room_type: RoomType
@@ -145,7 +144,6 @@ func _on_room_complete():
 	if scene_manager.current_ui_state != SceneManager.SceneType.ROOM:
 		return
 	
-	print("Room Cleared!")
 	
 	var reward_text = GameData.apply_random_completion_reward()
 	

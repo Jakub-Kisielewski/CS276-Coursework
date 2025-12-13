@@ -251,12 +251,10 @@ func attempt_move(direction: Vector2i) -> void:
 	var is_target_room = target_type in room_types
 	
 	if is_current_room and is_target_room:
-		print("Movement blocked: Cannot move directly between rooms.")
 		return
 
 	if is_current_room and current_type != "Start" and not current_cell.get("cleared", false):
 		if not target_cell.get("explored", false):
-			print("Room not cleared! You can only go back the way you came.")
 			return
 	
 	update_player_position(new_pos)
@@ -368,7 +366,6 @@ func check_room_entry(cell_data: Dictionary):
 	
 	if type in ["basicArena", "advancedArena", "puzzleRoom", "Centre"]:
 		if not cell_data.get("cleared", false):
-			print("UI Corridor: Standing on ", type)
 			
 			current_hovered_room_type = type
 			
@@ -377,7 +374,6 @@ func check_room_entry(cell_data: Dictionary):
 			
 
 func _on_enter_room_pressed() -> void:
-	print("Button Pressed! Attempting to enter: ", current_hovered_room_type)
 	
 	if current_hovered_room_type != "":
 		set_process_unhandled_input(false)
@@ -408,90 +404,60 @@ var selected_ability_id: int = 0
 @export var spear_data : WeaponData
 @export var sword_data : WeaponData
 
-
-
-	
-
-	
 func buy_rarity_upgrade(index: int):
-	print("inside rarity upgrade")
-	print("currency before: ", GameData.currency)
 	if GameData.currency >= cost_rarity_upgrade:
 		GameData.set_active_weapon(index)
 		if GameData.upgrade_active_weapon_rarity():
 			GameData.currency -= cost_rarity_upgrade
 			GameData.currency_updated.emit(GameData.currency)
-			print("upgraded weapon")
-			print("currency after : ", GameData.currency)
 			update_health_gold()
 			
 		
 
 func buy_special_attack(index : int):
-	print("inside buy attack")		
-	print("currency before: ", GameData.currency)	
 	if GameData.currency >= cost_special_attack:
 		GameData.set_active_weapon(index)
 		if GameData.unlock_active_weapon_special():
 			GameData.currency -= cost_special_attack
 			GameData.currency_updated.emit(GameData.currency)
-			print("bought special attack")
-			print("currency after : ", GameData.currency)
 			update_health_gold()
 				
 func buy_heal():
-	print("inside buy heal")		
-	print("currency before: ", GameData.currency)	
 	if GameData.currency >= cost_heal:
 		GameData.currency -= cost_heal
 		GameData.update_health(250)
-		print("currency after : ", GameData.currency)
 		update_health_gold()
 		
 func buy_defense_upgrade():
-	print("inside buy defense")		
-	print("currency before: ", GameData.currency)	
 	if GameData.currency >= cost_defense_upgrade:
 		GameData.currency -= cost_defense_upgrade
 		GameData.upgrade_defense()
-		print("currency after : ", GameData.currency)
 		update_health_gold()
 		
 
-		
 func buy_dash_charge():
-	print("inside buy dash charge")		
-	print("currency before: ", GameData.currency)	
 	if GameData.currency >= cost_dash_charge:
 		if GameData.upgrade_dash_charges():
 			GameData.currency -= cost_dash_charge
 			GameData.currency_updated.emit(GameData.currency)
-			print("currency after : ", GameData.currency)
 			update_health_gold()
 			
 func buy_dash_transparency():
-	print("inside buy transparency")		
-	print("currency before: ", GameData.currency)	
 	if GameData.currency >= cost_dash_transparency:
 		if GameData.unlock_dash_through_enemies():
 			GameData.currency -= cost_dash_transparency
 			GameData.currency_updated.emit(GameData.currency)
-			print("currency after : ", GameData.currency)
 			update_health_gold()
 			
 func buy_decoy():
-	print("inside buy decoy")		
-	print("currency before: ", GameData.currency)	
 	if GameData.currency >= cost_decoy:
 		if GameData.unlock_decoy():
 			GameData.currency -= cost_decoy
 			GameData.currency_updated.emit(GameData.currency)
-			print("currency after : ", GameData.currency)
 			update_health_gold()
 			
 func on_player_abilities_item_selected(index: int):
 	selected_ability_id = btn_player_abilities.get_item_id(index)
-	
 	
 	match selected_ability_id: 
 		0: buy_dash_charge()
@@ -501,23 +467,22 @@ func on_player_abilities_item_selected(index: int):
 #must populate current_weapons in this order
 func on_upgrade_sword_pressed():
 	buy_rarity_upgrade(0)	
-	
+
 func on_upgrade_spear_pressed():
 	buy_rarity_upgrade(1)
-	
+
 func on_upgrade_bow_pressed():
 	buy_rarity_upgrade(2)
-	
+
 func on_sword_ability_pressed():
 	buy_special_attack(0)
 
 func on_spear_ability_pressed():
 	buy_special_attack(1)
-	
+
 func on_bow_ability_pressed():
 	buy_special_attack(2)
-	
-	
+
 func on_currency_updated():
 	update_health_gold()
 

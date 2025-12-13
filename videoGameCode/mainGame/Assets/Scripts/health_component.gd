@@ -65,7 +65,6 @@ func take_damage(amount: float, attack_effect: String):
 			final_damage = amount / defense
 		
 	current_health = max(0, current_health - final_damage)
-	print(get_parent().name ," took ", final_damage, " damage, current hp = ", current_health)
 	
 	
 	if is_player:
@@ -89,7 +88,6 @@ func start_poison():
 	if status != Status.POISONED:
 		set_status(Status.POISONED)
 		poison_timer.start()
-		print(get_parent().name + " poisoned")
 
 func _on_poison_tick():
 	take_damage(2.0, "None") 
@@ -102,7 +100,6 @@ func _on_poison_tick():
 func stop_poison():
 	poison_timer.stop()
 	set_status(Status.HEALTHY)
-	print(get_parent().name + " poison cured")
 
 # --- overheat Logic ---
 func start_overheat():

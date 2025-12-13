@@ -25,7 +25,6 @@ var closest: Node2D = null
 signal returned_to_owner
 
 func _ready() -> void:
-	print("gsp ready")
 	life_timer = life_time
 	
 	
@@ -79,11 +78,9 @@ func pick_target_or_orbit(delta: float) -> void:
 	if closest != null:
 		current_target = closest
 		current_state = State.SEEK
-		print("closest != null SEEK")
 		
 	else:
 		var orbit_offset : Vector2 = Vector2(64, 0).rotated(Time.get_ticks_msec()/ 10000)
-		#print("hello there")
 		var target_pos : Vector2 = owner_player.global_position + orbit_offset
 		move_towards(target_pos, speed * 0.7, delta)
 	
@@ -124,7 +121,6 @@ func seek_target(delta: float) -> void:
 	if dist > detection_dist:
 		current_target = null
 		current_state = State.IDLE
-		print("procker")
 		
 	if dist > attack_range:
 		move_towards(target.global_position, speed, delta)
@@ -155,7 +151,6 @@ func try_attack(delta) -> void:
 func vec_to_target() -> Vector2:
 	if current_target != null and is_instance_valid(current_target):
 		return current_target.global_position - global_position
-	print("ghost spear target null")
 	return Vector2(0,0)
 	
 	
@@ -198,7 +193,6 @@ func return_to_owner(delta: float):
 		emit_signal("returned_to_owner")
 		queue_free()
 		return
-		print("successfully returned to owner")
 		
 	move_towards(owner_player.global_position, speed * 1.5, delta)
 

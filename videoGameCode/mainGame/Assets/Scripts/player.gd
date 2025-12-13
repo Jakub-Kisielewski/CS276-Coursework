@@ -155,7 +155,6 @@ func _physics_process(delta: float) -> void:
 	updateSprite()
 	attacking_speed_test()
 	
-	#print("current node:", anim_state.get_current_node())
 
 func _on_status_changed(new_status):
 	var target_colour: Color = Color.WHITE
@@ -224,7 +223,6 @@ func apply_stun(duration : float = 0.2):
 	stunned_status = true
 	stun_timer = duration
 	anim_state.travel("hurt")
-	print("playing hurt animation")
 	
 
 
@@ -233,7 +231,6 @@ func handle_input(delta: float):
 
 	# player gets stunned by the minotaur
 	if (stunned_status):
-		print("stunned rn")
 		bodyEffects2.global_position = global_position
 		if misc_sfx.stream != misc_sounds[0] or not misc_sfx.playing:
 			misc_sfx.stream = misc_sounds[0]
@@ -243,12 +240,10 @@ func handle_input(delta: float):
 	
 	if Input.is_action_just_pressed("attack_special"):
 		if not current_weapon_data.special_unlocked:
-			print("You don't have this attack unlocked!")
 			return
 		
 		special_track = null
 		if current_weapon == Weapon.SWORD and not player_busy():
-			print("sword charge anim start")
 			anim_state.travel("Scharge")
 			special_track = misc_sounds[1]
 			
@@ -270,7 +265,6 @@ func handle_input(delta: float):
 		
 		if special_hold_time >= SPECIAL_HOLD_TIME:
 			charging_successful = true
-			print("charging successful", charging_successful)
 		
 		
 		
@@ -283,7 +277,6 @@ func handle_input(delta: float):
 			if current_weapon == Weapon.SWORD:
 				sword_special_attack()
 				special_track = misc_sounds[2]
-				print("i call on you sword")
 			elif current_weapon == Weapon.BOW:
 				if trying_shotgun:
 					shotgun_activated = true
@@ -292,7 +285,6 @@ func handle_input(delta: float):
 				bow_attack()
 			elif current_weapon == Weapon.SPEAR:
 				spear_special_attack()
-				print("i call on you spear")
 			misc_sfx.stream = special_track
 			misc_sfx.play()
 		else:
@@ -301,10 +293,8 @@ func handle_input(delta: float):
 			charging_successful = false
 			if current_weapon == Weapon.SPEAR or current_weapon == Weapon.BOW:
 				anim_state.travel("idle")
-				print("IDLE IDLE IDLE IDLE")
 			else: 
 				anim_state.travel("Sidle")
-				print("SIDLE SIDLE SIDLE SIDLE")
 		
 	
 	# movement
@@ -376,8 +366,6 @@ func handle_input(delta: float):
 	if Input.is_action_just_pressed("use_item"):
 		if decoy_timer <= 0.0:
 			throw_decoy()
-		else:
-			print("decoy on cooldown!")
 	
 func attacking_speed_test():
 	if attacking:
@@ -396,41 +384,31 @@ func set_player_facing(vec: Vector2) -> Facing:
 	var angle = vec.angle()
 	
 	var deg = rad_to_deg(angle)
-	 #may need to reverse UP and DOWN, check first, we do need to reverse UP and DOWN
 	if deg > -22.5 and deg <= 22.5:
 		last_dir = Vector2.RIGHT
-		#print("right")
 		return Facing.RIGHT
 	elif deg > 22.5 and deg <= 67.5:
 		last_dir = Vector2.RIGHT
-		#print("right down")
 		return Facing.RIGHT_DOWN
 	elif deg > 67.5 and deg <= 112.5:
 		last_dir = Vector2.DOWN
-		#print("down")
 		return Facing.DOWN
 	elif deg > 112.5 and deg <= 157.5:
 		last_dir = Vector2.LEFT
-		#print("left down")
 		return Facing.LEFT_DOWN
 	elif deg > 157.5 or deg <= -157.5:
 		last_dir = Vector2.LEFT
-		#print("left")
 		return Facing.LEFT
 	elif deg > -157.5 and deg <= -112.5:
 		last_dir = Vector2.LEFT
-		#print("left up")
 		return Facing.LEFT_UP
 	elif deg > -112.5 and deg <= -67.5:
 		last_dir = Vector2.UP
-		#print("up")
 		return Facing.UP
 	elif deg > -67.5 and deg <= -22.5:
 		last_dir = Vector2.RIGHT
-		#print("right up")
 		return Facing.RIGHT_UP
 		
-	print("set_player_facing: null return")
 	return Facing.RIGHT
 	
 
@@ -476,18 +454,13 @@ func updateSprite():
 				bowEffects.visible = true
 			offset_bow()
 			
-				
-		_:
-			print("updateSprite: null weapon")
-				
-	#print("in action", in_action)
+			
 	bodyEffects2.visible = stunned_status
 	
 func offset_spear_nonattacking():
 	if attacking:
 		return
 		
-	#var motion_facing : Facing = set_player_facing(get_nonzero_movement_direction()) 
 		
 	match player_facing:
 		Facing.DOWN:
@@ -571,19 +544,6 @@ func bow_attack():
 		deg = rad_to_deg(get_mouse_angle())
 	else:
 		deg = get_movement_angle()
-
-
-	#may need to offset bow position, use matching for that
-	match player_facing:
-		Facing.DOWN:
-			print("attacking down")
-		Facing.UP:
-			print("attacking up")
-		Facing.LEFT:
-			print("attacking left") 
-		Facing.RIGHT:
-			print("attacking right")
-			
 	
 	bowAnim.rotation = deg
 	
@@ -680,7 +640,6 @@ func shoot_arrow(dir: Vector2 = Vector2.ZERO): #triggered at end of battack anim
 	arrow.weapon_data = current_weapon_data
 	
 	get_parent().add_child(arrow)
-	print("shot arrow mhm")
 	
 
 func get_bow_dir(angle):
@@ -720,64 +679,34 @@ func spear_attack():
 			spearAnim.position += Vector2(4, 10)
 			
 			aim_angle -= PI/2
-			print("attacking down")
 		Facing.UP:
 			spearAnim.position += Vector2(3,-10)
 			aim_angle += PI/2
 			fx_rotation = PI
-			print("attacking up")
 		Facing.LEFT:
-
 			spearAnim.position += Vector2(-8,0)
 			aim_angle +=  PI
 			fx_rotation = PI/2
-			print("attacking left") 
 		Facing.RIGHT:
-
 			spearAnim.position += Vector2(12,0)
 			fx_offset = Vector2(40,0)
 			fx_rotation = -PI/2
-			
-			print("attacking right")
-			
 		Facing.RIGHT_UP:
-			
-
 			spearAnim.position += Vector2(12,-6)
-			
 			spearAnim.rotation = deg_to_rad(get_mouse_angle())
 			fx_rotation = -PI/2
-			print("hitbox rotation: ", hitbox.rotation)
-			print("spear rotation: ", spearAnim.rotation)
-			print("attacking right up")
-			
 		Facing.RIGHT_DOWN:
-			
-
 			spearAnim.position += Vector2(12,0)
-
 			spearAnim.rotation = deg_to_rad(get_mouse_angle())
 			fx_rotation = -PI/2
-			print("hitbox rotation: ", hitbox.rotation)
-			print("spear rotation: ", spearAnim.rotation)
-			print("attacking right down")
-			
 		Facing.LEFT_UP:
-
 			spearAnim.position += Vector2(-12,-6)
-
 			aim_angle += PI
 			fx_rotation = PI/2
-			print("hitbox rotation: ", hitbox.rotation)
-			print("spear rotation: ", spearAnim.rotation)
-			print("attacking left up")
 		Facing.LEFT_DOWN:	
 			spearAnim.position += Vector2(-8,0)
 			aim_angle +=  PI
 			fx_rotation = PI/2
-			print("hitbox rotation: ", hitbox.rotation)
-			print("spear rotation: ", spearAnim.rotation)
-			print("attacking left down")
 			
 	hitbox.rotation = aim_angle + PI/2 #need to not orthoganlise vectors when player attacking up/down
 	
@@ -788,16 +717,10 @@ func spear_attack():
 	weaponEffects.position = spearEffects.position - forward.normalized() * 10.0 
 	weaponEffects.rotation = spearEffects.rotation
 	
-	#var offset := Vector2(32, 0)
-	#spearEffects.position += offset.rotated(spearAnim.rotation)
-	
 	hitbox.position = spearAnim.position + forward.normalized() * hitbox_dist 
 	
 	if player_facing == Facing.UP or player_facing == Facing.DOWN:
 		hitbox.rotation = aim_angle
-	#directional angle is the same as the mouse angle
-	print("mouse angle: ", get_mouse_angle())
-	print("direction angle:", rad_to_deg(get_movement_direction().angle()))
 	
 	add_child(hitbox)
 	
@@ -812,30 +735,22 @@ func sword_attack():
 	match player_facing:
 		Facing.DOWN:
 			hitbox.position = fullAnim.position + Vector2(0, 10) 
-			print("attacking down")
 		Facing.UP:
 			hitbox.position = fullAnim.position + Vector2(0, -10) 
-			print("attacking up")
 		Facing.LEFT:
 			hitbox.position = fullAnim.position + Vector2(-10, 0) 
-			print("attacking left")
 		Facing.RIGHT:
 			hitbox.position = fullAnim.position + Vector2(10, 0) 
-			print("attacking right")
-	print(hitbox.position)
 	add_child(hitbox)
 	anim_state.travel("Sattack")
 	
-	
-	
+
 func sword_special_attack():
 	if player_busy():
-		print("player too busy for sword rn")
 		return
 		
 	attacking = true
 	anim_state.travel("Srelease")#change to a different animation, but make a backup first, for later
-	print("SWORD ANIM GOOOOO")
 	
 	var base_angle: float
 	if mouse_aiming:
@@ -886,12 +801,10 @@ func spawn_arc(offset: Vector2, ang: float) -> void:
 
 func spear_special_attack():
 	if not spear_ghost_ready or spear_ghost_active:
-		print("spear not ready yet")
 		return
 		
 		
 	if current_weapon != Weapon.SPEAR:
-		print("current weapon not the spear?")
 		return
 		
 		
@@ -902,7 +815,6 @@ func spear_special_attack():
 	
 	ghost.returned_to_owner.connect(on_ghost_spear_returned)
 	get_parent().add_child(ghost)
-	print("spear is here")
 	
 	spear_ghost_active = true
 	spear_ghost_ready = false
@@ -981,12 +893,10 @@ func handle_timers(delta: float):
 		stun_timer -= delta
 		if stun_timer <= 0.0:
 			stunned_status = false
-			print("no longer stunned")
 			stun_timer = 0.0
 			
 
 func _on_death():
-	print("you should be dead")
 	dying = true
 	anim_state.travel("Sdeath")
 	
@@ -1009,7 +919,6 @@ func player_busy() -> bool:
 	return attacking or dying or special_charging
 
 func death_screen() -> void:
-	print("Player died. Signaling Main Game...")
 	
 	SignalBus.player_died.emit()	
 	
@@ -1026,47 +935,29 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 		$AnimationTree.active = false
 		
 	if anim_name.begins_with("bbody"):
-		print("shooting arrow")
 		shoot_arrow()
 	
 	#anim_name is the name inside the animation player
 	if anim_name.begins_with("Srunattack") or anim_name.begins_with("spbody") or anim_name.begins_with("bbody") or anim_name.begins_with("battack") or anim_name.begins_with("Srelattack") or anim_name.begins_with("bcharge"):
-		print("player has finished attacking")
 		attacking = false
 		monitorable = true
-
 		shotgun_activated = false
 		
-	#if anim_name.begins_with("hurt"):
-		#stunned_status = false
-		#stunnable = true
-		#print("no longer stunned")
-		#sprite visibility already handled isnide update sprite
 		
 	if stunned_status:
 		return
-		
-	#if anim_name.begins_with("Scharge"):
-		#special_charging = false
-		
 	
-		
 	if current_weapon == Weapon.SPEAR or current_weapon == Weapon.BOW:
 		anim_state.travel("idle")
 	else:
 		anim_state.travel("Sidle")
 		
-		
-
-
 	
 
 func throw_decoy():
 	if decoy_scene == null:
-		print("where tf decoy scene")
 		return
 	if not have_decoy:
-		print("you haven't got a decoy!")
 		return
 		
 	var crazy_diamond := decoy_scene.instantiate()
@@ -1089,7 +980,6 @@ func throw_decoy():
 func play_step_sfx():
 	if step_sounds.is_empty():
 		return
-	print("playing step hello")
 	var track = step_sounds[randi() % step_sounds.size()]
 	move_sfx.stream = track
 	move_sfx.play()
@@ -1112,5 +1002,4 @@ func _on_bow_effectslay_2_animation_finished() -> void:
 	
 	if bowEffects2.animation == "brelease":
 		bowEffects2.visible = false
-		print("brelease animation fin")
 		

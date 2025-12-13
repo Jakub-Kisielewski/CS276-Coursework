@@ -39,8 +39,6 @@ func _on_area_entered(area: Area2D):
 		return
 		
 	if area.has_method("receive_hit"):
-		print(area.owner)
-		print("arrow bye")
 		queue_free()
 	
 
@@ -48,6 +46,4 @@ func _on_body_entered(body):
 	if body == attacker:
 		return
 	queue_free()
-	print(body)
-	print("body bye")
 	
