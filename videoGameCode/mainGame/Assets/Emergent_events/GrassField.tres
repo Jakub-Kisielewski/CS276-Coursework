@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://crf45d8pq6mo4"]
+
+[ext_resource type="Script" uid="uid://bn7fe4op0x556" path="res://Assets/Emergent_events/event_data.gd" id="1_ltlor"]
+
+[resource]
+script = ExtResource("1_ltlor")
+title = "A Grass Field"
+description = "An empty, open field of grass? In this labyrinth? Why is this here..."
+options = Array[Dictionary]([{
+"effect_id": "heal",
+"text": "Rest in the field for a moment"
+}, {
+"effect_id": "Nothing",
+"text": "Ignore the field and push on"
+}])
+metadata/_custom_type_script = "uid://bn7fe4op0x556"

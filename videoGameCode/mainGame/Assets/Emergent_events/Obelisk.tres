@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://36llo0l6cop6"]
+
+[ext_resource type="Script" uid="uid://bn7fe4op0x556" path="res://Assets/Emergent_events/event_data.gd" id="1_l5h85"]
+
+[resource]
+script = ExtResource("1_l5h85")
+title = "Ominous Obelisk"
+description = "You approach a dark towering obelisk. It has an impossibly dark surface, ebbing with evil energy. You should probably avoid it..."
+options = Array[Dictionary]([{
+"effect_id": "take_damage",
+"text": "Touch the obelisk"
+}, {
+"effect_id": "Nothing",
+"text": "Ignore the obelisk"
+}])
+metadata/_custom_type_script = "uid://bn7fe4op0x556"
