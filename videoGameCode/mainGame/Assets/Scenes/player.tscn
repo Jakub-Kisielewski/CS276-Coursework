@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://7jew8of7wc8o" path="res://Assets/Resources/PlayerSFX/OGG Files/SFX/Footsteps/Stone/Stone Run 1.ogg" id="2_23c4v"]
 [ext_resource type="Texture2D" uid="uid://xyyryh37fiw" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Idle/Sword_Idle_full.png" id="2_24q4e"]
 [ext_resource type="Texture2D" uid="uid://ck0jycudaqfvx" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Run/Sword_Run_full.png" id="3_7rtkj"]
-[ext_resource type="Script" uid="uid://co7tkofoxgpia" path="res://Assets/Scripts/weapon_data.gd" id="3_feila"]
+[ext_resource type="Script" uid="uid://co7tkofoxgpia" path="res://Assets/Weapons/weapon_data.gd" id="3_feila"]
 [ext_resource type="AudioStream" uid="uid://sn0a76yb3cll" path="res://Assets/Resources/PlayerSFX/OGG Files/SFX/Footsteps/Stone/Stone Run 2.ogg" id="3_smmal"]
 [ext_resource type="Texture2D" uid="uid://di2irdwtxxtne" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_attack/Sword_attack3_body.png" id="4_jb3ds"]
 [ext_resource type="Texture2D" uid="uid://chfdco30a8bet" path="res://Assets/Resources/Sprites/BaseSprite/PNG/Sword_Run_Attack/Sword_Run_Attack_full.png" id="4_lysqc"]

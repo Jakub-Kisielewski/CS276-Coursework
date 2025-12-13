@@ -1,6 +1,6 @@
 [gd_scene load_steps=33 format=3 uid="uid://cdrrekks50nqj"]
 
-[ext_resource type="Script" uid="uid://dslufqnj2tmmm" path="res://Assets/Scenes/ghost_spear.gd" id="1_yiodj"]
+[ext_resource type="Script" uid="uid://dslufqnj2tmmm" path="res://Assets/Weapons/ghost_spear.gd" id="1_yiodj"]
 [ext_resource type="Texture2D" uid="uid://dvrwjua3cicqm" path="res://Assets/Resources/Sprites/BaseSprite/weapons/oversize/two hand/either/bloo spear yay.png" id="2_w6kj2"]
 [ext_resource type="Texture2D" uid="uid://it4qhlh7uepa" path="res://Assets/Resources/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 A.png" id="3_ce5hl"]
 [ext_resource type="Texture2D" uid="uid://ymu12mstflb3" path="res://Assets/Resources/Sprites/BaseSprite/weapons/Retro Impact Effect Pack 2 E.png" id="4_w6kj2"]
