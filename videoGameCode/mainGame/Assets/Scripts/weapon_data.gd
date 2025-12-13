@@ -9,7 +9,7 @@ enum WeaponType {SWORD, SPEAR, BOW}
 @export var weapon_type: WeaponType = WeaponType.SWORD
 @export var special_unlocked: bool = true
 
-@export var base_attack: float = 150
+@export var base_attack: float = 15
 @export var weapon_mult : float = 1.0
 
 func get_rarity_mult() -> float:
