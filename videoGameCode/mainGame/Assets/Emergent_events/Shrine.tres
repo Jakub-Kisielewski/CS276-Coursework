@@ -9,5 +9,8 @@ description = "You approach a golden shrine of a wolf. "
 options = Array[Dictionary]([{
 "effect_id": "gain_damage",
 "text": "Pray"
+}, {
+"effect_id": "heal",
+"text": "Lick"
 }])
 metadata/_custom_type_script = "uid://bn7fe4op0x556"

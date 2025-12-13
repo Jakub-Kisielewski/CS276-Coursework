@@ -1,7 +1,7 @@
 class_name RunManager extends Node
 
 @export var scene_manager: SceneManager
-#@export var ui_event_overlay: Control
+@export var ui_event_overlay: UiEventOverlay
 @export var possible_events: Array[EventData]
 @export var player_scene: PackedScene
 
@@ -31,8 +31,9 @@ enum RoomType {
 	CENTRE
 }
 
-#func _ready():
-	#ui_event_overlay.option_selected.connect(_apply_event_effect)
+func _ready():
+	if ui_event_overlay:
+		ui_event_overlay.option_selected.connect(_apply_event_effect)
 
 func start_new_run():
 	# locate the "Start" room 
@@ -144,12 +145,6 @@ func _on_room_complete():
 	if scene_manager.current_ui_state != SceneManager.SceneType.ROOM:
 		return
 	
-	
-	var reward_text = GameData.apply_random_completion_reward()
-	
-	#if scene_manager.ui_corridor and scene_manager.ui_corridor.has_method("set_shop_label_text"):
-		#scene_manager.ui_corridor.set_shop_label_text(reward_text)
-	
 	var coords = GameData.player_coords
 	if coords.y < GameData.maze_map.size() and coords.x < GameData.maze_map[0].size():
 		var cell = GameData.maze_map[coords.y][coords.x]
@@ -160,35 +155,74 @@ func _on_room_complete():
 	load_corridor_ui()
 
 func load_corridor_ui():
-	# Create the placeholder for the corridor scene
 	var placeholder = Node2D.new()
 	placeholder.name = "CorridorState"
 	
-	# 2. Define a function that switches the UI. 
-	# This will be passed to scene_manager to run ONLY when the screen is fully black.
 	var switch_ui_callback = func():
 		scene_manager.on_show_corridor_ui()
 	
-	# 3. Start the swap, passing the callback
 	await scene_manager.swap_content_scene(placeholder, switch_ui_callback)
 	
-	# Unlock the function now that loading is finished
 	_is_loading_corridor = false
 
 # --- Emergent Events ---
-#func trigger_random_event():
-	#var random_event = possible_events.pick_random()
-	#ui_event_overlay.show_event(random_event)
-#
-#func _apply_event_effect(effect_id: String):
-	#match effect_id:
-		#"gain_gold":
-			#GameData.currency += 50
-			#print("Player gained gold!")
-		#"heal":
-			#GameData.current_health += 20
-		#"gain_damage":
-			#GameData.damage += 5
-		#_:
-			#print("Effect not found: ", effect_id)
-	#
+func trigger_random_event():
+	if possible_events.is_empty():
+		printerr("RunManager: No possible events configured")
+		return
+	
+	var random_event = possible_events.pick_random()
+	if ui_event_overlay:
+		ui_event_overlay.show_event(random_event)
+	else:
+		printerr("RunManager: ui_event_overlay not assigned")
+
+func _apply_event_effect(effect_id: String):
+	match effect_id:
+		"gain_gold":
+			GameData.currency += 50
+			print("Player gained 50 gold! Total: ", GameData.currency)
+			GameData.currency_updated.emit(GameData.currency)
+		
+		"lose_gold":
+			GameData.currency = max(0, GameData.currency - 30)
+			print("Player lost 30 gold! Total: ", GameData.currency)
+			GameData.currency_updated.emit(GameData.currency)
+		
+		"heal":
+			GameData.update_health(50)
+			print("Player healed 50 HP!")
+		
+		"take_damage":
+			GameData.update_health(-30)
+			print("Player took 30 damage!")
+		
+		"gain_damage":
+			GameData.damage += 5
+			print("Player gained 5 damage! Total: ", GameData.damage)
+			GameData.player_stats_changed.emit()
+		
+		"lose_damage":
+			GameData.damage = max(1, GameData.damage - 3)
+			print("Player lost 3 damage! Total: ", GameData.damage)
+			GameData.player_stats_changed.emit()
+		
+		"gain_defense":
+			GameData.defence += 5
+			print("Player gained 5 defense! Total: ", GameData.defence)
+			GameData.player_stats_changed.emit()
+		
+		"mystery_reward":
+			# Random effect
+			var effects = ["gain_gold", "heal", "gain_damage"]
+			var random_effect = effects.pick_random()
+			_apply_event_effect(random_effect)
+		
+		_:
+			print("Unknown effect: ", effect_id)
+
+func check_for_emergent_event(cell_data: Dictionary):
+	if cell_data.get("emergent", false) and not cell_data.get("emergent_triggered", false):
+		# Mark as triggered so it only happens once
+		cell_data["emergent_triggered"] = true
+		trigger_random_event()

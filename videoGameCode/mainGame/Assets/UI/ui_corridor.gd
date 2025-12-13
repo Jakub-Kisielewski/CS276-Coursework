@@ -1,6 +1,8 @@
 extends Control
 
 signal room_entered(room_type: String)
+signal player_moved_to_cell(cell_data: Dictionary)
+
 @onready var help_label: Label = %Help
 @onready var map_display: TileMapLayer = %MapDisplay
 @onready var player_icon: Sprite2D = %PlayerIcon
@@ -225,6 +227,7 @@ func _is_valid_cell(coords: Vector2i) -> bool:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible: return
+	if get_tree().paused: return
 	
 	for dir_key in inputs.keys():
 		if event.is_action_pressed(dir_key):
@@ -306,10 +309,10 @@ func update_player_position(new_pos: Vector2i):
 	new_cell["explored"] = true
 	
 	update_player_visuals(head_direction)
-	
 	draw_map() 
-	
 	GameData.save_game()
+	
+	player_moved_to_cell.emit(new_cell)
 	
 	check_room_entry(new_cell)
 
@@ -381,6 +384,8 @@ func _on_enter_room_pressed() -> void:
 		btn_enter_room.visible = false
 		
 		room_entered.emit(current_hovered_room_type)
+
+
 
 #UPGRADES
 

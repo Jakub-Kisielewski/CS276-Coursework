@@ -32,7 +32,8 @@ var corridorTemplate: Dictionary = {
 	"onSolutionPath": false,
 	"emergent": false,
 	"compassDirection": -1,
-	"active": false
+	"active": false,
+	"emergent_triggered": false
 }
 
 var compassDirections: Dictionary[String, int] = {
@@ -99,6 +100,7 @@ func generate_map_data() -> void:
 			placeRooms(solutionPath, branches)
 			
 			# Store the data
+			print(map)
 			GameData.maze_map = map.duplicate(true)
 			success = true
 		else:

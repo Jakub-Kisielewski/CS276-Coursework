@@ -20,6 +20,7 @@ func _ready() -> void:
 	
 	if scene_manager.ui_corridor:
 		scene_manager.ui_corridor.room_entered.connect(_on_corridor_room_entered)
+		scene_manager.ui_corridor.player_moved_to_cell.connect(_on_player_moved_to_cell)
 	
 	var menu = scene_manager.ui_main_menu
 	if menu:
@@ -58,11 +59,12 @@ func _on_start_run() -> void:
 func _on_back_to_menu() -> void:
 	scene_manager.on_return_to_menu()
 
-func _on_load_game() -> void:
-	pass
-
 func _on_settings() -> void:
 	pass
+
+func _on_player_moved_to_cell(cell_data: Dictionary) -> void:
+	if run_manager:
+		run_manager.check_for_emergent_event(cell_data)
 
 func toggle_pause() -> void:
 	is_paused = !is_paused
