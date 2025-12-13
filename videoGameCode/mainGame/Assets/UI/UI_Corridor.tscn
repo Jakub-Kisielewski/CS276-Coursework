@@ -104,8 +104,10 @@ size_flags_vertical = 3
 
 [node name="MapDisplay" type="TileMapLayer" parent="HBoxContainer/MapContainer/MapWrapper"]
 unique_name_in_owner = true
-position = Vector2(263, 216.99998)
+position = Vector2(263, 217)
 tile_set = ExtResource("2_hx4x2")
+
+[node name="Node" type="Node" parent="HBoxContainer/MapContainer/MapWrapper"]
 
 [node name="PlayerIcon" type="Sprite2D" parent="HBoxContainer/MapContainer/MapWrapper"]
 unique_name_in_owner = true

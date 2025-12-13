@@ -200,11 +200,11 @@ func setup_countdown_timer() -> void:
 	var canvas : CanvasLayer = get_tree().get_first_node_in_group("canvas")
 	
 	# Get references to necessary labels
-	hits_left_label = canvas.get_node("Puzzle/HitsLeft")
+	hits_left_label = canvas.get_node("UiRoom/Puzzle/HitsLeft")
 	hits_left_label.visible = true
 	display_hits_left()
 	
-	countdown_label = canvas.get_node("Puzzle/Countdown")
+	countdown_label = canvas.get_node("UiRoom/Puzzle/Countdown")
 	countdown_label.visible = true
 	display_countdown()
 	
@@ -228,7 +228,7 @@ func display_countdown() -> void:
 	if time_left == 0:
 		# Player has lost, play death screen
 		player.death_screen()
-	countdown_label.text = str(time_left) + "S"
+	countdown_label.text = str(time_left) + "s"
 	
 func display_hits_left() -> void:
 	if player_hits_left == 0:
@@ -259,7 +259,7 @@ func set_collision(enabled: bool) -> void:
 func _on_damaged(amount, type) -> void:
 	super._on_damaged(amount, type)
 	
-	# Disconnet the wizard from its disguise
+	# Disconnect the wizard from its disguise
 	if is_instance_valid(current_disguise):
 		if current_disguise.health_component.damage_taken.is_connected(_on_damaged):
 			current_disguise.health_component.damage_taken.disconnect(_on_damaged)
