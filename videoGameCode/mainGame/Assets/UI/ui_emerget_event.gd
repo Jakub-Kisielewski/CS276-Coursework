@@ -13,7 +13,7 @@ var current_event: EventData
 
 func _ready() -> void:
 	visible = false
-	process_mode = Node.PROCESS_MODE_ALWAYS  # Allow processing even when paused
+	process_mode = Node.PROCESS_MODE_ALWAYS  
 	
 	if choice1_button:
 		choice1_button.pressed.connect(_on_choice1_pressed)
@@ -27,15 +27,12 @@ func show_event(event_data: EventData) -> void:
 	
 	current_event = event_data
 	
-	# Set title
 	if title_label:
 		title_label.text = event_data.title
 	
-	# Set description
 	if description_label:
 		description_label.text = event_data.description
 	
-	# Set image (hide if no image provided)
 	if event_image:
 		if event_data.event_image:
 			event_image.texture = event_data.event_image
@@ -43,7 +40,6 @@ func show_event(event_data: EventData) -> void:
 		else:
 			event_image.visible = false
 	
-	# Set up choice buttons based on options array
 	if event_data.options.size() >= 1 and choice1_button:
 		var option1 = event_data.options[0]
 		choice1_button.text = option1.get("text", "Option 1")
@@ -60,7 +56,6 @@ func show_event(event_data: EventData) -> void:
 		if choice2_button:
 			choice2_button.visible = false
 	
-	# Show overlay and pause game
 	visible = true
 	get_tree().paused = true
 
@@ -75,10 +70,8 @@ func _on_choice2_pressed() -> void:
 		_handle_choice(effect_id)
 
 func _handle_choice(effect_id: String) -> void:
-	# Emit signal with the effect_id BEFORE hiding
 	option_selected.emit(effect_id)
 	
-	# Hide overlay and unpause game
 	visible = false
 	get_tree().paused = false
 	

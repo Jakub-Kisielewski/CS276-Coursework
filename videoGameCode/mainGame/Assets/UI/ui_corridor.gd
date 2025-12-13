@@ -127,7 +127,6 @@ func _ready() -> void:
 	
 	update_health_gold()
 	
-	#how do this part
 	btn_player_abilities.clear()
 	btn_player_abilities.add_item("Extra Dash", 0)
 	btn_player_abilities.add_item("Dash through enemies", 1)
@@ -151,7 +150,7 @@ func _ready() -> void:
 	
 	if btn_enter_room:
 		btn_enter_room.pressed.connect(_on_enter_room_pressed)
-		btn_enter_room.visible = false # Ensure hidden at start
+		btn_enter_room.visible = false 
 		btn_enter_room.position.y -= 100
 	
 	if not GameData.maze_map.is_empty():
