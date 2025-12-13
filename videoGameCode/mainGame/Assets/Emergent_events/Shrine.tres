@@ -5,12 +5,12 @@
 [resource]
 script = ExtResource("1_mwdd4")
 title = "Shrine"
-description = "You approach a golden shrine of a wolf. "
+description = "You approach a golden shrine of a wolf. You can feel strength radiating from its ruby eyes."
 options = Array[Dictionary]([{
 "effect_id": "gain_damage",
-"text": "Pray"
+"text": "Pray at the shrine"
 }, {
 "effect_id": "heal",
-"text": "Lick"
+"text": "Lick the shrine"
 }])
 metadata/_custom_type_script = "uid://bn7fe4op0x556"
