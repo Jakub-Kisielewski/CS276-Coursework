@@ -4,8 +4,6 @@ class_name RunManager extends Node
 #@export var ui_event_overlay: Control
 @export var possible_events: Array[EventData]
 @export var player_scene: PackedScene
-@export var enemy_pool: Array[PackedScene]
-
 
 @export_group("Rooms")
 @export var start_room_scene: PackedScene
@@ -14,7 +12,20 @@ class_name RunManager extends Node
 @export var puzzle_scene: PackedScene
 @export var centre_scene: PackedScene
 
-var current_difficulty: int = 10
+@export_group("Enemy Pools")
+@export var start_room_enemies: Array[PackedScene]
+@export var basicArena_enemies: Array[PackedScene]
+@export var advancedArena_enemies: Array[PackedScene]
+@export var puzzle_enemies: Array[PackedScene]
+@export var centre_enemies: Array[PackedScene]
+
+enum RoomType {
+	START,
+	BASIC_ARENA,
+	ADVANCED_ARENA,
+	PUZZLE,
+	CENTRE
+}
 
 #func _ready():
 	#ui_event_overlay.option_selected.connect(_apply_event_effect)
@@ -40,69 +51,74 @@ func start_new_run():
 	start_cell["explored"] = true
 	
 	if start_room_scene:
-		load_room_scene(start_room_scene, true)
-	else:
-		print("RunManager: No start_room_scene assigned! Loading random.")
-		start_run_or_next_room()
+		load_room_scene(start_room_scene, RoomType.START)
+	
 
 var is_transitioning: bool = false # Add this guard variable
 
-func load_room_scene(room_packed: PackedScene, startRoom: bool):
+func load_room_scene(room_packed: PackedScene, room_type: RoomType):
 	if is_transitioning: return # Block if already loading
 	is_transitioning = true
 	
 	var room_instance = room_packed.instantiate() as RoomBase
 	
-	# Define the setup logic to run HIDDEN behind the black screen
-	var setup_logic
-	if startRoom:
-		setup_logic = func():
-			spawn_player_in_room(room_instance)
-			room_instance.setup_room(1, enemy_pool, 1)
-			room_instance.room_cleared.connect(_on_room_complete)
-			scene_manager.on_start_game_ui()
-	else:
-		setup_logic = func():
-			spawn_player_in_room(room_instance)
-			room_instance.setup_room(current_difficulty, enemy_pool, 3)
-			room_instance.room_cleared.connect(_on_room_complete)
-			scene_manager.on_start_game_ui()
+	var enemy_pool_for_room: Array[PackedScene]
+	match room_type:
+		RoomType.START:
+			enemy_pool_for_room = start_room_enemies
+		RoomType.BASIC_ARENA:
+			enemy_pool_for_room = basicArena_enemies
+		RoomType.ADVANCED_ARENA:
+			enemy_pool_for_room = advancedArena_enemies
+		RoomType.PUZZLE:
+			enemy_pool_for_room = puzzle_enemies
+		RoomType.CENTRE:
+			enemy_pool_for_room = centre_enemies
 	
-	await scene_manager.swap_content_scene(room_instance, setup_logic)
+	# lambda that will be called later
+	var setup_callback = _setup_room_logic.bind(room_instance, enemy_pool_for_room)
+	
+	await scene_manager.swap_content_scene(room_instance, setup_callback)
 	is_transitioning = false # Release lock
+
+func _setup_room_logic(room_instance: RoomBase, enemy_pool: Array[PackedScene]):
+	spawn_player_in_room(room_instance)
+	room_instance.setup_room(10, enemy_pool, GameData.game_difficulty * 2)
+	room_instance.room_cleared.connect(_on_room_complete)
+	scene_manager.on_start_game_ui()
 
 func load_room_from_type(type_name: String) -> void:
 	print("RunManager: Loading room type: ", type_name)
 	
 	var scene_to_load: PackedScene = null
-	
+	var room_type: RoomType
 	match type_name:
 		"basicArena":
 			if available_basicArena_scenes.size() > 0:
 				scene_to_load = available_basicArena_scenes.pick_random()
+				room_type = RoomType.BASIC_ARENA
 			
 		"advancedArena":
 			if available_advancedArena_scenes.size() > 0:
 				scene_to_load = available_advancedArena_scenes.pick_random()
+				room_type = RoomType.ADVANCED_ARENA
 		
 		"puzzleRoom":
 			if puzzle_scene:
 				scene_to_load = puzzle_scene
+				room_type = RoomType.PUZZLE
 				
 		"Centre":
 			if centre_scene:
 				scene_to_load = centre_scene
+				room_type = RoomType.CENTRE
 			
 		_:
 			printerr("RunManager: Unknown room type ", type_name)
 			return
 	
 	if scene_to_load:
-		load_room_scene(scene_to_load, false)
-
-func start_run_or_next_room():
-	var room_packed = available_basicArena_scenes.pick_random()
-	load_room_scene(room_packed, false)
+		load_room_scene(scene_to_load, room_type)
 
 func spawn_player_in_room(room: RoomBase):
 	var player = player_scene.instantiate()

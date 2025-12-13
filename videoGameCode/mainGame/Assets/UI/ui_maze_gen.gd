@@ -42,11 +42,11 @@ func _on_start_pressed() -> void:
 
 	match opt_difficulty.selected:
 		0: # easy
-			GameData.difficulty_mod = 0.5
+			GameData.game_difficulty = 0.5
 		1: # default
-			GameData.difficulty_mod = 1.0
+			GameData.game_difficulty= 1.0
 		2: # hard
-			GameData.difficulty_mod = 1.5
+			GameData.game_difficulty= 1.5
 	
 	var generator = WorldGeneratorScript.new()
 	generator.generate_map_data()

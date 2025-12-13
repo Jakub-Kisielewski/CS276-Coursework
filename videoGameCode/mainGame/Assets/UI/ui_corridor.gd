@@ -284,8 +284,11 @@ func draw_map():
 					tile_coord = tile_atlas_coords.get("basicArena")
 					
 				# Set cell (layer 0, source_id 0, atlas coords)
-				map_display.set_cell(Vector2i(x, y), 3, tile_coord, 0) 
+				map_display.set_cell(Vector2i(x, y), 0, tile_coord, 0)
 				# Note: source_id set to 0. Ensure your TileMapLayer has a TileSet with ID 0.
+			else:
+				# draw blank
+				map_display.set_cell(Vector2i(x,y), 0, Vector2i(4,4), 0)
 
 func check_room_entry(cell_data: Dictionary):
 	var type = cell_data.get("type", "")
@@ -317,3 +320,102 @@ func _on_enter_room_pressed() -> void:
 		
 		# Load the room
 		room_entered.emit(current_hovered_room_type)
+		
+		
+		
+#UPGRADES
+
+
+
+#fire sale
+
+var cost_rarity_upgrade: int = 50.0
+var cost_type_upgrade : int = 50.0
+var cost_special_attack: int = 50.0
+var cost_heal : int = 50.0
+var cost_defense_upgrade: int = 50.0
+var cost_damage_upgrade: int = 50.0
+var cost_dash_charge: int = 50.0
+var cost_dash_transparency: int = 50.0 #dash through enemies
+var cost_decoy : int = 50.0
+var cost_weapon : int = 50.0
+#currency_updated updates the UI for money
+
+#where is the weapon icon
+@export var bow_data : WeaponData
+@export var spear_data : WeaponData
+
+func buy_bow():
+	if GameData.currency < cost_weapon:
+		return
+		
+	if bow_data in GameData.current_weapons:
+		print("Weapon already owned")
+		return
+	
+	GameData.currency -= cost_weapon
+	GameData.currency_updated.emit(GameData.currency)
+	
+	GameData.add_weapon(bow_data)
+	
+
+func buy_spear():
+
+	if GameData.currency < cost_weapon:
+		return
+		
+	if spear_data in GameData.current_weapons:
+		print("Weapon already owned")
+		return
+	
+	GameData.currency -= cost_weapon
+	GameData.currency_updated.emit(GameData.currency)
+	
+	GameData.add_weapon(spear_data)
+	
+
+	
+func buy_rarity_upgrade():
+	if GameData.currency >= cost_rarity_upgrade:
+		if GameData.upgrade_active_weapon_rarity():
+			GameData.currency -= cost_rarity_upgrade
+			GameData.currency_updated.emit(GameData.currency)
+			
+		
+
+func buy_special_attack():			
+	if GameData.currency >= cost_special_attack:
+			if GameData.unlock_active_weapon_special():
+				GameData.currency -= cost_special_attack
+				GameData.currency_updated.emit(GameData.currency)
+				
+func buy_heal():
+	if GameData.currency >= cost_heal:
+		GameData.currency =- cost_heal
+		GameData.update_health(250)
+		
+func buy_defense_upgrade():
+	if GameData.currency >= cost_defense_upgrade:
+		GameData.currency =- cost_defense_upgrade
+		GameData.upgrade_defense()
+		
+
+		
+func buy_dash_charge():
+	if GameData.currency >= cost_dash_charge:
+		if GameData.upgrade_dash_charges():
+			GameData.currency -= cost_dash_charge
+			GameData.currency_updated.emit(GameData.currency)
+			
+func buy_dash_transparency():
+	if GameData.currency >= cost_dash_transparency:
+		if GameData.unlock_dash_through_enemies():
+			GameData.currency -= cost_dash_transparency
+			GameData.currency_updated.emit(GameData.currency)
+			
+func buy_decoy():
+	if GameData.currency >= cost_decoy:
+		if GameData.unlock_decoy():
+			GameData.currency -= cost_decoy
+			GameData.currency_updated.emit(GameData.currency)
+		

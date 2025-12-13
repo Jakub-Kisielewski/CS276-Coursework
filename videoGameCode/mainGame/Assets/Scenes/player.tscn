@@ -10868,7 +10868,7 @@ blend_mode = 1
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_f26q8"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_gwiul"]
-graph_offset = Vector2(-284, -32)
+graph_offset = Vector2(-169, 146)
 nodes/output/position = Vector2(370, 170)
 nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_t800y")
 nodes/BlendSpace2D/position = Vector2(-154.5, 144.5)
@@ -11321,11 +11321,13 @@ animation = &""
 
 [node name="bodyAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_wt7tk")
-animation = &""
+animation = &"hurt_left"
+frame = 4
 
 [node name="headAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_feila")
-animation = &""
+animation = &"hurt_left"
+frame = 4
 
 [node name="bowAnim" type="AnimatedSprite2D" parent="."]
 position = Vector2(-4, 3)
@@ -11335,12 +11337,13 @@ animation = &""
 
 [node name="bodyEffects" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xhohc")
-animation = &""
+animation = &"hurt_left"
+frame = 4
 
 [node name="fullAnim" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_c1j8p")
-animation = &"Sidle_left"
-frame = 9
+animation = &"hurt_left"
+frame = 4
 
 [node name="hurtBox" type="Area2D" parent="fullAnim" node_paths=PackedStringArray("health_component") groups=["player"]]
 script = ExtResource("9_p8spm")
@@ -11410,7 +11413,8 @@ metadata/_custom_type_script = "uid://d3enncgxl66lu"
 
 [node name="bodyEffectlay2" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a3rua")
-animation = &""
+animation = &"blood"
+frame = 6
 
 [node name="moveSfx" type="AudioStreamPlayer2D" parent="."]
 

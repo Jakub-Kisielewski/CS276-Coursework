@@ -15,10 +15,10 @@ var maze_map: Array = []
 var map_width: int = 7
 var map_height: int = 7
 var branch_prob: float = 0.4
-var difficulty_mod: float = 1.0
 var player_coords: Vector2i = Vector2i(0, 0)
 var current_weapons: Array[WeaponData] = []
 var active_weapon_index: int = 0
+var game_difficulty: float = 1
 
 var max_dashes_charges: int = 1
 var decoy_unlocked = false
@@ -161,8 +161,8 @@ func save_game():
 		"currency": currency,
 		"defense": defense,
 		"damage": damage,
-		"difficulty_mod": difficulty_mod,
-		"active_weapon_index": active_weapon_index
+		"active_weapon_index": active_weapon_index,
+		"game_difficulty": game_difficulty
 	}
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -189,6 +189,7 @@ func load_game():
 			defense = data.get("defense", 1.0)
 			damage = data.get("damage", 10.0)
 			active_weapon_index = data.get("active_weapon_index", 0)
+			game_difficulty = data.get("game_difficulty", 1)
 			
 			player_stats_changed.emit()
 			currency_updated.emit(currency)

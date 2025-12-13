@@ -1,7 +1,5 @@
 extends Node2D
 
-# needs tileset and tilemap setup
-
 var rng:RandomNumberGenerator = RandomNumberGenerator.new()
 @export var mapHeight: int = 7
 @export var mapWidth: int = 7
@@ -71,10 +69,6 @@ var roomTypeTiles: Dictionary[String, Vector2i] = {
 	"Centre": Vector2i(1,1)
 }
 
-func _ready() -> void:
-	print("drawing map")
-	drawMap() # refactor this outta here
-
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):
 		get_tree().reload_current_scene()
@@ -85,8 +79,7 @@ func generate_map_data() -> void:
 	mapWidth = GameData.map_width
 	mapHeight = GameData.map_height
 	branchProb = GameData.branch_prob
-	difficultyModifier = GameData.difficulty_mod
-	
+	difficultyModifier = GameData.game_difficulty
 	print("setting constraints")
 	scaleConstraints()
 	
@@ -558,7 +551,7 @@ func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
 		var order: int = cell.get("order")
 		
 		#dont let room be adjacent to centre
-		if order == solutionPath.size():
+		if order == totalCorridors:
 			continue
 		
 		var mustPlaceRoom: bool = corridorsSinceLastRoom >= 3
@@ -612,42 +605,3 @@ func placeRooms(solutionPath: Array[Vector2i], branches: Array) -> void:
 				else:
 					cell["type"] = "basicArena"
 				corridorsSinceLastRoomBranch = 0
-
-func drawMap() -> void:
-	# draw solution path
-	for y in range(mapHeight):
-		for x in range(mapWidth):
-			drawTile(map[y][x].get("coords"))
-
-
-func drawTile(coords:Vector2i) -> void:
-	var currentCell: Dictionary = map[coords.y][coords.x]
-	
-	var currentCellType: String = currentCell.get("type")
-	
-	match currentCellType:
-		# straight corridors
-		"straightNorth", "straightSouth": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("straightVertical"), 0)
-		"straightWest", "straightEast": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("straightHorizontal"), 0)
-		# turn corridors
-		"northToEastTurn", "westToSouthTurn": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("upRightTurn"), 0)
-		"northToWestTurn", "eastToSouthTurn": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("rightDownTurn"), 0)
-		"southToWestTurn", "eastToNorthTurn": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("downLeftTurn"), 0)
-		"southToEastTurn", "westToNorthTurn": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("leftUpTurn"), 0)
-		# junctions
-		"verticalLeftJunction": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("verticalLeftJunction"), 0)
-		"verticalRightJunction": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("verticalRightJunction"), 0)
-		"horizontalUpJunction": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("horizontalUpJunction"), 0)
-		"horizontalDownJunction": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("horizontalDownJunction"), 0)
-		# deadends
-		"straightNorthDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("northDeadend"), 0)
-		"straightSouthDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("southDeadend"), 0)
-		"straightWestDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("westDeadend"), 0)
-		"straightEastDeadend": %mazeSegments.set_cell(coords, 3, corridorTypeTiles.get("eastDeadend"), 0)
-		# rooms
-		"basicArena": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("basicArena"), 0)
-		"advancedArena": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("advancedArena"), 0)
-		"puzzleRoom": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("puzzleRoom"), 0)
-		"Start": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("Start"), 0)
-		"Centre": %mazeSegments.set_cell(coords, 3, roomTypeTiles.get("Centre"), 0)
-		_: %mazeSegments.set_cell(coords, 3, Vector2i(4,2), 0)
