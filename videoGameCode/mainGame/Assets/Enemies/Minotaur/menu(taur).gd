@@ -25,12 +25,10 @@ func death_anim() -> void:
 		tween.tween_property(child, "modulate:a", 1.0, 0.6)
 		tween.parallel()
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	var distance : float = global_position.distance_to(target_pos)
 	var direction : Vector2 = global_position.direction_to(target_pos)
-
 	# Move the sprite left until the target_pos is reached
 	if (distance > 100):
 		# Accelerate towards target

@@ -18,7 +18,6 @@ var is_player: bool = false
 var poison_timer: Timer
 var poison_ticks_left: int = 0
 var overheat_timer: Timer
-
 enum Status { HEALTHY, POISONED, DAMAGED, OVERHEATING }
 var status: Status = Status.HEALTHY
 
@@ -75,7 +74,6 @@ func take_damage(amount: float, attack_effect: String):
 	if current_health <= 0:
 		emit_signal("health_depleted")
 	else:
-		# We pass the final calculated damage so the UI can show popup numbers
 		emit_signal("damage_taken", final_damage, attack_effect)
 		# Briefly set status to DAMAGED for visuals, then revert
 		_handle_damage_status()
@@ -122,7 +120,7 @@ func set_status(new_status : Status) -> void:
 func _handle_damage_status():
 	if status == Status.OVERHEATING:
 		return
-
+	
 	set_status(Status.DAMAGED)
 	
 	# Revert back to healthy after 0.2 seconds

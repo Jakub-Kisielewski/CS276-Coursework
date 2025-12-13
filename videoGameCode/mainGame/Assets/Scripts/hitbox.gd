@@ -10,7 +10,6 @@ var stun_player : bool
 
 signal successful_hit
 
-
 #stun player is optional because its resevred for the minotaur charge attack, stun will default to false for all other attacks, so player won't get stunned by other enemies
 #weapon data is optional because
 #enemies technically don't have their own weapons so default weapon data to null for enemies 

@@ -25,7 +25,6 @@ func _ready():
 	
 	area_entered.connect(_on_area_entered)
 	body_entered.connect(_on_body_entered)
-	
 
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta

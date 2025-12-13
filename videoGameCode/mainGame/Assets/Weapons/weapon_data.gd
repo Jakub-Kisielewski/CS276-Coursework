@@ -14,12 +14,9 @@ enum WeaponType {SWORD, SPEAR, BOW}
 
 func get_rarity_mult() -> float:
 	match rarity:
-		Rarity.DULL:
-			return 1.0
-		Rarity.SHINY:
-			return 1.5
-		Rarity.PRISMATIC:
-			return 2.5
+		Rarity.DULL: return 1.0
+		Rarity.SHINY: return 1.5
+		Rarity.PRISMATIC: return 2.5
 	return 1.0
 
 func get_attack_value(base_stat_damage: float, attack_mult: float) -> float:
@@ -29,14 +26,12 @@ func get_attack_value(base_stat_damage: float, attack_mult: float) -> float:
 func get_type_mult() -> float:
 	return weapon_mult
 
-
 #Use this for when player chooses to upgrade their weapon to a better rarity in the shop
 func upgrade_rarity() -> void:
 	match rarity: # prismatic is max so no need to check
-		Rarity.DULL:
-			rarity = Rarity.SHINY
-		Rarity.SHINY:
-			rarity = Rarity.PRISMATIC
+		Rarity.DULL: rarity = Rarity.SHINY
+		Rarity.SHINY: rarity = Rarity.PRISMATIC
+
 #use this for when the player chooses to upgrade their weapon proficiency in the shop. Eg. Ranged weapon attack up"
 func upgrade_type() -> bool:
 	if weapon_mult >= 2.0: #200% max damage increase
@@ -44,7 +39,6 @@ func upgrade_type() -> bool:
 	else:
 		weapon_mult += 0.1 #10% damage increase for that weapon
 		return true
-
 
 #use this for when player chooses to unlock a weapons special attack
 func unlock_special_attack() -> bool:
